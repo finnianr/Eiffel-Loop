@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 13:14:38 GMT (Wednesday 16th April 2025)"
-	revision: "64"
+	date: "2025-05-01 13:17:48 GMT (Thursday 1st May 2025)"
+	revision: "65"
 
 class
 	RBOX_SONG
@@ -420,7 +420,8 @@ feature {NONE} -- Implementation
 
 	new_representations: like Default_representations
 		do
-			Result := Precursor + ["composer", Composer_set.to_representation]
+			Result := Precursor
+			Result ["composer"] := Composer_set.to_representation
 		end
 
 	new_tanda_name: ZSTRING

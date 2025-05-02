@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-26 7:54:11 GMT (Saturday 26th April 2025)"
-	revision: "31"
+	date: "2025-05-02 8:13:38 GMT (Friday 2nd May 2025)"
+	revision: "32"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -145,9 +145,17 @@ feature -- Measurement
 			end
 		end
 
+	trailing_substring_white_count (start_index, end_index: INTEGER): INTEGER
+		-- count of leading white space characters between `start_index' and `end_index'
+		require
+			valid_start_end_index: valid_substring_indices (start_index, end_index)
+		do
+			Result := internal_trailing_white_space (area, start_index, end_index)
+		end
+
 	trailing_white_count: INTEGER
 		do
-			Result := internal_trailing_white_space (area)
+			Result := internal_trailing_white_space (area, 1, count)
 		end
 
 	utf_8_byte_count: INTEGER
@@ -198,17 +206,18 @@ feature {NONE} -- Implementation
 				end
 			end
 		ensure then
-			substring_agrees: substring (1, Result).is_space_filled
+			substring_agrees: substring (start_index, start_index + Result - 1).is_space_filled
 		end
 
-	internal_trailing_white_space (a_area: like area): INTEGER
+	internal_trailing_white_space (a_area: like area; start_index, end_index: INTEGER): INTEGER
 		local
 			c32: EL_CHARACTER_32_ROUTINES; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
-			block_index, i: INTEGER; c_i: CHARACTER
+			block_index, i, i_lower: INTEGER; c_i: CHARACTER
 		do
 			-- `Substitute' is space
+			i_lower := start_index - 1
 			if attached unencoded_area as area_32 and then area_32.count > 0 then
-				from i := count - 1 until i < 0 loop
+				from i := end_index - 1 until i < i_lower loop
 					c_i := a_area [i]
 					inspect c_i
 						when Substitute then
@@ -227,7 +236,7 @@ feature {NONE} -- Implementation
 					i := i - 1
 				end
 			else
-				from i := count - 1 until i < 0 loop
+				from i := end_index - 1 until i < i_lower loop
 					if a_area [i].is_space then
 						Result := Result + 1
 					else
@@ -236,6 +245,8 @@ feature {NONE} -- Implementation
 					i := i - 1
 				end
 			end
+		ensure then
+			substring_agrees: substring (end_index - Result + 1, end_index).is_space_filled
 		end
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-21 14:18:38 GMT (Sunday 21st July 2024)"
-	revision: "26"
+	date: "2025-05-02 8:03:18 GMT (Friday 2nd May 2025)"
+	revision: "27"
 
 class
 	EL_SPLIT_INTERVALS
@@ -57,13 +57,12 @@ feature -- Contract Support
 feature {NONE} -- Implementation
 
 	extend_buffer (
-		a_target: READABLE_STRING_GENERAL
+		a_target: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		buffer: like Intervals_buffer; search_index, search_string_count, adjustments: INTEGER
 		final: BOOLEAN
 	)
 		local
 			start_index, end_index: INTEGER
-			found_first: BOOLEAN
 		do
 			if final then
 				if search_index = 0 then
@@ -79,35 +78,13 @@ feature {NONE} -- Implementation
 					end_index := search_index - 1
 				end
 			end
-			if (adjustments & {EL_SIDE}.Left).to_boolean then
-				from until found_first or else start_index > end_index loop
-					if is_white_space (a_target, start_index) then
-						start_index := start_index + 1
-					else
-						found_first := True
-					end
-				end
+			if (adjustments & {EL_SIDE}.Left).to_boolean and then start_index <= a_target.count then
+				start_index := start_index + a_target.leading_substring_white_count (start_index, end_index)
 			end
 			if (adjustments & {EL_SIDE}.Right).to_boolean then
-				found_first := False
-				from until found_first or else end_index < start_index  loop
-					if is_white_space (a_target, end_index) then
-						end_index := end_index - 1
-					else
-						found_first := True
-					end
-				end
+				end_index := end_index - a_target.trailing_substring_white_count (start_index, end_index)
 			end
 			buffer.extend (start_index, end_index)
-		end
-
-	is_white_space (a_target: READABLE_STRING_GENERAL; i: INTEGER): BOOLEAN
-		do
-			if a_target.is_string_8 and then attached {READABLE_STRING_8} a_target as str_8 then
-				Result := str_8 [i].is_space
-			else
-				Result := Unicode_property.is_space (a_target [i])
-			end
 		end
 
 end

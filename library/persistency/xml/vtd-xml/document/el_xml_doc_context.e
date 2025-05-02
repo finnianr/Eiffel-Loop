@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:22:51 GMT (Monday 14th April 2025)"
-	revision: "35"
+	date: "2025-05-02 19:00:15 GMT (Friday 2nd May 2025)"
+	revision: "36"
 
 class
 	EL_XML_DOC_CONTEXT
@@ -212,18 +212,18 @@ feature -- Measurement
 	word_count (exclude_variable_reference: BOOLEAN; included_attributes: EL_STRING_8_LIST): INTEGER
 		-- count of text words in document and in any `included_attributes'
 		local
-			sc: EL_STRING_GENERAL_ROUTINES; l_result: ZSTRING
+			sg: EL_READABLE_STRING_GENERAL_ROUTINES; l_result: ZSTRING
 		do
 			create l_result.make_empty
 			across Current as token loop
 				if token.is_character_data_item then
-					Result := Result + sc.super_z (token.item_string).word_count (True)
+					Result := Result + sg.word_count (token.item_string, True)
 
 				elseif token.is_attribute_name then
 					l_result := token.item_string_8
 
 				elseif token.is_attribute and then included_attributes.has (l_result) then
-					Result := Result + sc.super_z (token.item_string).word_count (True)
+					Result := Result + sg.word_count (token.item_string, True)
 				end
 			end
 		end

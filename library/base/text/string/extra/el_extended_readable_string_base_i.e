@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 16:02:54 GMT (Friday 25th April 2025)"
-	revision: "13"
+	date: "2025-05-02 6:01:02 GMT (Friday 2nd May 2025)"
+	revision: "14"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR -> COMPARABLE]
@@ -120,7 +120,12 @@ feature {NONE} -- Measurement
 		deferred
 		end
 
-feature {NONE} -- Character query
+feature {NONE} -- Deferred Character
+
+	all_ascii_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
+		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are in the ASCII character range
+		deferred
+		end
 
 	has (c: CHAR): BOOLEAN
 		-- `True' if `target' has `c'
@@ -170,7 +175,7 @@ feature {NONE} -- Character query
 		deferred
 		end
 
-feature {NONE} -- Conversion
+feature {NONE} -- Deferred Conversion
 
 	to_character_32 (c: CHAR): CHARACTER_32
 		deferred
@@ -193,11 +198,6 @@ feature {NONE} -- Conversion
 		end
 
 feature {NONE} -- Deferred
-
-	all_ascii_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
-		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are in the ASCII character range
-		deferred
-		end
 
 	area: SPECIAL [CHAR]
 		deferred

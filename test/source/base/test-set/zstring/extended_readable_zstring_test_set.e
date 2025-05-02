@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-26 8:57:16 GMT (Saturday 26th April 2025)"
-	revision: "10"
+	date: "2025-05-02 18:48:05 GMT (Friday 2nd May 2025)"
+	revision: "11"
 
 class
 	EXTENDED_READABLE_ZSTRING_TEST_SET
@@ -400,17 +400,21 @@ feature -- Tests
 		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_word_count
 		note
 			testing: "[
-				covers/{EL_READABLE_STRING_X_ROUTINES}.word_count
+				covers/{EL_SPLIT_WORD_INTERVALS}.adjusted_word_count,
+				covers/{EL_SPLIT_WORD_INTERVALS}.fill
 			]"
 		local
-			string: STRING; word_count: INTEGER
+			string: STRING; word_count: INTEGER; word_intervals: EL_SPLIT_WORD_INTERVALS
 		do
+			create word_intervals.make_empty
+
 			string := "one; ${index} two%T patrick's"
 			across 1 |..| 2 as n loop
 				across new_string_type_list (string) as type_list loop
 					across type_list as list loop
 						if attached list.item as l_text then
-							word_count := super_readable_general (l_text).word_count (True)
+							word_intervals.fill (l_text)
+							word_count := word_intervals.adjusted_word_count (l_text)
 							assert ("3 words", word_count = 3)
 						end
 					end

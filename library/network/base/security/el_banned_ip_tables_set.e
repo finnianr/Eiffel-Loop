@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:19 GMT (Tuesday 18th March 2025)"
-	revision: "7"
+	date: "2025-05-01 13:25:41 GMT (Thursday 1st May 2025)"
+	revision: "8"
 
 class
 	EL_BANNED_IP_TABLES_SET

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:04:08 GMT (Saturday 19th April 2025)"
-	revision: "4"
+	date: "2025-05-02 6:46:49 GMT (Friday 2nd May 2025)"
+	revision: "5"
 
 class
 	EL_READABLE_STRING_32
@@ -20,7 +20,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_STRING_BIT_COUNTABLE [READABLE_STRING_32]
+	EL_32_BIT_IMPLEMENTATION
 
 	EL_STRING_32_CONSTANTS
 

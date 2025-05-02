@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 14:07:56 GMT (Sunday 20th April 2025)"
-	revision: "41"
+	date: "2025-05-02 11:02:23 GMT (Friday 2nd May 2025)"
+	revision: "42"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -31,7 +31,7 @@ inherit
 			{ANY} valid_adjustments
 		end
 
-	EL_STRING_HANDLER
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_SHARED_CHARACTER_AREA_ACCESS
 
@@ -69,6 +69,28 @@ feature -- Element change
 			valid_adjustments: valid_adjustments (adjustments)
 		do
 			fill_intervals (target, Empty_string_8, String_8_searcher, delimiter, adjustments)
+		end
+
+	fill_by_string (target: EL_READABLE_ZSTRING; pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
+		do
+			inspect pattern.count
+				when 1 then
+					fill (target, pattern [1], adjustments)
+			else
+				if pattern.is_string_8 and then attached target.compatible_string_8 (pattern) as str_8 then
+					if target.has_mixed_encoding then
+						String_searcher.initialize_deltas (str_8)
+						fill_intervals (target, str_8, String_searcher, '%U', adjustments)
+					else
+						String_8_searcher.initialize_deltas (str_8)
+						fill_intervals (target.to_shared_immutable_8, str_8, String_8_searcher, '%U', adjustments)
+					end
+
+				elseif attached String_searcher as searcher then
+					searcher.initialize_z_code_deltas (pattern)
+					fill_intervals (target, searcher.z_code_pattern, String_searcher, '%U', adjustments)
+				end
+			end
 		end
 
 	fill_by_string_32 (target: READABLE_STRING_32; pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
@@ -131,24 +153,17 @@ feature -- Element change
 			end
 		end
 
-	fill_by_string (target: EL_READABLE_ZSTRING; pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
-		do
-			inspect pattern.count
-				when 1 then
-					fill (target, pattern [1], adjustments)
-			else
-				if pattern.is_string_8 and then attached target.compatible_string_8 (pattern) as str_8 then
-					if target.has_mixed_encoding then
-						String_searcher.initialize_deltas (str_8)
-						fill_intervals (target, str_8, String_searcher, '%U', adjustments)
-					else
-						String_8_searcher.initialize_deltas (str_8)
-						fill_intervals (target.to_shared_immutable_8, str_8, String_8_searcher, '%U', adjustments)
-					end
+feature -- Contract Support
 
-				elseif attached String_searcher as searcher then
-					searcher.initialize_z_code_deltas (pattern)
-					fill_intervals (target, searcher.z_code_pattern, String_searcher, '%U', adjustments)
+	valid_substring_intervals (target: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			i: INTEGER
+		do
+			if attached area_v2 as a and then attached super_readable_general (target) as super_target then
+				Result := True
+				from until i = a.count or not Result loop
+					Result := super_target.valid_substring_indices (a [i], a [i + 1])
+					i := i + 2
 				end
 			end
 		end
@@ -156,7 +171,7 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	extend_buffer (
-		target: READABLE_STRING_GENERAL
+		target: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		l_area: like Intervals_buffer; search_index, pattern_count, adjustments: INTEGER
 		final: BOOLEAN
 	)
@@ -173,53 +188,37 @@ feature {NONE} -- Implementation
 		require
 			valid_search_string: pattern.count /= 1
 		local
-			i, string_count, pattern_count, search_index, search_type: INTEGER
-			l_area: like Intervals_buffer; string_8_target: STRING_8
-			c: CHARACTER; character_outside_range: BOOLEAN
+			i, string_count, pattern_count, search_index: INTEGER
 		do
-			l_area := Intervals_buffer
-			l_area.wipe_out
-
-			if target.count > 0 then
-				string_count := target.count
-				if pattern.is_empty then
-					pattern_count := 1
-					search_type := Index_of_character_32
-				else
-					pattern_count := pattern.count
-				end
-				if pattern_count = 1 and then target.is_string_8 then
-					if attached {READABLE_STRING_8} target as str_8 then
-						string_8_target := str_8
+			if attached Intervals_buffer as l_area then
+				l_area.wipe_out
+				if target.count > 0 then
+					string_count := target.count
+					if pattern.is_empty then
+						pattern_count := 1
+					else
+						pattern_count := pattern.count
 					end
-					character_outside_range := not uc.is_character_8
-					c := uc.to_character_8
-					search_type := Index_of_character_8
-				else
-					string_8_target := Empty_string_8
-				end
-				if not character_outside_range then
-					from i := 1 until i = 0 or else i > string_count - pattern_count + 1 loop
-						inspect search_type
-							when Index_of_character_8 then
-								i := string_8_target.index_of (c, i)
-
-							when Index_of_character_32 then
-								i := target.index_of (uc, i)
-						else
-							i := searcher.substring_index_with_deltas (target, pattern, i, target.count)
+					if attached super_readable_general (target) as super_target then
+						from i := 1 until i = 0 or else i > string_count - pattern_count + 1 loop
+							inspect pattern_count
+								when 1 then
+									i := super_target.index_of_unicode (uc, i)
+							else
+								i := searcher.substring_index_with_deltas (target, pattern, i, target.count)
+							end
+							if i > 0 then
+								search_index := i
+								extend_buffer (super_target, l_area, search_index, pattern_count, adjustments, False)
+								i := i + pattern_count
+							end
 						end
-						if i > 0 then
-							search_index := i
-							extend_buffer (target, l_area, search_index, pattern_count, adjustments, False)
-							i := i + pattern_count
-						end
+						extend_buffer (super_target, l_area, search_index, pattern_count, adjustments, True)
 					end
 				end
-				extend_buffer (target, l_area, search_index, pattern_count, adjustments, True)
+				make_sized (l_area.count)
+				area.copy_data (l_area.area, 0, 0, l_area.count * 2)
 			end
-			make_sized (l_area.count)
-			area.copy_data (l_area.area, 0, 0, l_area.count * 2)
 		end
 
 feature {NONE} -- Constants
@@ -228,10 +227,6 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty (0)
 		end
-
-	Index_of_character_32: INTEGER = 32
-
-	Index_of_character_8: INTEGER = 8
 
 	Intervals_buffer: EL_ARRAYED_INTERVAL_LIST
 		once

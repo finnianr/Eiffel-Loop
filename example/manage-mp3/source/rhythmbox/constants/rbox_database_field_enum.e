@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-12 8:46:28 GMT (Saturday 12th October 2024)"
-	revision: "19"
+	date: "2025-05-01 12:51:52 GMT (Thursday 1st May 2025)"
+	revision: "20"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
@@ -26,9 +26,9 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_16
 		rename
-			description_table as No_descriptions,
-			description as field_description,
-			foreign_naming as kebab_case
+			new_table_text as Empty_text,
+			description as enum_description,
+			name_translater as kebab_case
 		redefine
 			initialize_fields, make
 		end
@@ -49,7 +49,7 @@ create
 
 feature {NONE} -- Initialization
 
-	initialize_fields
+	initialize_fields (field_list: EL_FIELD_LIST)
 		-- number is order in C source file: rhythmdb.c
 		do
 			album_artist_folded := numbered_string (61)

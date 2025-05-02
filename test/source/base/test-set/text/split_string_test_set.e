@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 8:26:53 GMT (Tuesday 22nd April 2025)"
-	revision: "77"
+	date: "2025-05-02 13:17:33 GMT (Friday 2nd May 2025)"
+	revision: "78"
 
 class SPLIT_STRING_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -49,7 +49,8 @@ feature {NONE} -- Initialization
 				["split_intervals",				 agent test_split_intervals],
 				["split_iterator",				 agent test_split_iterator],
 				["split_sort",						 agent test_split_sort],
-				["split_string_8",				 agent test_split_string_8]
+				["split_string_8",				 agent test_split_string_8],
+				["split_word_intervals",		 agent test_split_word_intervals]
 			>>)
 		end
 
@@ -331,14 +332,19 @@ feature -- Tests
 		end
 
 	test_skip_empty_split
+		-- SPLIT_STRING_TEST_SET.test_skip_empty_split
 		note
 			testing: "covers/{EL_SPLIT_ON_CHARACTER}.new_cursor"
 		local
 			character_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
-			split_list: EL_STRING_8_LIST
+			split_list: EL_STRING_8_LIST; abc: STRING
 		do
-			create character_split.make (",a,b,c,", ',')
-			create split_list.make_empty
+			abc := ",a,b,c,"
+			create character_split.make (abc, ',')
+			create split_list.make_comma_split (abc)
+			assert ("2 longer", split_list.count = character_split.count + 2)
+
+			split_list.wipe_out
 			across character_split as split loop
 				if not split.item_is_empty then
 					split_list.extend (split.item_copy)
@@ -431,9 +437,7 @@ feature -- Tests
 			]"
 		local
 			pair: STRING_TEST; start_index, end_index, space_index: INTEGER
-			assertion_ok: STRING
 		do
-			assertion_ok := "split_intervals OK"
 			across << False, True >> as test_immutables loop
 				across Text.lines_32 as line loop
 					if test_immutables.item then
@@ -444,15 +448,15 @@ feature -- Tests
 					space_index := pair.s_32.index_of (' ', 1)
 					if space_index > 0 then
 						pair.set_substrings (space_index, space_index)
-						assert (assertion_ok, pair.split_intervals)
+						pair.split_intervals
 					end
 					across pair.all_word_interval_permutations as permutation loop
 						if attached permutation.item as list then
 							from list.start until list.after loop
 								start_index := list.item_lower; end_index := list.item_upper
 								pair.set_substrings (start_index, end_index)
-								assert (assertion_ok, pair.split_lists)
-								assert (assertion_ok, pair.split_intervals)
+								pair.split_lists
+								pair.split_intervals
 								list.forth
 							end
 						end
@@ -553,6 +557,7 @@ feature -- Tests
 		end
 
 	test_split_string_8
+		-- SPLIT_STRING_TEST_SET.test_split_string_8
 		local
 			split_list: EL_SPLIT_READABLE_STRING_LIST [STRING]; str_split: LIST [STRING]
 			list_2: EL_SPLIT_STRING_LIST [STRING_32]
@@ -573,12 +578,79 @@ feature -- Tests
 			end
 		end
 
+	test_split_word_intervals
+		-- SPLIT_STRING_TEST_SET.test_split_word_intervals
+		note
+			testing: "[
+				covers/{EL_SPLIT_WORD_INTERVALS}.fill,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.leading_substring_white_count,
+				covers/{EL_EXTENDED_ZSTRING}.leading_substring_white_count,
+			]"
+		local
+			start_index, end_index, last_index: INTEGER; word_list: EL_STRING_32_LIST
+			interval_item: STRING_32; word_intervals: EL_SPLIT_WORD_INTERVALS
+			str, expanded_str: READABLE_STRING_32; string_types: ARRAY [READABLE_STRING_32]
+		do
+			across Text.lines_32 as line loop
+				if attached line.item as str_32 then
+					create word_list.make_word_split (str_32)
+					string_types := << str_32, ZSTRING (str_32) >>
+					across string_types as type loop
+						str := type.item
+						if attached new_expanded_string_32 (word_list) as expanded_str_32 then
+							if conforms_to_zstring (str) then
+								expanded_str := ZSTRING (expanded_str_32)
+							else
+								expanded_str := expanded_str_32
+							end
+							create word_intervals.make (expanded_str)
+							assert ("first is empty", word_intervals.first_count = 0)
+							assert ("last is empty", word_intervals.last_count = 0)
+							assert ("2 longer than word_list", word_intervals.count = word_list.count + 2)
+							if attached word_intervals as interval then
+								last_index := interval.count - 1
+								from interval.go_i_th (2) until interval.index > last_index loop
+									interval_item := expanded_str.substring (interval.item_lower, interval.item_upper)
+									assert_same_string (Void, word_list [interval.index - 1], interval_item)
+									interval.forth
+								end
+								interval.fill (str)
+								assert ("same count", word_intervals.count = word_list.count)
+								from interval.start until interval.after loop
+									interval_item := str.substring (interval.item_lower, interval.item_upper)
+									assert_same_string (Void, word_list [interval.index], interval_item)
+									interval.forth
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	is_control (str: ZSTRING): BOOLEAN
 		-- Is `item' a control character?
 		do
 			Result := str.count = 1 and then str [1].is_control
+		end
+
+	new_expanded_string_32 (word_list: EL_STRING_32_LIST): STRING_32
+		do
+			create Result.make (word_list.character_count + word_list.count * 3)
+			across word_list as word loop
+				inspect word.cursor_index \\ 3
+					when 0 then
+						Result.append_string_general ("%T %N")
+					when 1 then
+						Result.append_string_general ("%T ")
+					when 2 then
+						Result.append_character (' ')
+				end
+				Result.append (word.item)
+			end
+			Result.append_string_general ("%T")
 		end
 
 	same_list (split_list: EL_STRING_8_LIST; str: STRING): BOOLEAN

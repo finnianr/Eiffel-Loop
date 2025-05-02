@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 10:45:26 GMT (Sunday 27th April 2025)"
-	revision: "13"
+	date: "2025-05-01 13:17:12 GMT (Thursday 1st May 2025)"
+	revision: "14"
 
 class
 	TL_COMMENTS_ID3_FRAME
@@ -47,8 +47,6 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	language: STRING
-		local
-			c: EL_CHARACTER_8_ROUTINES
 		do
 			cpp_get_language (self_ptr, Once_byte_vector.self_ptr)
 			Result := Once_byte_vector.to_string_8

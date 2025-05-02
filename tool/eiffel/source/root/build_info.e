@@ -4,7 +4,7 @@ note
 
 	author: "Python module: eiffel_loop.eiffel.build"
 
-	date: "2025-04-16 14:21:58 GMT (Wednesday 16th April 2025)"
+	date: "2025-05-01 16:26:22 GMT (Thursday 1st May 2025)"
 	revision: "1"
 
 class
@@ -22,13 +22,13 @@ feature -- Constants
 		-- For installed entry in registry key: CurrentVersion\AppCompatFlags\Layers
 		-- Under: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT
 
-	Build_number: NATURAL = 536
+	Build_number: NATURAL = 531
 
 	Installation_sub_directory: DIR_PATH
 		once
 			Result := "Eiffel-Loop/eiffel"
 		end
 
-	Version_number: NATURAL = 02_03_01
+	Version_number: NATURAL = 02_03_02
 
 end

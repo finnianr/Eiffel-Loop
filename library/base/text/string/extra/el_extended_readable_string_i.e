@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-26 8:04:56 GMT (Saturday 26th April 2025)"
-	revision: "17"
+	date: "2025-05-02 19:03:49 GMT (Friday 2nd May 2025)"
+	revision: "18"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -72,6 +72,37 @@ feature -- Access
 		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
 		do
 			Result := bracketed_substring (left_bracket, True)
+		end
+
+	index_of_unicode (uc: CHARACTER_32; start_index: INTEGER): INTEGER
+		-- Position of first occurrence of `c' at or after `start_index';
+		-- 0 if none.
+		do
+			inspect bit_count
+				when 8 then
+					if uc.is_character_8 then
+						Result := index_of (to_char (uc), start_index)
+					end
+			else
+				Result := index_of (to_char (uc), start_index)
+			end
+		end
+
+	index_of_white (start_index: INTEGER): INTEGER
+		-- index of first occurrence of white space character at or after `start_index'.
+		-- 0 if none.
+		require
+			valid_start_index: valid_index (start_index)
+		local
+			i, i_lower, i_upper: INTEGER
+		do
+			if attached area as l_area and then attached Unicode_property as unicode then
+				i_lower := lower_abs (start_index); i_upper := index_upper
+				from i := i_lower until i > i_upper or else is_i_th_space (l_area, i, unicode) loop
+					i := i + 1
+				end
+				Result := i - index_lower + 1
+			end
 		end
 
 	selected_substring (n: INTEGER; n_set: READABLE_INDEXABLE [INTEGER]): like target
@@ -221,12 +252,10 @@ feature -- Measurement
 		local
 			i, i_lower, i_upper: INTEGER
 		do
-			if attached area as l_area then
+			if attached area as l_area and then attached Unicode_property as unicode then
 				i_lower := lower_abs (start_index); i_upper := upper_abs (end_index)
-				if attached Unicode_property as unicode then
-					from i := i_lower until i > i_upper or else not is_i_th_space (l_area, i, unicode) loop
-						i := i + 1
-					end
+				from i := i_lower until i > i_upper or else not is_i_th_space (l_area, i, unicode) loop
+					i := i + 1
 				end
 				Result := i - i_lower
 			end
@@ -259,16 +288,30 @@ feature -- Measurement
 			end
 		end
 
+	trailing_substring_white_count (start_index, end_index: INTEGER): INTEGER
+		-- count of trailing white space characters between `start_index' and `end_index'
+		require
+			valid_start_end_index: valid_substring_indices (start_index, end_index)
+		local
+			i, i_lower, i_upper: INTEGER
+		do
+			if attached area as l_area and then attached Unicode_property as unicode then
+				i_lower := lower_abs (start_index); i_upper := upper_abs (end_index)
+				from i := i_upper until i < i_lower or else not is_i_th_space (l_area, i, unicode) loop
+					i := i - 1
+				end
+				Result := i - i_lower
+			end
+		end
+
 	trailing_white_count: INTEGER
 		local
 			i, first_i: INTEGER
 		do
-			if attached area as l_area then
+			if attached area as l_area and then attached Unicode_property as unicode then
 				first_i := index_lower
-				if attached Unicode_property as unicode then
-					from i := index_upper until i < first_i or else not is_i_th_space (l_area, i, unicode) loop
-						i := i - 1
-					end
+				from i := index_upper until i < first_i or else not is_i_th_space (l_area, i, unicode) loop
+					i := i - 1
 				end
 				Result := index_upper - i
 			end
@@ -281,37 +324,6 @@ feature -- Measurement
 			if attached area as l_area then
 				from i := index_lower; upper := index_upper until i > upper loop
 					Result := Result + code_utf_8_byte_count (to_character_32 (l_area [i]).natural_32_code)
-					i := i + 1
-				end
-			end
-		end
-
-	word_count (exclude_variable_references: BOOLEAN): INTEGER
-		-- count of all substrings of `str' that are separated by whitespace
-		-- but if `exclude_variable_references' is `True', substract count of substrings
-		-- that are variable references defined by `is_variable_reference'
-		local
-			i, i_upper, word_index: INTEGER; state_find_word: BOOLEAN
-			word: like new_readable
-		do
-			word := new_readable
-			i_upper := index_upper
-			state_find_word := True
-			if attached area as l_area and then attached Unicode_property as unicode then
-				from i := index_lower until i > i_upper loop
-					if state_find_word then
-						i := index_of_character_type_change (l_area, i, i_upper, state_find_word, unicode)
-						word_index := i
-					else
-						i := index_of_character_type_change (l_area, i, i_upper, state_find_word, unicode)
-						word.set_target (new_shared_substring (target, word_index + 1, i))
-						if word.has_alpha then
-							if exclude_variable_references implies not word.is_variable_reference then
-								Result := Result + 1
-							end
-						end
-					end
-					state_find_word := not state_find_word
 					i := i + 1
 				end
 			end
@@ -559,15 +571,26 @@ feature -- Status query
 
 		-- 1. $<C identifier>
 		-- 2. ${<C identifier>}
+		do
+			Result := is_variable_reference_substring (1, count)
+		end
+
+	is_variable_reference_substring (start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if `Current' is one of two variable reference forms
+
+		-- 1. $<C identifier>
+		-- 2. ${<C identifier>}
+		require
+			valid_start_end_index: valid_substring_indices (start_index, end_index)
 		local
 			i_lower, i_upper, l_count: INTEGER
 		do
 			if attached target as str then
-				l_count := str.count
-				if l_count >= 2 and then str [1] = '$' then
-					i_lower := index_lower + 1; i_upper := index_upper
+				l_count := end_index - start_index + 1
+				if l_count >= 2 and then str [start_index] = '$' then
+					i_lower := lower_abs (start_index) + 1; i_upper := upper_abs (end_index)
 				-- check if like: ${name}
-					if str [2] = '{' and then l_count > 3 and then str [l_count] = '}' then
+					if str [start_index + 1] = '{' and then l_count > 3 and then str [end_index] = '}' then
 						i_lower := i_lower + 1; i_upper := i_upper - 1
 					end
 					Result := is_c_identifier_in_range (area, i_lower, i_upper)
@@ -874,32 +897,6 @@ feature {NONE} -- Implementation
 			if count > 0 then
 				Result := is_eiffel_identifier_in_range (area, index_lower, index_upper, case)
 			end
-		end
-
-	index_of_character_type_change (
-		a_area: like area; i_lower, i_upper: INTEGER; find_word: BOOLEAN; unicode: like Unicode_property
-	): INTEGER
-		-- index of next character that changes status from `c.is_space' to `not c.is_space'
-		-- when `find_word' is true look for change to `not c.is_space'
-		local
-			i: INTEGER; break: BOOLEAN
-		do
-			from i := i_lower until i > i_upper or break loop
-				if find_word then
-					if not is_i_th_space (a_area, i, unicode) then
-						break := True
-					else
-						i := i + 1
-					end
-				else
-					if is_i_th_space (a_area, i, unicode) then
-						break := True
-					else
-						i := i + 1
-					end
-				end
-			end
-			Result := i
 		end
 
 	null: TYPED_POINTER [INTEGER]

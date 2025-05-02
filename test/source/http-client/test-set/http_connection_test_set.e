@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-29 11:30:53 GMT (Tuesday 29th April 2025)"
-	revision: "78"
+	date: "2025-05-01 16:34:02 GMT (Thursday 1st May 2025)"
+	revision: "79"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -58,6 +58,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_cached_documents
+		-- HTTP_CONNECTION_TEST_SET.test_cached_documents
 		note
 			testing: "[
 				covers/{EL_CACHED_HTTP_FILE}.make,

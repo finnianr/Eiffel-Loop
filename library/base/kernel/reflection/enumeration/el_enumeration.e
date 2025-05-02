@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-30 12:26:01 GMT (Wednesday 30th April 2025)"
-	revision: "82"
+	date: "2025-05-01 13:32:28 GMT (Thursday 1st May 2025)"
+	revision: "83"
 
 deferred class EL_ENUMERATION [N -> HASHABLE] inherit ANY
 
@@ -102,6 +102,7 @@ feature {NONE} -- Initialization
 				end
 		 	end
 			field_name_table := new_field_name_table (l_name_table)
+			initialize
 		ensure
 			all_values_unique: all_values_unique
 			name_and_values_consistent: name_and_values_consistent

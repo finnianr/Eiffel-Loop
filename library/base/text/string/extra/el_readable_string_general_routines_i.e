@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 12:36:20 GMT (Monday 21st April 2025)"
-	revision: "40"
+	date: "2025-05-02 18:54:47 GMT (Friday 2nd May 2025)"
+	revision: "41"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_I
@@ -48,6 +48,21 @@ feature -- Measurement
 				intervals.wipe_out
 				intervals.fill_by_string_general (text, search_string, 0)
 				Result := intervals.count
+			end
+		end
+
+	word_count (text: READABLE_STRING_GENERAL; exclude_variable_references: BOOLEAN): INTEGER
+		-- count of all substrings of `str' that are separated by whitespace
+		-- but if `exclude_variable_references' is `True', substract count of substrings
+		-- that are variable references defined by `is_variable_reference'
+		do
+			if attached Once_word_intervals as word_intervals then
+				word_intervals.fill (text)
+				if exclude_variable_references then
+					Result := word_intervals.adjusted_word_count (text)
+				else
+					Result := word_intervals.word_count
+				end
 			end
 		end
 
@@ -98,6 +113,11 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Constants
+
+	Once_word_intervals: EL_SPLIT_WORD_INTERVALS
+		once
+			create Result.make_empty
+		end
 
 	Shared_intervals: EL_OCCURRENCE_INTERVALS
 		once

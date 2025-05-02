@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 17:59:32 GMT (Friday 11th April 2025)"
-	revision: "3"
+	date: "2025-05-02 6:51:44 GMT (Friday 2nd May 2025)"
+	revision: "4"
 
 deferred class
 	EL_EXTENDED_STRING_32
@@ -24,8 +24,6 @@ inherit
 		rename
 			target as shared_string
 		end
-
-	EL_STRING_BIT_COUNTABLE [STRING_32]
 
 feature {NONE} -- Implementation
 

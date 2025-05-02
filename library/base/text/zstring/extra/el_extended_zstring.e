@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 9:42:08 GMT (Sunday 27th April 2025)"
-	revision: "14"
+	date: "2025-05-02 19:03:24 GMT (Friday 2nd May 2025)"
+	revision: "15"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -43,15 +43,14 @@ inherit
 			same_string, set_substring_case, set_substring_lower, set_substring_upper, starts_with_character,
 			substring_to, substring_to_from, substring_to_reversed, substring_to_reversed_from,
 			to_canonically_spaced, to_utf_8,
-			trailing_white_count, translate, translate_or_delete, translate_with_deletion,
+			trailing_substring_white_count, trailing_white_count, translate, translate_or_delete, translate_with_deletion,
 			utf_8_byte_count, valid_index, write_utf_8_to,
 			String_32_searcher
 		redefine
 			all_alpha_numeric_in_range, all_ascii_in_range,
 			append_area_32, append_substring_to_special_32, append_substring_to_special_8,
 			append_to, append_utf_8,
-			index_of_character_type_change,
-			is_c_identifier_in_range, is_eiffel_identifier_in_range,
+			index_of_white, is_c_identifier_in_range, is_eiffel_identifier_in_range,
 			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_identifier, is_i_th_space,
 			latin_1_count,
 			new_shared_substring, occurrences_in_area_bounds, occurs_at, occurs_caseless_at,
@@ -71,6 +70,39 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Measurement
+
+	index_of_white (start_index: INTEGER): INTEGER
+		-- index of first occurrence of white space character at or after `start_index'.
+		-- 0 if none.
+		local
+			i, block_index, i_upper: INTEGER; c_i: CHARACTER_8; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+			c32: EL_CHARACTER_32_ROUTINES
+		do
+			if attached area as l_area and then attached unencoded_area as unencoded
+				and then attached Unicode_table as uc_table
+			then
+				i_upper := count - 1
+				from i := start_index - 1 until i > i_upper or Result > 0 loop
+					c_i := l_area [i]
+					inspect character_8_band (c_i)
+						when Substitute then
+							if c32.is_space (iter.item ($block_index, unencoded, i + 1)) then
+								Result := i + 1
+							end
+
+						when Ascii_range then
+							if c_i.is_space then
+								Result := i + 1
+							end
+					else
+						if c32.is_space (uc_table [c_i.code]) then
+							Result := i + 1
+						end
+					end
+					i := i + 1
+				end
+			end
+		end
 
 	latin_1_count: INTEGER
 		local
@@ -344,45 +376,6 @@ feature {NONE} -- Implementation
 		require else
 			not_applicable: False
 		do
-		end
-
-	index_of_character_type_change (
-		unencoded: like unencoded_area; i_lower, i_upper: INTEGER; find_word: BOOLEAN; a_unicode: like Unicode_property
-	): INTEGER
-		-- index of next character that changes status from `c.is_space' to `not c.is_space'
-		-- when `find_word' is true look for change to `not c.is_space'
-		local
-			i, block_index: INTEGER; c_i: CHARACTER_8; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
-			i_th_is_space, break: BOOLEAN
-		do
-			if attached Unicode_table as uc_table and then attached area as l_area then
-				from i := i_lower until i > i_upper or break loop
-					c_i := l_area [i]
-					inspect character_8_band (c_i)
-						when Substitute then
-							i_th_is_space := a_unicode.is_space (iter.item ($block_index, unencoded, i + 1))
-
-						when Ascii_range then
-							i_th_is_space := c_i.is_space
-					else
-						i_th_is_space := a_unicode.is_space (uc_table [c_i.code])
-					end
-					if find_word then
-						if not i_th_is_space then
-							break := True
-						else
-							i := i + 1
-						end
-					else
-						if i_th_is_space then
-							break := True
-						else
-							i := i + 1
-						end
-					end
-				end
-			end
-			Result := i
 		end
 
 	is_c_identifier_in_range (unencoded: like unencoded_area; i_lower, i_upper: INTEGER): BOOLEAN

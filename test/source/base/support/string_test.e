@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 13:09:57 GMT (Sunday 27th April 2025)"
-	revision: "44"
+	date: "2025-05-02 9:29:57 GMT (Friday 2nd May 2025)"
+	revision: "45"
 
 class
 	STRING_TEST
@@ -354,7 +354,7 @@ feature -- Test splitting
 			end
 		end
 
-	split_intervals: BOOLEAN
+	split_intervals
 		local
 			intervals_list: ARRAYED_LIST [EL_OCCURRENCE_INTERVALS]
 			intervals_s_32: EL_SEQUENTIAL_INTERVALS
@@ -368,23 +368,24 @@ feature -- Test splitting
 			if attached s_8_substring as str_8 then
 				intervals_list.extend (create {EL_SPLIT_INTERVALS}.make_by_string (zs, str_8))
 			end
-			Result := across intervals_list as list all list.item.same_as (intervals_s_32) end
+			across intervals_list as list loop
+				test.assert ("same item", list.item.same_as (intervals_s_32))
+			end
 		end
 
-	split_lists: BOOLEAN
+	split_lists
 		local
 			s: EL_STRING_32_ROUTINES; item_32: STRING_32
 		do
-			Result := True
 			if attached new_split_list_array as split_list_array
 				and then attached s.split_intervals (s_32, s_32_substring, True) as interval
 			then
-				from interval.start until not Result or interval.after loop
+				from interval.start until interval.after loop
 					item_32 := s_32.substring (interval.item_lower, interval.item_upper)
-					across split_list_array as array until not Result loop
+					across split_list_array as array loop
 						if attached array.item as split_list then
 							split_list.go_i_th (interval.index)
-							Result := split_list.item_same_as (item_32)
+							test.assert ("same item", split_list.item_same_as (item_32))
 						end
 					end
 					interval.forth

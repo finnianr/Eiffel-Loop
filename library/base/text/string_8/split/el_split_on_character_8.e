@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 8:21:40 GMT (Thursday 17th April 2025)"
-	revision: "12"
+	date: "2025-05-02 8:40:43 GMT (Friday 2nd May 2025)"
+	revision: "13"
 
 class
 	EL_SPLIT_ON_CHARACTER_8 [S -> READABLE_STRING_8]
@@ -34,7 +34,14 @@ feature -- Access
 
 	count: INTEGER
 		do
-			Result := target.occurrences (separator) + 1
+			if attached target as t then
+				Result := t.occurrences (separator) + 1
+				if t.count > 1 then
+				-- empty strings at end are skipped
+					Result := Result - (t [t.count] = separator).to_integer
+					Result := Result - (t [1] = separator).to_integer
+				end
+			end
 		end
 
 feature {NONE} -- Implementation

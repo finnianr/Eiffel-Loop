@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 17:52:41 GMT (Friday 11th April 2025)"
-	revision: "28"
+	date: "2025-05-02 9:28:34 GMT (Friday 2nd May 2025)"
+	revision: "29"
 
 class
 	IMMUTABLE_STRING_TEST
@@ -77,7 +77,7 @@ feature -- Element change
 
 feature -- Test comparisons
 
-	split_intervals: BOOLEAN
+	split_intervals
 		local
 			intervals_s_32: EL_SEQUENTIAL_INTERVALS; s: EL_STRING_32_ROUTINES
 			intervals_list: ARRAYED_LIST [EL_OCCURRENCE_INTERVALS]
@@ -87,7 +87,9 @@ feature -- Test comparisons
 			create intervals_list.make_from_array (<<
 				create {EL_SPLIT_INTERVALS}.make_by_string (s_32, s_32_substring)
 			>>)
-			Result := across intervals_list as list all list.item.same_as (intervals_s_32) end
+			across intervals_list as list loop
+				test.assert ("same item", list.item.same_as (intervals_s_32))
+			end
 		end
 
 feature -- Extended ZSTRING

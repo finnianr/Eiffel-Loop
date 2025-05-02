@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:12:34 GMT (Monday 28th April 2025)"
-	revision: "11"
+	date: "2025-04-30 14:48:41 GMT (Wednesday 30th April 2025)"
+	revision: "12"
 
 class
 	EL_FTP_SERVER_REPLY_ENUM
@@ -82,7 +82,6 @@ feature -- Access
 	user_logged_in: INTEGER_16
 
 	user_name_okay: INTEGER_16
-
 
 feature {NONE} -- Implementation
 
