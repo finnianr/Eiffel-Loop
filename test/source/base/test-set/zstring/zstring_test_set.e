@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 7:46:35 GMT (Tuesday 15th April 2025)"
-	revision: "144"
+	date: "2025-05-03 14:01:34 GMT (Saturday 3rd May 2025)"
+	revision: "145"
 
 class
 	ZSTRING_TEST_SET
@@ -490,6 +490,7 @@ feature -- Status query tests
 		end
 
 	test_is_canonically_spaced
+		-- ZSTRING_TEST_SET.test_is_canonically_spaced
 		note
 			testing: "covers/{ZSTRING}.is_canonically_spaced"
 		local
@@ -502,7 +503,7 @@ feature -- Status query tests
 				assert (canonically_spaced, line.is_canonically_spaced)
 				space_index := line.index_of (' ', 1)
 				if space_index > 0 then
-					across << Text.Tab_character, Text.Ogham_space_mark >> as c loop
+					across << Text.Tab_character, Text.Ogham_space_mark, Text.Non_breaking_space >> as c loop
 						line [space_index] := c.item
 						assert ("not " + canonically_spaced, not line.is_canonically_spaced)
 					end

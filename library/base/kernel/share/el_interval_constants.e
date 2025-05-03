@@ -1,6 +1,6 @@
 note
 	description: "[
-		Constants to represent state of 2 integer intervals A and B which may be
+		Constants to represent state of 2 integer bounds A and B which may be
 		overlapping or disjointed.
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:19:25 GMT (Monday 28th April 2025)"
-	revision: "5"
+	date: "2025-05-03 7:30:51 GMT (Saturday 3rd May 2025)"
+	revision: "6"
 
 deferred class
 	EL_INTERVAL_CONSTANTS

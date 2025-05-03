@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-29 14:15:37 GMT (Tuesday 29th April 2025)"
-	revision: "90"
+	date: "2025-05-03 10:23:12 GMT (Saturday 3rd May 2025)"
+	revision: "91"
 
 deferred class
 	EL_ZCODEC
@@ -853,7 +853,7 @@ feature {NONE} -- Implementation
 			Result [Substitute_code] := 0
 		end
 
-feature {EL_ZSTRING} -- Deferred implementation
+feature {EL_STRING_HANDLER} -- Deferred implementation
 
 	as_lower (code: NATURAL): NATURAL
 		deferred
@@ -872,8 +872,8 @@ feature {EL_ZSTRING} -- Deferred implementation
 		end
 
 	in_latin_1_disjoint_set (c: CHARACTER): BOOLEAN
-		-- true if `c' is `Substitute' character or else in set of 8-bit characters not
-		-- present in Latin-1
+		-- true if `c' is `Substitute' character or else in set of 8-bit characters not present in Latin-1
+		-- (Extremely slow compared to using `character_8_band')
 		deferred
 		end
 

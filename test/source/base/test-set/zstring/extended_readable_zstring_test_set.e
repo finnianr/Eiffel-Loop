@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 18:48:05 GMT (Friday 2nd May 2025)"
-	revision: "11"
+	date: "2025-05-03 7:38:39 GMT (Saturday 3rd May 2025)"
+	revision: "12"
 
 class
 	EXTENDED_READABLE_ZSTRING_TEST_SET
@@ -414,7 +414,7 @@ feature -- Tests
 					across type_list as list loop
 						if attached list.item as l_text then
 							word_intervals.fill (l_text)
-							word_count := word_intervals.adjusted_word_count (l_text)
+							word_count := word_intervals.word_count (l_text, True)
 							assert ("3 words", word_count = 3)
 						end
 					end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 6:51:00 GMT (Friday 2nd May 2025)"
-	revision: "18"
+	date: "2025-05-03 7:20:04 GMT (Saturday 3rd May 2025)"
+	revision: "19"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_32_I
@@ -94,7 +94,7 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
-	all_ascii_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
+	is_substring_all_ascii (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
 		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are in the ASCII character range
 		local
 			c: EL_CHARACTER_32_ROUTINES
@@ -102,7 +102,7 @@ feature {NONE} -- Implementation
 			Result := c.is_ascii_area (area, i_lower, i_upper)
 		end
 
-	is_c_identifier_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
+	is_substring_c_identifier (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
 		-- `True' if characters in `a_area' from `i_lower' to `i_upper' constitute
 		-- a C language identifier
 		local
@@ -111,7 +111,7 @@ feature {NONE} -- Implementation
 			Result := c.is_c_identifier_area (area, i_lower, i_upper)
 		end
 
-	is_eiffel_identifier_in_range (a_area: like area; i_lower, i_upper: INTEGER; case: NATURAL_8): BOOLEAN
+	is_substring_eiffel_identifier (a_area: like area; i_lower, i_upper: INTEGER; case: NATURAL_8): BOOLEAN
 		local
 			c: EL_CHARACTER_32_ROUTINES
 		do

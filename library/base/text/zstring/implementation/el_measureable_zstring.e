@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 8:13:38 GMT (Friday 2nd May 2025)"
-	revision: "32"
+	date: "2025-05-03 12:49:42 GMT (Saturday 3rd May 2025)"
+	revision: "33"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -67,7 +67,7 @@ feature -- Measurement
 	leading_substring_white_count (start_index, end_index: INTEGER): INTEGER
 		-- count of leading white space characters between `start_index' and `end_index'
 		require
-			valid_start_end_index: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		do
 			Result := internal_leading_white_space (area, start_index, end_index)
 		end
@@ -148,7 +148,7 @@ feature -- Measurement
 	trailing_substring_white_count (start_index, end_index: INTEGER): INTEGER
 		-- count of leading white space characters between `start_index' and `end_index'
 		require
-			valid_start_end_index: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		do
 			Result := internal_trailing_white_space (area, start_index, end_index)
 		end
@@ -173,34 +173,28 @@ feature {NONE} -- Implementation
 			-- `Substitute' is space
 			i_upper := end_index - 1
 
-			if has_mixed_encoding and then has_unencoded_between_optimal (a_area, start_index, end_index)
-				and then attached unencoded_area as area_32
-			then
+			if attached unencoded_area as area_32 and then attached Unicode_table as uc_table then
 				from i := start_index - 1 until i > i_upper loop
 					c_i := a_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							if c32.is_space (iter.item ($block_index, area_32, i + 1)) then
 								Result := Result + 1
 							else
 								i := i_upper -- break out of loop
 							end
+						when Ascii_range then
+							if c_i.is_space then
+								Result := Result + 1
+							else
+								i := i_upper -- break out of loop
+							end
 					else
-						if c_i.is_space then
+						if c32.is_space (uc_table [c_i.code]) then
 							Result := Result + 1
 						else
 							i := i_upper -- break out of loop
 						end
-					end
-					i := i + 1
-				end
-			else
-				from i := start_index - 1 until i > i_upper loop
-					c_i := a_area [i]
-					if c_i.is_space then
-						Result := Result + 1
-					else
-						i := i_upper -- break out of loop
 					end
 					i := i + 1
 				end
@@ -216,31 +210,28 @@ feature {NONE} -- Implementation
 		do
 			-- `Substitute' is space
 			i_lower := start_index - 1
-			if attached unencoded_area as area_32 and then area_32.count > 0 then
+			if attached unencoded_area as area_32 and then attached Unicode_table as uc_table then
 				from i := end_index - 1 until i < i_lower loop
 					c_i := a_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							if c32.is_space (iter.item ($block_index, area_32, i + 1)) then
 								Result := Result + 1
 							else
 								i := 0 -- break out of loop
 							end
+						when Ascii_range then
+							if c_i.is_space then
+								Result := Result + 1
+							else
+								i := 0 -- break out of loop
+							end
 					else
-						if c_i.is_space then
+						if c32.is_space (uc_table [c_i.code]) then
 							Result := Result + 1
 						else
 							i := 0 -- break out of loop
 						end
-					end
-					i := i - 1
-				end
-			else
-				from i := end_index - 1 until i < i_lower loop
-					if a_area [i].is_space then
-						Result := Result + 1
-					else
-						i := 0 -- break out of loop
 					end
 					i := i - 1
 				end

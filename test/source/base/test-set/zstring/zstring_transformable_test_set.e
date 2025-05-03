@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 12:51:02 GMT (Sunday 27th April 2025)"
-	revision: "16"
+	date: "2025-05-03 13:59:56 GMT (Saturday 3rd May 2025)"
+	revision: "17"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
@@ -370,8 +370,10 @@ feature -- Tests
 			canonical, line, not_canonical_line, white_space: ZSTRING; str_32: STRING_32
 			count: INTEGER; tab_space: SPECIAL [CHARACTER_32]; sg: EL_STRING_GENERAL_ROUTINES
 		do
-			create tab_space.make_filled ('%T', 2)
+			create tab_space.make_filled ('%T', 4)
 			tab_space [1] := ' '
+			tab_space [2] := Text.Ogham_space_mark
+			tab_space [3] := Text.Non_breaking_space
 			create white_space.make_empty
 
 		-- Basic test
@@ -400,7 +402,7 @@ feature -- Tests
 				across line.split (' ') as split loop
 					if count > 0 then
 					-- insert bigger and bigger space strings
-						white_space.extend (tab_space [count \\ 2])
+						white_space.extend (tab_space [count \\ tab_space.count])
 						not_canonical_line.append (white_space)
 					end
 					not_canonical_line.append (split.item)
@@ -456,7 +458,7 @@ feature {NONE} -- Implementation
 			create test.make_empty (Current)
 			across Text.words_32 as word loop
 				test.set (word.item)
-				across << Text.Tab_character, Text.Ogham_space_mark >> as c loop
+				across << Text.Tab_character, Text.Ogham_space_mark, Text.Non_breaking_space >> as c loop
 					across 1 |..| 2 as n loop
 						inspect type
 							when {STRING_TEST_BASE}.Right_adjust, {STRING_TEST_BASE}.Prune_trailing then

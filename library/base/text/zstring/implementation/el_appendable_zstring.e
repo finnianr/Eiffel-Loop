@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 7:14:17 GMT (Monday 21st April 2025)"
-	revision: "80"
+	date: "2025-05-03 12:34:45 GMT (Saturday 3rd May 2025)"
+	revision: "81"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -218,7 +218,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		do
 			old_count := count
 			String_8.append_substring (Current, s, start_index, end_index)
-			if s.has_unencoded_between_optimal (s.area, start_index, end_index)
+			if s.has_substitutes_between (s.area, start_index, end_index)
 				and then attached empty_unencoded_buffer as buffer
 			then
 				buffer.append_substring (s, start_index, end_index, old_count)

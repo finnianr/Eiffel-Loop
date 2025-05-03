@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 7:20:00 GMT (Saturday 19th April 2025)"
-	revision: "163"
+	date: "2025-05-03 13:52:58 GMT (Saturday 3rd May 2025)"
+	revision: "164"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -305,17 +305,21 @@ feature -- Status query
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; c32: EL_CHARACTER_32_ROUTINES
 			is_space: BOOLEAN; c_i: CHARACTER
 		do
-			if attached area as l_area and then attached unencoded_area as area_32 then
+			if attached area as l_area and then attached unencoded_area as area_32
+				and then attached Unicode_table as uc_table
+			then
 				Result := True; i_final := count
 				from i := 0 until not Result or else i = i_final loop
 					c_i := l_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
-						uc_i := iter.item ($block_index, area_32, i + 1)
-					-- `c32.is_space' is workaround for finalization bug
-						is_space := c32.is_space (uc_i)
+							uc_i := iter.item ($block_index, area_32, i + 1)
+						-- `c32.is_space' is workaround for finalization bug
+							is_space := c32.is_space (uc_i)
+						when Ascii_range then
+							is_space := c_i.is_space
 					else
-						is_space := c_i.is_space
+						is_space := c32.is_space (uc_table [c_i.code])
 					end
 					if is_space then
 						space_count := space_count + 1
@@ -396,7 +400,7 @@ feature -- Substrings
 		-- shared immutable substring that shares same `area' as `Current'
 		require
 			completely_encoded: not has_mixed_encoding
-			valid_start_end_index: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		do
 			Result := Immutable_8.new_substring (area, start_index - 1, end_index - start_index + 1)
 		end
@@ -422,9 +426,7 @@ feature -- Substrings
 			else
 				Result := new_string (0)
 			end
-			if has_unencoded_between_optimal (area, start_index, end_index)
-				and then attached empty_unencoded_buffer as buffer
-			then
+			if has_substitutes_between (area, start_index, end_index) and then attached empty_unencoded_buffer as buffer then
 				buffer.append_substring (Current, start_index, end_index, 0)
 				Result.set_unencoded_from_buffer (buffer)
 			end

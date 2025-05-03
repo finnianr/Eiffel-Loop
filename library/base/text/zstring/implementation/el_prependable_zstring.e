@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
-	revision: "61"
+	date: "2025-05-03 12:34:27 GMT (Saturday 3rd May 2025)"
+	revision: "62"
 
 deferred class
 	EL_PREPENDABLE_ZSTRING
@@ -109,7 +109,7 @@ feature {NONE} -- Prepending
 			inspect respective_encoding (s)
 				when Both_have_mixed_encoding then
 					offset := end_index - start_index + 1
-					if s.has_unencoded_between_optimal (s.area, start_index, end_index)
+					if s.has_substitutes_between (s.area, start_index, end_index)
 						and then attached empty_unencoded_buffer as buffer
 					then
 						buffer.append_substring (s, start_index, end_index, 0)

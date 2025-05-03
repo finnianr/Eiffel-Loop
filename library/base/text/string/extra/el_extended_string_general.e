@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 12:34:58 GMT (Sunday 27th April 2025)"
-	revision: "18"
+	date: "2025-05-03 7:00:12 GMT (Saturday 3rd May 2025)"
+	revision: "19"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -358,7 +358,7 @@ feature {NONE} -- Implementation
 	set_substring_case (start_index, end_index: INTEGER; case: NATURAL_8)
 		require
 			valid_case: is_valid_case (case)
-			valid_indices: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		local
 			i, i_upper: INTEGER
 		do

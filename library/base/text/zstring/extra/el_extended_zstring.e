@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 19:03:24 GMT (Friday 2nd May 2025)"
-	revision: "15"
+	date: "2025-05-03 10:27:00 GMT (Saturday 3rd May 2025)"
+	revision: "16"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -34,7 +34,7 @@ inherit
 			append_to_string_32, append_to_string_8, append_to_utf_8,
 			count,
 			ends_with_character, fill_z_codes,
-			has, has_alpha, has_enclosing, has_member, has_quotes,
+			has, has_alpha, has_alpha_in_bounds, has_enclosing, has_member, has_quotes,
 			is_ascii, is_ascii_substring, is_alpha_numeric, is_canonically_spaced,
 			is_character, is_subset_of, is_valid_as_string_8,
 			leading_occurrences, leading_substring_white_count, leading_white_count,
@@ -47,14 +47,14 @@ inherit
 			utf_8_byte_count, valid_index, write_utf_8_to,
 			String_32_searcher
 		redefine
-			all_alpha_numeric_in_range, all_ascii_in_range,
+			all_alpha_numeric_in_range, is_substring_all_ascii,
 			append_area_32, append_substring_to_special_32, append_substring_to_special_8,
 			append_to, append_utf_8,
-			index_of_white, is_c_identifier_in_range, is_eiffel_identifier_in_range,
+			index_of_white, is_substring_c_identifier, is_substring_eiffel_identifier,
 			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_identifier, is_i_th_space,
 			latin_1_count,
 			new_shared_substring, occurrences_in_area_bounds, occurs_at, occurs_caseless_at,
-			parse_substring_in_range,
+			parse_substring_in_bounds,
 			right_bracket_index, split, split_adjusted
 		end
 
@@ -104,6 +104,33 @@ feature -- Measurement
 			end
 		end
 
+	last_word_start_index (end_index_ptr: TYPED_POINTER [INTEGER]): INTEGER
+		-- start index of last alpha-numeric word and end index
+		-- written to `end_index_ptr' if not equal to `default_pointer'
+		local
+			i: INTEGER; found: BOOLEAN
+		do
+			from i := count until i = 0 or found loop
+				if is_alpha_numeric_item (i) then
+					found := True
+				else
+					i := i - 1
+				end
+			end
+			if found and then not end_index_ptr.is_default_pointer then
+				put_integer_32 (i, end_index_ptr)
+			end
+			found := False
+			from until i = 0 or found loop
+				if is_alpha_numeric_item (i) then
+					Result := i
+				else
+					found := True
+				end
+				i := i - 1
+			end
+		end
+
 	latin_1_count: INTEGER
 		local
 			i, i_upper, block_index: INTEGER; break, already_latin_1: BOOLEAN
@@ -136,40 +163,37 @@ feature -- Measurement
 			end
 		end
 
-	last_word_start_index (end_index_ptr: TYPED_POINTER [INTEGER]): INTEGER
-		-- start index of last alpha-numeric word and end index
-		-- written to `end_index_ptr' if not equal to `default_pointer'
+feature -- Status query
+
+	has_alpha_in_bounds (start_index, end_index: INTEGER): BOOLEAN
 		local
-			i: INTEGER; found: BOOLEAN
+			i, block_index, i_upper: INTEGER; c_i: CHARACTER_8; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
-			from i := count until i = 0 or found loop
-				if is_alpha_numeric_item (i) then
-					found := True
-				else
-					i := i - 1
+			if attached unencoded_area as unencoded and then attached area as l_area
+				and then attached Unicode_table as uc_table
+			then
+				i_upper := end_index - 1
+				from i := start_index - 1 until i > i_upper or Result loop
+					c_i := l_area [i]
+					inspect character_8_band (c_i)
+						when Substitute then
+							Result := iter.item ($block_index, unencoded, i + 1).is_alpha
+
+						when Ascii_range then
+							Result := c_i.is_alpha
+					else
+						Result := uc_table [c_i.code].is_alpha
+					end
+					i := i + 1
 				end
-			end
-			if found and then not end_index_ptr.is_default_pointer then
-				put_integer_32 (i, end_index_ptr)
-			end
-			found := False
-			from until i = 0 or found loop
-				if is_alpha_numeric_item (i) then
-					Result := i
-				else
-					found := True
-				end
-				i := i - 1
 			end
 		end
-
-feature -- Status query
 
 	is_ascii_substring (start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if all characters in `target.substring (start_index, end_index)'
 		-- are in the ASCII character set: 0 .. 127
 		do
-			Result := all_ascii_in_range (unencoded_area, lower_abs (start_index), upper_abs (end_index))
+			Result := is_substring_all_ascii (unencoded_area, lower_abs (start_index), upper_abs (end_index))
 		end
 
 	occurs_at (smaller: ZSTRING; index: INTEGER): BOOLEAN
@@ -270,7 +294,7 @@ feature {NONE} -- Implementation
 		local
 			i, block_index: INTEGER; c_i: CHARACTER_8; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
-			if attached Unicode_table as uc_table and then attached area as l_area then
+			if attached area as l_area and then attached Unicode_table as uc_table then
 				Result := True
 				from i := i_lower until i > i_upper or not Result loop
 					c_i := l_area [i]
@@ -285,24 +309,6 @@ feature {NONE} -- Implementation
 					end
 					i := i + 1
 				end
-			end
-		end
-
-	all_ascii_in_range (unencoded: like unencoded_area; i_lower, i_upper: INTEGER): BOOLEAN
-		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are in the ASCII character range
-		local
-			i: INTEGER; c: EL_CHARACTER_8_ROUTINES; substitute_found: BOOLEAN
-		do
-			if attached area as l_area then
-				from i := i_lower until i > i_upper or substitute_found loop
-					inspect l_area [i]
-						when Substitute then
-							substitute_found := True
-					else
-					end
-					i := i + 1
-				end
-				Result := not substitute_found and then c.is_ascii_area (area, i_lower, i_upper)
 			end
 		end
 
@@ -378,24 +384,6 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	is_c_identifier_in_range (unencoded: like unencoded_area; i_lower, i_upper: INTEGER): BOOLEAN
-		-- `True' if characters in `a_area' from `i_lower' to `i_upper' constitute
-		-- a C language identifier
-		local
-			c: EL_CHARACTER_8_ROUTINES
-		do
-			Result := c.is_c_identifier_area (area, i_lower, i_upper)
-		end
-
-	is_eiffel_identifier_in_range (
-		unencoded: like unencoded_area; i_lower, i_upper: INTEGER case: NATURAL_8
-	): BOOLEAN
-		local
-			c: EL_CHARACTER_8_ROUTINES
-		do
-			Result := c.is_eiffel_identifier_area (area, i_lower, i_upper, case)
-		end
-
 	is_i_th_alpha (unencoded: like unencoded_area; i: INTEGER): BOOLEAN
 		-- `True' if i'th character in `area'  is alphabetical or numeric
 		do
@@ -420,6 +408,42 @@ feature {NONE} -- Implementation
 		-- `True' if i'th character in `unencoded'  is white space
 		do
 			Result := is_space_item (i - 1)
+		end
+
+	is_substring_all_ascii (unencoded: like unencoded_area; i_lower, i_upper: INTEGER): BOOLEAN
+		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are in the ASCII character range
+		local
+			i: INTEGER; c: EL_CHARACTER_8_ROUTINES; substitute_found: BOOLEAN
+		do
+			if attached area as l_area then
+				from i := i_lower until i > i_upper or substitute_found loop
+					inspect l_area [i]
+						when Substitute then
+							substitute_found := True
+					else
+					end
+					i := i + 1
+				end
+				Result := not substitute_found and then c.is_ascii_area (area, i_lower, i_upper)
+			end
+		end
+
+	is_substring_c_identifier (unencoded: like unencoded_area; i_lower, i_upper: INTEGER): BOOLEAN
+		-- `True' if characters in `a_area' from `i_lower' to `i_upper' constitute
+		-- a C language identifier
+		local
+			c: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c.is_c_identifier_area (area, i_lower, i_upper)
+		end
+
+	is_substring_eiffel_identifier (
+		unencoded: like unencoded_area; i_lower, i_upper: INTEGER case: NATURAL_8
+	): BOOLEAN
+		local
+			c: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c.is_eiffel_identifier_area (area, i_lower, i_upper, case)
 		end
 
 	new_readable: EL_EXTENDED_ZSTRING
@@ -478,7 +502,7 @@ feature {NONE} -- Implementation
 			Result := other.area_lower
 		end
 
-	parse_substring_in_range (
+	parse_substring_in_bounds (
 		unencoded: like unencoded_area; type, i_lower, i_upper: INTEGER; convertor: STRING_TO_NUMERIC_CONVERTOR
 	)
 		local
@@ -502,20 +526,20 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	trim
-		-- Fix for BOUNDED invariant when calling `update_shared'
-		--		valid_count: count <= capacity
-		do
-			shared_string.set_count (count)
-			Precursor
-		end
-
 	right_bracket_index (unencoded: like unencoded_area; left_bracket: CHARACTER_32; start_index, end_index: INTEGER): INTEGER
 		-- index of right bracket corresponding to `left_bracket'. `-1' if not found.
 		local
 			c: EL_CHARACTER_8_ROUTINES
 		do
 			Result := c.right_bracket_index (area, left_bracket.to_character_8, start_index, end_index)
+		end
+
+	trim
+		-- Fix for BOUNDED invariant when calling `update_shared'
+		--		valid_count: count <= capacity
+		do
+			shared_string.set_count (count)
+			Precursor
 		end
 
 	update_shared

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 13:18:17 GMT (Sunday 27th April 2025)"
-	revision: "88"
+	date: "2025-05-03 13:56:25 GMT (Saturday 3rd May 2025)"
+	revision: "89"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -115,23 +115,28 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		-- adjust string so that `is_canonically_spaced' becomes true
 		local
 			c_i: CHARACTER; uc_i: CHARACTER_32; i, j, l_count, block_index, space_count, last_upper: INTEGER
-			is_space: BOOLEAN; c: EL_CHARACTER_32_ROUTINES
+			is_space: BOOLEAN; c32: EL_CHARACTER_32_ROUTINES
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			if not is_canonically_spaced
 				and then attached unencoded_area as uc_area and then attached area as l_area
 				and then attached empty_unencoded_buffer as buffer
+				and then attached Unicode_table as uc_table
 			then
 				last_upper := buffer.last_upper
 				l_count := count
 				from i := 0; j := 0 until i = l_count loop
 					c_i := l_area [i]
-					if c_i = Substitute then
-						uc_i := iter.item ($block_index, uc_area, i + 1)
-						 -- `c.is_space' is workaround for finalization bug
-						is_space := c.is_space (uc_i)
+					inspect character_8_band (c_i)
+						when Substitute then
+							uc_i := iter.item ($block_index, uc_area, i + 1)
+							 -- `c32.is_space' is workaround for finalization bug
+							is_space := c32.is_space (uc_i)
+
+						when Ascii_range then
+							is_space := c_i.is_space
 					else
-						is_space := c_i.is_space
+						is_space := c32.is_space (uc_table [c_i.code])
 					end
 					if is_space then
 						space_count := space_count + 1
@@ -950,7 +955,7 @@ feature {NONE} -- Implementation
 	set_substring_case (start_index, end_index: INTEGER; case: NATURAL_8)
 		require
 			valid_case: is_valid_case (case)
-			valid_indices: valid_substring_indices (start_index, end_index)
+			valid_indices: valid_bounds (start_index, end_index)
 		do
 			inspect case
 				when {EL_CASE}.Lower then

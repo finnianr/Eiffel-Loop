@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 9:14:00 GMT (Sunday 20th April 2025)"
-	revision: "3"
+	date: "2025-05-03 6:51:32 GMT (Saturday 3rd May 2025)"
+	revision: "4"
 
 deferred class
 	EL_INDEXABLE_FROM_1
@@ -31,7 +31,7 @@ feature -- Status query
 		deferred
 		end
 
-	valid_indices_range (start_index, end_index: INTEGER): BOOLEAN
+	valid_bounds (start_index, end_index: INTEGER): BOOLEAN
 		do
 			inspect count
 				when 0 then

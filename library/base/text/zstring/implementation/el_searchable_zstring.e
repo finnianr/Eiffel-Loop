@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 6:54:06 GMT (Thursday 17th April 2025)"
-	revision: "67"
+	date: "2025-05-03 12:34:27 GMT (Saturday 3rd May 2025)"
+	revision: "68"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -426,7 +426,7 @@ feature {NONE} -- Implementation
 		local
 			has_mixed_in_range: BOOLEAN
 		do
-			has_mixed_in_range := has_unencoded_between_optimal (area, start_pos, end_pos)
+			has_mixed_in_range := has_substitutes_between (area, start_pos, end_pos)
 
 			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
 				when Both_have_mixed_encoding then
@@ -446,7 +446,7 @@ feature {NONE} -- Implementation
 		local
 			has_mixed_in_range: BOOLEAN
 		do
-			has_mixed_in_range := has_unencoded_between_optimal (area, start_index, count)
+			has_mixed_in_range := has_substitutes_between (area, start_index, count)
 			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
 				when Only_current, Neither then
 					Result := String_8.substring_index (Current, other, start_index)

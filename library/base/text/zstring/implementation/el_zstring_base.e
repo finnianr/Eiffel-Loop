@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 7:38:11 GMT (Sunday 27th April 2025)"
-	revision: "122"
+	date: "2025-05-03 12:32:44 GMT (Saturday 3rd May 2025)"
+	revision: "123"
 
 deferred class
 	EL_ZSTRING_BASE
@@ -101,9 +101,6 @@ inherit
 	EL_READABLE_ZSTRING_I
 
 	EL_INDEXABLE_FROM_1
-		rename
-			valid_indices_range as valid_substring_indices
-		end
 
 	EL_SHARED_ESCAPE_TABLE; EL_SHARED_IMMUTABLE_8_MANAGER
 
@@ -331,19 +328,14 @@ feature {EL_ZSTRING_BASE} -- Status query
 			i, i_upper: INTEGER
 		do
 			i_upper := end_index - 1
-			from i := start_index - 1 until Result or else i > i_upper loop
-				Result := a_area [i] = Substitute
-				i := i + 1
-			end
-		end
-
-	has_unencoded_between_optimal (a_area: like area; start_index, end_index: INTEGER): BOOLEAN
-		-- `has_unencoded_between' with optimal alternative method of
-		do
-			if end_index - start_index < 50 then
-				Result := has_substitutes_between (a_area, start_index, end_index)
-			else
-				Result := has_unencoded_between (start_index, end_index)
+			from i := start_index - 1 until i > i_upper loop
+				inspect a_area [i]
+					when Substitute then
+						Result := True
+						i := i_upper + 1 -- break
+				else
+					i := i + 1
+				end
 			end
 		end
 

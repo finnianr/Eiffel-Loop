@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 11:02:23 GMT (Friday 2nd May 2025)"
-	revision: "42"
+	date: "2025-05-03 6:57:41 GMT (Saturday 3rd May 2025)"
+	revision: "43"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -155,14 +155,14 @@ feature -- Element change
 
 feature -- Contract Support
 
-	valid_substring_intervals (target: READABLE_STRING_GENERAL): BOOLEAN
+	valid_substring_bounds (target: READABLE_STRING_GENERAL): BOOLEAN
 		local
 			i: INTEGER
 		do
 			if attached area_v2 as a and then attached super_readable_general (target) as super_target then
 				Result := True
 				from until i = a.count or not Result loop
-					Result := super_target.valid_substring_indices (a [i], a [i + 1])
+					Result := super_target.valid_bounds (a [i], a [i + 1])
 					i := i + 2
 				end
 			end

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 9:20:37 GMT (Thursday 17th April 2025)"
-	revision: "22"
+	date: "2025-05-03 9:26:46 GMT (Saturday 3rd May 2025)"
+	revision: "23"
 
 class
 	ZSTRING_SPLIT_LIST_COMPARISON
@@ -26,10 +26,7 @@ class
 inherit
 	STRING_BENCHMARK_COMPARISON
 
-	HEXAGRAM_NAMES
-		export
-			{NONE} all
-		end
+	HEXAGRAM_NAMES_I
 
 create
 	make

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 11:39:56 GMT (Sunday 20th April 2025)"
-	revision: "12"
+	date: "2025-05-03 7:00:25 GMT (Saturday 3rd May 2025)"
+	revision: "13"
 
 deferred class
 	EL_UTF_8_CONVERTER_I
@@ -158,7 +158,7 @@ feature {NONE} -- Measurement
 	frozen unicode_substring_count (str: READABLE_STRING_8; start_index, end_index: INTEGER): INTEGER
 		require
 			valid_start_index: str.valid_index (start_index)
-			valid_start_end_index: indexable (str).valid_indices_range (start_index, end_index)
+			valid_bounds: indexable (str).valid_bounds (start_index, end_index)
 		local
 			first_index, index_lower: INTEGER
 		do
@@ -182,7 +182,7 @@ feature {NONE} -- Factory
 
 	new_unicode_zero_array (str: READABLE_STRING_8; start_index, end_index: INTEGER): SPECIAL [CHARACTER_32]
 		require
-			valid_start_end_index: indexable (str).valid_indices_range (start_index, end_index)
+			valid_bounds: indexable (str).valid_bounds (start_index, end_index)
 		local
 			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32
 		do

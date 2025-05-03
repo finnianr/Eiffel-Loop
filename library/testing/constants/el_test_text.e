@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:21:06 GMT (Monday 14th April 2025)"
-	revision: "43"
+	date: "2025-05-03 12:53:14 GMT (Saturday 3rd May 2025)"
+	revision: "44"
 
 class
 	EL_TEST_TEXT
@@ -185,6 +185,11 @@ feature -- Characters
 	G_clef: STRING_32 = "𝄞"
 
 	Mu_symbol: CHARACTER_32 = 'µ'
+
+	Non_breaking_space: CHARACTER_32
+		once
+			Result := (160).to_character_32
+		end
 
 	Ogham_space_mark: CHARACTER_32
 		once

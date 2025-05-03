@@ -5,8 +5,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 8:04:06 GMT (Saturday 19th April 2025)"
-	revision: "15"
+	date: "2025-05-03 9:26:31 GMT (Saturday 3rd May 2025)"
+	revision: "16"
 
 class
 	P_I_TH_LOWER_UPPER_VS_INLINE_CODE
@@ -17,10 +17,7 @@ inherit
 			initialize
 		end
 
-	HEXAGRAM_NAMES
-		export
-			{NONE} all
-		end
+	HEXAGRAM_NAMES_I
 
 	EL_TYPED_POINTER_ROUTINES_I
 

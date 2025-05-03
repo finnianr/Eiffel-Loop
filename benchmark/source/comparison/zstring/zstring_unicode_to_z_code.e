@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "23"
+	date: "2025-05-03 9:26:52 GMT (Saturday 3rd May 2025)"
+	revision: "24"
 
 class
 	ZSTRING_UNICODE_TO_Z_CODE
@@ -15,10 +15,7 @@ class
 inherit
 	STRING_BENCHMARK_COMPARISON
 
-	HEXAGRAM_NAMES
-		export
-			{NONE} all
-		end
+	HEXAGRAM_NAMES_I
 
 create
 	make

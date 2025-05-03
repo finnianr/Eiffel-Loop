@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 6:01:02 GMT (Friday 2nd May 2025)"
-	revision: "14"
+	date: "2025-05-03 7:20:19 GMT (Saturday 3rd May 2025)"
+	revision: "15"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR -> COMPARABLE]
 
 inherit
 	EL_INDEXABLE_FROM_1
-		rename
-			valid_indices_range as valid_substring_indices
-		end
 
 	EL_BIT_COUNTABLE
 
@@ -122,11 +119,6 @@ feature {NONE} -- Measurement
 
 feature {NONE} -- Deferred Character
 
-	all_ascii_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
-		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are in the ASCII character range
-		deferred
-		end
-
 	has (c: CHAR): BOOLEAN
 		-- `True' if `target' has `c'
 		deferred
@@ -134,21 +126,11 @@ feature {NONE} -- Deferred Character
 			definition: target.has (to_character_32 (c))
 		end
 
-	is_c_identifier_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
-		-- `True' if characters in `a_area' from `i_lower' to `i_upper' constitute
-		-- a C language identifier
-		deferred
-		end
-
 	is_character (c: CHAR): BOOLEAN
 		-- `True' if `target' consists exactly of one character `c'
 		deferred
 		ensure
 			definition: Result implies target.count = 1 and then target.occurrences (to_character_32 (c)) = 1
-		end
-
-	is_eiffel_identifier_in_range (a_area: like area; i_lower, i_upper: INTEGER; case: NATURAL_8): BOOLEAN
-		deferred
 		end
 
 	is_i_th_alpha (a_area: like area; i: INTEGER): BOOLEAN
@@ -172,6 +154,21 @@ feature {NONE} -- Deferred Character
 		end
 
 	is_left_bracket (c: CHAR): BOOLEAN
+		deferred
+		end
+
+	is_substring_all_ascii (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
+		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are in the ASCII character range
+		deferred
+		end
+
+	is_substring_c_identifier (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
+		-- `True' if characters in `a_area' from `i_lower' to `i_upper' constitute
+		-- a C language identifier
+		deferred
+		end
+
+	is_substring_eiffel_identifier (a_area: like area; i_lower, i_upper: INTEGER; case: NATURAL_8): BOOLEAN
 		deferred
 		end
 

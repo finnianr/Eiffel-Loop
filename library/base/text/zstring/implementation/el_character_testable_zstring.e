@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 7:13:57 GMT (Friday 4th April 2025)"
-	revision: "12"
+	date: "2025-05-03 13:49:37 GMT (Saturday 3rd May 2025)"
+	revision: "13"
 
 deferred class
 	EL_CHARACTER_TESTABLE_ZSTRING
@@ -42,7 +42,7 @@ feature -- Substring query
 	has_between (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if `uc' occurs between `start_index' and `end_index'
 		require
-			valid_substring_indices: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		local
 			i: INTEGER; c: CHARACTER
 		do
@@ -171,7 +171,7 @@ feature -- Substring query
 	is_substring_subset_of (set: EL_SET [CHARACTER_32]; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if set of all characters in `substring (start_index, end_index)' is a subset of `set'
 		require
-			valid_substring_indices: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		local
 			i, upper_i, block_index: INTEGER; c_i: CHARACTER_8; uc_i: CHARACTER_32
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
@@ -207,7 +207,7 @@ feature -- Substring query
 		-- `True' if set of all 8-bit characters in `substring (start_index, end_index)' is a subset of `set'
 		-- (encoded with same `Codec')
 		require
-			valid_substring_indices: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 			valid_character_set: is_latin_1_encoded
 				or else across start_index |..| end_index as index all item_8 (index.item) <= Max_ascii end
 		local
@@ -235,31 +235,37 @@ feature -- Substring query
 
 	is_substring_valid_as_string_8 (start_index, end_index: INTEGER): BOOLEAN
 		require
-			valid_substring_indices: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		do
 			Result := Latin_1_codec.is_encodeable_as_string_8 (current_readable, start_index, end_index)
 		end
 
 	is_substring_whitespace (start_index, end_index: INTEGER): BOOLEAN
 		require
-			valid_substring_indices: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		local
 			i, block_index: INTEGER; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 			c32: EL_CHARACTER_32_ROUTINES; c_i: CHARACTER
 		do
-			if attached area as l_area and then attached unencoded_area as area_32 then
+			if attached area as l_area and then attached unencoded_area as area_32
+				and then attached Unicode_table as uc_table
+			then
 				if end_index = start_index - 1 then
 					Result := False
 				else
 					Result := True
 					from i := start_index - 1 until i = end_index or not Result loop
 						c_i := l_area [i]
-						inspect c_i
+						inspect character_8_band (c_i)
 							when Substitute then
 							-- `c32.is_space' is workaround for finalization bug
 								Result := Result and c32.is_space (iter.item ($block_index, area_32, i + 1))
+
+							when Ascii_range then
+								Result := Result and c_i.is_space
+
 						else
-							Result := Result and c_i.is_space
+							Result := Result and c32.is_space (uc_table [c_i.code])
 						end
 						i := i + 1
 					end
@@ -357,12 +363,14 @@ feature -- Indexed query
 			c_i: CHARACTER; c32: EL_CHARACTER_32_ROUTINES
 		do
 			c_i := area [i - 1]
-			inspect c_i
+			inspect character_8_band (c_i)
 				when Substitute then
 				-- Because of a compiler bug we need `is_space_32'
 					Result := c32.is_space (unencoded_item (i))
+				when Ascii_range then
+					Result := c_i.is_space
 			else
-				Result := c_i.is_space
+				Result := c32.is_space (Unicode_table [c_i.code])
 			end
 		end
 

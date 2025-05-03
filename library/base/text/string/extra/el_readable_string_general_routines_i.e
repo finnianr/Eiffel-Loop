@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 18:54:47 GMT (Friday 2nd May 2025)"
-	revision: "41"
+	date: "2025-05-03 7:38:21 GMT (Saturday 3rd May 2025)"
+	revision: "42"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_I
@@ -52,17 +52,13 @@ feature -- Measurement
 		end
 
 	word_count (text: READABLE_STRING_GENERAL; exclude_variable_references: BOOLEAN): INTEGER
-		-- count of all substrings of `str' that are separated by whitespace
-		-- but if `exclude_variable_references' is `True', substract count of substrings
-		-- that are variable references defined by `is_variable_reference'
+		-- count of all substrings of `text' string that have at least one alphabetical character.
+		-- If `exclude_variable_references' is `True', exclude any substrings that take either of
+		-- the forms: ${name} OR $name
 		do
 			if attached Once_word_intervals as word_intervals then
 				word_intervals.fill (text)
-				if exclude_variable_references then
-					Result := word_intervals.adjusted_word_count (text)
-				else
-					Result := word_intervals.word_count
-				end
+				Result := word_intervals.word_count (text, exclude_variable_references)
 			end
 		end
 

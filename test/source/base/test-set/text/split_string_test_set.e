@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 13:17:33 GMT (Friday 2nd May 2025)"
-	revision: "78"
+	date: "2025-05-03 13:16:02 GMT (Saturday 3rd May 2025)"
+	revision: "79"
 
 class SPLIT_STRING_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -18,6 +18,8 @@ class SPLIT_STRING_TEST_SET inherit BASE_EQA_TEST_SET
 	EL_MODULE_TUPLE
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -587,42 +589,25 @@ feature -- Tests
 				covers/{EL_EXTENDED_ZSTRING}.leading_substring_white_count,
 			]"
 		local
-			start_index, end_index, last_index: INTEGER; word_list: EL_STRING_32_LIST
-			interval_item: STRING_32; word_intervals: EL_SPLIT_WORD_INTERVALS
-			str, expanded_str: READABLE_STRING_32; string_types: ARRAY [READABLE_STRING_32]
+			test: STRING_TEST; word_list: EL_STRING_32_LIST
 		do
 			across Text.lines_32 as line loop
 				if attached line.item as str_32 then
 					create word_list.make_word_split (str_32)
-					string_types := << str_32, ZSTRING (str_32) >>
-					across string_types as type loop
-						str := type.item
-						if attached new_expanded_string_32 (word_list) as expanded_str_32 then
-							if conforms_to_zstring (str) then
-								expanded_str := ZSTRING (expanded_str_32)
-							else
-								expanded_str := expanded_str_32
-							end
-							create word_intervals.make (expanded_str)
-							assert ("first is empty", word_intervals.first_count = 0)
-							assert ("last is empty", word_intervals.last_count = 0)
-							assert ("2 longer than word_list", word_intervals.count = word_list.count + 2)
-							if attached word_intervals as interval then
-								last_index := interval.count - 1
-								from interval.go_i_th (2) until interval.index > last_index loop
-									interval_item := expanded_str.substring (interval.item_lower, interval.item_upper)
-									assert_same_string (Void, word_list [interval.index - 1], interval_item)
-									interval.forth
-								end
-								interval.fill (str)
-								assert ("same count", word_intervals.count = word_list.count)
-								from interval.start until interval.after loop
-									interval_item := str.substring (interval.item_lower, interval.item_upper)
-									assert_same_string (Void, word_list [interval.index], interval_item)
-									interval.forth
-								end
-							end
-						end
+					create test.make (Current, str_32)
+					test.word_split_intervals (word_list)
+
+					test.set (new_whitespace_padded (word_list))
+					test.word_split_intervals (word_list)
+
+					if attached super_32 (str_32).substring_to (' ') as single_word then
+						word_list.wipe_out
+						word_list.extend (single_word)
+						test.set (single_word)
+						test.word_split_intervals (word_list)
+
+						test.set (single_word + char (Text.Non_breaking_space).as_string_32 (2))
+						test.word_split_intervals (word_list)
 					end
 				end
 			end
@@ -636,7 +621,8 @@ feature {NONE} -- Implementation
 			Result := str.count = 1 and then str [1].is_control
 		end
 
-	new_expanded_string_32 (word_list: EL_STRING_32_LIST): STRING_32
+	new_whitespace_padded (word_list: EL_STRING_32_LIST): STRING_32
+		-- joined words padded with variety of whitespace of differing length
 		do
 			create Result.make (word_list.character_count + word_list.count * 3)
 			across word_list as word loop

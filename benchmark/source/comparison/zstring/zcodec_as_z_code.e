@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "23"
+	date: "2025-05-03 9:28:31 GMT (Saturday 3rd May 2025)"
+	revision: "24"
 
 class
 	ZCODEC_AS_Z_CODE
@@ -18,10 +18,7 @@ inherit
 			initialize
 		end
 
-	HEXAGRAM_NAMES
-		export
-			{NONE} all
-		end
+	HEXAGRAM_NAMES_I
 
 	EL_SHARED_ZSTRING_CODEC
 		rename

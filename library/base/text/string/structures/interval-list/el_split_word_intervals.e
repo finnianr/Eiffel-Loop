@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 18:46:29 GMT (Friday 2nd May 2025)"
-	revision: "1"
+	date: "2025-05-03 7:45:29 GMT (Saturday 3rd May 2025)"
+	revision: "2"
 
 class
 	EL_SPLIT_WORD_INTERVALS
@@ -36,31 +36,29 @@ feature {NONE} -- Initialization
 
 feature -- Measurement
 
-	variable_reference_count (target: READABLE_STRING_GENERAL): INTEGER
+	word_count (target: READABLE_STRING_GENERAL; exclude_variable_references: BOOLEAN): INTEGER
+		-- count of all substrings of `target' string that have at least one alphabetical character.
+		-- If `exclude_variable_references' is `True', exclude any substrings that take either of
+		-- the forms: ${name} OR $name
 		require
-			valid_target: valid_substring_intervals (target)
+			valid_target: valid_substring_bounds (target)
 		local
-			i: INTEGER
+			i, start_index, end_index: INTEGER
 		do
 			if attached area_v2 as a and then attached super_readable_general (target) as super_target then
 				from until i = a.count loop
-					Result := Result + super_target.is_variable_reference_substring (a [i], a [i + 1]).to_integer
+					start_index := a [i]; end_index := a [i + 1]
+					if super_target.has_alpha_in_bounds (start_index, end_index) then
+						Result := Result + 1
+						if exclude_variable_references
+							and then super_target.is_variable_reference_substring (start_index, end_index)
+						then
+							Result := Result - 1
+						end
+					end
 					i := i + 2
 				end
 			end
-		end
-
-	word_count: INTEGER
-		-- interval count less intervals that have zero length
-		do
-			Result := count - zero_count
-		end
-
-	adjusted_word_count (target: READABLE_STRING_GENERAL): INTEGER
-		-- `word_count' adjusted to exclude `target' substrings that are
-		-- variable references as reported by `{EL_EXTENDED_READABLE_STRING_I}.is_variable_reference'
-		do
-			Result := word_count - variable_reference_count (target)
 		end
 
 feature -- Basic operations

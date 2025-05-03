@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 9:29:57 GMT (Friday 2nd May 2025)"
-	revision: "45"
+	date: "2025-05-03 12:56:41 GMT (Saturday 3rd May 2025)"
+	revision: "46"
 
 class
 	STRING_TEST
@@ -389,6 +389,40 @@ feature -- Test splitting
 						end
 					end
 					interval.forth
+				end
+			end
+		end
+
+	word_split_intervals (word_list: EL_STRING_32_LIST)
+		local
+			interval_item: STRING_32; bounds_list: EL_SPLIT_WORD_INTERVALS; string_types: ARRAY [STRING_GENERAL]
+			start_index, end_index, first_index, last_index, delta: INTEGER; c32: EL_CHARACTER_32_ROUTINES
+		do
+			string_types := << s_32, zs >>
+			across string_types as type loop
+				if attached type.item as str then
+					create bounds_list.make (str)
+					if c32.is_space (s_32 [1]) then
+						test.assert ("first is empty", bounds_list.first_count = 0)
+						first_index := 2
+					else
+						first_index := 1
+					end
+					if c32.is_space (s_32 [s_32.count]) then
+						test.assert ("last is empty", bounds_list.last_count = 0)
+						last_index := bounds_list.count - 1
+					else
+						last_index := bounds_list.count
+					end
+					test.assert ("same word count", last_index - first_index + 1 = word_list.count)
+
+					if attached bounds_list as list then
+						from list.go_i_th (first_index) until list.index > last_index loop
+							interval_item := str.substring (list.item_lower, list.item_upper)
+							test.assert_same_string (Void, word_list [list.index - first_index + 1], interval_item)
+							list.forth
+						end
+					end
 				end
 			end
 		end

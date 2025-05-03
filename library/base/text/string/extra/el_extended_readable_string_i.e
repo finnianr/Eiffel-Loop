@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 19:03:49 GMT (Friday 2nd May 2025)"
-	revision: "18"
+	date: "2025-05-03 7:23:18 GMT (Saturday 3rd May 2025)"
+	revision: "19"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -248,7 +248,7 @@ feature -- Measurement
 	leading_substring_white_count (start_index, end_index: INTEGER): INTEGER
 		-- count of leading white space characters between `start_index' and `end_index'
 		require
-			valid_start_end_index: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		local
 			i, i_lower, i_upper: INTEGER
 		do
@@ -282,6 +282,8 @@ feature -- Measurement
 
 	occurrences_in_bounds (c: CHAR; start_index, end_index: INTEGER): INTEGER
 		-- count of `c' occurrences between `start_index' and `end_index'
+		require
+			valid_bounds: valid_bounds (start_index, end_index)
 		do
 			if count > 0 then
 				Result := occurrences_in_area_bounds (area, c, lower_abs (start_index), upper_abs (end_index))
@@ -291,7 +293,7 @@ feature -- Measurement
 	trailing_substring_white_count (start_index, end_index: INTEGER): INTEGER
 		-- count of trailing white space characters between `start_index' and `end_index'
 		require
-			valid_start_end_index: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		local
 			i, i_lower, i_upper: INTEGER
 		do
@@ -338,13 +340,28 @@ feature -- Character query
 
 	has_alpha: BOOLEAN
 		do
-			Result := substring_has_alpha (area, index_lower, index_upper)
+			Result := has_alpha_in_bounds (1, count)
+		end
+
+	has_alpha_in_bounds (start_index, end_index: INTEGER): BOOLEAN
+		require
+			valid_bounds: valid_bounds (start_index, end_index)
+		local
+			i, i_upper: INTEGER
+		do
+			if attached area as l_area then
+				i_upper := upper_abs (end_index)
+				from i := lower_abs (start_index) until Result or else i > i_upper loop
+					Result := is_i_th_alpha (l_area, i)
+					i := i + 1
+				end
+			end
 		end
 
 	has_character_in_bounds (c: CHAR; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if `c' occurs between `start_index' and `end_index'
 		require
-			valid_start_end_index: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		local
 			i, i_upper: INTEGER
 		do
@@ -396,22 +413,22 @@ feature -- Character query
 	is_ascii: BOOLEAN
 		-- `True' if all characters in `target' are in the ASCII character set: 0 .. 127
 		do
-			Result := all_ascii_in_range (area, index_lower, index_upper)
+			Result := is_substring_all_ascii (area, index_lower, index_upper)
 		end
 
 	is_ascii_substring (start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if all characters in `target.substring (start_index, end_index)'
 		-- are in the ASCII character set: 0 .. 127
 		require
-			valid_start_end_index: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		do
-			Result := all_ascii_in_range (area, lower_abs (start_index), upper_abs (end_index))
+			Result := is_substring_all_ascii (area, lower_abs (start_index), upper_abs (end_index))
 		end
 
 	is_alpha_numeric_substring (start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if all characters in `target.substring (start_index, end_index)' are alpha-numeric
 		require
-			valid_start_end_index: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		do
 			Result := all_alpha_numeric_in_range (area, lower_abs (start_index), upper_abs (end_index))
 		end
@@ -493,7 +510,7 @@ feature -- Status query
 	is_identifier_boundary (start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if indices `lower' to `upper' are an identifier boundary
 		require
-			valid_start_end_index: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		local
 			left_index, right_index, i: INTEGER
 		do
@@ -581,7 +598,7 @@ feature -- Status query
 		-- 1. $<C identifier>
 		-- 2. ${<C identifier>}
 		require
-			valid_start_end_index: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		local
 			i_lower, i_upper, l_count: INTEGER
 		do
@@ -593,7 +610,7 @@ feature -- Status query
 					if str [start_index + 1] = '{' and then l_count > 3 and then str [end_index] = '}' then
 						i_lower := i_lower + 1; i_upper := i_upper - 1
 					end
-					Result := is_c_identifier_in_range (area, i_lower, i_upper)
+					Result := is_substring_c_identifier (area, i_lower, i_upper)
 				end
 			end
 		end
@@ -656,7 +673,7 @@ feature -- Basic operations
 
 	append_substring_to_string_32 (str: STRING_32; start_index, end_index: INTEGER)
 		require
-			valid_start_end_index: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		local
 			i_upper, i_lower, l_count, offset: INTEGER
 		do
@@ -677,7 +694,7 @@ feature -- Basic operations
 
 	append_substring_to_string_8 (str: STRING_8; start_index, end_index: INTEGER)
 		require
-			valid_start_end_index: valid_substring_indices (start_index, end_index)
+			valid_bounds: valid_bounds (start_index, end_index)
 		local
 			i_upper, i_lower, l_count, offset: INTEGER
 		do
@@ -766,7 +783,7 @@ feature -- Basic operations
 	parse_substring (type, start_index, end_index: INTEGER; convertor: STRING_TO_NUMERIC_CONVERTOR)
 		do
 			convertor.reset (type)
-			parse_substring_in_range (area, type, lower_abs (start_index), upper_abs (end_index), convertor)
+			parse_substring_in_bounds (area, type, lower_abs (start_index), upper_abs (end_index), convertor)
 		end
 
 	write_utf_8_to (utf_8_out: EL_WRITABLE)
@@ -895,7 +912,7 @@ feature {NONE} -- Implementation
 			valid_case: is_valid_case (case)
 		do
 			if count > 0 then
-				Result := is_eiffel_identifier_in_range (area, index_lower, index_upper, case)
+				Result := is_substring_eiffel_identifier (area, index_lower, index_upper, case)
 			end
 		end
 
@@ -914,7 +931,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	parse_substring_in_range (a_area: like area; type, i_lower, i_upper: INTEGER; convertor: STRING_TO_NUMERIC_CONVERTOR)
+	parse_substring_in_bounds (a_area: like area; type, i_lower, i_upper: INTEGER; convertor: STRING_TO_NUMERIC_CONVERTOR)
 		local
 			i: INTEGER; failed: BOOLEAN; c_i: CHARACTER_8
 		do
@@ -973,16 +990,6 @@ feature {NONE} -- Implementation
 			end
 		ensure
 			valid_on_empty_area: (n = 0) implies Result
-		end
-
-	substring_has_alpha (a_area: like area; start_index, end_index: INTEGER): BOOLEAN
-		local
-			i: INTEGER
-		do
-			from i := start_index until Result or else i > end_index loop
-				Result := is_i_th_alpha (a_area, i)
-				i := i + 1
-			end
 		end
 
 	upper_abs (end_index: INTEGER): INTEGER
