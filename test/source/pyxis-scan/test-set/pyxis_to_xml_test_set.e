@@ -10,23 +10,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-19 7:00:37 GMT (Wednesday 19th March 2025)"
-	revision: "61"
+	date: "2025-05-04 21:11:41 GMT (Sunday 4th May 2025)"
+	revision: "62"
 
 class
 	PYXIS_TO_XML_TEST_SET
 
 inherit
-	EL_COPIED_FILE_DATA_TEST_SET
-		rename
-			data_dir as eiffel_loop_dir
+	COPIED_FILE_DATA_TEST_SET
 		undefine
 			new_lio
 		end
 
 	EL_CRC_32_TESTABLE
-
-	SHARED_DEV_ENVIRON
 
 	EL_SHARED_TEST_XDOC_DATA
 
@@ -120,14 +116,9 @@ feature {NONE} -- Implementation
 			source.close
 		end
 
-	eiffel_loop_dir: DIR_PATH
-		do
-			Result := Dev_environ.Eiffel_loop_dir
-		end
-
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (Dev_environ.EL_test_data_dir #+ "pyxis", "*.pyx")
+			Result := OS.file_list (Data_dir.pyxis, "*.pyx")
 		end
 
 feature {NONE} -- Constants

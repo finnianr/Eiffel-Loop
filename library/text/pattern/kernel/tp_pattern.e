@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:54:34 GMT (Tuesday 27th August 2024)"
-	revision: "6"
+	date: "2025-05-04 14:50:02 GMT (Sunday 4th May 2025)"
+	revision: "7"
 
 deferred class
 	TP_PATTERN
@@ -24,9 +24,9 @@ feature -- Access
 
 	curtailed_name: STRING
 		local
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
-			Result := s.curtailed (name, 20)
+			Result := sg.super_8 (name).curtailed (20)
 		end
 
 	name: STRING

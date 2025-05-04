@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 15:57:04 GMT (Monday 9th September 2024)"
-	revision: "7"
+	date: "2025-05-04 16:58:59 GMT (Sunday 4th May 2025)"
+	revision: "8"
 
 class
 	ID3_FRAME_FIELD_TYPE_ENUM
@@ -17,9 +17,8 @@ inherit
 		rename
 			default as default_any,
 			description as field_description,
-			description_table as no_descriptions
-		redefine
-			foreign_naming
+			new_table_text as Empty_text,
+			name_translater as English
 		end
 
 create
@@ -54,7 +53,7 @@ feature -- Types
 
 feature {NONE} -- Constants
 
-	Foreign_naming: EL_ENGLISH_NAME_TRANSLATER
+	English: EL_ENGLISH_NAME_TRANSLATER
 		once
 			create Result.make
 		end

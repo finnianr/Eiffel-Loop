@@ -6,16 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-08 13:09:33 GMT (Saturday 8th March 2025)"
-	revision: "3"
+	date: "2025-05-04 21:30:48 GMT (Sunday 4th May 2025)"
+	revision: "4"
 
 class
 	COMPRESS_MANIFEST_COMMAND_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		rename
+			data_dir as Windows_code_dir
+		end
 
-	SHARED_DEV_ENVIRON
+	SHARED_DATA_DIRECTORIES
 
 create
 	make
@@ -51,14 +54,14 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			create Result.make_from_array (<< Data_dir + "error-codes.txt" >>)
+			create Result.make_from_array (<< Windows_code_dir + "error-codes.txt" >>)
 		end
 
 feature {NONE} -- Constants
 
-	Data_dir: DIR_PATH
+	Windows_code_dir: DIR_PATH
 		once
-			Result := Dev_environ.EL_test_data_dir #+ "code/C/windows"
+			Result := Data_dir.code #+ "C/windows"
 		end
 
 end

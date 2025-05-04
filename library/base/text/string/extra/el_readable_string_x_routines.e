@@ -1,7 +1,6 @@
 note
 	description: "[
-		Routines to supplement handling of strings conforming to
-		${READABLE_STRING_8} and ${READABLE_STRING_32}
+		Routines to supplement handling of strings conforming to ${READABLE_STRING_8} and ${READABLE_STRING_32}
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-26 8:46:16 GMT (Saturday 26th April 2025)"
-	revision: "69"
+	date: "2025-05-04 14:52:03 GMT (Sunday 4th May 2025)"
+	revision: "70"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL, CHAR -> COMPARABLE]
@@ -21,10 +20,6 @@ inherit
 			occurrences as text_occurrences
 		end
 
-	EL_ROUTINES
-
-	EL_CASE_CONTRACT
-
 	EL_STRING_BIT_COUNTABLE [READABLE_STRING_X]
 
 	EL_SIDE_ROUTINES
@@ -33,8 +28,6 @@ inherit
 		export
 			{ANY} valid_adjustments
 		end
-
-	EL_SHARED_FILLED_STRING_TABLES
 
 feature -- Access
 
@@ -82,28 +75,6 @@ feature -- Lists
 			if attached Once_split_intervals.emptied as intervals then
 				intervals.fill (text, uc, adjustments)
 				Result := substring_list (text, intervals)
-			end
-		end
-
-feature -- Substring
-
-	curtailed (str: READABLE_STRING_X; max_count: INTEGER): READABLE_STRING_X
-		-- `str' curtailed to `max_count' with added ellipsis where `max_count' is exceeded
-		do
-			if str.count > max_count - 2 then
-				Result := str.substring (1, max_count - 2) + Character_string_8_table.item ('.', 2)
-			else
-				Result := str
-			end
-		end
-
-	truncated (str: READABLE_STRING_X; max_count: INTEGER): READABLE_STRING_X
-		-- return `str' truncated to `max_count' characters, adding ellipsis where necessary
-		do
-			if str.count <= max_count then
-				Result := str
-			else
-				Result := str.substring (1, max_count - 2) + Character_string_8_table.item ('.', 2)
 			end
 		end
 

@@ -12,14 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-17 8:47:11 GMT (Monday 17th February 2025)"
-	revision: "34"
+	date: "2025-05-04 18:00:27 GMT (Sunday 4th May 2025)"
+	revision: "35"
 
 class
 	OPEN_OFFICE_TEST_SET
 
 inherit
-	EIFFEL_LOOP_TEST_SET
+	READ_DATA_EQA_TEST_SET
 		undefine
 			new_lio
 		end
@@ -53,7 +53,7 @@ feature -- Tests
 		local
 			xdoc: EL_XML_DOC_CONTEXT; file_path: FILE_PATH
 		do
-			file_path := "XML/Jobs-spreadsheet.fods"
+			file_path := Data_dir.xml + "Jobs-spreadsheet.fods"
 			create xdoc.make_from_file (file_path)
 			across Namespace_list.split ('%N') as name loop
 				assert ("has namespace " + name.item, xdoc.namespace_table.has (name.item))

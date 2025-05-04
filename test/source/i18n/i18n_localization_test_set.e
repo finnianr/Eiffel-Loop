@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-07 15:57:39 GMT (Thursday 7th November 2024)"
-	revision: "33"
+	date: "2025-05-04 18:00:27 GMT (Sunday 4th May 2025)"
+	revision: "34"
 
 class
 	I18N_LOCALIZATION_TEST_SET
 
 inherit
-	EIFFEL_LOOP_TEST_SET
+	READ_DATA_EQA_TEST_SET
 		undefine
 			new_lio
 		end
@@ -189,7 +189,7 @@ feature {NONE} -- Constants
 
 	Localization_dir: DIR_PATH
 		once
-			Result := Dev_environ.EL_test_data_dir.joined_dir_tuple (["pyxis", "localization"])
+			Result := Data_dir.pyxis #+ "localization"
 		end
 
 end

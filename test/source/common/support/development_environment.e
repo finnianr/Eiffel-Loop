@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 15:47:09 GMT (Monday 30th October 2023)"
-	revision: "4"
+	date: "2025-05-04 21:05:01 GMT (Sunday 4th May 2025)"
+	revision: "5"
 
 frozen class
 	DEVELOPMENT_ENVIRONMENT
@@ -29,12 +29,6 @@ feature -- Basic operations
 		end
 
 feature -- Directories
-
-	EL_test_data_dir: DIR_PATH
-			--
-		once
-			Result := Eiffel_loop_dir #+ "test/data"
-		end
 
 	Eiffel_dir: DIR_PATH
 		once

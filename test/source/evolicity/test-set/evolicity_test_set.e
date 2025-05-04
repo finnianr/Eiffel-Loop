@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 6:45:20 GMT (Sunday 20th April 2025)"
-	revision: "29"
+	date: "2025-05-04 18:06:06 GMT (Sunday 4th May 2025)"
+	revision: "30"
 
 class
 	EVOLICITY_TEST_SET
@@ -24,9 +24,7 @@ inherit
 
 	EL_CRC_32_TESTABLE
 
-	EVC_SHARED_TEMPLATES
-
-	SHARED_DEV_ENVIRON
+	EVC_SHARED_TEMPLATES; SHARED_DATA_DIRECTORIES
 
 create
 	make
@@ -301,7 +299,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := Dev_environ.EL_test_data_dir #+ "evol"
+			Result := Data_dir.evol
 		end
 
 	squared (x: NATURAL): NATURAL

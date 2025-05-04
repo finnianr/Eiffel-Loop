@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 12:16:45 GMT (Monday 7th April 2025)"
-	revision: "12"
+	date: "2025-05-04 20:42:38 GMT (Sunday 4th May 2025)"
+	revision: "13"
 
 class
 	EIFFEL_PARSING_TEST_SET
@@ -123,7 +123,7 @@ feature {NONE} -- Constants
 
 	Data_dir: DIR_PATH
 		once
-			Result := Dev_environ.Eiffel_loop_dir #+ "tool/eiffel/test-data/sources/latin-1/os-command"
+			Result := eiffel_loop_dir #+ "tool/eiffel/test-data/sources/latin-1/os-command"
 		end
 
 	Emphasis_counts: EL_HASH_TABLE [INTEGER, STRING]

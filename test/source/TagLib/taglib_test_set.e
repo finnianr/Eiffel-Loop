@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 10:37:13 GMT (Sunday 27th April 2025)"
-	revision: "57"
+	date: "2025-05-04 21:00:37 GMT (Sunday 4th May 2025)"
+	revision: "58"
 
 class
 	TAGLIB_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		rename
+			data_dir as id3_data_dir
 		undefine
 			new_lio
 		redefine
@@ -30,7 +32,7 @@ inherit
 
 	TL_SHARED_ONCE_STRING_LIST
 
-	SHARED_DEV_ENVIRON
+	SHARED_DATA_DIRECTORIES; SHARED_DEV_ENVIRON
 
 	EL_SHARED_TEST_TEXT
 
@@ -311,6 +313,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	id3_data_dir: DIR_PATH
+		do
+			Result := Data_dir.id3
+		end
+
 	print_field (name: STRING; value: ZSTRING)
 		local
 			list: EL_SPLIT_ZSTRING_LIST
@@ -395,7 +402,7 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (Data_dir, "*")
+			Result := OS.file_list (id3_data_dir, "*")
 		end
 
 feature {NONE} -- Events
@@ -432,11 +439,6 @@ feature {NONE} -- Constants
 			-- MP3 extension
 			Result [Silence_240_mp3] := checksums (3490969276, 1488597223)
 			Result ["crc53865.mp3"] := checksums (1317037298, 3992252498)
-		end
-
-	Data_dir: DIR_PATH
-		once
-			Result := Dev_environ.EL_test_data_dir #+ "id3$"
 		end
 
 	Get_set_names: EL_STRING_8_LIST
@@ -476,7 +478,7 @@ feature {NONE} -- Constants
 
 	Top_png_path: FILE_PATH
 		once
-			Result := Dev_environ.Eiffel_loop_dir + "doc/images/top.png"
+			Result := eiffel_loop_dir + "doc/images/top.png"
 		end
 
 	Unicode_230_tag: ZSTRING

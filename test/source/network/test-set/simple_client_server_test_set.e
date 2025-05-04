@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:12:38 GMT (Sunday 6th October 2024)"
-	revision: "16"
+	date: "2025-05-04 21:12:49 GMT (Sunday 4th May 2025)"
+	revision: "17"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_SET
 
 inherit
-	EL_COPIED_FILE_DATA_TEST_SET
-		rename
-			data_dir as Eiffel_loop_dir
+	COPIED_FILE_DATA_TEST_SET
 		undefine
 			new_lio
 		end
@@ -23,8 +21,6 @@ inherit
 	EL_CRC_32_TESTABLE
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-
-	SHARED_DEV_ENVIRON
 
 	EL_PROTOCOL_CONSTANTS
 
@@ -68,11 +64,6 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	eiffel_loop_dir: DIR_PATH
-		do
-			Result := Dev_environ.Eiffel_loop_dir
-		end
-
 	send_file (file_path: FILE_PATH)
 		local
 			socket: EL_NETWORK_STREAM_SOCKET
@@ -104,7 +95,7 @@ feature {NONE} -- Constants
 
 	Text_file_path: FILE_PATH
 		once
-			Result := Dev_environ.EL_test_data_dir + "txt/file.txt"
+			Result := Data_dir.txt + "file.txt"
 		end
 
 end

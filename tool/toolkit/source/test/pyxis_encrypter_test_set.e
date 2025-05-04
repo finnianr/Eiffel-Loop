@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-27 14:37:33 GMT (Saturday 27th July 2024)"
-	revision: "9"
+	date: "2025-05-04 21:23:29 GMT (Sunday 4th May 2025)"
+	revision: "10"
 
 class
 	PYXIS_ENCRYPTER_TEST_SET
@@ -15,12 +15,13 @@ class
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 		rename
+			Data_dir as Localization_dir,
 			Plain_text as Type_plain_text
 		end
 
 	EL_MODULE_ENCRYPTION
 
-	SHARED_DEV_ENVIRON
+	SHARED_DATA_DIRECTORIES
 
 create
 	make
@@ -73,13 +74,13 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			create Result.make_from_array (<< Data_dir + "credits.pyx" >>)
+			create Result.make_from_array (<< Localization_dir + "credits.pyx" >>)
 		end
 
 feature {NONE} -- Constants
 
-	Data_dir: DIR_PATH
+	Localization_dir: DIR_PATH
 		once
-			Result := Dev_environ.EL_test_data_dir #+ "pyxis/localization"
+			Result := Data_dir.pyxis #+ "localization"
 		end
 end

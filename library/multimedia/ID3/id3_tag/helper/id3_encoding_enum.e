@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 7:57:15 GMT (Saturday 28th September 2024)"
-	revision: "10"
+	date: "2025-05-04 16:58:31 GMT (Sunday 4th May 2025)"
+	revision: "11"
 
 class
 	ID3_ENCODING_ENUM
@@ -15,8 +15,8 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
-			description_table as no_descriptions,
-			foreign_naming as kebab_case_upper
+			new_table_text as Empty_text,
+			name_translater as kebab_case_upper
 		redefine
 			initialize_fields
 		end
@@ -26,7 +26,7 @@ create
 
 feature {NONE} -- Initialization
 
-	initialize_fields
+	initialize_fields (field_list: EL_FIELD_LIST)
 		do
 			Unknown := 0xFF
 			ISO_8859_1 :=	{UNDERBIT_ID3_STRING_C_API}.Encoding_ISO_8859_1.to_natural_8

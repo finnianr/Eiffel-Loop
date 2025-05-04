@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-01 13:25:26 GMT (Thursday 1st May 2025)"
-	revision: "25"
+	date: "2025-05-04 21:04:27 GMT (Sunday 4th May 2025)"
+	revision: "26"
 
 class
 	SECURITY_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_COMMAND; EL_MODULE_IP_ADDRESS
 
-	SHARED_DEV_ENVIRON; EL_SHARED_SERVICE_PORT
+	SHARED_DATA_DIRECTORIES; EL_SHARED_SERVICE_PORT
 
 feature {NONE} -- Initialization
 
@@ -193,6 +193,6 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := Dev_environ.EL_test_data_dir #+ "network/security"
+			Result := Data_dir.network #+ "security"
 		end
 end

@@ -6,16 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 12:46:30 GMT (Friday 14th March 2025)"
-	revision: "13"
+	date: "2025-05-04 20:34:26 GMT (Sunday 4th May 2025)"
+	revision: "14"
 
 class
 	JOBSERVE_SEARCHER_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		rename
+			data_dir as xml_dir
+		end
 
-	SHARED_DEV_ENVIRON
+	SHARED_DATA_DIRECTORIES
 
 create
 	make
@@ -47,13 +50,12 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			create Result.make_from_array (<< Data_dir + "jobserve.xml" >>)
+			create Result.make_from_array (<< xml_dir + "jobserve.xml" >>)
 		end
 
-feature {NONE} -- Constants
-
-	Data_dir: DIR_PATH
-		once
-			Result := Dev_environ.EL_test_data_dir #+ "XML"
+	xml_dir: DIR_PATH
+		do
+			Result := Data_dir.xml
 		end
+
 end

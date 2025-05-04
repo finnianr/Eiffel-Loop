@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2025-05-04 21:27:23 GMT (Sunday 4th May 2025)"
+	revision: "7"
 
 class
 	SVG_TO_PNG_TEST_SET
@@ -27,6 +27,8 @@ inherit
 	EL_MODULE_JAVA
 
 	SHARED_JNI_ENVIRONMENT undefine default_create end
+
+	SHARED_DEV_ENVIRON
 
 create
 	make
@@ -45,7 +47,7 @@ feature -- Tests
 
 	test_svg_format_conversion
 		do
-			Java.append_jar_locations (<< Dev_environ.Eiffel_loop_dir #+ "contrib/Java/batik-1.6.1" >>)
+			Java.append_jar_locations (<< eiffel_loop_dir #+ "contrib/Java/batik-1.6.1" >>)
 			Java.append_class_locations (<< "test-data/java_classes" >>)
 			Java.open (<< "batik-rasterizer" >>)
 

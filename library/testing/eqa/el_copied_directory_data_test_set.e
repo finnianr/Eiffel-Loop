@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 15:34:47 GMT (Wednesday 25th September 2024)"
-	revision: "9"
+	date: "2025-05-04 16:24:04 GMT (Sunday 4th May 2025)"
+	revision: "10"
 
 deferred class
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
@@ -17,8 +17,6 @@ inherit
 		redefine
 			on_prepare
 		end
-
-	EL_MODULE_USER_INPUT
 
 feature {NONE} -- Events
 

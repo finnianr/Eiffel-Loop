@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:32 GMT (Tuesday 18th March 2025)"
-	revision: "32"
+	date: "2025-05-04 20:30:21 GMT (Sunday 4th May 2025)"
+	revision: "33"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -32,7 +32,7 @@ inherit
 
 	EL_MODULE_TUPLE
 
-	SHARED_DEV_ENVIRON
+	SHARED_DATA_DIRECTORIES
 
 create
 	make
@@ -115,7 +115,7 @@ feature {NONE} -- Implementation
 			object: EL_BUILDABLE_FROM_NODE_SCAN; file_path: FILE_PATH
 		do
 			file_path := Work_area_dir + file_name
-			object := new_object (XML_dir.joined_file_tuple (["creatable", file_name]))
+			object := new_object (Data_dir.xml.joined_file_tuple (["creatable", file_name]))
 			if attached {EVC_SERIALIZEABLE_AS_XML} object as serializeable then
 				serializeable.save_as_xml (file_path)
 				lio.put_labeled_string ("Digest saved " + file_path.base, raw_file_digest (file_path).to_base_64_string)
@@ -128,7 +128,7 @@ feature {NONE} -- Implementation
 		local
 			commands: BIOINFORMATIC_COMMANDS
 		do
-			create commands.make_from_file (Dev_environ.El_test_data_dir + "vtd-xml/bioinfo.xml")
+			create commands.make_from_file (Data_dir.vtd_xml + "bioinfo.xml")
 			commands.display
 		end
 
@@ -165,10 +165,5 @@ feature {NONE} -- Constants
 		end
 
 	Routine_name: STRING = "build_and_serialize_file"
-
-	XML_dir: DIR_PATH
-		once
-			Result := Dev_environ.EL_test_data_dir #+ "XML"
-		end
 
 end

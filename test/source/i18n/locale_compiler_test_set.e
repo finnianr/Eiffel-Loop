@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-12-15 10:18:07 GMT (Sunday 15th December 2024)"
-	revision: "29"
+	date: "2025-05-04 20:44:24 GMT (Sunday 4th May 2025)"
+	revision: "30"
 
 class
 	LOCALE_COMPILER_TEST_SET
@@ -143,7 +143,7 @@ feature {NONE} -- Constants
 
 	Data_dir: DIR_PATH
 		once
-			Result := Dev_environ.Eiffel_loop_dir #+ "library/localization"
+			Result := eiffel_loop_dir #+ "library/localization"
 		end
 
 end

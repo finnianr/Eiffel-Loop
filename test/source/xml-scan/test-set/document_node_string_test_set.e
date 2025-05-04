@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:38:03 GMT (Monday 14th April 2025)"
-	revision: "15"
+	date: "2025-05-04 18:00:27 GMT (Sunday 4th May 2025)"
+	revision: "16"
 
 class
 	DOCUMENT_NODE_STRING_TEST_SET
 
 inherit
-	EIFFEL_LOOP_TEST_SET
+	READ_DATA_EQA_TEST_SET
 		undefine
 			new_lio
 		end
@@ -112,8 +112,10 @@ feature {NONE} -- Implementation
 	display_xpath_set (file_name: STRING)
 		local
 			compiler: EL_XML_XPATH_SET_COMPILER
+			xml_createable_dir: DIR_PATH
 		do
-			create compiler.make_from_file ("XML/creatable/" + file_name)
+			xml_createable_dir := Data_dir.xml #+ "creatable"
+			create compiler.make_from_file (xml_createable_dir + file_name)
 			across compiler.sorted_xpath_set as list loop
 				lio.put_line (list.item)
 			end

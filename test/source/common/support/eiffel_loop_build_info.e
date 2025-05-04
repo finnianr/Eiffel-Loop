@@ -1,13 +1,13 @@
 note
-	description: "Eiffel loop build info"
+	description: "Eiffel-Loop build info"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-24 11:51:03 GMT (Tuesday 24th September 2024)"
-	revision: "12"
+	date: "2025-05-04 16:46:31 GMT (Sunday 4th May 2025)"
+	revision: "13"
 
 class
 	EIFFEL_LOOP_BUILD_INFO

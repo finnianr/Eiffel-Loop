@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 8:26:22 GMT (Tuesday 22nd April 2025)"
-	revision: "5"
+	date: "2025-05-04 17:30:57 GMT (Sunday 4th May 2025)"
+	revision: "6"
 
 class TEXT_FILE_TEST_SET inherit	EL_FILE_DATA_TEST_SET
 
@@ -113,7 +113,7 @@ feature -- Tests
 		local
 			help_path: FILE_PATH; count, euro_count: INTEGER
 		do
-			help_path := Dev_environ.El_test_data_dir + "txt/help-files.txt"
+			help_path := Data_dir.txt + "help-files.txt"
 
 			if attached open (help_path, Read) as help_file then
 				across help_file.decoded as decoded_line loop
@@ -223,7 +223,7 @@ feature {NONE} -- Implementation
 
 	error_codes_path: FILE_PATH
 		do
-			Result := Dev_environ.El_test_data_dir + "code/C/unix/error-codes.h"
+			Result := Data_dir.code + "C/unix/error-codes.h"
 		end
 
 	error_table_path: FILE_PATH

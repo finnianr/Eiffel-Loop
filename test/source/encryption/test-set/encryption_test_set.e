@@ -6,19 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-13 15:10:12 GMT (Thursday 13th February 2025)"
-	revision: "24"
+	date: "2025-05-04 20:35:34 GMT (Sunday 4th May 2025)"
+	revision: "25"
 
 class
 	ENCRYPTION_TEST_SET
 
 inherit
-	EL_COPIED_DIRECTORY_DATA_TEST_SET
+	EL_COPIED_FILE_DATA_TEST_SET
+		rename
+			data_dir as txt_dir
 		redefine
 			on_prepare, on_clean
 		end
 
-	SHARED_DEV_ENVIRON; EL_SHARED_PASSPHRASE_TEXTS
+	EL_MODULE_USER_INPUT
+
+	SHARED_DATA_DIRECTORIES; EL_SHARED_PASSPHRASE_TEXTS
 
 create
 	make
@@ -53,7 +57,7 @@ feature -- Tests
 	test_aes_encryption
 			--
 		do
-			across new_file_list ("*.txt") as txt_path loop
+			across file_list as txt_path loop
 				encrypt (txt_path.item)
 			end
 		end
@@ -63,7 +67,7 @@ feature -- Tests
 			key_file: EL_SECURE_KEY_FILE; key_path: FILE_PATH
 			target_digest: STRING
 		do
-			key_path := file_path_abs ("words.txt")
+			key_path := words_path
 
 			User_input.preinput_line (Text.secure_file_prompt #$ [key_path.base], Phrase)
 			User_input.preinput_line (Text.enter_passphrase, Phrase)
@@ -111,9 +115,19 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	source_dir: DIR_PATH
+	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := Dev_environ.EL_test_data_dir #+ "encryption"
+			create Result.make_from_array (<< txt_dir + "paragraphs.txt", txt_dir + "words.txt" >>)
+		end
+
+	txt_dir: DIR_PATH
+		do
+			Result := Data_dir.txt
+		end
+
+	words_path: FILE_PATH
+		do
+			Result := file_list.last_path
 		end
 
 feature {NONE} -- Internal attributes

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:01:50 GMT (Tuesday 18th March 2025)"
-	revision: "19"
+	date: "2025-05-04 21:26:31 GMT (Sunday 4th May 2025)"
+	revision: "20"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -27,9 +27,7 @@ inherit
 
 	EL_MODULE_DIRECTORY; EL_MODULE_TUPLE
 
-	SHARED_DEV_ENVIRON
-
-	EVC_SHARED_TEMPLATES
+	SHARED_DATA_DIRECTORIES; EVC_SHARED_TEMPLATES
 
 feature {NONE} -- Initialization
 
@@ -77,7 +75,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := Dev_environ.EL_test_data_dir #+ "svg"
+			Result := Data_dir.svg
 		end
 
 feature {NONE} -- Internal attributes

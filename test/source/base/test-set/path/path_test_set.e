@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 8:11:40 GMT (Tuesday 22nd April 2025)"
-	revision: "40"
+	date: "2025-05-04 20:44:05 GMT (Sunday 4th May 2025)"
+	revision: "41"
 
-class	PATH_TEST_SET inherit EIFFEL_LOOP_TEST_SET
+class	PATH_TEST_SET inherit EL_EQA_TEST_SET
 
 	BASE_TEST_SET
 
@@ -20,9 +20,11 @@ class	PATH_TEST_SET inherit EIFFEL_LOOP_TEST_SET
 			default_create
 		end
 
-	EL_MODULE_COMMAND; EL_MODULE_DIRECTORY; EL_MODULE_TUPLE
+	EL_MODULE_COMMAND; EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_TUPLE
 
 	EL_CHARACTER_8_CONSTANTS
+
+	SHARED_DEV_ENVIRON
 
 create
 	make
@@ -242,7 +244,7 @@ feature -- Tests
 			file_path := String.docs_pdf
 			file_path.set_parent (String.home_eiffel)
 			assert_same_string (Void, file_path.to_unix, String.home_eiffel + char ('/') + file_path.base)
-			assert_same_string (Void, Dev_environ.Eiffel_loop_dir.base, Dev_environ.Eiffel_loop)
+			assert_same_string (Void, eiffel_loop_dir.base, Dev_environ.Eiffel_loop)
 
 			file_path := String.docs_pdf
 			file_path := file_path.base

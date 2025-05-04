@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-06 8:14:25 GMT (Thursday 6th March 2025)"
-	revision: "35"
+	date: "2025-05-04 20:38:06 GMT (Sunday 4th May 2025)"
+	revision: "36"
 
 class
 	OS_COMMAND_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_EXECUTABLE; EL_MODULE_SYSTEM; EL_MODULE_COMMAND
 
-	SHARED_DEV_ENVIRON
+	SHARED_DATA_DIRECTORIES
 
 create
 	make
@@ -181,7 +181,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := Dev_environ.EL_test_data_dir #+ "txt"
+			Result := Data_dir.txt
 		end
 
 end

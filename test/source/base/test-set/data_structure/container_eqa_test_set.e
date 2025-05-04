@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 8:16:47 GMT (Tuesday 22nd April 2025)"
-	revision: "2"
+	date: "2025-05-04 17:31:40 GMT (Sunday 4th May 2025)"
+	revision: "3"
 
 deferred class
 	CONTAINER_EQA_TEST_SET
@@ -22,7 +22,7 @@ inherit
 			default_create
 		end
 
-	SHARED_COLOR_ENUM; EL_SHARED_ZCODEC_FACTORY; SHARED_DEV_ENVIRON
+	SHARED_COLOR_ENUM; EL_SHARED_ZCODEC_FACTORY
 
 feature {NONE} -- Widget Implementation
 

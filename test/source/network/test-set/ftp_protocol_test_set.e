@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 8:14:52 GMT (Monday 22nd July 2024)"
-	revision: "23"
+	date: "2025-05-04 20:42:57 GMT (Sunday 4th May 2025)"
+	revision: "24"
 
 class
 	FTP_PROTOCOL_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		rename
+			data_dir as txt_dir
 		undefine
 			new_lio
 		redefine
@@ -24,7 +26,7 @@ inherit
 
 	EL_CRC_32_TESTABLE
 
-	SHARED_DEV_ENVIRON
+	SHARED_DEV_ENVIRON; SHARED_DATA_DIRECTORIES
 
 create
 	make
@@ -154,12 +156,17 @@ feature {NONE} -- Implementation
 
 	new_pyxis_config: EL_PYXIS_FTP_CONFIGURATION
 		do
-			create Result.make (Dev_environ.Eiffel_loop_dir + "doc-config/config.pyx")
+			create Result.make (eiffel_loop_dir + "doc-config/config.pyx")
 		end
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (Data_dir, "*.txt")
+			Result := OS.file_list (txt_dir, "*.txt")
+		end
+
+	txt_dir: DIR_PATH
+		do
+			Result := Data_dir.txt
 		end
 
 feature {NONE} -- Internal attributes
@@ -171,11 +178,6 @@ feature {NONE} -- Internal attributes
 	is_testable: BOOLEAN
 
 feature {NONE} -- Constants
-
-	Data_dir: DIR_PATH
-		once
-			Result := "data/txt"
-		end
 
 	Test_set: DIR_PATH
 		once

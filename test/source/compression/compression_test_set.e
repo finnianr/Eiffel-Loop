@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-23 16:24:40 GMT (Friday 23rd August 2024)"
-	revision: "17"
+	date: "2025-05-04 17:15:10 GMT (Sunday 4th May 2025)"
+	revision: "18"
 
 class
 	COMPRESSION_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	SHARED_DEV_ENVIRON
+	SHARED_DATA_DIRECTORIES
 
 	EL_MODULE_FILE; EL_MODULE_ZLIB
 
@@ -90,6 +90,7 @@ feature -- Tests
 		end
 
 	test_zlib_compress
+		-- COMPRESSION_TEST_SET.test_zlib_compress
 		do
 			across File_system.files (work_area_data_dir, True) as path loop
 				test_zlib_with_file (path.item)
@@ -100,7 +101,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := Dev_environ.EL_test_data_dir #+ "XML"
+			Result := Data_dir.xml
 		end
 
 	test_zlib_with_file (a_file_path: FILE_PATH)

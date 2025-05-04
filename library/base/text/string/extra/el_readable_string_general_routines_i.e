@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-03 7:38:21 GMT (Saturday 3rd May 2025)"
-	revision: "42"
+	date: "2025-05-04 14:58:38 GMT (Sunday 4th May 2025)"
+	revision: "43"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_I
 
 inherit
-	EL_MODULE_CONVERT_STRING
+	EL_ROUTINES
 
 	EL_STRING_HANDLER
 
@@ -37,7 +37,6 @@ feature -- Factory
 				end
 			end
 		end
-
 
 feature -- Measurement
 
@@ -64,12 +63,6 @@ feature -- Measurement
 
 feature -- Conversion
 
-	to_type (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): detachable ANY
-		-- `str' converted to type `basic_type'
-		do
-			Result := Convert_string.to_type (str, basic_type)
-		end
-
 	to_unicode_general (general: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
 		do
 			if conforms_to_zstring (general) and then attached {ZSTRING} general as z_str then
@@ -95,16 +88,6 @@ feature -- Basic operations
 				Result := intervals.item_interval
 			else
 				create Result.make (0, 0)
-			end
-		end
-
-	write_utf_8 (s: READABLE_STRING_GENERAL; writeable: EL_WRITABLE)
-		local
-			i: INTEGER; c: EL_CHARACTER_32_ROUTINES
-		do
-			from i := 1 until i > s.count loop
-				c.write_utf_8 (s [i], writeable)
-				i := i + 1
 			end
 		end
 

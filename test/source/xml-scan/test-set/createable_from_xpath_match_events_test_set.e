@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-16 15:34:59 GMT (Tuesday 16th July 2024)"
-	revision: "16"
+	date: "2025-05-04 18:00:27 GMT (Sunday 4th May 2025)"
+	revision: "17"
 
 class
 	CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET
 
 inherit
-	EIFFEL_LOOP_TEST_SET
+	READ_DATA_EQA_TEST_SET
 		undefine
 			new_lio
 		end
@@ -57,8 +57,10 @@ feature -- Tests
 				covers/{EL_HTML_ROUTINES}.to_xml
 			]"
 		do
-			do_test ("create_xhtml", 4188040180, agent create_xhtml, ["XML/Hexagrams.html"])
-			do_test ("create_xhtml", 656333874, agent create_xhtml, ["XML/Hexagrams.utf8.html"])
+			if attached Data_dir.xml as xml then
+				do_test ("create_xhtml", 4188040180, agent create_xhtml, [xml + "Hexagrams.html"])
+				do_test ("create_xhtml", 656333874, agent create_xhtml, [xml + "Hexagrams.utf8.html"])
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -68,7 +70,7 @@ feature {NONE} -- Implementation
 		local
 			events: BIOINFO_XPATH_MATCH_EVENTS
 		do
-			create events.make_from_file ("vtd-xml/bioinfo.xml")
+			create events.make_from_file (Data_dir.vtd_xml + "bioinfo.xml")
 		end
 
 	create_smil
@@ -76,7 +78,7 @@ feature {NONE} -- Implementation
 		local
 			events: SMIL_XPATH_MATCH_EVENTS
 		do
-			create events.make_from_file ("XML/creatable/linguistic-analysis.smil")
+			create events.make_from_file (Data_dir.xml + "creatable/linguistic-analysis.smil")
 		end
 
 	create_xhtml (file_path: STRING)

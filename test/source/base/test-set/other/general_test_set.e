@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 8:23:23 GMT (Tuesday 22nd April 2025)"
-	revision: "67"
+	date: "2025-05-04 17:31:16 GMT (Sunday 4th May 2025)"
+	revision: "68"
 
 class	GENERAL_TEST_SET inherit EL_FILE_DATA_TEST_SET
 
@@ -68,7 +68,7 @@ feature -- Tests
 			pyxis_path: FILE_PATH; credits: PLAIN_TEXT_FILE
 			average_1, average_2: INTEGER
 		do
-			pyxis_path := Dev_environ.El_test_data_dir + "pyxis/localization/credits.pyx"
+			pyxis_path := Data_dir.pyxis + "localization/credits.pyx"
 			create credits.make_open_read (pyxis_path)
 			average_1 := File.average_line_count_of (credits)
 			credits.close

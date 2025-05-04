@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 8:20:53 GMT (Sunday 4th May 2025)"
-	revision: "20"
+	date: "2025-05-04 14:47:56 GMT (Sunday 4th May 2025)"
+	revision: "21"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -38,6 +38,16 @@ feature -- Access
 				Result := shared_substring (immutable, start_index, end_index)
 			else
 				Result := target.substring (start_index, end_index)
+			end
+		end
+
+	curtailed (max_count: INTEGER): like target
+		-- `target' curtailed to `max_count' with added ellipsis where `max_count' is exceeded
+		do
+			if count > max_count - 2 then
+				Result := target.substring (1, max_count - 2) + Character_string_8_table.item ('.', 2)
+			else
+				Result := target
 			end
 		end
 

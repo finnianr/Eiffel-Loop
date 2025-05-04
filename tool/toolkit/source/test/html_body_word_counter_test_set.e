@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-03 13:46:52 GMT (Saturday 3rd May 2025)"
-	revision: "9"
+	date: "2025-05-04 21:20:21 GMT (Sunday 4th May 2025)"
+	revision: "10"
 
 class
 	HTML_BODY_WORD_COUNTER_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	SHARED_DEV_ENVIRON
+	SHARED_DATA_DIRECTORIES
 
 create
 	make
@@ -36,7 +36,7 @@ feature -- Tests
 		local
 			command: HTML_BODY_WORD_COUNTER
 		do
-			create command.make (Dev_environ.El_test_data_dir #+ "docs/html/I Ching")
+			create command.make (Data_dir.docs #+ "html/I Ching")
 			command.execute
 			assert ("word count is 753", command.word_count = 753)
 		end

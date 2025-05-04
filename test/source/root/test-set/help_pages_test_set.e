@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2025-05-04 20:26:21 GMT (Sunday 4th May 2025)"
+	revision: "21"
 
 deferred class
 	HELP_PAGES_TEST_SET
@@ -20,14 +20,14 @@ inherit
 
 	EL_MODULE_FILE
 
-	SHARED_DEV_ENVIRON
+	SHARED_DATA_DIRECTORIES
 
 feature {NONE} -- Implementation
 
 	file_path_list: ZSTRING
 		-- Manifest of files to be created relative to `work_area_dir' separated by newline character
 		do
-			create Result.make_from_utf_8 (File.plain_text (Dev_environ.EL_test_data_dir + "txt/help-files.txt"))
+			create Result.make_from_utf_8 (File.plain_text (Data_dir.txt + "help-files.txt"))
 			Result.right_adjust
 		end
 

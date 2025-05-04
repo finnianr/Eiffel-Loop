@@ -1,5 +1,5 @@
 Ver 2.3.3 (4 May 2025)
-* Include ZSTRING space detection fixes
+* Fixed EL_EXTENDED_READABLE_STRING_I.trailing_white_count_in_bounds result
 
 Ver 2.3.2 (1 May 2025)
 * Include new EL_EXTENDED_STRING_* classes

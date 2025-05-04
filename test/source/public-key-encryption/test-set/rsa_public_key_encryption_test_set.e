@@ -6,21 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-28 9:20:18 GMT (Tuesday 28th November 2023)"
-	revision: "14"
+	date: "2025-05-04 21:13:19 GMT (Sunday 4th May 2025)"
+	revision: "15"
 
 class
 	RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET
 
 inherit
-	EL_COPIED_FILE_DATA_TEST_SET
-		rename
-			data_dir as eiffel_loop_dir
-		end
+	COPIED_FILE_DATA_TEST_SET
 
 	EL_MODULE_X509
-
-	SHARED_DEV_ENVIRON
 
 create
 	make
@@ -44,9 +39,8 @@ feature -- Tests
 				"covers/{EL_RSA_PRIVATE_KEY}.make_from_stored, covers/{EL_RSA_PRIVATE_KEY}.store",
 				"covers/{EL_RSA_PRIVATE_KEY}.is_equal"
 		local
+			encrypter: EL_AES_ENCRYPTER; output_path: FILE_PATH; key_1, key_2: EL_RSA_PRIVATE_KEY
 			reader_writer: ECD_ENCRYPTABLE_READER_WRITER [EL_RSA_PRIVATE_KEY]
-			encrypter: EL_AES_ENCRYPTER; output_path: FILE_PATH
-			key_1, key_2: EL_RSA_PRIVATE_KEY
 		do
 			if file_list.is_empty then
 				failed ("key file found")
@@ -81,11 +75,6 @@ feature {NONE} -- Implementation
 			assert ("correct public_exponent", key.public_exponent.out ~ "10001")
 		end
 
-	eiffel_loop_dir: DIR_PATH
-		do
-			Result := Dev_environ.Eiffel_loop_dir
-		end
-
 	new_key_reader: EL_X509_PRIVATE_READER_COMMAND_I
 		do
 			if file_list.is_empty then
@@ -101,7 +90,7 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (Dev_environ.EL_test_data_dir #+ "rsa_keys", "*.key")
+			Result := OS.file_list (Data_dir.rsa_keys, "*.key")
 		end
 
 feature {NONE} -- Constants

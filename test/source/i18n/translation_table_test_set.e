@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 6:08:12 GMT (Saturday 3rd August 2024)"
-	revision: "13"
+	date: "2025-05-04 21:01:38 GMT (Sunday 4th May 2025)"
+	revision: "14"
 
 class
 	TRANSLATION_TABLE_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	SHARED_DEV_ENVIRON; EL_SHARED_KEY_LANGUAGE
+	SHARED_DATA_DIRECTORIES; EL_SHARED_KEY_LANGUAGE
 
 create
 	make
@@ -101,7 +101,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := Dev_environ.EL_test_data_dir #+ "pyxis/localization"
+			Result := Data_dir.pyxis #+ "localization"
 		end
 
 end

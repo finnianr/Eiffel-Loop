@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-15 10:32:27 GMT (Friday 15th November 2024)"
-	revision: "16"
+	date: "2025-05-04 21:21:00 GMT (Sunday 4th May 2025)"
+	revision: "17"
 
 class
 	LOCALIZATION_COMMAND_SHELL_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	SHARED_DEV_ENVIRON
+	SHARED_DATA_DIRECTORIES
 
 create
 	make
@@ -51,7 +51,7 @@ feature {NONE} -- Constants
 
 	Source_dir: DIR_PATH
 		once
-			Result := Dev_environ.EL_test_data_dir #+ "pyxis/localization"
+			Result := Data_dir.pyxis #+ "localization"
 		end
 
 	Unchecked_de_list: EL_ZSTRING_LIST

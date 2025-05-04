@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:04:39 GMT (Monday 14th April 2025)"
-	revision: "29"
+	date: "2025-05-04 21:05:47 GMT (Sunday 4th May 2025)"
+	revision: "30"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -24,7 +24,7 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	SHARED_DEV_ENVIRON
+	SHARED_DATA_DIRECTORIES
 
 	EL_STRING_8_CONSTANTS
 
@@ -218,7 +218,7 @@ feature {NONE} -- Implementation
 
 	source_dir: DIR_PATH
 		do
-			Result := Dev_environ.EL_test_data_dir #+ ".thunderbird"
+			Result := Data_dir.thunderbird
 		end
 
 	write_config (account, language: STRING; extra_lines: EL_ZSTRING_LIST)

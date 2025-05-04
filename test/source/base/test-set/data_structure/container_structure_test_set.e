@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 13:36:23 GMT (Monday 28th April 2025)"
-	revision: "60"
+	date: "2025-05-04 17:32:01 GMT (Sunday 4th May 2025)"
+	revision: "61"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -453,7 +453,7 @@ feature -- Test
 			split_list: EL_SPLIT_ZSTRING_LIST; counter: INTEGER_REF
 			add_step_count: EL_CALL_PROCEDURE_ACTION [ZSTRING]
 		do
-			create line_source.make_utf_8 (Dev_environ.El_test_data_dir + "txt/help-files.txt")
+			create line_source.make_utf_8 (Data_dir.txt + "help-files.txt")
 			boot := "/boot/"
 
 			assert ("total step count is 64", line_source.sum_integer (agent path_step_count) = 64)

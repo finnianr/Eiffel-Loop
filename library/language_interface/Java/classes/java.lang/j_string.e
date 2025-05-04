@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 14:32:30 GMT (Monday 21st April 2025)"
-	revision: "13"
+	date: "2025-05-04 16:50:59 GMT (Sunday 4th May 2025)"
+	revision: "14"
 
 class
 	J_STRING
@@ -49,9 +49,9 @@ feature {NONE} -- Initialization
 	make_from_string_8 (str: STRING)
 		--
 		local
-			conv: EL_UTF_CONVERTER
+			conv: EL_UTF_CONVERTER; sg: EL_STRING_GENERAL_ROUTINES
 		do
-			if cursor_8 (str).all_ascii then
+			if sg.super_8 (str).is_ascii then
 				make_from_pointer (jni.new_string (str))
 
 			elseif attached String_8_pool.borrowed_item as borrowed then
