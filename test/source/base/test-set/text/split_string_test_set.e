@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-03 13:16:02 GMT (Saturday 3rd May 2025)"
-	revision: "79"
+	date: "2025-05-04 8:39:25 GMT (Sunday 4th May 2025)"
+	revision: "80"
 
 class SPLIT_STRING_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -585,8 +585,14 @@ feature -- Tests
 		note
 			testing: "[
 				covers/{EL_SPLIT_WORD_INTERVALS}.fill,
-				covers/{EL_EXTENDED_READABLE_STRING_I}.leading_substring_white_count,
-				covers/{EL_EXTENDED_ZSTRING}.leading_substring_white_count,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.leading_white_count_in_bounds,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.trailing_white_count_in_bounds,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.leading_white_count_in_bounds,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.trailing_white_count_in_bounds,
+				covers/{EL_MEASUREABLE_ZSTRING}.leading_white_count_in_bounds,
+				covers/{EL_MEASUREABLE_ZSTRING}.trailing_white_count_in_bounds,
+				covers/{EL_MEASUREABLE_ZSTRING}.leading_white_count_in_bounds,
+				covers/{EL_MEASUREABLE_ZSTRING}.trailing_white_count_in_bounds
 			]"
 		local
 			test: STRING_TEST; word_list: EL_STRING_32_LIST

@@ -1,13 +1,13 @@
 note
-	description: "Searchable aspects of ${ZSTRING}"
+	description: "Search for point in ${ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-03 12:34:27 GMT (Saturday 3rd May 2025)"
-	revision: "68"
+	date: "2025-05-04 6:27:50 GMT (Sunday 4th May 2025)"
+	revision: "69"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -78,6 +78,45 @@ feature -- Index position
 			end
 		end
 
+	sub_zstring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
+		local
+			has_mixed_in_range: BOOLEAN
+		do
+			has_mixed_in_range := has_substitutes_between (area, start_index, count)
+			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
+				when Only_current, Neither then
+					Result := String_8.substring_index (Current, other, start_index)
+
+				when Both_have_mixed_encoding then
+					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
+					Result := String_searcher.sub_zstring_index (current_readable, other, start_index, count)
+
+				when Only_other then
+					Result := 0
+			else
+			end
+		end
+
+	sub_zstring_index_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
+		local
+			has_mixed_in_range: BOOLEAN
+		do
+			has_mixed_in_range := has_substitutes_between (area, start_pos, end_pos)
+
+			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
+				when Both_have_mixed_encoding then
+					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
+					Result := String_searcher.sub_zstring_index (current_readable, other, start_pos, end_pos)
+
+				when Only_current, Neither then
+					Result := String_8.substring_index_in_bounds (Current, other, start_pos, end_pos)
+
+				when Only_other then
+					Result := 0
+			else
+			end
+		end
+
 	substring_index (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		local
 			return_default: BOOLEAN; other_storage_type: CHARACTER
@@ -106,7 +145,7 @@ feature -- Index position
 						end
 					when 'X' then
 						if attached {EL_READABLE_ZSTRING} other as z_str then
-							Result := substring_index_zstring (z_str, start_index)
+							Result := sub_zstring_index (z_str, start_index)
 						end
 				else
 					return_default := True
@@ -133,7 +172,7 @@ feature -- Index position
 
 				when 'X' then
 					if attached {EL_READABLE_ZSTRING} other as z_str then
-						Result := substring_index_in_bounds_zstring (z_str, start_pos, end_pos)
+						Result := sub_zstring_index_in_bounds (z_str, start_pos, end_pos)
 					end
 
 			else
@@ -420,45 +459,6 @@ feature {NONE} -- Implementation
 				zstr_2.append_z_code (l_code.item.natural_32_code)
 			end
 			Result := zstr ~ zstr_2
-		end
-
-	substring_index_in_bounds_zstring (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
-		local
-			has_mixed_in_range: BOOLEAN
-		do
-			has_mixed_in_range := has_substitutes_between (area, start_pos, end_pos)
-
-			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
-				when Both_have_mixed_encoding then
-					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-					Result := String_searcher.sub_zstring_index (current_readable, other, start_pos, end_pos)
-
-				when Only_current, Neither then
-					Result := String_8.substring_index_in_bounds (Current, other, start_pos, end_pos)
-
-				when Only_other then
-					Result := 0
-			else
-			end
-		end
-
-	substring_index_zstring (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
-		local
-			has_mixed_in_range: BOOLEAN
-		do
-			has_mixed_in_range := has_substitutes_between (area, start_index, count)
-			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
-				when Only_current, Neither then
-					Result := String_8.substring_index (Current, other, start_index)
-
-				when Both_have_mixed_encoding then
-					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-					Result := String_searcher.sub_zstring_index (current_readable, other, start_index, count)
-
-				when Only_other then
-					Result := 0
-			else
-			end
 		end
 
 feature {NONE} -- Constants

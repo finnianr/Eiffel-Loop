@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-03 7:20:03 GMT (Saturday 3rd May 2025)"
-	revision: "17"
+	date: "2025-05-04 7:14:19 GMT (Sunday 4th May 2025)"
+	revision: "18"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8_I
@@ -86,7 +86,7 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
-	is_substring_all_ascii (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
+	all_ascii_in_bounds (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
 		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are in the ASCII character range
 		local
 			c: EL_CHARACTER_8_ROUTINES

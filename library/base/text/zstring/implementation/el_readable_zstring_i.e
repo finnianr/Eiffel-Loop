@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-26 7:35:47 GMT (Saturday 26th April 2025)"
-	revision: "25"
+	date: "2025-05-04 6:29:14 GMT (Sunday 4th May 2025)"
+	revision: "26"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -56,11 +56,11 @@ feature {NONE} -- Measurement
 		deferred
 		end
 
-	substring_index (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
+	sub_zstring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
 		deferred
 		end
 
-	substring_index_zstring (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
+	substring_index (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		deferred
 		end
 

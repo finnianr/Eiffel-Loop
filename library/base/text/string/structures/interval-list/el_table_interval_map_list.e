@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-26 6:58:34 GMT (Saturday 26th April 2025)"
-	revision: "5"
+	date: "2025-05-04 6:38:34 GMT (Sunday 4th May 2025)"
+	revision: "6"
 
 class
 	EL_TABLE_INTERVAL_MAP_LIST
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 					start_index := list.item_lower; end_index := list.item_upper
 					line_count := end_index - start_index + 1
 					if line_count >= 2 and then table_text [start_index] /= '%T' and then table_text [end_index] = ':'
-						and then not super_table_text.has_character_in_bounds (' ', start_index, end_index - 1)
+						and then not super_table_text.has_in_bounds (' ', start_index, end_index - 1)
 					then
 						if value_end_index > 0 then
 							extend (key_interval, ir.compact (value_start_index, value_end_index))

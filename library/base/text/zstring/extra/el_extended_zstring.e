@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-03 10:27:00 GMT (Saturday 3rd May 2025)"
-	revision: "16"
+	date: "2025-05-04 7:15:48 GMT (Sunday 4th May 2025)"
+	revision: "17"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -34,20 +34,20 @@ inherit
 			append_to_string_32, append_to_string_8, append_to_utf_8,
 			count,
 			ends_with_character, fill_z_codes,
-			has, has_alpha, has_alpha_in_bounds, has_enclosing, has_member, has_quotes,
-			is_ascii, is_ascii_substring, is_alpha_numeric, is_canonically_spaced,
+			has, has_alpha, has_alpha_in_bounds, has_enclosing, has_in_bounds, has_member, has_quotes,
+			is_ascii, is_ascii_in_bounds, is_alpha_numeric, is_canonically_spaced,
 			is_character, is_subset_of, is_valid_as_string_8,
-			leading_occurrences, leading_substring_white_count, leading_white_count,
+			leading_occurrences, leading_white_count_in_bounds, leading_white_count,
 			matches_wildcard, null, occurrences, prune_set_members, put_lower, put_upper, quoted,
 			remove_bookends, replace_character, remove_double, remove_single, replace_set_members,
 			same_string, set_substring_case, set_substring_lower, set_substring_upper, starts_with_character,
 			substring_to, substring_to_from, substring_to_reversed, substring_to_reversed_from,
 			to_canonically_spaced, to_utf_8,
-			trailing_substring_white_count, trailing_white_count, translate, translate_or_delete, translate_with_deletion,
+			trailing_white_count_in_bounds, trailing_white_count, translate, translate_or_delete, translate_with_deletion,
 			utf_8_byte_count, valid_index, write_utf_8_to,
 			String_32_searcher
 		redefine
-			all_alpha_numeric_in_range, is_substring_all_ascii,
+			all_alpha_numeric_in_bounds, all_ascii_in_bounds,
 			append_area_32, append_substring_to_special_32, append_substring_to_special_8,
 			append_to, append_utf_8,
 			index_of_white, is_substring_c_identifier, is_substring_eiffel_identifier,
@@ -189,11 +189,11 @@ feature -- Status query
 			end
 		end
 
-	is_ascii_substring (start_index, end_index: INTEGER): BOOLEAN
+	is_ascii_in_bounds (start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if all characters in `target.substring (start_index, end_index)'
 		-- are in the ASCII character set: 0 .. 127
 		do
-			Result := is_substring_all_ascii (unencoded_area, lower_abs (start_index), upper_abs (end_index))
+			Result := all_ascii_in_bounds (unencoded_area, lower_abs (start_index), upper_abs (end_index))
 		end
 
 	occurs_at (smaller: ZSTRING; index: INTEGER): BOOLEAN
@@ -289,7 +289,7 @@ feature {STRING_HANDLER} -- Basic operations
 
 feature {NONE} -- Implementation
 
-	all_alpha_numeric_in_range (unencoded: like unencoded_area; i_lower, i_upper: INTEGER): BOOLEAN
+	all_alpha_numeric_in_bounds (unencoded: like unencoded_area; i_lower, i_upper: INTEGER): BOOLEAN
 		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are alpha-numeric
 		local
 			i, block_index: INTEGER; c_i: CHARACTER_8; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
@@ -410,7 +410,7 @@ feature {NONE} -- Implementation
 			Result := is_space_item (i - 1)
 		end
 
-	is_substring_all_ascii (unencoded: like unencoded_area; i_lower, i_upper: INTEGER): BOOLEAN
+	all_ascii_in_bounds (unencoded: like unencoded_area; i_lower, i_upper: INTEGER): BOOLEAN
 		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are in the ASCII character range
 		local
 			i: INTEGER; c: EL_CHARACTER_8_ROUTINES; substitute_found: BOOLEAN

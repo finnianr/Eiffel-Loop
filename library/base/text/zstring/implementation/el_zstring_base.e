@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-03 12:32:44 GMT (Saturday 3rd May 2025)"
-	revision: "123"
+	date: "2025-05-04 6:59:57 GMT (Sunday 4th May 2025)"
+	revision: "124"
 
 deferred class
 	EL_ZSTRING_BASE
@@ -205,20 +205,34 @@ feature -- Status query
 
 	has (uc: CHARACTER_32): BOOLEAN
 		-- `True' is string contains at least one `uc'?
-		local
-			c: CHARACTER
 		do
-			inspect uc.code
-			-- allow uc = 26 to map to unicode subtitute character
-				when 0 .. 25, 27 .. Max_ascii_code then
-					Result := has_character_8 (area, uc.to_character_8, count - 1)
+			Result := has_in_bounds (uc, 1, count)
+		end
+
+	has_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if `c' occurs between `start_index' and `end_index'
+		require
+			valid_bounds: valid_bounds (start_index, end_index)
+		local
+			c: CHARACTER; not_ascii: BOOLEAN
+		do
+			if uc.is_character_8 then
+				inspect character_8_band (uc.to_character_8)
+					when Ascii_range then
+						Result := has_character_8 (area, uc.to_character_8, start_index - 1, end_index - 1)
+				else
+					not_ascii := True
+				end
 			else
+				not_ascii := True
+			end
+			if not_ascii then
 				c := Codec.encoded_character (uc)
 				inspect c
 					when Substitute then
 						Result := unencoded_has (uc)
 				else
-					Result := has_character_8 (area, c, count - 1)
+					Result := has_character_8 (area, c, start_index - 1, end_index - 1)
 				end
 			end
 		end
@@ -313,11 +327,11 @@ feature {EL_ZSTRING_BASE} -- Status query
 		deferred
 		end
 
-	has_character_8 (a_area: like area; c: CHARACTER_8; upper_index: INTEGER): BOOLEAN
+	has_character_8 (a_area: like area; c: CHARACTER_8; i_lower, i_upper: INTEGER): BOOLEAN
 		local
 			i: INTEGER
 		do
-			from until Result or else i > upper_index loop
+			from i := i_lower until Result or else i > i_upper loop
 				Result := a_area [i] = c
 				i := i + 1
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 17:40:31 GMT (Saturday 19th April 2025)"
-	revision: "57"
+	date: "2025-05-04 6:25:44 GMT (Sunday 4th May 2025)"
+	revision: "58"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -134,7 +134,7 @@ feature -- Start/End comparisons
 						when 0, 1 then
 							Result := True -- *
 					else
-						Result := substring_index_zstring (search_string, 1) > 0
+						Result := sub_zstring_index (search_string, 1) > 0
 					end
 				elseif any_ending then
 					Result := same_characters_zstring (search_string, 1, search_string.count, 1)

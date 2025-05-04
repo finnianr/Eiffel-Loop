@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 7:46:37 GMT (Saturday 19th April 2025)"
-	revision: "51"
+	date: "2025-05-04 6:38:34 GMT (Sunday 4th May 2025)"
+	revision: "52"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -225,7 +225,7 @@ feature -- Status query
 		do
 			if attached area as a then
 				i := (index - 1) * 2
-				Result := extended_string (target_string).has_character_in_bounds (uc, a [i], a [i + 1])
+				Result := extended_string (target_string).has_in_bounds (uc, a [i], a [i + 1])
 			end
 		ensure
 			same_result: Result = item.has (uc)

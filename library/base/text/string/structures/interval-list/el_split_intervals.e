@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 8:03:18 GMT (Friday 2nd May 2025)"
-	revision: "27"
+	date: "2025-05-04 7:08:50 GMT (Sunday 4th May 2025)"
+	revision: "28"
 
 class
 	EL_SPLIT_INTERVALS
@@ -79,10 +79,10 @@ feature {NONE} -- Implementation
 				end
 			end
 			if (adjustments & {EL_SIDE}.Left).to_boolean and then start_index <= a_target.count then
-				start_index := start_index + a_target.leading_substring_white_count (start_index, end_index)
+				start_index := start_index + a_target.leading_white_count_in_bounds (start_index, end_index)
 			end
 			if (adjustments & {EL_SIDE}.Right).to_boolean then
-				end_index := end_index - a_target.trailing_substring_white_count (start_index, end_index)
+				end_index := end_index - a_target.trailing_white_count_in_bounds (start_index, end_index)
 			end
 			buffer.extend (start_index, end_index)
 		end

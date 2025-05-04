@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-03 7:45:29 GMT (Saturday 3rd May 2025)"
-	revision: "2"
+	date: "2025-05-04 7:09:02 GMT (Sunday 4th May 2025)"
+	revision: "3"
 
 class
 	EL_SPLIT_WORD_INTERVALS
@@ -81,7 +81,7 @@ feature -- Basic operations
 								if i > l_count then
 									pattern_count := 0
 								else
-									pattern_count := super_target.leading_substring_white_count (i, i_upper)
+									pattern_count := super_target.leading_white_count_in_bounds (i, i_upper)
 								end
 								extend_buffer (super_target, l_area, search_index, previous_pattern_count, 0, False)
 								previous_pattern_count := pattern_count

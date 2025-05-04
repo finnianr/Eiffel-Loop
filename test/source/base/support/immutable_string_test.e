@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 9:28:34 GMT (Friday 2nd May 2025)"
-	revision: "29"
+	date: "2025-05-04 7:14:55 GMT (Sunday 4th May 2025)"
+	revision: "30"
 
 class
 	IMMUTABLE_STRING_TEST
@@ -141,7 +141,7 @@ feature -- Extended ZSTRING
 			across new_general_list as list loop
 				start_index := intervals.item_lower; end_index := intervals.item_upper
 				if attached super_readable_general (list.item) as general then
-					l_result := general.is_ascii_substring (start_index, end_index)
+					l_result := general.is_ascii_in_bounds (start_index, end_index)
 				end
 				test.assert ("methods agree", l_result = is_ascii_interval)
 			end

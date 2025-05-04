@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-03 7:23:18 GMT (Saturday 3rd May 2025)"
-	revision: "19"
+	date: "2025-05-04 8:20:53 GMT (Sunday 4th May 2025)"
+	revision: "20"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -242,10 +242,10 @@ feature -- Measurement
 	leading_white_count: INTEGER
 		-- count of leading white space characters
 		do
-			Result := leading_substring_white_count (1, count)
+			Result := leading_white_count_in_bounds (1, count)
 		end
 
-	leading_substring_white_count (start_index, end_index: INTEGER): INTEGER
+	leading_white_count_in_bounds (start_index, end_index: INTEGER): INTEGER
 		-- count of leading white space characters between `start_index' and `end_index'
 		require
 			valid_bounds: valid_bounds (start_index, end_index)
@@ -290,7 +290,12 @@ feature -- Measurement
 			end
 		end
 
-	trailing_substring_white_count (start_index, end_index: INTEGER): INTEGER
+	trailing_white_count: INTEGER
+		do
+			Result := trailing_white_count_in_bounds (1, count)
+		end
+
+	trailing_white_count_in_bounds (start_index, end_index: INTEGER): INTEGER
 		-- count of trailing white space characters between `start_index' and `end_index'
 		require
 			valid_bounds: valid_bounds (start_index, end_index)
@@ -302,20 +307,7 @@ feature -- Measurement
 				from i := i_upper until i < i_lower or else not is_i_th_space (l_area, i, unicode) loop
 					i := i - 1
 				end
-				Result := i - i_lower
-			end
-		end
-
-	trailing_white_count: INTEGER
-		local
-			i, first_i: INTEGER
-		do
-			if attached area as l_area and then attached Unicode_property as unicode then
-				first_i := index_lower
-				from i := index_upper until i < first_i or else not is_i_th_space (l_area, i, unicode) loop
-					i := i - 1
-				end
-				Result := index_upper - i
+				Result := i_upper - i
 			end
 		end
 
@@ -358,7 +350,7 @@ feature -- Character query
 			end
 		end
 
-	has_character_in_bounds (c: CHAR; start_index, end_index: INTEGER): BOOLEAN
+	has_in_bounds (c: CHAR; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if `c' occurs between `start_index' and `end_index'
 		require
 			valid_bounds: valid_bounds (start_index, end_index)
@@ -413,24 +405,24 @@ feature -- Character query
 	is_ascii: BOOLEAN
 		-- `True' if all characters in `target' are in the ASCII character set: 0 .. 127
 		do
-			Result := is_substring_all_ascii (area, index_lower, index_upper)
+			Result := all_ascii_in_bounds (area, index_lower, index_upper)
 		end
 
-	is_ascii_substring (start_index, end_index: INTEGER): BOOLEAN
+	is_ascii_in_bounds (start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if all characters in `target.substring (start_index, end_index)'
 		-- are in the ASCII character set: 0 .. 127
 		require
 			valid_bounds: valid_bounds (start_index, end_index)
 		do
-			Result := is_substring_all_ascii (area, lower_abs (start_index), upper_abs (end_index))
+			Result := all_ascii_in_bounds (area, lower_abs (start_index), upper_abs (end_index))
 		end
 
-	is_alpha_numeric_substring (start_index, end_index: INTEGER): BOOLEAN
+	is_alpha_numeric_in_bounds (start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if all characters in `target.substring (start_index, end_index)' are alpha-numeric
 		require
 			valid_bounds: valid_bounds (start_index, end_index)
 		do
-			Result := all_alpha_numeric_in_range (area, lower_abs (start_index), upper_abs (end_index))
+			Result := all_alpha_numeric_in_bounds (area, lower_abs (start_index), upper_abs (end_index))
 		end
 
 	is_subset_of (set: EL_SET [CHAR]): BOOLEAN
@@ -832,7 +824,7 @@ feature {STRING_HANDLER} -- Basic operations
 
 feature {NONE} -- Implementation
 
-	all_alpha_numeric_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
+	all_alpha_numeric_in_bounds (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
 		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are alpha-numeric
 		local
 			i: INTEGER

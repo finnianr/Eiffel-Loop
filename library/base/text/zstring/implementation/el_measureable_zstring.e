@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-03 12:49:42 GMT (Saturday 3rd May 2025)"
-	revision: "33"
+	date: "2025-05-04 7:07:19 GMT (Sunday 4th May 2025)"
+	revision: "34"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -64,7 +64,7 @@ feature -- Measurement
 			Result := internal_leading_white_space (area, 1, count)
 		end
 
-	leading_substring_white_count (start_index, end_index: INTEGER): INTEGER
+	leading_white_count_in_bounds (start_index, end_index: INTEGER): INTEGER
 		-- count of leading white space characters between `start_index' and `end_index'
 		require
 			valid_bounds: valid_bounds (start_index, end_index)
@@ -145,17 +145,17 @@ feature -- Measurement
 			end
 		end
 
-	trailing_substring_white_count (start_index, end_index: INTEGER): INTEGER
+	trailing_white_count: INTEGER
+		do
+			Result := internal_trailing_white_space (area, 1, count)
+		end
+
+	trailing_white_count_in_bounds (start_index, end_index: INTEGER): INTEGER
 		-- count of leading white space characters between `start_index' and `end_index'
 		require
 			valid_bounds: valid_bounds (start_index, end_index)
 		do
 			Result := internal_trailing_white_space (area, start_index, end_index)
-		end
-
-	trailing_white_count: INTEGER
-		do
-			Result := internal_trailing_white_space (area, 1, count)
 		end
 
 	utf_8_byte_count: INTEGER
