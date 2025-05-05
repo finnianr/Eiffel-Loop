@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 7:51:48 GMT (Monday 14th April 2025)"
-	revision: "26"
+	date: "2025-05-05 17:28:12 GMT (Monday 5th May 2025)"
+	revision: "27"
 
 class
 	PAYPAL_TEST_SET
@@ -17,17 +17,15 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	PP_SHARED_PAYMENT_STATUS_ENUM
-
-	PP_SHARED_PAYMENT_PENDING_REASON_ENUM
-
-	PP_SHARED_TRANSACTION_TYPE_ENUM
+	PP_SHARED_PAYMENT_STATUS_ENUM; PP_SHARED_PAYMENT_PENDING_REASON_ENUM; PP_SHARED_TRANSACTION_TYPE_ENUM
 
 	EL_SHARED_CURRENCY_ENUM
 
 	EL_FILE_OPEN_ROUTINES
 
 	EL_REFLECTION_HANDLER
+
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 create
 	make
@@ -38,14 +36,28 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["pp_button_query_error_response",	agent test_pp_button_query_error_response],
-				["pp_date_format",						agent test_pp_date_format],
-				["pp_transaction",						agent test_pp_transaction],
-				["uri_query_table_conversion",		agent test_uri_query_table_conversion]
+				["address_status_enum_checksum",	  agent test_address_status_enum_checksum],
+				["pp_button_query_error_response", agent test_pp_button_query_error_response],
+				["pp_date_format",					  agent test_pp_date_format],
+				["pp_transaction",					  agent test_pp_transaction],
+				["uri_query_table_conversion",	  agent test_uri_query_table_conversion]
 			>>)
 		end
 
 feature -- Test
+
+	test_address_status_enum_checksum
+		-- PAYPAL_TEST_SET.test_address_status_enum_checksum
+		note
+			testing: "[
+				covers/{EL_ENUMERATION}.write_crc
+			]"
+		do
+			if attached crc_generator as crc then
+				Address_status_enum.write_crc (crc)
+				assert ("enum checksum is 2590709759", crc.checksum = 2590709759)
+			end
+		end
 
 	test_pp_button_query_error_response
 		-- PAYPAL_TEST_SET.test_pp_button_query_error_response
@@ -179,16 +191,6 @@ feature {NONE} -- Constants
 		L_SEVERITYCODE0=Error
 	]"
 
-	Internal_error: STRING = "[
-		TIMESTAMP=2023-12-05T05:56:21.668
-		CORRELATIONID=62288a65904c1
-		ACK=Failure
-		VERSION=95.0
-		BUILD=1234
-		L_ERRORCODE0=10001
-		L_SEVERITYCODE0=Error
-	]"
-
 	IPN_message: STRING = "[
 		mc_gross=4.85
 		settle_amount=2.43
@@ -234,6 +236,16 @@ feature {NONE} -- Constants
 		transaction_subject=
 		payment_gross=
 		ipn_track_id=30fe7b14ef9cb
+	]"
+
+	Internal_error: STRING = "[
+		TIMESTAMP=2023-12-05T05:56:21.668
+		CORRELATIONID=62288a65904c1
+		ACK=Failure
+		VERSION=95.0
+		BUILD=1234
+		L_ERRORCODE0=10001
+		L_SEVERITYCODE0=Error
 	]"
 
 end

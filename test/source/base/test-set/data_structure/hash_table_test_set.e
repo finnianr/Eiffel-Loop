@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-05 8:50:07 GMT (Monday 5th May 2025)"
-	revision: "65"
+	date: "2025-05-05 16:48:47 GMT (Monday 5th May 2025)"
+	revision: "66"
 
 class	HASH_TABLE_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -311,9 +311,8 @@ feature -- General tests
 				covers/{EL_INTEGER_16_SPARSE_ARRAY}.to_sparse_array
 			]"
 		local
-			sparse_table: EL_INTEGER_16_SPARSE_ARRAY [INTEGER_64]
-			source_table: EL_HASH_TABLE [INTEGER_64, INTEGER_16]
-			n, multiplier: INTEGER_16; key_list: EL_ARRAYED_LIST [INTEGER_16]
+			sparse_table: EL_INTEGER_16_SPARSE_ARRAY [INTEGER_64]; source_table: EL_HASH_TABLE [INTEGER_64, INTEGER_16]
+			n, multiplier: INTEGER_16; n_64: INTEGER_64; key_list: EL_ARRAYED_LIST [INTEGER_16]
 		do
 			create key_list.make (51)
 			across << 1 , 10 >> as step_size loop
@@ -322,19 +321,23 @@ feature -- General tests
 				key_list.wipe_out
 				across -25 |..| 25 as list loop
 					n := list.item.to_integer_16 * multiplier
+					n_64 := n.to_integer_64
 					key_list.extend (n)
 				-- extend with n^2
-					source_table.extend (n.to_integer_64 * n.to_integer_64, n)
+					source_table.extend (n_64 * n_64, n)
 				end
 				create sparse_table.make (source_table)
 				across -25 |..| 25 as list loop
 					n := list.item.to_integer_16 * multiplier
+					n_64 := n.to_integer_64
 					assert ("same square", source_table [n] = sparse_table [n])
 					if list.is_first then
 						assert ("valid first key", sparse_table.key_list.first = n)
+						assert ("valid first item", sparse_table.item_list.first = n_64 * n_64)
 					end
 					if list.is_last then
 						assert ("valid last key", sparse_table.key_list.last = n)
+						assert ("valid last item", sparse_table.item_list.last = n_64 * n_64)
 					end
 				end
 				assert ("same key list", key_list ~ sparse_table.key_list)

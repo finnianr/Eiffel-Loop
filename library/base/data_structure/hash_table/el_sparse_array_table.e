@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-30 12:41:33 GMT (Wednesday 30th April 2025)"
-	revision: "6"
+	date: "2025-05-05 16:59:25 GMT (Monday 5th May 2025)"
+	revision: "7"
 
 deferred class
 	EL_SPARSE_ARRAY_TABLE [G, K -> HASHABLE]
@@ -24,10 +24,10 @@ inherit
 			next_iteration_position as table_next_iteration_position
 		export
 			{NONE} all
-			{ANY} after, content, count, forth, found_item,
+			{ANY} after, as_map_list, content, count, forth, found_item, item_list,
 					item_for_iteration, key_for_iteration, off, start
 		redefine
-			forth, has, has_key, key_for_iteration, key_list, is_off_position, item,
+			forth, has, has_key, key_for_iteration, key_list, is_off_position, item, item_area,
 			next_iteration_index, new_cursor, start, valid_key
 		end
 
@@ -86,10 +86,29 @@ feature -- Access
 
 	item alias "[]" (key: K): detachable G
 		do
-			if deleted_marks = Empty_deleted_marks then
+			if is_array_indexed then
 				Result := content [as_integer (key) - index_lower]
 			else
 				Result := Precursor (key)
+			end
+		end
+
+	item_area: SPECIAL [G]
+		local
+			i, i_upper: INTEGER; i_th_item: like item
+		do
+			if is_array_indexed and then attached content as l_content then
+				create Result.make_empty (count)
+				i_upper := l_content.count - 1
+				from i := 0 until i > i_upper loop
+					i_th_item := l_content [i]
+					if i = default_value_index or else i_th_item /= computed_default_value then
+						Result.extend (i_th_item)
+					end
+					i := i + 1
+				end
+			else
+				Result := Precursor
 			end
 		end
 

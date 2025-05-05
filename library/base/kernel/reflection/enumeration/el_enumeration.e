@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-01 13:32:28 GMT (Thursday 1st May 2025)"
-	revision: "83"
+	date: "2025-05-05 17:36:42 GMT (Monday 5th May 2025)"
+	revision: "84"
 
 deferred class EL_ENUMERATION [N -> HASHABLE] inherit ANY
 
@@ -157,10 +157,9 @@ feature -- Access
 
 	name_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
 		do
-			if attached {like name_list} as_list.derived_list (agent name) as list then
-				Result := list
-			else
-				create Result.make_empty
+			create Result.make (field_name_table.count)
+			across field_name_table as table loop
+				Result.extend (name (table.key))
 			end
 		end
 
@@ -257,9 +256,14 @@ feature -- Basic operations
 
 	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
 		do
-			across field_name_table as table loop
-				crc.add_string_8 (table.item)
-				write_value (crc, table.key)
+			if attached field_name_table.as_map_list as map_list then
+			-- need to sort by field name to have same order as `new_field_list'
+			-- Otherwise for example, `PP_ADDRESS.Status_enum' will have an invalid CRC
+				map_list.sort_by_value (True)
+				across map_list as map loop
+					crc.add_string_8 (map.value)
+					write_value (crc, map.key)
+				end
 			end
 		end
 
