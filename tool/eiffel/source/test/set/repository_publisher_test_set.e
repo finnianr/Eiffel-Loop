@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-08 13:24:24 GMT (Saturday 8th March 2025)"
-	revision: "92"
+	date: "2025-05-05 9:24:40 GMT (Monday 5th May 2025)"
+	revision: "93"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -54,7 +54,8 @@ inherit
 			Html as Html_name
 		end
 
-	SHARED_CLASS_TABLE; SHARED_ISE_CLASS_TABLE; SHARED_INVALID_CLASSNAMES; SHARED_DEV_ENVIRON
+	SHARED_CLASS_TABLE; SHARED_ISE_CLASS_TABLE; SHARED_INVALID_CLASSNAMES; SHARED_EIFFEL_LOOP
+
 
 create
 	make
@@ -214,7 +215,7 @@ feature {NONE} -- Events
 			if attached String_8.new_list ("dummy, images, css, js") as www_name_list then
 				across << Work_dir.doc, Work_dir.ftp_doc >> as destination_dir loop
 					across www_name_list as list loop
-						dir_path := Dev_environ.Eiffel_loop_dir.joined_dir_steps (<< "doc", list.item >>)
+						dir_path := eiffel_loop_dir.joined_dir_steps (<< "doc", list.item >>)
 						OS.copy_tree (dir_path, destination_dir.item)
 					end
 				end
@@ -320,12 +321,12 @@ feature {NONE} -- Implementation
 
 	el_source_dir (work_area_sub_dir: DIR_PATH): DIR_PATH
 		do
-			REsult := Dev_environ.Eiffel_loop_dir #+ work_area_sub_dir.relative_path (Work_area_dir)
+			REsult := eiffel_loop_dir #+ work_area_sub_dir.relative_path (Work_area_dir)
 		end
 
 	el_source_path (work_area_file_path: FILE_PATH): FILE_PATH
 		do
-			REsult := Dev_environ.Eiffel_loop_dir + work_area_file_path.relative_path (Work_area_dir)
+			REsult := eiffel_loop_dir + work_area_file_path.relative_path (Work_area_dir)
 		end
 
 	file_content_checksum: NATURAL

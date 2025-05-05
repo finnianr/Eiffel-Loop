@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:03:47 GMT (Monday 14th April 2025)"
-	revision: "39"
+	date: "2025-05-05 9:11:37 GMT (Monday 5th May 2025)"
+	revision: "40"
 
 class
 	VTD_XML_TEST_SET
@@ -34,7 +34,7 @@ inherit
 
 	EL_MODULE_OS
 
-	SHARED_DEV_ENVIRON
+	SHARED_EIFFEL_LOOP
 
 create
 	make

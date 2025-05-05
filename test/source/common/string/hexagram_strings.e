@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 20:43:17 GMT (Sunday 4th May 2025)"
-	revision: "22"
+	date: "2025-05-05 9:03:38 GMT (Monday 5th May 2025)"
+	revision: "23"
 
 class
 	HEXAGRAM_STRINGS
@@ -24,7 +24,7 @@ inherit
 
 	EL_MODULE_FILE; EL_MODULE_TUPLE
 
-	SHARED_DEV_ENVIRON
+	SHARED_DATA_DIRECTORIES
 
 feature -- Access
 
@@ -94,7 +94,7 @@ feature -- Constants
 
 	Hexagrams_path: FILE_PATH
 		once
-			Result := eiffel_loop_dir + "test/data/txt/hexagrams.txt"
+			Result := Data_dir.txt + "hexagrams.txt"
 		end
 
 end

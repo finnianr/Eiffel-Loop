@@ -43,6 +43,7 @@ Due to C name space clashes with `TagLib.ecf&apos; these tests have been separat
 		<library name = "EL_id3_tags" location = "$EIFFEL_LOOP/library/ID3-tags.ecf" readonly = "false"/>
 		<library name = "EL_logging" location = "$EIFFEL_LOOP/library/logging.ecf" readonly = "false"/>
 		<library name = "EL_testing" location = "$EIFFEL_LOOP/library/testing.ecf" readonly = "false"/>
+		<cluster name = "test_common" location = "$EIFFEL_LOOP/test/source/common/support" recursive = "true"/>
 		<cluster name = "project" location = "source" recursive = "true"/>
 	</target>
 </system>

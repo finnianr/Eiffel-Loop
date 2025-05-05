@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "27"
+	date: "2025-05-05 9:29:16 GMT (Monday 5th May 2025)"
+	revision: "28"
 
 class
 	ZCODEC_GENERATOR_APP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COMMAND_LINE_APPLICATION [ZCODEC_GENERATOR]
 
-	SHARED_DEV_ENVIRON
+	SHARED_EIFFEL_LOOP
 
 create
 	make
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 
 	default_decoder_c_path: FILE_PATH
 		do
-			Result := Dev_environ.Eiffel_loop_dir + "contrib/C/VTD-XML-2.7/source/decoder.c"
+			Result := eiffel_loop_dir + "contrib/C/VTD-XML-2.7/source/decoder.c"
 		end
 
 end

@@ -58,5 +58,8 @@ system:
 			EL_testing = "testing.ecf"
 
 		cluster_tree:
+			test_common = "$EIFFEL_LOOP/test/source/common/support"
+
+		cluster_tree:
 			project = source
 

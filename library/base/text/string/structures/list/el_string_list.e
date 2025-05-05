@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 12:56:58 GMT (Monday 21st April 2025)"
-	revision: "44"
+	date: "2025-05-05 10:09:20 GMT (Monday 5th May 2025)"
+	revision: "45"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -74,12 +74,6 @@ feature {NONE} -- Initialization
 			append_general (list)
 		end
 
-	make_from_tuple (tuple: TUPLE)
-		do
-			make (tuple.count)
-			append_tuple (tuple)
-		end
-
 	make_from_iterable (iterable_list: ITERABLE [S]; filter_empty: BOOLEAN)
 		do
 			make (Iterable.count (iterable_list))
@@ -90,6 +84,19 @@ feature {NONE} -- Initialization
 					end
 				end
 			end
+		end
+
+	make_from_tuple (tuple: TUPLE)
+		do
+			make (tuple.count)
+			append_tuple (tuple)
+		end
+
+	make_paragraphs (text: READABLE_STRING_GENERAL)
+		-- `text' lines joined together as paragraphs with
+		-- an empty line interpreted as a paragraph delimiter
+		do
+			make_empty; append_paragraphs (text)
 		end
 
 feature -- Measurement
@@ -118,6 +125,30 @@ feature -- Measurement
 					i := i + 1
 				end
 				Result := Result.abs
+			end
+		end
+
+feature -- Element change
+
+	append_paragraphs (text: READABLE_STRING_GENERAL)
+		-- `text' lines joined together as paragraphs with
+		-- an empty line interpreted as a paragraph delimiter
+		local
+			paragraph_split: EL_SPLIT_INTERVALS; paragraph: READABLE_STRING_GENERAL
+			line_list: like Current
+		do
+			create line_list.make_empty
+			create paragraph_split.make_by_string (text, "%N%N")
+			grow (count + paragraph_split.count)
+			if attached paragraph_split as list then
+				from list.start until list.after loop
+					paragraph := text.substring (list.item_lower, list.item_upper)
+					line_list.wipe_out
+					line_list.append_split (paragraph, '%N', 0)
+					line_list.prune_all_empty
+					extend (line_list.as_word_string)
+					list.forth
+				end
 			end
 		end
 

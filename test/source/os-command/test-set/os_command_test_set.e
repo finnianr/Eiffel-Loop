@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 20:38:06 GMT (Sunday 4th May 2025)"
-	revision: "36"
+	date: "2025-05-05 8:53:18 GMT (Monday 5th May 2025)"
+	revision: "37"
 
 class
 	OS_COMMAND_TEST_SET
@@ -50,7 +50,7 @@ feature -- Tests
 			file_cmd: EL_OS_COMMAND_I; destination_path: FILE_PATH
 		do
 			if Executable.Is_work_bench then
-				create {EL_COPY_FILE_COMMAND_IMP} file_cmd.make ("data/txt/file.txt", Directory.applications)
+				create {EL_COPY_FILE_COMMAND_IMP} file_cmd.make (Data_dir.txt + "file.txt", Directory.applications)
 				file_cmd.administrator.enable
 				file_cmd.execute
 				assert ("successful", not file_cmd.has_error)

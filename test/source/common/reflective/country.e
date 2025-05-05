@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 9:13:22 GMT (Tuesday 25th March 2025)"
-	revision: "45"
+	date: "2025-05-05 6:42:13 GMT (Monday 5th May 2025)"
+	revision: "46"
 
 class
 	COUNTRY
@@ -92,7 +92,7 @@ feature -- Measurement
 
 	field_count: INTEGER
 		do
-			Result := field_table.count
+			Result := field_list.count
 		end
 
 feature -- Status query

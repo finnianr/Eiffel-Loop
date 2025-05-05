@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 20:35:34 GMT (Sunday 4th May 2025)"
-	revision: "25"
+	date: "2025-05-05 12:19:30 GMT (Monday 5th May 2025)"
+	revision: "26"
 
 class
 	ENCRYPTION_TEST_SET
@@ -67,7 +67,7 @@ feature -- Tests
 			key_file: EL_SECURE_KEY_FILE; key_path: FILE_PATH
 			target_digest: STRING
 		do
-			key_path := words_path
+			key_path := Directory.current_working + words_path
 
 			User_input.preinput_line (Text.secure_file_prompt #$ [key_path.base], Phrase)
 			User_input.preinput_line (Text.enter_passphrase, Phrase)

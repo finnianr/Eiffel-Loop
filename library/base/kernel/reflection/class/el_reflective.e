@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 9:54:21 GMT (Saturday 5th April 2025)"
-	revision: "100"
+	date: "2025-05-05 6:33:09 GMT (Monday 5th May 2025)"
+	revision: "101"
 
 deferred class
 	EL_REFLECTIVE
@@ -309,7 +309,7 @@ feature {EL_REFLECTIVE_I} -- Implementation
 
 feature {EL_REFLECTION_HANDLER, EL_REFLECTIVE_I} -- Implementation
 
-	current_reflective: like Current
+	current_reflective: EL_REFLECTIVE
 		do
 			Result := Current
 		end

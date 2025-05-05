@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-01 16:34:02 GMT (Thursday 1st May 2025)"
-	revision: "79"
+	date: "2025-05-05 9:11:37 GMT (Monday 5th May 2025)"
+	revision: "80"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -29,7 +29,7 @@ inherit
 
 	EL_SHARED_HTTP_STATUS
 
-	SHARED_DEV_ENVIRON
+	SHARED_EIFFEL_LOOP
 
 create
 	make

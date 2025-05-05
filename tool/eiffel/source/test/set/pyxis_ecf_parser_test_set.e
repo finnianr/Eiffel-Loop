@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 15:41:47 GMT (Wednesday 25th September 2024)"
-	revision: "50"
+	date: "2025-05-05 9:24:02 GMT (Monday 5th May 2025)"
+	revision: "51"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_FILE_DATA_TEST_SET
 
-	SHARED_DEV_ENVIRON
+	SHARED_EIFFEL_LOOP
 
 create
 	make
@@ -285,9 +285,7 @@ feature {NONE} -- Implementation
 		local
 			converter: PYXIS_ECF_CONVERTER
 		do
-			create converter.make (
-				Dev_environ.Eiffel_loop_dir + pecf_path, Work_area_dir + (pecf_path.base_name + ".xml")
-			)
+			create converter.make (eiffel_loop_dir + pecf_path, Work_area_dir + (pecf_path.base_name + ".xml"))
 			converter.execute
 			create Result.make_from_file (converter.output_path)
 		end

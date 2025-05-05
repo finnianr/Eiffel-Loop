@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-16 14:59:26 GMT (Friday 16th August 2024)"
-	revision: "7"
+	date: "2025-05-05 8:52:19 GMT (Monday 5th May 2025)"
+	revision: "8"
 
 class
 	FILE_LOCKING_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		rename
+			data_dir as data_txt_dir
+		end
+
+	SHARED_DATA_DIRECTORIES
 
 create
 	make
@@ -115,6 +120,11 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
+	data_txt_dir: DIR_PATH
+		do
+			Result := Data_dir.txt
+		end
+
 	new_lines (file_path: FILE_PATH): EL_STRING_8_LIST
 		do
 			create Result.make_with_lines (File.plain_text (file_path))
@@ -128,13 +138,7 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			create Result.make_from_array (<< Data_dir + "file.txt" >>)
+			create Result.make_from_array (<< data_txt_dir + "file.txt" >>)
 		end
 
-feature {NONE} -- Constants
-
-	Data_dir: DIR_PATH
-		once
-			Result := "data/txt"
-		end
 end

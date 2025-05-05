@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 13:08:27 GMT (Friday 25th April 2025)"
-	revision: "90"
+	date: "2025-05-05 8:43:02 GMT (Monday 5th May 2025)"
+	revision: "91"
 
 class	REFLECTION_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -44,12 +44,13 @@ feature {NONE} -- Initialization
 				["make_object_from_camel_case_table", agent test_make_object_from_camel_case_table],
 				["make_object_from_table",				  agent test_make_object_from_table],
 				["makeable_object_factory",			  agent test_makeable_object_factory],
-				["new_parameterized_item",				  agent test_new_parameterized_item],
 				["new_factory",							  agent test_new_factory],
+				["new_parameterized_item",				  agent test_new_parameterized_item],
 				["parameterized_type_id",				  agent test_parameterized_type_id],
 				["reflected_collection_factory",		  agent test_reflected_collection_factory],
 				["reflected_integer_list",				  agent test_reflected_integer_list],
 				["reflective_string_constants",		  agent test_reflective_string_constants],
+				["reflective_attribute_table",		  agent test_reflective_attribute_table],
 				["set_from_other",						  agent test_set_from_other],
 				["settable_from_string",				  agent test_settable_from_string],
 				["size_reporting",						  agent test_size_reporting],
@@ -489,6 +490,13 @@ feature -- Tests
 		do
 			create l_test.make_default
 			assert ("integer_list initialized", attached l_test.integer_list)
+		end
+
+	test_reflective_attribute_table
+		note
+			testing: "covers/{EL_REFLECTIVE_ATTRIBUTE_TABLE}.make"
+		do
+			assert ("all exist", across Data_dir.directory_list as list all list.item.exists end)
 		end
 
 	test_reflective_string_constants

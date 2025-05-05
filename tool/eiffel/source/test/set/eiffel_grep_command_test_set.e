@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 10:16:32 GMT (Sunday 1st September 2024)"
-	revision: "7"
+	date: "2025-05-05 9:18:19 GMT (Monday 5th May 2025)"
+	revision: "8"
 
 class
 	EIFFEL_GREP_COMMAND_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_TUPLE
 
-	SHARED_DEV_ENVIRON
+	SHARED_EIFFEL_LOOP
 
 	EL_SHARED_TEST_TEXT
 
@@ -48,7 +48,7 @@ feature -- Tests
 		do
 			if {PLATFORM}.is_unix then
 				create cmd.make
-				cmd.set_working_directory (Dev_environ.Eiffel_loop_dir #+ "test/source")
+				cmd.set_working_directory (eiffel_loop_dir #+ "test/source")
 				cmd.set_options ("assert_same_string")
 				cmd.execute
 				across cmd.lines as list loop

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-30 12:49:37 GMT (Wednesday 30th April 2025)"
-	revision: "64"
+	date: "2025-05-05 8:50:07 GMT (Monday 5th May 2025)"
+	revision: "65"
 
 class	HASH_TABLE_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -463,7 +463,7 @@ feature -- Immutable string table tests
 			error_table: EL_IMMUTABLE_STRING_8_TABLE; manifest: STRING
 			code_table: EL_CODE_TEXT_TABLE; code: INTEGER_64
 		do
-			manifest := File.plain_text ("data/code/C/windows/error-codes.txt")
+			manifest := File.plain_text (Data_dir.code + "C/windows/error-codes.txt")
 			manifest.right_adjust
 			create error_table.make ({EL_TABLE_FORMAT}.Indented_code, manifest)
 			if error_table.has_key_code (51) and then attached error_table.found_item_lines as lines then

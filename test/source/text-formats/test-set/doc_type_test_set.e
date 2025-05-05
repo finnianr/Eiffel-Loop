@@ -1,19 +1,19 @@
 note
-	description: "Test ${EL_DOC_TYPE}."
+	description: "Test set for objects conforming to ${EL_DOC_TYPE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-29 10:28:46 GMT (Tuesday 29th April 2025)"
-	revision: "4"
+	date: "2025-05-05 8:56:37 GMT (Monday 5th May 2025)"
+	revision: "5"
 
 class
 	DOC_TYPE_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	READ_DATA_EQA_TEST_SET
 		undefine
 			new_lio
 		end
@@ -52,7 +52,7 @@ feature -- Test
 			type := document_type (Text_type.HTML, {EL_ENCODING_TYPE}.UTF_8)
 			assert_same_string ("correct specification", type.specification, "text/html; charset=UTF-8")
 
-			create html_type.make_from_file ("data/XML/Hexagrams.html")
+			create html_type.make_from_file (Data_dir.xml + "Hexagrams.html")
 			assert_same_string ("correct specification", html_type.specification, "text/html; charset=ISO-8859-1")
 		end
 

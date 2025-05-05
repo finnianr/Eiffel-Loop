@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:10:46 GMT (Thursday 5th September 2024)"
-	revision: "6"
+	date: "2025-05-05 7:00:50 GMT (Monday 5th May 2025)"
+	revision: "7"
 
 class
 	EL_INITIALIZED_FIELD_FACTORY
@@ -21,7 +21,7 @@ inherit
 feature -- Factory
 
 	new_item (
-		type: TYPE [EL_REFLECTED_FIELD]; a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: IMMUTABLE_STRING_8
+		type: TYPE [EL_REFLECTED_FIELD]; a_object: ANY; a_index: INTEGER; a_name: IMMUTABLE_STRING_8
 	): EL_REFLECTED_FIELD
 		do
 			if attached new_item_factory (type.type_id) as l_factory then

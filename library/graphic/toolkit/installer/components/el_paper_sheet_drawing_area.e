@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 16:06:53 GMT (Friday 7th July 2023)"
-	revision: "15"
+	date: "2025-05-05 10:10:26 GMT (Monday 5th May 2025)"
+	revision: "16"
 
 class
 	EL_PAPER_SHEET_DRAWING_AREA
@@ -86,12 +86,10 @@ feature {NONE} -- Implementation
 		end
 
 	paper_instructions: EL_ZSTRING_LIST
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			Result := s.new_paragraph_list (Text.matching_instruction_template #$ [paper.id])
+			create Result.make_paragraphs (Text.matching_instruction_template #$ [paper.id])
 			if paper.is_A5 then
-				Result.append (s.new_paragraph_list (Text.A5_tip))
+				Result.append_paragraphs (Text.A5_tip)
 			end
 		end
 

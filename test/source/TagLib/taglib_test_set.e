@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 21:00:37 GMT (Sunday 4th May 2025)"
-	revision: "58"
+	date: "2025-05-05 9:11:37 GMT (Monday 5th May 2025)"
+	revision: "59"
 
 class
 	TAGLIB_TEST_SET
@@ -32,7 +32,7 @@ inherit
 
 	TL_SHARED_ONCE_STRING_LIST
 
-	SHARED_DATA_DIRECTORIES; SHARED_DEV_ENVIRON
+	SHARED_DATA_DIRECTORIES; SHARED_EIFFEL_LOOP
 
 	EL_SHARED_TEST_TEXT
 

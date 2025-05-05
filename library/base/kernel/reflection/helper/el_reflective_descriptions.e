@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 11:58:25 GMT (Friday 21st March 2025)"
-	revision: "12"
+	date: "2025-05-05 6:08:35 GMT (Monday 5th May 2025)"
+	revision: "13"
 
 deferred class
 	EL_REFLECTIVE_DESCRIPTIONS
@@ -39,7 +39,7 @@ feature -- Access
 			if descriptions.is_empty then
 				create Result
 			elseif attached current_reflective as l_current then
-				create help_table.make ({EL_TABLE_FORMAT}.Indented_eiffel, descriptions)
+				create help_table.make_indented_eiffel (descriptions)
 				create Result.make_equal (help_table.count)
 				across help_table as table loop
 					if field_table.has_immutable_key (table.key) then

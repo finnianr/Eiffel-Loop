@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 20:44:24 GMT (Sunday 4th May 2025)"
-	revision: "30"
+	date: "2025-05-05 9:11:37 GMT (Monday 5th May 2025)"
+	revision: "31"
 
 class
 	LOCALE_COMPILER_TEST_SET
@@ -27,7 +27,7 @@ inherit
 
 	EL_CRC_32_TESTABLE
 
-	EL_SHARED_SINGLETONS; SHARED_DEV_ENVIRON
+	EL_SHARED_SINGLETONS; SHARED_EIFFEL_LOOP
 
 create
 	make

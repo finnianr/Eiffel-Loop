@@ -6,36 +6,41 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 21:05:21 GMT (Sunday 4th May 2025)"
-	revision: "1"
+	date: "2025-05-05 12:28:16 GMT (Monday 5th May 2025)"
+	revision: "3"
 
 class
 	DATA_DIRECTORIES
 
 inherit
-	EL_REFLECTIVE_LOCALE_TEXTS
+	EL_REFLECTIVE_ATTRIBUTE_TABLE [DIR_PATH]
+		rename
+			attribute_list as directory_list
 		redefine
-			initialize_fields, value_in_set
+			initialize
 		end
 
-	SHARED_DEV_ENVIRON
+	SHARED_EIFFEL_LOOP
 
 create
-	make_english
+	make
 
 feature {NONE} -- Initialization
 
-	initialize_fields
+	initialize (field_list: EL_FIELD_LIST)
 		do
-			Precursor
-			across new_directory_list as list loop
-				list.item.set_parent (eiffel_loop_dir #+ "test/data")
+			across field_list as list loop
+				if attached {EL_REFLECTED_PATH} list.item as field
+					and then attached {DIR_PATH} field.value (Current) as directory
+				then
+					directory.set_parent (eiffel_loop_dir #+ "test/data")
+				end
 			end
 		ensure then
-			all_exist: across new_directory_list as list all list.item.exists end
+			all_exist: across directory_list as list all list.item.exists end
 		end
 
-feature -- Access
+feature -- Test data
 
 	code: DIR_PATH
 
@@ -73,28 +78,14 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	new_directory_list: EL_ARRAYED_LIST [DIR_PATH]
-		do
-			create Result.make (field_list.count)
-			across field_list as list loop
-				if attached {EL_REFLECTED_PATH} list.item as field
-					and then attached {DIR_PATH} field.value (Current) as directory
-				then
-					Result.extend (directory)
-				end
-			end
-		end
-
-	english_table: STRING_8
-		-- description of attributes
+	new_text_table: STRING_8
+		-- map eiffel attribute identifier to director name if different
 		do
 			Result := "[
 				eiffel_loop_com:
 					eiffel-loop.com
 				id3:
 					id3$
-				rsa_keys:
-					rsa_keys
 				thunderbird:
 					.thunderbird
 				vtd_xml:
@@ -102,11 +93,6 @@ feature {NONE} -- Implementation
 				xml:
 					XML
 			]"
-		end
-
-	value_in_set (value: ANY; set: like none): BOOLEAN
-		do
-			Result := True
 		end
 
 end

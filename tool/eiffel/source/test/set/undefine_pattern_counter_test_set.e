@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 10:57:07 GMT (Saturday 5th October 2024)"
-	revision: "28"
+	date: "2025-05-05 9:17:48 GMT (Monday 5th May 2025)"
+	revision: "29"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -24,7 +24,7 @@ inherit
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT
 
-	SHARED_DEV_ENVIRON
+	SHARED_EIFFEL_LOOP
 
 create
 	make

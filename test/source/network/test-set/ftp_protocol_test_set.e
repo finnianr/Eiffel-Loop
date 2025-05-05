@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 20:42:57 GMT (Sunday 4th May 2025)"
-	revision: "24"
+	date: "2025-05-05 9:11:37 GMT (Monday 5th May 2025)"
+	revision: "25"
 
 class
 	FTP_PROTOCOL_TEST_SET
@@ -26,7 +26,7 @@ inherit
 
 	EL_CRC_32_TESTABLE
 
-	SHARED_DEV_ENVIRON; SHARED_DATA_DIRECTORIES
+	SHARED_EIFFEL_LOOP; SHARED_DATA_DIRECTORIES
 
 create
 	make

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 21:27:23 GMT (Sunday 4th May 2025)"
-	revision: "7"
+	date: "2025-05-05 9:15:52 GMT (Monday 5th May 2025)"
+	revision: "8"
 
 class
 	SVG_TO_PNG_TEST_SET
@@ -28,7 +28,7 @@ inherit
 
 	SHARED_JNI_ENVIRONMENT undefine default_create end
 
-	SHARED_DEV_ENVIRON
+	SHARED_EIFFEL_LOOP
 
 create
 	make

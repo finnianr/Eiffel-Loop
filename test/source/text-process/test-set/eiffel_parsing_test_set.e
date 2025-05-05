@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 20:42:38 GMT (Sunday 4th May 2025)"
-	revision: "13"
+	date: "2025-05-05 9:11:37 GMT (Monday 5th May 2025)"
+	revision: "14"
 
 class
 	EIFFEL_PARSING_TEST_SET
@@ -26,7 +26,7 @@ class
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 
-	SHARED_DEV_ENVIRON
+	SHARED_EIFFEL_LOOP
 
 create
 	make

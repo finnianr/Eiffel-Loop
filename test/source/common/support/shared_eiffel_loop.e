@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 20:39:45 GMT (Sunday 4th May 2025)"
-	revision: "5"
+	date: "2025-05-05 9:28:42 GMT (Monday 5th May 2025)"
+	revision: "6"
 
 deferred class
-	SHARED_DEV_ENVIRON
+	SHARED_EIFFEL_LOOP
 
 inherit
 	EL_ANY_SHARED
@@ -19,12 +19,12 @@ feature {NONE} -- Implementation
 
 	eiffel_loop_dir: DIR_PATH
 		do
-			Result := Dev_environ.Eiffel_loop_dir
+			Result := Eiffel_loop.home_dir
 		end
 
 feature {NONE} -- Constants
 
-	Dev_environ: DEVELOPMENT_ENVIRONMENT
+	Eiffel_loop: EIFFEL_LOOP_ENVIRONMENT
 		once
 			create Result
 		end

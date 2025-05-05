@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 8:39:25 GMT (Sunday 4th May 2025)"
-	revision: "80"
+	date: "2025-05-05 10:13:51 GMT (Monday 5th May 2025)"
+	revision: "81"
 
 class SPLIT_STRING_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -41,6 +41,7 @@ feature {NONE} -- Initialization
 				["occurrence_editor",			 agent test_occurrence_editor],
 				["occurrence_intervals",		 agent test_occurrence_intervals],
 				["path_split",						 agent test_path_split],
+				["paragraph_list",				 agent test_paragraph_list],
 				["set_encoding_from_name",		 agent test_set_encoding_from_name],
 				["skip_empty_split",				 agent test_skip_empty_split],
 				["spell_numbers",					 agent test_spell_numbers],
@@ -275,6 +276,22 @@ feature -- Tests
 						end
 					end
 				end
+			end
+		end
+
+	test_paragraph_list
+		-- SPLIT_STRING_TEST_SET.test_paragraph_list
+		note
+			testing: "covers/{EL_STRING_LIST}.make_paragraphs"
+		local
+			paragraph_list: EL_ZSTRING_LIST; l_text: ZSTRING
+		do
+			if attached File.plain_text (Data_dir.txt + "paragraphs.txt") as utf_8_string then
+				create l_text.make_from_utf_8 (utf_8_string)
+				create paragraph_list.make_paragraphs (l_text)
+				assert ("12 paragraphs", paragraph_list.count = 12)
+				assert ("lines joined", paragraph_list.first.has_substring ("Einkäufer job Zurich"))
+				assert ("lines joined", paragraph_list.last.has_substring ("job Bern"))
 			end
 		end
 

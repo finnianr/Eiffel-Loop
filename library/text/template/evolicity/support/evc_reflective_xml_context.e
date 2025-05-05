@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-22 14:45:10 GMT (Saturday 22nd March 2025)"
-	revision: "14"
+	date: "2025-05-05 6:41:24 GMT (Monday 5th May 2025)"
+	revision: "15"
 
 deferred class
 	EVC_REFLECTIVE_XML_CONTEXT
@@ -36,7 +36,7 @@ feature {NONE} -- Implementation
 		-- list of all field values as XML text elements
 		-- Format: <$field.export_name>$field.to_string</$field.export_name>
 		do
-			create Result.make (current_reflective.field_table.count)
+			create Result.make (current_reflective.field_list.count)
 			if attached String_pool.borrowed_batch (2) as borrowed
 				and then attached borrowed [0].empty as buffer
 				and then attached borrowed [1].empty as field_string

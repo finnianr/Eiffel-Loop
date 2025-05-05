@@ -847,3 +847,6 @@ Include character type in EL_ITERABLE_SPLIT
 Sun 27th Apr 2025, 16:26:53
 Fully tested EL_TRANSFORMABLE_ZSTRING.replace_set_members and prune_set_members
 
+Mon 5th May 2025, 7:52:35
+New class EL_REFLECTIVE_ATTRIBUTE_TABLE
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2025-05-05 9:29:48 GMT (Monday 5th May 2025)"
+	revision: "8"
 
 class
 	VELOCITY_TEST_SET
@@ -19,7 +19,7 @@ inherit
 
 	SHARED_JNI_ENVIRONMENT undefine default_create end
 
-	SHARED_DEV_ENVIRON
+	SHARED_EIFFEL_LOOP
 
 create
 	make
@@ -38,7 +38,7 @@ feature -- Tests
 
 	test_velocity
 		do
-			Java.append_jar_locations (<< Dev_environ.Eiffel_loop_dir #+ "contrib/Java/velocity-1.7" >>)
+			Java.append_jar_locations (<< eiffel_loop_dir #+ "contrib/Java/velocity-1.7" >>)
 			Java.open (<< "velocity-1.7-dep" >>)
 			do_velocity_test
 			Java.close
@@ -163,6 +163,6 @@ feature {NONE} -- Constants
 
 	Source_dir: EL_DIR_PATH
 		once
-			Result := Dev_environ.Eiffel_loop_dir #+ "tool/eiffel/test-data/sources/latin-1"
+			Result := eiffel_loop_dir #+ "tool/eiffel/test-data/sources/latin-1"
 		end
 end

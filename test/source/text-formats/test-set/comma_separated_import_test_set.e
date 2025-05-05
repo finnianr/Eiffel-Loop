@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 9:20:09 GMT (Monday 2nd September 2024)"
-	revision: "26"
+	date: "2025-05-05 8:54:38 GMT (Monday 5th May 2025)"
+	revision: "27"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	READ_DATA_EQA_TEST_SET
 		undefine
 			new_lio
 		end
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 	new_job_list: CSV_IMPORTABLE_ARRAYED_LIST [JOB]
 		do
 			create Result.make (10)
-			Result.import_csv_latin_1 ("data/csv/JobServe.csv")
+			Result.import_csv_latin_1 (Data_dir.csv + "JobServe.csv")
 		end
 
 	role_contains (job: JOB; word: STRING): BOOLEAN

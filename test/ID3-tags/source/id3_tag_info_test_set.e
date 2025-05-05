@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 7:57:02 GMT (Saturday 28th September 2024)"
-	revision: "18"
+	date: "2025-05-05 9:01:46 GMT (Monday 5th May 2025)"
+	revision: "19"
 
 class
 	ID3_TAG_INFO_TEST_SET
@@ -25,6 +25,8 @@ inherit
 	EL_MODULE_NAMING
 
 	ID3_SHARED_FRAME_FIELD_TYPES
+
+	SHARED_DATA_DIRECTORIES
 
 create
 	make
@@ -90,6 +92,11 @@ feature {NONE} -- Implementation
 				put_frames (info.frame_list, prefix_words)
 				info.wipe_out -- close files for test deletion
 			end
+		end
+
+	source_dir: DIR_PATH
+		do
+			Result := Data_dir.id3
 		end
 
 	string_list_first (field: ID3_FRAME): ZSTRING
@@ -165,11 +172,6 @@ feature {NONE} -- Constants
 				[Field_type.string, agent {ID3_FRAME}.string],
 				[Field_type.string_list, agent string_list_first]
 			>>)
-		end
-
-	Source_dir: DIR_PATH
-		once
-			Result := "data/id3$"
 		end
 
 	Square_brackets: ZSTRING

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 18:00:27 GMT (Sunday 4th May 2025)"
-	revision: "17"
+	date: "2025-05-05 12:47:11 GMT (Monday 5th May 2025)"
+	revision: "18"
 
 class
 	CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET
@@ -44,8 +44,8 @@ feature -- Tests
 		note
 			testing: "covers/{EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS}.build_from_file"
 		do
-			do_test ("create_bioinfo", 674821716, agent create_bioinfo, [])
-			do_test ("create_smil", 496710526, agent create_smil, [])
+			do_test ("create_bioinfo", 4142905961, agent create_bioinfo, ["bioinfo.xml"])
+			do_test ("create_smil", 1820761195, agent create_smil, ["linguistic-analysis.smil"])
 		end
 
 	test_document_node_xpath_matcher
@@ -57,38 +57,37 @@ feature -- Tests
 				covers/{EL_HTML_ROUTINES}.to_xml
 			]"
 		do
-			if attached Data_dir.xml as xml then
-				do_test ("create_xhtml", 4188040180, agent create_xhtml, [xml + "Hexagrams.html"])
-				do_test ("create_xhtml", 656333874, agent create_xhtml, [xml + "Hexagrams.utf8.html"])
-			end
+			do_test ("create_xhtml", 309870796, agent create_xhtml, ["Hexagrams.html"])
+			do_test ("create_xhtml", 3435591434, agent create_xhtml, ["Hexagrams.utf8.html"])
 		end
 
 feature {NONE} -- Implementation
 
-	create_bioinfo
+	create_bioinfo (name: STRING)
 			--
 		local
 			events: BIOINFO_XPATH_MATCH_EVENTS
 		do
-			create events.make_from_file (Data_dir.vtd_xml + "bioinfo.xml")
+			create events.make_from_file (Data_dir.vtd_xml + name)
 		end
 
-	create_smil
+	create_smil (name: STRING)
 			--
 		local
-			events: SMIL_XPATH_MATCH_EVENTS
+			events: SMIL_XPATH_MATCH_EVENTS; creatable_dir: DIR_PATH
 		do
-			create events.make_from_file (Data_dir.xml + "creatable/linguistic-analysis.smil")
+			creatable_dir := Data_dir.xml #+ "creatable"
+			create events.make_from_file (creatable_dir + name)
 		end
 
-	create_xhtml (file_path: STRING)
+	create_xhtml (name: STRING)
 			--
 		local
-			matcher: EL_DOCUMENT_NODE_XPATH_MATCHER
-			title: ZSTRING; paragraph_count: INTEGER_REF
-			XHTML_match_events: ARRAY [EL_XPATH_TO_AGENT_MAP]
+			matcher: EL_DOCUMENT_NODE_XPATH_MATCHER; title: ZSTRING; paragraph_count: INTEGER_REF
+			XHTML_match_events: ARRAY [EL_XPATH_TO_AGENT_MAP]; file_path: FILE_PATH
 		do
 			create title.make_empty; create paragraph_count
+			file_path := Data_dir.xml + name
 
 			XHTML_match_events := <<
 				-- Fixed paths

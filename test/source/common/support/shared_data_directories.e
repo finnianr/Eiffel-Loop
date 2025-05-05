@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 17:10:00 GMT (Sunday 4th May 2025)"
-	revision: "1"
+	date: "2025-05-05 5:54:08 GMT (Monday 5th May 2025)"
+	revision: "2"
 
 deferred class
 	SHARED_DATA_DIRECTORIES
@@ -19,6 +19,6 @@ feature {NONE} -- Constants
 
 	Data_dir: DATA_DIRECTORIES
 		once
-			create Result.make_english
+			create Result.make
 		end
 end

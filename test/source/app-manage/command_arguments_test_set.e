@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-19 16:42:46 GMT (Tuesday 19th November 2024)"
-	revision: "6"
+	date: "2025-05-05 8:48:58 GMT (Monday 5th May 2025)"
+	revision: "7"
 
 class
 	COMMAND_ARGUMENTS_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	READ_DATA_EQA_TEST_SET
 
 	EL_FALLIBLE
 		export
@@ -91,7 +91,7 @@ feature -- Tests
 		local
 			make_routine: PROCEDURE; bioinfo: BIOINFORMATIC_COMMANDS
 		do
-			across command_array_list ("xml_path", "data/vtd-xml/bioinfo.xml") as list loop
+			across command_array_list ("xml_path", (Data_dir.vtd_xml + "bioinfo.xml").to_string) as list loop
 				if attached list.item as argument_array then
 					create bioinfo.make
 					make_routine := agent make_buildable (bioinfo)

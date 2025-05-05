@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2025-05-05 9:29:04 GMT (Monday 5th May 2025)"
+	revision: "13"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR_APP
@@ -20,7 +20,7 @@ class
 inherit
 	EL_COMMAND_LINE_APPLICATION [ID3_FRAME_CODE_CLASS_GENERATOR]
 
-	SHARED_DEV_ENVIRON
+	SHARED_EIFFEL_LOOP
 
 create
 	make
@@ -43,7 +43,7 @@ feature {NONE} -- Constants
 
 	ID3_v2_dir: DIR_PATH
 		once
-			Result := Dev_environ.Eiffel_loop_dir #+ "contrib/C++/taglib/include/mpeg/id3v2"
+			Result := eiffel_loop_dir #+ "contrib/C++/taglib/include/mpeg/id3v2"
 		end
 
 end

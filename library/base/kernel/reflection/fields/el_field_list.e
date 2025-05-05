@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-30 6:06:06 GMT (Wednesday 30th April 2025)"
-	revision: "37"
+	date: "2025-05-05 7:44:35 GMT (Monday 5th May 2025)"
+	revision: "38"
 
 class
 	EL_FIELD_LIST
@@ -29,16 +29,14 @@ inherit
 			copy, is_equal
 		end
 
+	EL_REFLECTED_REFERENCE_FACTORY
+		export
+			{NONE} all
+		end
+
 	EL_REFLECTION_HANDLER
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
-
-	REFLECTOR_CONSTANTS
-		export
-			{NONE} all
-		undefine
-			copy, is_equal
-		end
 
 create
 	make, make_empty, make_abstract
@@ -434,7 +432,7 @@ feature {NONE} -- Implementation
 
 	extend_for_type (object: ANY; a_index, a_type: INTEGER; a_name: IMMUTABLE_STRING_8)
 		local
-			field: EL_REFLECTED_FIELD
+			field: EL_REFLECTED_FIELD; type_properties: EL_FIELD_TYPE_PROPERTIES
 		do
 			inspect a_type
 				when Integer_8_type then
@@ -463,6 +461,7 @@ feature {NONE} -- Implementation
 
 				when Real_32_type then
 					create {EL_REFLECTED_REAL_32} field.make (object, a_index, a_name)
+					
 				when Real_64_type then
 					create {EL_REFLECTED_REAL_64} field.make (object, a_index, a_name)
 
@@ -476,7 +475,8 @@ feature {NONE} -- Implementation
 					create {EL_REFLECTED_CHARACTER_32} field.make (object, a_index, a_name)
 
 				when Reference_type then
-					create {EL_REFLECTED_REFERENCE_ANY} field.make (object, a_index, a_name)
+					create type_properties.make (a_index, dynamic_type (object))
+					field := new_reference_field (object, type_properties, a_name)
 			else
 			end
 			extend (field)

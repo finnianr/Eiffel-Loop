@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-05 18:04:36 GMT (Wednesday 5th March 2025)"
-	revision: "5"
+	date: "2025-05-05 9:11:37 GMT (Monday 5th May 2025)"
+	revision: "6"
 
 class
 	TESTABLE_404_INTERCEPT_SERVICE
@@ -18,7 +18,7 @@ inherit
 			new_servlet
 		end
 
-	SHARED_DEV_ENVIRON
+	SHARED_EIFFEL_LOOP
 
 create
 	make, make_port

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 7:29:45 GMT (Sunday 27th April 2025)"
-	revision: "58"
+	date: "2025-05-05 9:57:54 GMT (Monday 5th May 2025)"
+	revision: "59"
 
 class EL_ZSTRING_ROUTINES_IMP inherit ANY
 
@@ -32,29 +32,6 @@ feature -- Factory
 	new_list (comma_separated: ZSTRING): EL_ZSTRING_LIST
 		do
 			create Result.make_comma_split (comma_separated)
-		end
-
-feature -- Conversion
-
-	new_paragraph_list (text: READABLE_STRING_GENERAL): EL_ZSTRING_LIST
-		-- `text' lines joined together as paragraphs with
-		-- an empty line interpreted as a paragraph delimiter
-		local
-			lines, sub_list: EL_ZSTRING_LIST
-		do
-			create lines.make_with_lines (text)
-
-			create Result.make (lines.count_of (agent {ZSTRING}.is_empty) + 1)
-			create sub_list.make (lines.count // Result.capacity + 1)
-			across lines as l loop
-				if not l.item.is_empty then
-					sub_list.extend (l.item)
-				end
-				if l.item.is_empty or l.is_last then
-					Result.extend (sub_list.joined (' '))
-					sub_list.wipe_out
-				end
-			end
 		end
 
 feature -- Basic operations
