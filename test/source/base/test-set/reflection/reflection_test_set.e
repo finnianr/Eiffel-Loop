@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-05 8:43:02 GMT (Monday 5th May 2025)"
-	revision: "91"
+	date: "2025-05-06 9:20:40 GMT (Tuesday 6th May 2025)"
+	revision: "92"
 
 class	REFLECTION_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -584,6 +584,7 @@ feature -- Tests
 		end
 
 	test_value_list
+		-- REFLECTION_TEST_SET.test_value_list
 		note
 			testing: "[
 				covers/{EL_FIELD_TABLE}.value_list_for,

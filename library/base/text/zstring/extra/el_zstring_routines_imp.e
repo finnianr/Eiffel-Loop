@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-06 8:55:57 GMT (Tuesday 6th May 2025)"
-	revision: "60"
+	date: "2025-05-06 9:33:19 GMT (Tuesday 6th May 2025)"
+	revision: "61"
 
 class EL_ZSTRING_ROUTINES_IMP inherit ANY
 
@@ -41,6 +41,11 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	capacity (str: ZSTRING): INTEGER
+		do
+			Result := str.capacity
+		end
 
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: EL_READABLE_ZSTRING; pattern: READABLE_STRING_GENERAL)
 		do

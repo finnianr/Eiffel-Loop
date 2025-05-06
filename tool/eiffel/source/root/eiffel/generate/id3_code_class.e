@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:19 GMT (Tuesday 18th March 2025)"
-	revision: "10"
+	date: "2025-05-06 9:40:40 GMT (Tuesday 6th May 2025)"
+	revision: "11"
 
 class
 	ID3_CODE_CLASS
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 			l_file_path.add_extension ("e")
 			create field_list.make (a_generator.field_table.count)
 			across a_generator.field_table as table loop
-				if attached s.joined_list_with (table.item, Empty_string_8) as code then
+				if attached s.joined_with_string (table.item, Empty_string_8) as code then
 					field_list.extend (new_context (code, table.key))
 				end
 			end

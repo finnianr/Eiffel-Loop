@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 16:21:57 GMT (Friday 25th April 2025)"
-	revision: "88"
+	date: "2025-05-06 9:39:55 GMT (Tuesday 6th May 2025)"
+	revision: "89"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -18,7 +18,7 @@ deferred class
 inherit
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X, CHAR]
 
-	EL_MODULE_ITERABLE
+	EL_CONTAINER_CONVERSION [READABLE_STRING_GENERAL]
 
 feature -- Factory
 
@@ -51,49 +51,78 @@ feature -- List joining
 		do
 			Result := new (a.count + b.count)
 			append_to (Result, a); append_to (Result, b)
+		ensure
+			correct_character_count: Result.count = capacity (Result)
 		end
 
-	joined_lines (list: ITERABLE [READABLE_STRING_GENERAL]): STRING_X
+	joined_lines (container: CONTAINER [READABLE_STRING_GENERAL]): STRING_X
 		do
-			Result := joined_list (list, '%N')
+			Result := joined_list (container, '%N')
 		end
 
-	joined_list (list: ITERABLE [READABLE_STRING_GENERAL]; separator: CHARACTER_32): STRING_X
+	joined_list (container: CONTAINER [READABLE_STRING_GENERAL]; separator: CHARACTER_32): STRING_X
 		local
-			char_count: INTEGER; code: NATURAL_32
+			code: NATURAL_32
 		do
 			code := to_code (separator) -- might be z_code for ZSTRING
-			char_count := Iterable.character_count (list, 1)
-			Result := new (char_count)
-			across list as ln loop
-				if Result.count > 0 then
-					Result.append_code (code)
+			if attached as_structure (container).to_special_shared as special_area then
+				Result := new (character_count (special_area, 1))
+				across special_area as area loop
+					if Result.count > 0 then
+						Result.append_code (code)
+					end
+					append_to (Result, area.item)
 				end
-				append_to (Result, ln.item)
+			else
+				Result := new (0)
 			end
+		ensure
+			correct_character_count: Result.count = capacity (Result)
 		end
 
-	joined_list_with (list: ITERABLE [READABLE_STRING_GENERAL]; separator: READABLE_STRING_GENERAL): STRING_X
-		local
-			char_count: INTEGER
+	joined_with_string (container: CONTAINER [READABLE_STRING_GENERAL]; separator: READABLE_STRING_GENERAL): STRING_X
 		do
-			char_count := Iterable.character_count (list, separator.count)
-			Result := new (char_count)
-			across list as ln loop
-				if Result.count > 0 then
-					append_to (Result, separator)
+			if attached as_structure (container).to_special_shared as special_area then
+				Result := new (character_count (special_area, separator.count))
+				across special_area as area loop
+					if Result.count > 0 then
+						append_to (Result, separator)
+					end
+					append_to (Result, area.item)
 				end
-				append_to (Result, ln.item)
+			else
+				Result := new (0)
 			end
+		ensure
+			correct_character_count: Result.count = capacity (Result)
 		end
 
 	joined_with (a, b, separator: READABLE_STRING_X): STRING_X
 		do
 			Result := new (a.count + b.count + separator.count)
 			append_to (Result, a); append_to (Result, separator); append_to (Result, b)
+		ensure
+			correct_character_count: Result.count = capacity (Result)
+		end
+
+feature {NONE} -- Implementation
+
+	character_count (area: SPECIAL [READABLE_STRING_GENERAL]; separator_count: INTEGER): INTEGER
+		local
+			i: INTEGER
+		do
+			Result := separator_count * (area.count - 1)
+			from i := 0 until i = area.count loop
+				Result := Result + area [i].count
+				i := i + 1
+			end
 		end
 
 feature {NONE} -- Deferred
+
+	capacity (str: STRING_X): INTEGER
+		deferred
+		end
 
 	append_to (str: STRING_X; extra: READABLE_STRING_GENERAL)
 		deferred

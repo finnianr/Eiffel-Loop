@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-06 7:59:42 GMT (Tuesday 6th May 2025)"
-	revision: "54"
+	date: "2025-05-06 9:33:35 GMT (Tuesday 6th May 2025)"
+	revision: "55"
 
 class EL_STRING_8_ROUTINES_IMP inherit ANY
 
@@ -43,6 +43,11 @@ feature -- Factory
 		end
 
 feature {NONE} -- Implementation
+
+	capacity (str: STRING_8): INTEGER
+		do
+			Result := str.capacity
+		end
 
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_8; pattern: READABLE_STRING_GENERAL)
 		do
