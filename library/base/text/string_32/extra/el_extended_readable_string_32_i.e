@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 7:14:19 GMT (Sunday 4th May 2025)"
-	revision: "20"
+	date: "2025-05-06 7:22:47 GMT (Tuesday 6th May 2025)"
+	revision: "21"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_32_I
@@ -90,6 +90,20 @@ feature -- Conversion
 				Result := Once_split_on_character_32
 			end
 			Result.set_adjustments (adjustments); Result.set_separator (uc); Result.set_target (target)
+		end
+
+	to_code_array: SPECIAL [NATURAL_32]
+		local
+			i, i_upper: INTEGER
+		do
+			create Result.make_empty (count)
+			if attached area as l_area then
+				i_upper := index_upper
+				from i := index_lower until i > i_upper loop
+					Result.extend (l_area [i].natural_32_code)
+					i := i + 1
+				end
+			end
 		end
 
 feature {NONE} -- Implementation

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 18:01:12 GMT (Tuesday 15th April 2025)"
-	revision: "4"
+	date: "2025-05-06 8:20:11 GMT (Tuesday 6th May 2025)"
+	revision: "5"
 
 expanded class
 	EL_RSA_USER_CRYPTO_OPERATIONS
@@ -51,9 +51,8 @@ feature -- Basic operations
 	write_signed_CSV_list_with_x509_private_key
 		local
 			private_key: like new_private_key
-			signed_string: SPECIAL [NATURAL_8]; string_list: EL_STRING_8_LIST; s: EL_STRING_8_ROUTINES
+			string_list: EL_STRING_8_LIST; sg: EL_STRING_GENERAL_ROUTINES; csv_list: EL_USER_INPUT_VALUE [STRING]
 			eiffel_class: EL_SIGNED_EIFFEL_CLASS; key_file_path: FILE_PATH
-			csv_list: EL_USER_INPUT_VALUE [STRING]
 		do
 			key_file_path := new_drag_and_drop_key_file
 			private_key := new_private_key (key_file_path)
@@ -65,12 +64,11 @@ feature -- Basic operations
 
 			create eiffel_class.make (new_eiffel_source_name, serial_number (key_file_path))
 			across string_list as list loop
-				create signed_string.make_filled (0, 16)
-				signed_string.copy_data (s.to_code_array (list.item), 0, 0, list.item.count)
-
 				lio.put_labeled_string ("Signing", list.item)
 				lio.put_new_line
-				eiffel_class.field_list.extend (new_signed_field (private_key, list.item, signed_string))
+				if attached sg.super_8 (list.item).to_fixed_code_array (16) as signed_string then
+					eiffel_class.field_list.extend (new_signed_field (private_key, list.item, signed_string))
+				end
 			end
 			eiffel_class.serialize
 		end

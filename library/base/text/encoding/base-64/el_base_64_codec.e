@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "19"
+	date: "2025-05-06 7:52:51 GMT (Tuesday 6th May 2025)"
+	revision: "20"
 
 class
 	EL_BASE_64_CODEC
@@ -27,9 +27,10 @@ feature -- Conversion
 
 	decoded (base64_string: STRING): STRING
 		local
-			s: EL_STRING_8_ROUTINES
+			str: EL_STRING_8
 		do
-			Result := s.from_code_array (decoded_special (base64_string))
+			str := decoded_special (base64_string)
+			Result := str.as_shared
 		end
 
 	decoded_array (base64_string: STRING): ARRAY [NATURAL_8]

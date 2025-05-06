@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 17:15:10 GMT (Sunday 4th May 2025)"
-	revision: "18"
+	date: "2025-05-06 7:54:03 GMT (Tuesday 6th May 2025)"
+	revision: "19"
 
 class
 	COMPRESSION_TEST_SET
@@ -108,7 +108,7 @@ feature {NONE} -- Implementation
 			--
 		local
 			compressed_data, decompressed_data: SPECIAL [NATURAL_8]
-			file_text: STRING; s: EL_STRING_8_ROUTINES
+			file_text: STRING; str: EL_STRING_8
 		do
 			lio.put_path_field ("XML", a_file_path)
 			file_text := File.plain_text (a_file_path)
@@ -119,7 +119,8 @@ feature {NONE} -- Implementation
 
 			decompressed_data := Zlib.decompressed_bytes (compressed_data, file_text.count)
 
-			assert ("Decompressed ok", file_text ~ s.from_code_array (decompressed_data))
+			str := decompressed_data
+			assert ("Decompressed ok", file_text ~ str.as_shared)
 		end
 
 end

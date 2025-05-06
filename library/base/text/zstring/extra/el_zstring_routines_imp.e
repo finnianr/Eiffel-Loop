@@ -1,7 +1,6 @@
 note
 	description: "[
-		${EL_STRING_X_ROUTINES} implemented for ${EL_READABLE_ZSTRING}
-		plus a few extra convenience routines
+		${EL_STRING_X_ROUTINES} implemented for ${EL_READABLE_ZSTRING} plus a few extra convenience routines
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-05 9:57:54 GMT (Monday 5th May 2025)"
-	revision: "59"
+	date: "2025-05-06 8:55:57 GMT (Tuesday 6th May 2025)"
+	revision: "60"
 
 class EL_ZSTRING_ROUTINES_IMP inherit ANY
 

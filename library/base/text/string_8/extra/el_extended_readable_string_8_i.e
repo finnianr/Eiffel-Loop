@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 7:14:19 GMT (Sunday 4th May 2025)"
-	revision: "18"
+	date: "2025-05-06 8:33:06 GMT (Tuesday 6th May 2025)"
+	revision: "19"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8_I
@@ -82,6 +82,35 @@ feature -- Conversion
 				Result := Once_split_on_character_8
 			end
 			Result.set_adjustments (adjustments); Result.set_separator (c); Result.set_target (target)
+		end
+
+	to_code_array: SPECIAL [NATURAL_8]
+		local
+			i, i_upper: INTEGER
+		do
+			create Result.make_empty (count)
+			if attached area as l_area then
+				i_upper := index_upper
+				from i := index_lower until i > i_upper loop
+					Result.extend (l_area [i].code.to_natural_8)
+					i := i + 1
+				end
+			end
+		end
+
+	to_fixed_code_array (n: INTEGER): SPECIAL [NATURAL_8]
+		-- code array with fixed number of bytes `n'
+		local
+			i, i_upper: INTEGER
+		do
+			create Result.make_filled (0, n)
+			if attached area as l_area then
+				i_upper := (index_lower + n - 1).min (index_upper)
+				from i := index_lower until i > i_upper loop
+					Result [i - index_lower] := l_area [i].code.to_natural_8
+					i := i + 1
+				end
+			end
 		end
 
 feature {NONE} -- Implementation

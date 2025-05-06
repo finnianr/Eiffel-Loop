@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-06 9:08:22 GMT (Thursday 6th March 2025)"
-	revision: "15"
+	date: "2025-05-06 7:12:58 GMT (Tuesday 6th May 2025)"
+	revision: "16"
 
 class
 	EL_DIGEST_ROUTINES
@@ -31,13 +31,13 @@ feature -- Access
 		-- salted digest of `phrase_utf_8'
 		local
 			l_md5: MD5; sha: SHA256; md5_hash, data, phrase_data: SPECIAL [NATURAL_8]
-			i, j: INTEGER; s: EL_STRING_8_ROUTINES
+			i, j: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			create sha.make
 			create Result.make_filled (1, 32)
 			create l_md5.make
 			create md5_hash.make_filled (1, 16)
-			phrase_data := s.to_code_array (phrase_utf_8)
+			phrase_data := sg.super_8 (phrase_utf_8).to_code_array
 			from i := 0 until i > 50 loop
 				if i \\ 2 = 0 then
 					data := phrase_data

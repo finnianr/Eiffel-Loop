@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-03 14:01:34 GMT (Saturday 3rd May 2025)"
-	revision: "145"
+	date: "2025-05-06 7:38:51 GMT (Tuesday 6th May 2025)"
+	revision: "146"
 
 class
 	ZSTRING_TEST_SET
@@ -76,18 +76,22 @@ feature -- General tests
 		note
 			testing:	"[
 				covers/{EL_READABLE_ZSTRING}.make_from_zcode_area,
-				covers/{EL_WRITEABLE_ZSTRING}.fill_with_z_code
+				covers/{EL_WRITEABLE_ZSTRING}.fill_with_z_code,
+				covers/{EL_EXTENDED_ZSTRING}.to_z_code_array,
+				covers/{EL_EXTENDED_READABLE_STRING_32_I}.to_code_array
 			]"
 		local
-			zstr, zstr_2: ZSTRING; str_32: STRING_32; z_code_area: SPECIAL [NATURAL]
-			s32: EL_STRING_32_ROUTINES
+			zstr, zstr_2: ZSTRING; str_32: STRING_32
 		do
 			create str_32.make_empty
 			across Text.words_32 as list loop
 				zstr := list.item
 				zstr.fill_z_codes (str_32)
-				create zstr_2.make_from_zcode_area (s32.to_code_array (str_32))
-				assert_same_string (Void, zstr, zstr_2)
+				if attached super_32 (str_32).to_code_array as code_array then
+					create zstr_2.make_from_zcode_area (code_array)
+					assert_same_string (Void, zstr, zstr_2)
+					assert ("same z codes", code_array ~ super_z (zstr).to_z_code_array)
+				end
 			end
 		end
 

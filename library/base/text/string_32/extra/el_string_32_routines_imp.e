@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 7:23:13 GMT (Sunday 27th April 2025)"
-	revision: "82"
+	date: "2025-05-06 7:21:51 GMT (Tuesday 6th May 2025)"
+	revision: "83"
 
 class EL_STRING_32_ROUTINES_IMP inherit ANY
 
@@ -28,19 +28,6 @@ feature -- Basic operations
 				sg.as_zstring (extra).append_to_string_32 (str)
 			else
 				str.append_string_general (extra)
-			end
-		end
-
-feature -- Conversion
-
-	to_code_array (s: STRING_32): ARRAY [NATURAL_32]
-		local
-			i: INTEGER
-		do
-			create Result.make_filled (0, 1, s.count)
-			from i := 1 until i > s.count loop
-				Result [i] := s.code (i)
-				i := i + 1
 			end
 		end
 

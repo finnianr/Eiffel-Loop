@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-22 14:18:24 GMT (Thursday 22nd August 2024)"
-	revision: "2"
+	date: "2025-05-06 7:55:19 GMT (Tuesday 6th May 2025)"
+	revision: "3"
 
 deferred class
 	EL_COMPRESSED_CODE_TEXT_TABLE
@@ -23,12 +23,12 @@ feature {NONE} -- Implementation
 
 	new_manifest: READABLE_STRING_GENERAL
 		local
-			zlib: EL_ZLIB_ROUTINES; text: STRING; s: EL_STRING_8_ROUTINES
+			zlib: EL_ZLIB_ROUTINES; text: EL_STRING_8
 			compressed, decompressed: SPECIAL [NATURAL_8]
 		do
 			compressed := Base_64.decoded_special (compressed_manifest)
 			decompressed := zlib.decompressed_bytes (compressed, text_count)
-			text := s.from_code_array (decompressed)
+			text := decompressed
 			if is_utf_8_encoded then
 				create {ZSTRING} Result.make_from_utf_8 (text)
 			else

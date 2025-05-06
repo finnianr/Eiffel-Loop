@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-26 8:51:31 GMT (Saturday 26th April 2025)"
-	revision: "44"
+	date: "2025-05-06 8:46:22 GMT (Tuesday 6th May 2025)"
+	revision: "45"
 
 class
 	EL_STRING_8
@@ -40,7 +40,10 @@ inherit
 	EL_SHARED_STRING_8_BUFFER_POOL
 
 create
-	make_from_zstring, make_empty, make, make_from_string
+	make, make_bitmap, make_from_zstring, make_empty, make_from_codes, make_from_string
+
+convert
+	make_from_codes ({SPECIAL [NATURAL_8]})
 
 feature {NONE} -- Initialization
 
@@ -50,9 +53,41 @@ feature {NONE} -- Initialization
 			shared_string := Current
 		end
 
+	make_bitmap (n: NATURAL_64; digit_count: INTEGER)
+		-- right most `digit_count' binary digits of `n'
+		local
+			i, i_upper: INTEGER; mask: NATURAL_64
+		do
+			make_filled ('0', digit_count)
+			mask := mask.one |<< (digit_count - 1)
+			if attached area as l_area then
+				i_upper := digit_count - 1
+				from i := 0 until i > i_upper loop
+					if (n & mask).to_boolean then
+						l_area [i] := '1'
+					end
+					mask := mask |>> 1
+					i := i + 1
+				end
+			end
+		end
+
 	make_from_zstring (zstr: EL_ZSTRING_CHARACTER_8_BASE)
 		do
 			set_area_and_count (zstr.area, zstr.count)
+		end
+
+	make_from_codes (array: SPECIAL [NATURAL_8])
+		local
+			i: INTEGER
+		do
+			make_filled ('%U', array.count)
+			if attached area as l_area then
+				from i := 0 until i = array.count loop
+					l_area [i] := array [i].to_character_8
+					i := i + 1
+				end
+			end
 		end
 
 feature -- Access
@@ -210,6 +245,12 @@ feature -- Element change
 		end
 
 feature -- Duplication
+
+	as_shared: STRING_8
+		do
+			create Result.make_empty
+			Result.share (Current)
+		end
 
 	enclosed (left, right: CHARACTER_8): STRING_8
 		-- copy of target with `left' and `right' character prepended and appended

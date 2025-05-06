@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 7:15:48 GMT (Sunday 4th May 2025)"
-	revision: "17"
+	date: "2025-05-06 7:34:39 GMT (Tuesday 6th May 2025)"
+	revision: "18"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -29,7 +29,8 @@ inherit
 		rename
 			area as unencoded_area,
 			set_target as share,
-			shared_substring as shared_immutable_substring
+			shared_substring as shared_immutable_substring,
+			to_code_array as to_z_code_array
 		undefine
 			append_to_string_32, append_to_string_8, append_to_utf_8,
 			count,
@@ -55,7 +56,7 @@ inherit
 			latin_1_count,
 			new_shared_substring, occurrences_in_area_bounds, occurs_at, occurs_caseless_at,
 			parse_substring_in_bounds,
-			right_bracket_index, split, split_adjusted
+			right_bracket_index, split, split_adjusted, to_z_code_array
 		end
 
 create
@@ -257,6 +258,30 @@ feature -- Conversion
 		do
 			Result := Once_split_zstring
 			Result.set_adjustments (adjustments); Result.set_separator (uc); Result.set_target (shared_string)
+		end
+
+	to_z_code_array: SPECIAL [NATURAL_32]
+		local
+			i, block_index, i_upper: INTEGER; c_i: CHARACTER_8; uc_i: CHARACTER_32
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+		do
+			create Result.make_empty (count)
+			if attached unencoded_area as unencoded and then attached area as l_area
+				and then attached Unicode_table as uc_table
+			then
+				i_upper := count - 1
+				from i := 0 until i > i_upper loop
+					c_i := l_area [i]
+					inspect c_i
+						when Substitute then
+							uc_i := iter.item ($block_index, unencoded, i + 1)
+							Result.extend (unicode_to_z_code (uc_i.natural_32_code))
+					else
+						Result.extend (c_i.natural_32_code)
+					end
+					i := i + 1
+				end
+			end
 		end
 
 feature {STRING_HANDLER} -- Basic operations

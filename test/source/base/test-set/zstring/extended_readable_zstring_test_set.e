@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 8:39:13 GMT (Sunday 4th May 2025)"
-	revision: "13"
+	date: "2025-05-06 8:48:07 GMT (Tuesday 6th May 2025)"
+	revision: "14"
 
 class
 	EXTENDED_READABLE_ZSTRING_TEST_SET
@@ -32,13 +32,15 @@ feature {NONE} -- Initialization
 				["bracketed",							 agent test_bracketed],
 				["character_counts",					 agent test_character_counts],
 				["filtered",							 agent test_filtered],
-				["last_word_end_index",				 agent test_last_word_end_index],
 				["is_eiffel_name",					 agent test_is_eiffel_name],
 				["is_variable_reference",			 agent test_is_variable_reference],
+				["last_word_end_index",				 agent test_last_word_end_index],
+				["make_bitmap",						 agent test_make_bitmap],
 				["occurrences_in_bounds",			 agent test_occurrences_in_bounds],
 				["replaced_identifier",				 agent test_replaced_identifier],
 				["same_string",						 agent test_same_string],
 				["set_substring_lower",				 agent test_set_substring_lower],
+				["to_fixed_code_array",				 agent test_to_fixed_code_array],
 				["word_count",							 agent test_word_count]
 			>>)
 		end
@@ -288,6 +290,17 @@ feature -- Tests
 			assert_same_string (Void, format.substring (1, end_index), "yyyy")
 		end
 
+	test_make_bitmap
+		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_make_bitmap
+		local
+			digits: EL_STRING_8
+		do
+			create digits.make_bitmap (5, 4)
+			assert_same_string (Void, digits, "0101")
+			create digits.make_bitmap (1, 4)
+			assert_same_string (Void, digits, "0001")
+		end
+
 	test_occurrences_in_bounds
 		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_occurrences_in_bounds
 		local
@@ -392,6 +405,26 @@ feature -- Tests
 						else
 						end
 					end
+				end
+			end
+		end
+
+	test_to_fixed_code_array
+		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_to_fixed_code_array
+		local
+			str, def: IMMUTABLE_STRING_8; def_codes: SPECIAL [NATURAL_8]
+		do
+			str := "abc def ghi"
+			def := str.shared_substring (5, 7)
+			assert_same_string (Void, def, "def")
+			across << 2, 4 >> as size loop
+				def_codes := super_readable_8 (def).to_fixed_code_array (size.item)
+				assert ("same size codes", def_codes.count = size.item)
+				assert ("is d", def_codes [0].to_character_8 = 'd')
+				assert ("is e", def_codes [1].to_character_8 = 'e')
+				if size.item = 4 then
+					assert ("is f", def_codes [2].to_character_8 = 'f')
+					assert ("is zero", def_codes [3] = 0)
 				end
 			end
 		end
