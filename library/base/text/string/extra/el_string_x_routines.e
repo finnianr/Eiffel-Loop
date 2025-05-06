@@ -1,13 +1,13 @@
 note
-	description: "Routines to supplement handling of ${STRING_8} ${STRING_32} strings"
+	description: "Create and join lists of strings conforming to ${STRING_GENERAL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-06 9:39:55 GMT (Tuesday 6th May 2025)"
-	revision: "89"
+	date: "2025-05-06 9:53:51 GMT (Tuesday 6th May 2025)"
+	revision: "90"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -32,13 +32,17 @@ feature -- Factory
 		end
 
 	new_retrieved (file_path: FILE_PATH): STRING_X
-		-- new instace of type `STRING_X' restored from file saved by Studio debugger
+		-- new instance of type `STRING_X' restored from file saved by Studio debugger
 		local
 			file: RAW_FILE
 		do
 			create file.make_open_read (file_path)
 			if attached {STRING_X} file.retrieved as debug_str then
 				Result := debug_str
+
+			elseif attached {READABLE_STRING_GENERAL} file.retrieved as debug_general then
+				Result := new (debug_general.count)
+				append_to (Result, debug_general)
 			else
 				Result := new (0)
 			end
