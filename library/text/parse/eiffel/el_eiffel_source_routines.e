@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 15:02:56 GMT (Friday 11th April 2025)"
-	revision: "23"
+	date: "2025-05-07 9:39:36 GMT (Wednesday 7th May 2025)"
+	revision: "24"
 
-expanded class
+frozen expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
 
 inherit
@@ -22,7 +22,22 @@ inherit
 			{ANY} Class_declaration_keywords
 		end
 
-	EL_EIFFEL_CONSTANTS
+	EL_EIFFEL_CONSTANTS; EL_ZSTRING_CONSTANTS
+
+feature -- Access
+
+	comment_text (line: ZSTRING): ZSTRING
+		local
+			index_of_comment: INTEGER
+		do
+			index_of_comment := line.substring_index (Comment_mark, 1)
+			if index_of_comment > 0 then
+				Result := line.substring_end (index_of_comment + 2)
+				Result.left_adjust
+			else
+				Result := Empty_string
+			end
+		end
 
 feature -- Conversion
 
@@ -104,6 +119,16 @@ feature -- Status query
 	is_class_name (text: ZSTRING): BOOLEAN
 		do
 			Result := starts_with_upper_letter (text) and then text.is_subset_of_8 (Class_name_character_set)
+		end
+
+	is_comment (line: ZSTRING): BOOLEAN
+		local
+			index_of_comment: INTEGER
+		do
+			index_of_comment := line.substring_index (Comment_mark, 1)
+			if index_of_comment > 0 then
+				Result := line.leading_occurrences ('%T') + 1 = index_of_comment
+			end
 		end
 
 	is_first_letter_class_declaration (c: CHARACTER): BOOLEAN

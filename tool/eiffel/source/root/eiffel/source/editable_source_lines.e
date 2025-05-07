@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-19 7:27:16 GMT (Thursday 19th September 2024)"
-	revision: "9"
+	date: "2025-05-07 18:15:06 GMT (Wednesday 7th May 2025)"
+	revision: "10"
 
 class
 	EDITABLE_SOURCE_LINES
@@ -15,12 +15,27 @@ class
 inherit
 	EL_ZSTRING_LIST
 
+	EL_ZSTRING_CONSTANTS
+
 create
-	make, make_empty, make_with_lines, make_filled, make_from_special,
-	make_from, make_from_substrings, make_from_if, make_from_array, make_from_list,
-	make_from_tuple, make_from_general, make_split, make_adjusted_split, make_word_split, make_comma_split
+	make, make_empty, make_from, make_feature, make_with_lines
+
+feature {NONE} -- Initialization
+
+	make_feature (source_lines: READABLE_STRING_GENERAL)
+		do
+			make_with_lines (source_lines)
+			extend (Empty_string)
+		end
 
 feature -- Element change
+
+	append_comment (comment: STRING)
+			-- append comment to current item
+		do
+			item.append_character (' ')
+			item.append_string_general (Auto_edition_comment + comment)
+		end
 
 	insert_line_right (a_line: STRING; tab_count: INTEGER)
 		local
@@ -34,15 +49,8 @@ feature -- Element change
 
 	put_auto_edit_comment_right (comment: STRING; tab_count: INTEGER)
 		do
-			put_right (tab_string (tab_count) + Auto_edition_comment)
+			put_right (tab_string (tab_count - 1) + Auto_edition_comment)
 			i_th (index + 1).append_string_general (comment)
-		end
-
-	append_comment (comment: STRING)
-			-- append comment to current item
-		do
-			item.append_character (' ')
-			item.append_string_general (Auto_edition_comment + comment)
 		end
 
 feature {NONE} -- Constants

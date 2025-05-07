@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 12:57:16 GMT (Sunday 6th October 2024)"
-	revision: "12"
+	date: "2025-05-07 6:48:20 GMT (Wednesday 7th May 2025)"
+	revision: "13"
 
 deferred class
 	EL_EIFFEL_KEYWORDS
@@ -61,6 +61,11 @@ feature {NONE} -- Constants
 	Assign_operator: ZSTRING
 		once
 			Result := ":="
+		end
+
+	Comment_mark: ZSTRING
+		once
+			Result := "--"
 		end
 
 end

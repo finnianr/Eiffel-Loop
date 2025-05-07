@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-05 9:24:02 GMT (Monday 5th May 2025)"
-	revision: "51"
+	date: "2025-05-07 10:28:39 GMT (Wednesday 7th May 2025)"
+	revision: "52"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -161,6 +161,7 @@ feature -- Tests
 		end
 
 	test_eiffel_pecf
+		-- PYXIS_ECF_PARSER_TEST_SET.eiffel_pecf
 		local
 			ecf_xdoc: EL_XML_DOC_CONTEXT; sub_cluster_count, writeable_count: INTEGER
 			name, location: STRING; has_i18n: BOOLEAN
@@ -180,7 +181,7 @@ feature -- Tests
 					sub_cluster_count := sub_cluster_count + 1
 				end
 			end
-			assert ("1 sub clusters", sub_cluster_count = 1)
+			assert ("2 sub clusters", sub_cluster_count = 2)
 			across ecf_xdoc.context_list ("//library[@readonly='false']") as writeable loop
 				if writeable.node ["name"].as_string_8 ~ "EL_i18n" then
 					assert ("precondition true", writeable.node.query ("option/assertions/@precondition").as_string_8 ~ "true")

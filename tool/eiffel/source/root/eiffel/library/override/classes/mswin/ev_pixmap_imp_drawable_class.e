@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EV_PIXMAP_IMP_DRAWABLE_EIFFEL_FEATURE_EDITOR}."
+	description: "Create edited version of class ${EV_ENVIRONMENT_I_CLASS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,16 +10,16 @@ note
 	revision: "1"
 
 class
-	EV_PIXMAP_IMP_DRAWABLE_EIFFEL_FEATURE_EDITOR
+	EV_PIXMAP_IMP_DRAWABLE_CLASS
 
 inherit
-	EV_PIXMAP_IMP_EIFFEL_FEATURE_EDITOR
+	EV_PIXMAP_IMP_CLASS
 		redefine
 			new_feature_edit_actions
 		end
 
 create
-	make
+	make_editor
 
 feature {NONE} -- Implementation
 

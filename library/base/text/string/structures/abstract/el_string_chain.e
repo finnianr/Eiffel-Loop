@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-05 10:08:08 GMT (Monday 5th May 2025)"
-	revision: "62"
+	date: "2025-05-07 18:07:26 GMT (Wednesday 7th May 2025)"
+	revision: "63"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -67,7 +67,7 @@ feature {NONE} -- Initialization
 feature -- Format items
 
 	indent (tab_count: INTEGER)
-			-- prepend `tab_count' tab character to each line
+			-- prepend `tab_count' tab character to each non-empty line
 		require
 			valid_tab_count: tab_count >= 0
 		local
@@ -77,7 +77,9 @@ feature -- Format items
 				push_cursor
 				l_tab_string := tab_string (tab_count)
 				from start until after loop
-					item.prepend (l_tab_string)
+					if item.count > 0 then
+						item.prepend (l_tab_string)
+					end
 					forth
 				end
 				pop_cursor
@@ -87,12 +89,12 @@ feature -- Format items
 		end
 
 	indent_item (tab_count: INTEGER)
-			-- prepend one tab character to each line
+		-- prepend one tab character to each non-empty line
 		require
 			not_off: not off
 			valid_tab_count: tab_count >= 0
 		do
-			if tab_count > 0 then
+			if tab_count > 0 and item.count > 0 then
 				item.prepend (tab_string (tab_count))
 			end
 		ensure

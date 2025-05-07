@@ -1,35 +1,35 @@
 note
 	description: "Command-line interface to ${LIBRARY_OVERRIDE_GENERATOR} command"
+	notes: "[
+		Usage:
+			el_eiffel -library_override [-output <output-dir>]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "23"
+	date: "2025-05-07 15:24:15 GMT (Wednesday 7th May 2025)"
+	revision: "24"
 
 class
 	LIBRARY_OVERRIDE_APP
 
 inherit
 	EL_COMMAND_LINE_APPLICATION [LIBRARY_OVERRIDE_GENERATOR]
-		redefine
-			Option_name
-		end
 
 feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("", "workarea")
+			Result := agent {like command}.make ("workarea", False)
 		end
 
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				required_argument ("ise_eiffel", "Path to EiffelStudio installation", << file_must_exist >>),
-				required_argument ("output", "Output directory", No_checks)
+				optional_argument ("output", "Output directory", << file_must_exist >>)
 			>>
 		end
 
@@ -37,9 +37,5 @@ feature {NONE} -- Implementation
 		do
 			create Result.make
 		end
-
-feature {NONE} -- Constants
-
-	Option_name: STRING = "library_override"
 
 end

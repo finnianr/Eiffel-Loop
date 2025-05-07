@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-03 13:49:37 GMT (Saturday 3rd May 2025)"
-	revision: "13"
+	date: "2025-05-07 9:43:26 GMT (Wednesday 7th May 2025)"
+	revision: "14"
 
 deferred class
 	EL_CHARACTER_TESTABLE_ZSTRING
@@ -489,8 +489,9 @@ feature -- All characters query
 		local
 			i, l_count: INTEGER
 		do
-			if attached area as l_area then
-				l_count := count; Result := True
+			l_count := count
+			if l_count > 0 and then attached area as l_area then
+				Result := True
 
 				from i := 0 until not Result or else i = l_count loop
 					inspect l_area [i]

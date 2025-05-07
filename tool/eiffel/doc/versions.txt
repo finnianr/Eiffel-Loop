@@ -1,3 +1,6 @@
+Ver 2.3.4 (7 May 2025)
+* New class TEST_PROCEDURE to autofill test routine comment with class name and routine name
+
 Ver 2.3.3 (4 May 2025)
 * Fixed EL_EXTENDED_READABLE_STRING_I.trailing_white_count_in_bounds result
 

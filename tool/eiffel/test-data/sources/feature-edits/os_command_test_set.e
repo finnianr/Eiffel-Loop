@@ -30,16 +30,19 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_cpu_info
+		-- OS_COMMAND_TEST_SET.cpu_info
 		do
 			assert ("two fields", count = 2)
 		end
 
 	test_create_tar_command
+		-- test tar command
 		do
 			assert ("created", tar_path.exists)
 		end
 
 	test_file_md5_sum
+		-- OS_COMMAND.cpu_info
 		do
 			assert_same_string (Void, Digest.md5_plain_text (help_path).to_hex_string, str)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-19 7:28:36 GMT (Thursday 19th September 2024)"
-	revision: "18"
+	date: "2025-05-07 17:50:26 GMT (Wednesday 7th May 2025)"
+	revision: "19"
 
 class
 	SOURCE_MODEL
@@ -15,6 +15,7 @@ class
 inherit
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
 		rename
+			class_name as class_name_pattern,
 			make as make_machine
 		end
 
@@ -31,7 +32,9 @@ feature {NONE} -- Initialization
 		do
 			make_machine
 			source_path := a_source_path
-			is_test_set := a_source_path.base.ends_with (Test_set_ending)
+			class_name := a_source_path.base_name; class_name.to_upper
+
+			create group_name.make_empty
 			create class_notes.make (10)
 			create class_header.make (20)
 			create class_footer.make (1)
@@ -60,10 +63,6 @@ feature {NONE} -- Initialization
 			end
 		end
 
-feature -- Status query
-
-	is_test_set: BOOLEAN
-
 feature {NONE} -- State handlers
 
 	fill_class_footer (line: ZSTRING)
@@ -81,17 +80,28 @@ feature {NONE} -- State handlers
 			end
 		end
 
+	find_feature_comment (line: ZSTRING; has_export: BOOLEAN)
+		-- find the comment at the end of a feature heading.
+		-- If `has_export' is true, than the export specifier list might span
+		-- several lines
+		do
+			group_header.extend (line)
+			if has_export implies line.has ('}') then
+				group_name := new_group_name (line)
+				state := agent find_first_feature
+			else
+				state := agent find_feature_comment (?, True)
+			end
+		end
+
 	find_first_feature (line: ZSTRING)
 		-- find first feature in feature group
-		local
-			editable_lines: EDITABLE_SOURCE_LINES
 		do
 			if code_line_is_feature_declaration then
-				create editable_lines.make_from (group_header)
+				feature_group_list.extend (create {FEATURE_GROUP}.make_from_model (Current))
 				group_header.wipe_out
-				feature_group_list.extend (create {FEATURE_GROUP}.make (editable_lines))
 
-				feature_group_list.add_feature (line, is_test_set)
+				feature_group_list.add_feature (line)
 				state := agent find_next_feature
 			else
 				group_header.extend (line)
@@ -104,26 +114,24 @@ feature {NONE} -- State handlers
 	find_first_feature_block (line: ZSTRING)
 		do
 			if code_line_starts_with (0, Keyword.feature_) then
-				group_header.extend (line)
-				state := agent find_first_feature
+				find_feature_comment (line, line.has ('{'))
 			else
 				class_header.extend (line)
 			end
 		end
 
 	find_next_feature (line: ZSTRING)
-			-- find next feature in feature group
+		-- find next feature in feature group
 		do
 			if code_line_starts_with_one_of (0, Footer_start_keywords) then
 				fill_class_footer (line)
 				state := agent fill_class_footer
 
 			elseif code_line_starts_with (0, Keyword.feature_) then
-				group_header.extend (line)
-				state := agent find_first_feature
+				find_feature_comment (line, line.has ('{'))
 
 			elseif code_line_is_feature_declaration then
-				feature_group_list.add_feature (line, is_test_set)
+				feature_group_list.add_feature (line)
 				state := agent find_next_feature
 			else
 				feature_group_list.last.append (line)
@@ -141,7 +149,21 @@ feature {NONE} -- State handlers
 			end
 		end
 
-feature {CLASS_FEATURE} -- Implementation attributes
+feature {NONE} -- Implementation
+
+	new_group_name (line: ZSTRING): ZSTRING
+		local
+			eiffel: EL_EIFFEL_SOURCE_ROUTINES
+		do
+			Result := eiffel.comment_text (line)
+		end
+
+feature {CLASS_FEATURE, FEATURE_GROUP} -- Implementation attributes
+
+	class_name: ZSTRING
+
+	group_name: ZSTRING
+		-- commented name of feature block
 
 	class_footer: EDITABLE_SOURCE_LINES
 
@@ -156,12 +178,5 @@ feature {CLASS_FEATURE} -- Implementation attributes
 	group_header: EL_ZSTRING_LIST
 
 	source_path: FILE_PATH
-
-feature {NONE} -- Constants
-
-	Test_set_ending: ZSTRING
-		once
-			Result := "_test_set.e"
-		end
 
 end

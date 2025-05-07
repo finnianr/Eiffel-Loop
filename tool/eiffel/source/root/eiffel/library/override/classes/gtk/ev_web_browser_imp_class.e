@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EV_WEB_BROWSER_IMP_EIFFEL_FEATURE_EDITOR}."
+	description: "Create edited version of class ${EV_WEB_BROWSER_IMP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,7 +10,7 @@ note
 	revision: "1"
 
 class
-	EV_WEB_BROWSER_IMP_FEATURE_EDITOR
+	EV_WEB_BROWSER_IMP_CLASS
 
 inherit
 	OVERRIDE_FEATURE_EDITOR
@@ -27,6 +27,12 @@ feature {NONE} -- Implementation
 				class_feature.found_line.replace_substring_all (Statement_create_webkit, Statement_create_el_webkit)
 				class_feature.lines.append_comment ("changed type")
 			end
+		end
+
+	dir_path: DIR_PATH
+		-- original ISE location
+		do
+			Result := "web_browser/implementation/gtk"
 		end
 
 	new_feature_edit_actions: like feature_edit_actions

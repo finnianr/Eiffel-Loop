@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 12:41:55 GMT (Saturday 5th October 2024)"
-	revision: "31"
+	date: "2025-05-07 10:23:29 GMT (Wednesday 7th May 2025)"
+	revision: "32"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -129,7 +129,7 @@ feature -- Tests
 		do
 			create command.make (Manifest_path)
 			command.execute
-			create expected_results.make_from_array (<< 32, 279, 99775 >>)
+			create expected_results.make_from_array (<< 32, 279, 99856 >>)
 			if {PLATFORM}.is_windows then
 				expected_results [3] := 98584
 			end

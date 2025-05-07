@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-28 18:28:51 GMT (Tuesday 28th May 2024)"
-	revision: "13"
+	date: "2025-05-07 14:23:45 GMT (Wednesday 7th May 2025)"
+	revision: "14"
 
 deferred class
 	FEATURE_EDITOR
@@ -20,15 +20,15 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_source_path: FILE_PATH; dry_run: BOOLEAN)
+	make (a_source_path: FILE_PATH; a_dry_run: BOOLEAN)
 		do
 			make_model (a_source_path)
-			is_dry_run := dry_run
+			dry_run := a_dry_run
 		end
 
 feature -- Status query
 
-	is_dry_run: BOOLEAN
+	dry_run: EL_BOOLEAN_OPTION
 
 feature -- Basic operations
 

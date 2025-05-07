@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 12:34:48 GMT (Saturday 5th October 2024)"
-	revision: "34"
+	date: "2025-05-07 10:26:37 GMT (Wednesday 7th May 2025)"
+	revision: "35"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -92,6 +92,7 @@ feature -- Tests
 		end
 
 	test_make_named_array
+		-- FEATURE_EDITOR_COMMAND_TEST_SET.make_named_array
 		--	Test insertions for: make_named (<< ["name", agent test_<name>] >>))
 		--	and test correct BOM marker for UTF-8 encoding
 		note
@@ -187,13 +188,13 @@ feature {NONE} -- Constants
 			create Result.make_equal (11)
 			Result [Name.copy_file_impl] := 2668348354
 			Result [Name.job_duration_parser] := 3823255307
-			Result [Name.os_command_test_set] := 2264292625
+			Result [Name.os_command_test_set] := 181748489
 
 			Result [Tuple_manifest_file.mp3_convert_command] := 1338607062
 			Result [Tuple_manifest_file.subscription_delivery_email] := 1320393160
 
 			Result [Id3_tag_frame_cpp_api] := 1015425037
-			Result [Subject_line_decoder_test_set] := 4229313028
+			Result [Subject_line_decoder_test_set] := 3227206339
 			Result [Pixmap_imp_drawable] := 3427172657
 		end
 

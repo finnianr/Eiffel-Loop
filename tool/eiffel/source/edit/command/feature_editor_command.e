@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-28 18:26:32 GMT (Tuesday 28th May 2024)"
-	revision: "28"
+	date: "2025-05-07 14:51:24 GMT (Wednesday 7th May 2025)"
+	revision: "29"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -20,6 +20,7 @@ inherit
 	FEATURE_EDITOR
 		export
 			{EL_COMMAND_CLIENT} make
+			{NONE} write_edited_lines
 		redefine
 			call
 		end
@@ -35,7 +36,7 @@ feature -- Basic operations
 
 	execute
 		do
-			if is_dry_run then
+			if dry_run.is_enabled then
 				lio.put_labeled_string ("Dry run modified text", source_path.without_extension.base.as_upper)
 				lio.put_new_line
 			 	across edited_lines as line loop
@@ -43,7 +44,7 @@ feature -- Basic operations
 			 		lio.put_line (line.item)
 			 	end
 			else
-				write_edited_lines (source_path)
+				write_edited_lines (output_path)
 			end
 		end
 
@@ -94,6 +95,11 @@ feature {NONE} -- Implementation
 					lio.put_new_line
 				end
 			end
+		end
+
+	output_path: FILE_PATH
+		do
+			Result := source_path
 		end
 
 feature {NONE} -- Constants

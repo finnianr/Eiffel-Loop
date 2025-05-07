@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {SD_ZONE_NAVIGATION_DIALOG_EIFFEL_FEATURE_EDITOR}."
+	description: "Create edited version of class ${SD_ZONE_NAVIGATION_DIALOG}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,7 +10,7 @@ note
 	revision: "1"
 
 class
-	SD_ZONE_NAVIGATION_DIALOG_FEATURE_EDITOR
+	SD_ZONE_NAVIGATION_DIALOG_CLASS
 
 inherit
 	OVERRIDE_FEATURE_EDITOR
@@ -19,6 +19,12 @@ create
 	make
 
 feature {NONE} -- Implementation
+
+	dir_path: DIR_PATH
+		-- original ISE location
+		do
+			Result := "docking/implementation/controls"
+		end
 
 	new_feature_edit_actions: like feature_edit_actions
 		do

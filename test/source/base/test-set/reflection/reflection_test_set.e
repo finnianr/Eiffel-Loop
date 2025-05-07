@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-06 9:20:40 GMT (Tuesday 6th May 2025)"
-	revision: "92"
+	date: "2025-05-06 10:11:34 GMT (Tuesday 6th May 2025)"
+	revision: "93"
 
 class	REFLECTION_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -589,7 +589,8 @@ feature -- Tests
 			testing: "[
 				covers/{EL_FIELD_TABLE}.value_list_for,
 				covers/{EL_REFLECTIVE}.value_list_for,
-				covers/{EL_CONTAINER_STRUCTURE}.derived_list
+				covers/{EL_CONTAINER_STRUCTURE}.derived_list,
+				covers/{EL_STRING_X_ROUTINES}.joined_with
 			]"
 		local
 			options: MICROSOFT_COMPILER_OPTIONS

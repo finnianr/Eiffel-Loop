@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-12 6:46:37 GMT (Saturday 12th April 2025)"
-	revision: "24"
+	date: "2025-05-07 6:37:09 GMT (Wednesday 7th May 2025)"
+	revision: "25"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -76,7 +76,7 @@ feature {NONE} -- Implementation
 		end
 
 	code_line_is_feature_declaration: BOOLEAN
-			-- True if code line begins declaration of attribute or routine
+		-- True if code line begins declaration of attribute or routine
 		local
 			first_character: CHARACTER_32
 		do

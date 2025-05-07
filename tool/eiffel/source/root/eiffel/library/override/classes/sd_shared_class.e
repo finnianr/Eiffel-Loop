@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {SD_SHARED_EIFFEL_FEATURE_EDITOR}."
+	description: "Create edited version of class ${SD_SHARED}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,12 +10,12 @@ note
 	revision: "1"
 
 class
-	SD_SHARED_EIFFEL_FEATURE_EDITOR
+	SD_SHARED_CLASS
 
 inherit
 	OVERRIDE_FEATURE_EDITOR
 		redefine
-			write_edited_lines
+			do_edit
 		end
 
 	EL_MODULE_EXCEPTION
@@ -23,9 +23,15 @@ inherit
 create
 	make
 
-feature -- Basic operations
+feature {NONE} -- Implementation
 
-	write_edited_lines (output_path: FILE_PATH)
+	dir_path: DIR_PATH
+		-- original ISE location
+		do
+			Result := "docking/implementation/common"
+		end
+
+	do_edit
 		local
 			class_feature: ROUTINE_FEATURE; type_definition_group: FEATURE_GROUP
 			implementation_list: LIST [FEATURE_GROUP]
@@ -34,7 +40,7 @@ feature -- Basic operations
 			implementation_list := feature_group_list.query_if (agent is_implementation_group)
 
 			if implementation_list.count >= 2 then
-				create class_feature.make_with_lines (Source_widget_factory_cell)
+				create class_feature.make_insertion (Source_widget_factory_cell)
 				class_feature.lines.indent (1)
 				implementation_list.i_th (2).features.extend (class_feature)
 			else
@@ -45,15 +51,11 @@ feature -- Basic operations
 
 --			Type_widget_factory: SD_WIDGET_FACTORY
 			type_definition_group := new_feature_group ("NONE", "Type definitions")
-			type_definition_group.features.extend (create {ROUTINE_FEATURE}.make_with_lines (Source_type_widget_factory))
+			type_definition_group.features.extend (create {ROUTINE_FEATURE}.make_insertion (Source_type_widget_factory))
 			type_definition_group.features.last.lines.indent (1)
 
 			feature_group_list.extend (type_definition_group)
-
-			Precursor (output_path)
 		end
-
-feature {NONE} -- Implementation
 
 	new_feature_edit_actions: like feature_edit_actions
 		do
@@ -63,7 +65,7 @@ feature {NONE} -- Implementation
 
 	replace_widget_factory (a_feature: CLASS_FEATURE)
 		do
-			a_feature.set_lines (Source_widget_factory)
+			a_feature.replace_all (Source_widget_factory)
 		end
 
 	is_implementation_group (group: FEATURE_GROUP): BOOLEAN
@@ -75,30 +77,28 @@ feature {NONE} -- Constants
 
 	Source_widget_factory_cell: EDITABLE_SOURCE_LINES
 		once
-			create Result.make_with_lines ("[
+			create Result.make_feature ("[
 				Widget_factory_cell: CELL [SD_WIDGET_FACTORY]
 					once ("PROCESS")
 						create Result.put (Void)
 					end
-
 			]")
 		end
 
 	Source_type_widget_factory: EDITABLE_SOURCE_LINES
 		once
-			create Result.make_with_lines ("[
+			create Result.make_feature ("[
 				Type_widget_factory: SD_WIDGET_FACTORY
 					once
 					end
-
 			]")
 		end
 
 	Source_widget_factory: EDITABLE_SOURCE_LINES
 		once
-			create Result.make_with_lines ("[
+			create Result.make_feature ("[
 				widget_factory: like Type_widget_factory
-						-- SD_WIDGET_FACTORY instance.
+					-- SD_WIDGET_FACTORY instance.
 					do
 						if attached {like Type_widget_factory} widget_factory_cell.item as l_result then
 							Result := l_result
@@ -107,7 +107,6 @@ feature {NONE} -- Constants
 							widget_factory_cell.put (Result)
 						end
 					end
-
 			]")
 		end
 
@@ -117,4 +116,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

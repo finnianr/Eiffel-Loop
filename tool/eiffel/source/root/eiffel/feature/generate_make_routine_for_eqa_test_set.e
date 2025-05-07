@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:36 GMT (Tuesday 18th March 2025)"
-	revision: "14"
+	date: "2025-05-07 8:35:26 GMT (Wednesday 7th May 2025)"
+	revision: "15"
 
 class
 	GENERATE_MAKE_ROUTINE_FOR_EQA_TEST_SET
@@ -40,9 +40,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_feature_group_list: like feature_group_list; line: ZSTRING)
+	make (a_group_list: FEATURE_GROUP_LIST; line: ZSTRING)
 		do
-			feature_group_list := a_feature_group_list
+			feature_group_list := a_group_list
 			make_feature (line)
 			make_default
 		end
@@ -65,17 +65,12 @@ feature {NONE} -- Implementation
 		end
 
 	get_test_name_list: EL_ZSTRING_LIST
-		local
-			group_name: ZSTRING
 		do
 			create Result.make (20)
 			across feature_group_list as group loop
-				group_name := group.item.name.as_lower
-				if across Test_endings as ending some group_name.ends_with (ending.item) end then
-					across group.item.features as l_feature loop
-						if l_feature.item.name.starts_with (Test_prefix) then
-							Result.extend (l_feature.item.name.substring_end (Test_prefix.count + 1))
-						end
+				across group.item.features as list loop
+					if attached {TEST_PROCEDURE} list.item as procedure then
+						Result.extend (procedure.test_name)
 					end
 				end
 			end
@@ -118,15 +113,5 @@ feature {NONE} -- Constants
 				>>)
 			end
 	]"
-
-	Test_endings: ARRAY [ZSTRING]
-		once
-			Result := << "test", "tests" >>
-		end
-
-	Test_prefix: ZSTRING
-		once
-			Result := "test_"
-		end
 
 end

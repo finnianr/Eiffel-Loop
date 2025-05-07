@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EV_RADIO_BUTTON_IMP_EIFFEL_FEATURE_EDITOR}."
+	description: "Create edited version of class ${EV_RADIO_BUTTON_IMP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,21 +10,26 @@ note
 	revision: "1"
 
 class
-	EV_RADIO_BUTTON_IMP_EIFFEL_FEATURE_EDITOR
+	EV_RADIO_BUTTON_IMP_CLASS
 
 inherit
 	OVERRIDE_FEATURE_EDITOR
 		redefine
-			write_edited_lines
+			do_edit
 		end
 
 create
 	make
 
-feature -- Basic operations
+feature {NONE} -- Implementation
 
-	write_edited_lines (output_path: FILE_PATH)
-		local
+	dir_path: DIR_PATH
+		-- original ISE location
+		do
+			Result := "vision2/implementation/mswin/widgets/primitives"
+		end
+
+	do_edit
 		do
 			class_header.find_first_true (agent {ZSTRING}.has_substring (Class_EV_RADIO_PEER_IMP))
 			class_header.put_right ("%T%Trename")
@@ -37,11 +42,7 @@ feature -- Basic operations
 			class_header.put_right ("%T%Tselect")
 			class_header.forth
 			class_header.insert_line_right ("set_checked", 3)
-
-			Precursor (output_path)
 		end
-
-feature {NONE} -- Implementation
 
 	new_feature_edit_actions: like feature_edit_actions
 		do
@@ -61,4 +62,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

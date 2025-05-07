@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 12:25:47 GMT (Thursday 12th September 2024)"
-	revision: "10"
+	date: "2025-05-07 18:23:43 GMT (Wednesday 7th May 2025)"
+	revision: "11"
 
 class
 	ROUTINE_FEATURE
@@ -16,12 +16,12 @@ inherit
 	CLASS_FEATURE
 
 create
-	make, make_with_lines
+	make, make_insertion
 
 feature -- Element change
 
 	expand_shorthand
-			-- expand shorthand notation
+		-- expand shorthand notation
 		local
 			pos_at_from, tab_count: INTEGER; from_shorthand_found: BOOLEAN
 			line: ZSTRING

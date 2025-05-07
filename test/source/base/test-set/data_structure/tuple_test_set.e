@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 8:06:13 GMT (Tuesday 22nd April 2025)"
-	revision: "7"
+	date: "2025-05-07 10:34:27 GMT (Wednesday 7th May 2025)"
+	revision: "8"
 
 class TUPLE_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_fill_immutable_tuple
-		-- SPLIT_STRING_TEST_SET.test_fill_immutable_tuple
+		-- TUPLE_TEST_SET.fill_immutable_tuple
 		note
 			testing: "[
 				covers/{EL_TUPLE_ROUTINES}.fill_immutable,
@@ -70,7 +70,7 @@ feature -- Tests
 		end
 
 	test_fill_tuple
-		-- TUPLE_TEST_SET.test_fill_tuple
+		-- TUPLE_TEST_SET.fill_tuple
 		note
 			testing: "[
 				covers/{EL_TUPLE_ROUTINES}.fill_from_list
@@ -105,6 +105,7 @@ feature -- Tests
 		end
 
 	test_fill_with_new
+		-- TUPLE_TEST_SET.fill_with_new
 		local
 			t1: TUPLE [weight: DOUBLE; age: INTEGER; full_name, address: EL_STRING_8_LIST]
 			name_and_address: STRING

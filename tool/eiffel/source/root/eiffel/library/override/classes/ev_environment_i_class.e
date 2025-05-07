@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EV_ENVIRONMENT_HANDLER_FEATURE_EDITOR}."
+	description: "Create edited version of class ${EV_ENVIRONMENT_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,7 +10,7 @@ note
 	revision: "1"
 
 class
-	EV_ENVIRONMENT_I_FEATURE_EDITOR
+	EV_ENVIRONMENT_I_CLASS
 
 inherit
 	OVERRIDE_FEATURE_EDITOR
@@ -33,6 +33,12 @@ feature {NONE} -- Implementation
 				end
 				lines.forth
 			end
+		end
+
+	dir_path: DIR_PATH
+		-- original ISE location
+		do
+			Result := "vision2/implementation/implementation_interface/kernel"
 		end
 
 	new_feature_edit_actions: like feature_edit_actions

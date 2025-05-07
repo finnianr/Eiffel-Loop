@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 12:25:47 GMT (Thursday 12th September 2024)"
-	revision: "30"
+	date: "2025-05-07 18:26:54 GMT (Wednesday 7th May 2025)"
+	revision: "31"
 
 deferred class
 	CLASS_FEATURE
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 			found_line := Empty_string
 		end
 
-	make_with_lines (a_lines: like lines)
+	make_insertion (a_lines: like lines)
 		do
 			make (a_lines.first)
 			across a_lines as line loop
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 				end
 			end
 			lines.start
-			lines.put_auto_edit_comment_right ("new insertion", 3)
+			lines.put_auto_edit_comment_right ("new insertion", 2)
 		end
 
 feature -- Access
@@ -91,10 +91,10 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_lines (a_lines: like lines)
+	replace_all (a_lines: like lines)
 		do
 			lines.wipe_out
-			a_lines.do_all (agent lines.extend)
+			lines.append_sequence (a_lines)
 			lines.indent (1)
 			update_name
 			found_line := Empty_string

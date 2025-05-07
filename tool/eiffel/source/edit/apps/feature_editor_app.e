@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 9:35:38 GMT (Wednesday 29th May 2024)"
-	revision: "25"
+	date: "2025-05-07 14:22:08 GMT (Wednesday 7th May 2025)"
+	revision: "26"
 
 class
 	FEATURE_EDITOR_APP
@@ -39,7 +39,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("", False)
+			Result := agent {like command}.make (create {FILE_PATH}, False)
 		end
 
 note
