@@ -51,6 +51,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	Checksum: NATURAL = 1685938123
+
 	Class_WEL_RADIO_BUTTON: ZSTRING
 		once
 			Result := "WEL_RADIO_BUTTON"

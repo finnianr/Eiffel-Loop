@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 21:05:47 GMT (Sunday 4th May 2025)"
-	revision: "30"
+	date: "2025-05-08 9:06:27 GMT (Thursday 8th May 2025)"
+	revision: "31"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -31,6 +31,7 @@ inherit
 feature -- Tests
 
 	test_book_exporter
+		-- THUNDERBIRD_EQA_TEST_SET.book_exporter
 		local
 			exporter: like new_book_exporter; package_path, item_path: FILE_PATH
 			package_root: EL_XML_DOC_CONTEXT; chapter_count, dc_count: INTEGER

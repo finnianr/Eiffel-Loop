@@ -41,4 +41,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Constants
+
+	Checksum: NATURAL = 1526596654
+
 end

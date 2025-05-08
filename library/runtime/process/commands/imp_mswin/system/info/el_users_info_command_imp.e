@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 15:51:43 GMT (Friday 13th September 2024)"
-	revision: "20"
+	date: "2025-05-08 12:01:40 GMT (Thursday 8th May 2025)"
+	revision: "21"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -33,8 +33,6 @@ inherit
 		redefine
 			make
 		end
-
-	EL_CHARACTER_32_CONSTANTS
 
 create
 	make

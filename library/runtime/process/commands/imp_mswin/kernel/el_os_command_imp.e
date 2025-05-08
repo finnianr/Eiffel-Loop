@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 16:04:48 GMT (Saturday 29th March 2025)"
-	revision: "26"
+	date: "2025-05-08 12:02:36 GMT (Thursday 8th May 2025)"
+	revision: "27"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -24,7 +24,7 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_CHARACTER_32_CONSTANTS
+	EL_CHARACTER_8_CONSTANTS
 
 feature {NONE} -- Implementation
 
@@ -42,7 +42,7 @@ feature {NONE} -- Implementation
 			create extended_parts.make (command_parts.count + 3)
 			extended_parts.extend (command_parts [1])
 			extended_parts.append (<<
-				Change_dir_command, effective_working_directory.to_string, char ('&') * 2
+				Change_dir_command, effective_working_directory.to_string, char ('&').as_zstring (2)
 			>>)
 			across command_parts as part loop
 				if part.cursor_index > 1 then

@@ -4,7 +4,7 @@ note
 
 	author: "Python module: eiffel_loop.eiffel.build"
 
-	date: "2025-05-07 10:29:21 GMT (Wednesday 7th May 2025)"
+	date: "2025-05-08 8:58:46 GMT (Thursday 8th May 2025)"
 	revision: "1"
 
 class
@@ -29,6 +29,6 @@ feature -- Constants
 			Result := "Eiffel-Loop/eiffel"
 		end
 
-	Version_number: NATURAL = 02_03_04
+	Version_number: NATURAL = 02_03_05
 
 end

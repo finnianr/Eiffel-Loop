@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 9:14:42 GMT (Tuesday 9th July 2024)"
-	revision: "13"
+	date: "2025-05-08 12:29:12 GMT (Thursday 8th May 2025)"
+	revision: "14"
 
 class
 	EL_GET_GNOME_SETTING_COMMAND
@@ -21,8 +21,6 @@ inherit
 		end
 
 	EL_GNOME_SETTING_COMMAND
-
-	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -67,12 +65,15 @@ feature -- Setting values
 		end
 
 	string_value (key_name: STRING): ZSTRING
+		local
+			quote_index: INTEGER;
 		do
 			put_string (Var.key, key_name)
 			execute
 			if lines.count > 0 then
-				if lines.first.occurrences ('%'') = 2 and then attached char ('%'').to_string as single_quote then
-					Result := lines.first.substring_between (single_quote, single_quote, 1)
+				if attached lines.first as line and then line.occurrences (qmark) = 2 then
+					quote_index := line.index_of (qmark, 1) + 1 -- index of single quote '
+					Result := line.substring_to_from (qmark, $quote_index)
 				else
 					Result := lines.first
 				end
@@ -87,4 +88,7 @@ feature {NONE} -- Constants
 		once
 			Result := Gsettings + " get $schema $key"
 		end
+
+	Qmark: CHARACTER_32 = '%''
+
 end

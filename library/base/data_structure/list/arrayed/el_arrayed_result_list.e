@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 14:42:27 GMT (Saturday 5th October 2024)"
-	revision: "17"
+	date: "2025-05-08 10:29:35 GMT (Thursday 8th May 2025)"
+	revision: "18"
 
 class
 	EL_ARRAYED_RESULT_LIST [G, R]
@@ -30,6 +30,8 @@ inherit
 			copy, is_equal
 		end
 
+	EL_KEY_VALUE_CONVERSION [G, R]
+
 	EL_CONTAINER_HANDLER
 
 create
@@ -43,7 +45,7 @@ feature {NONE} -- Initialization
 
 	make (container: CONTAINER [G]; to_item: FUNCTION [G, R])
 		require
-			valid_function: as_structure (container).valid_open_argument (to_item)
+			valid_function_arguments: valid_key_to_value (to_item)
 		do
 			if attached as_structure (container) as structure
 				and then attached structure.new_special (True, False) as container_area
@@ -59,7 +61,7 @@ feature {NONE} -- Initialization
 	make_from_for (container: CONTAINER [G]; condition: EL_QUERY_CONDITION [G]; to_item: FUNCTION [G, R])
 		-- initialize from `container' with conversion function `to_item'
 		require
-			valid_function: as_structure (container).valid_open_argument (to_item)
+			valid_function_arguments: valid_key_to_value (to_item)
 		do
 			if attached as_structure (container).query (condition) as list then
 				make_results (to_item, list.area, list.count)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-25 19:16:59 GMT (Wednesday 25th January 2023)"
-	revision: "11"
+	date: "2025-05-08 9:13:35 GMT (Thursday 8th May 2025)"
+	revision: "12"
 
 class
 	TB_BOOK_EXPORTER
@@ -107,4 +107,3 @@ feature {NONE} -- Constants
 			Result.prepend_character (' ')
 		end
 end
-

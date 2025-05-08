@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-07 17:02:09 GMT (Wednesday 7th May 2025)"
-	revision: "64"
+	date: "2025-05-08 6:56:19 GMT (Thursday 8th May 2025)"
+	revision: "65"
 
 class
 	AUTOTEST_APP
@@ -80,11 +80,12 @@ feature {NONE} -- Implementation
 
 	visible_types: TUPLE [
 		EL_PYXIS_LOCALE_COMPILER,
+		EL_MERGED_PYXIS_LINE_LIST,
 		EIFFEL_GREP_COMMAND,
 		FEATURE_EDITOR_COMMAND,
 		UNDEFINE_PATTERN_COUNTER_COMMAND,
-		ZCODEC_GENERATOR_TEST_SET,
-		EL_MERGED_PYXIS_LINE_LIST
+		LIBRARY_OVERRIDE_GENERATOR,
+		ZCODEC_GENERATOR_TEST_SET
 	]
 		do
 			create Result

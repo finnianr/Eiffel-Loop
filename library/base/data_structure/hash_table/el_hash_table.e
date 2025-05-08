@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-23 9:57:17 GMT (Wednesday 23rd April 2025)"
-	revision: "43"
+	date: "2025-05-08 10:26:09 GMT (Thursday 8th May 2025)"
+	revision: "44"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -20,6 +20,8 @@ inherit
 		redefine
 			current_keys, default_create, linear_representation, merge, new_cursor
 		end
+
+	EL_KEY_VALUE_CONVERSION [K, G]
 
 	EL_CONTAINER_STRUCTURE [G]
 		undefine
@@ -62,7 +64,7 @@ feature {NONE} -- Initialization
 
 	make_from_keys (key_container: CONTAINER [K]; to_item: FUNCTION [K, G]; a_object_comparison: BOOLEAN)
 		require
-			valid_open_operands: as_key_structure (key_container).valid_open_argument (to_item)
+			valid_open_operands: valid_key_to_value (to_item)
 		local
 			i, i_upper: INTEGER
 		do

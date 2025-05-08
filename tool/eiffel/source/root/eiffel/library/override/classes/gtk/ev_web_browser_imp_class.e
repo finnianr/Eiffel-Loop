@@ -43,6 +43,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	Checksum: NATURAL = 3043504719
+
 	Statement_create_webkit: ZSTRING
 		once
 			Result := "create webkit"

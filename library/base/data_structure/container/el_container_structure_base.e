@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-18 8:41:38 GMT (Friday 18th April 2025)"
-	revision: "2"
+	date: "2025-05-08 10:33:01 GMT (Thursday 8th May 2025)"
+	revision: "3"
 
 deferred class
 	EL_CONTAINER_STRUCTURE_BASE [G]
@@ -46,12 +46,11 @@ feature -- Contract Support
 
 	valid_open_argument (to_value: FUNCTION [G, ANY]): BOOLEAN
 		-- `True' if `to_value' has single open argument that is the same as `item_type'
+		local
+			info: EL_FUNCTION_INFO
 		do
-			if attached to_value.generating_type.generic_parameter_type (1) as argument_types
-				and then argument_types.generic_parameter_count = 1
-			then
-				Result := argument_types.generic_parameter_type (1) ~ item_type
-			end
+			create info.make (Void, to_value.generating_type)
+			Result := info.valid_single_argument (item_type)
 		end
 
 feature {NONE} -- Implementation

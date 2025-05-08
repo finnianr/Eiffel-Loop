@@ -41,4 +41,11 @@ feature {NONE} -- Implementation
 			class_feature.lines.insert_line_right ("attached_interface.implementation.set_minimum_size (width, height)", 3)
 		end
 
+feature {NONE} -- Constants
+
+	Checksum: NATURAL
+		once
+			Result := 1736796161
+		end
+
 end

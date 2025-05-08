@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-07 10:38:59 GMT (Wednesday 7th May 2025)"
-	revision: "12"
+	date: "2025-05-08 5:44:48 GMT (Thursday 8th May 2025)"
+	revision: "13"
 
 class FEATURE_GROUP inherit ANY
 
@@ -52,6 +52,13 @@ feature -- Access
 feature -- Status query
 
 	is_test_set: BOOLEAN
+		-- `True' if class name ends with _TEST_SET
+
+	is_exported_any: BOOLEAN
+		-- `True' if features of group are accessible to any client
+		do
+			Result := not header.first.has ('{')
+		end
 
 feature -- Element change
 
@@ -112,7 +119,7 @@ feature {NONE} -- Implementation
 	is_eqa_test_procedure (a_line: ZSTRING): BOOLEAN
 		-- `True' if line is a `test_*' procedure in a class conforming to `EL_EQA_TEST_SET'
 		do
-			if is_test_set and then attached code_line (a_line) as line then
+			if is_test_set and then is_exported_any and then attached code_line (a_line) as line then
 				Result := line.starts_with (Test_prefix) and then line.is_code_identifier
 			end
 		end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-07 17:55:37 GMT (Wednesday 7th May 2025)"
-	revision: "12"
+	date: "2025-05-08 8:21:42 GMT (Thursday 8th May 2025)"
+	revision: "13"
 
 class
 	LIBRARY_OVERRIDE_GENERATOR
@@ -20,22 +20,31 @@ inherit
 
 	EL_SHARED_FACTORIES
 
+create
+	make
+
 feature -- Initialization
 
 	make (a_output_dir: like output_dir; a_dry_run: BOOLEAN)
 		do
 			output_dir := a_output_dir; dry_run := a_dry_run
+			create changed_class_list.make_empty
 		end
 
 feature -- Constants
 
 	Description: STRING = "Generates overrides of ISE libaries to work with Eiffel-Loop"
 
+feature -- Access
+
+	changed_class_list: EL_ARRAYED_LIST [OVERRIDE_FEATURE_EDITOR]
+
 feature -- Basic operations
 
 	execute
 		do
 			File_system.make_directory (output_dir)
+			changed_class_list.wipe_out
 			across editor_type_list as list loop
 				if attached {OVERRIDE_FEATURE_EDITOR} Makeable_factory.new_item_from_type (list.item) as editor then
 					write_override (editor)
@@ -45,7 +54,13 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	editor_type_list: EL_TUPLE_TYPE_LIST [OVERRIDE_FEATURE_EDITOR]
+		do
+			create Result.make_from_tuple (editor_types)
+		end
+
 	editor_types: TUPLE [
+		EV_ENVIRONMENT_I_CLASS,
 		EV_INTERNALLY_PROCESSED_TEXTABLE_IMP_CLASS,
 		EV_PIXMAP_IMP_CLASS,
 		EV_PIXMAP_IMP_DRAWABLE_CLASS,
@@ -58,25 +73,27 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	editor_type_list: EL_TUPLE_TYPE_LIST [OVERRIDE_FEATURE_EDITOR]
-		do
-			create Result.make_from_tuple (editor_types)
-		end
-
 	write_override (editor: OVERRIDE_FEATURE_EDITOR)
 		local
 			relative_path: FILE_PATH
 		do
 			relative_path := editor.relative_source_path
 			if editor.source_path.exists then
-				editor.set_output_path (output_dir + relative_path)
+				editor.set_output_dir (output_dir)
 				editor.dry_run.set_state (dry_run)
+				if not dry_run then
+					lio.put_path_field ("Generating", relative_path)
+					lio.put_new_line
+				end
 				editor.execute
+				if not dry_run and then (not editor.output_path.exists or editor.has_changed) then
+					changed_class_list.extend (editor)
+				end
 			else
 				lio.put_line ("ERROR: source file missing")
 				lio.put_path_field ("Source", editor.source_path)
+				lio.put_new_line
 			end
-			lio.put_new_line
 		end
 
 feature {NONE} -- Internal attributes

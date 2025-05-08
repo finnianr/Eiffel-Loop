@@ -1,3 +1,6 @@
+Ver 2.3.5 (8 May 2025)
+* New test LIBRARY_OVERRIDE_TEST_SET
+
 Ver 2.3.4 (7 May 2025)
 * New class TEST_PROCEDURE to autofill test routine comment with class name and routine name
 

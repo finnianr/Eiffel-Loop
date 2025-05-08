@@ -75,6 +75,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	Checksum: NATURAL = 2095864152
+
 	Source_widget_factory_cell: EDITABLE_SOURCE_LINES
 		once
 			create Result.make_feature ("[

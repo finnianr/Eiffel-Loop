@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-07 14:51:24 GMT (Wednesday 7th May 2025)"
-	revision: "29"
+	date: "2025-05-08 6:06:24 GMT (Thursday 8th May 2025)"
+	revision: "30"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -44,7 +44,7 @@ feature -- Basic operations
 			 		lio.put_line (line.item)
 			 	end
 			else
-				write_edited_lines (output_path)
+				write_edited_lines (source_path)
 			end
 		end
 
@@ -95,11 +95,6 @@ feature {NONE} -- Implementation
 					lio.put_new_line
 				end
 			end
-		end
-
-	output_path: FILE_PATH
-		do
-			Result := source_path
 		end
 
 feature {NONE} -- Constants

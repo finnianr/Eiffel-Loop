@@ -1,5 +1,5 @@
 note
-	description: "Create edited version of class ${EV_ENVIRONMENT_I_CLASS}"
+	description: "Create edited version of class ${EV_PIXMAP_IMP_DRAWABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -15,7 +15,7 @@ class
 inherit
 	EV_PIXMAP_IMP_CLASS
 		redefine
-			new_feature_edit_actions
+			Checksum, new_feature_edit_actions
 		end
 
 create
@@ -28,5 +28,9 @@ feature {NONE} -- Implementation
 			create Result
 			Result ["on_parented"] := agent set_implementation_minimum_size
 		end
+
+feature {NONE} -- Constants
+
+	Checksum: NATURAL = 1009008893
 
 end

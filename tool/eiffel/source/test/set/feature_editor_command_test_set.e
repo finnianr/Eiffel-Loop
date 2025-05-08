@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-07 10:26:37 GMT (Wednesday 7th May 2025)"
-	revision: "35"
+	date: "2025-05-08 8:42:32 GMT (Thursday 8th May 2025)"
+	revision: "36"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -190,7 +190,7 @@ feature {NONE} -- Constants
 			Result [Name.job_duration_parser] := 3823255307
 			Result [Name.os_command_test_set] := 181748489
 
-			Result [Tuple_manifest_file.mp3_convert_command] := 1338607062
+			Result [Tuple_manifest_file.mp3_convert_command] := 542450630
 			Result [Tuple_manifest_file.subscription_delivery_email] := 1320393160
 
 			Result [Id3_tag_frame_cpp_api] := 1015425037

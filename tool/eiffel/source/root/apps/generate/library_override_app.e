@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-07 15:24:15 GMT (Wednesday 7th May 2025)"
-	revision: "24"
+	date: "2025-05-08 6:53:00 GMT (Thursday 8th May 2025)"
+	revision: "25"
 
 class
 	LIBRARY_OVERRIDE_APP
@@ -31,11 +31,6 @@ feature {NONE} -- Implementation
 			Result := <<
 				optional_argument ("output", "Output directory", << file_must_exist >>)
 			>>
-		end
-
-	log_filter_set: EL_LOG_FILTER_SET [like Current, LIBRARY_OVERRIDE_GENERATOR]
-		do
-			create Result.make
 		end
 
 end

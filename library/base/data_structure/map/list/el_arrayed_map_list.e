@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-25 9:51:22 GMT (Tuesday 25th February 2025)"
-	revision: "40"
+	date: "2025-05-08 10:26:09 GMT (Thursday 8th May 2025)"
+	revision: "41"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -22,6 +22,7 @@ inherit
 			last as last_key,
 			make_from_array as make_from_key_array,
 			item as item_key,
+			item_type as key_type,
 			i_th as i_th_key,
 			is_sortable as is_key_sortable,
 			has as has_key,
@@ -37,12 +38,7 @@ inherit
 			make, new_cursor, remove, sort_by_key, wipe_out, grow, resize, trim
 		end
 
-	EL_CONTAINER_CONVERSION [G]
-		rename
-			as_structure as as_value_structure
-		undefine
-			copy, is_equal
-		end
+	EL_KEY_VALUE_CONVERSION [K, G]
 
 	EL_SHARED_FACTORIES
 
@@ -69,7 +65,7 @@ feature {NONE} -- Initialization
 	make_from_keys (keys: CONTAINER [K]; to_value: FUNCTION [K, G])
 		-- make from container of `keys' using `to_value' to generate value for each key
 		require
-			valid_function: as_structure (keys).valid_open_argument (to_value)
+			valid_function: valid_key_to_value (to_value)
 		local
 			l_value_list: EL_ARRAYED_RESULT_LIST [K, G]
 		do
@@ -93,7 +89,7 @@ feature {NONE} -- Initialization
 	make_from_values (values: CONTAINER [G]; to_key: FUNCTION [G, K])
 		-- make from container of `values' using `to_key' to generate key for each value
 		require
-			valid_function: as_value_structure (values).valid_open_argument (to_key)
+			valid_function: valid_value_to_key (to_key)
 		local
 			l_key_list: EL_ARRAYED_RESULT_LIST [G, K]
 		do
@@ -126,6 +122,11 @@ feature -- Access
 	new_cursor: EL_ARRAYED_MAP_ITERATION_CURSOR [K, G]
 		do
 			create Result.make (Current)
+		end
+
+	value_type: TYPE [G]
+		do
+			Result := {G}
 		end
 
 feature -- Conversion

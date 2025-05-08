@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-07 17:59:03 GMT (Wednesday 7th May 2025)"
-	revision: "1"
+	date: "2025-05-08 7:04:53 GMT (Thursday 8th May 2025)"
+	revision: "2"
 
 class
 	LIBRARY_OVERRIDE_TEST_SET
@@ -24,20 +24,28 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["sd_shared", agent test_sd_shared]
+				["override_generator", agent test_override_generator]
 			>>)
 		end
 
 feature -- Tests
 
-	test_sd_shared
-		-- LIBRARY_OVERRIDE_TEST_SET.sd_shared
+	test_override_generator
+		-- LIBRARY_OVERRIDE_TEST_SET.override_generator
 		local
-			editor: SD_SHARED_CLASS
+			command: LIBRARY_OVERRIDE_GENERATOR
 		do
-			create editor.make
-			editor.set_output_path (Work_area_dir + editor.relative_source_path)
-			editor.execute
+			create command.make (Work_area_dir, False)
+			command.execute
+			lio.put_new_line
+			if command.changed_class_list.count > 0 then
+				across command.changed_class_list as list loop
+					lio.put_path_field ("Changed %S", list.item.output_path)
+					lio.put_natural_field (" actual checksum", list.item.actual_checksum)
+					lio.put_new_line
+				end
+				failed ("No changes")
+			end
 		end
 
 end

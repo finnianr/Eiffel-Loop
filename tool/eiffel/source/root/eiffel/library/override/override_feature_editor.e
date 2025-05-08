@@ -1,5 +1,9 @@
 note
-	description: "Edit ISE classes with overrides and fixes"
+	description: "Creates new version of ISE class with auto-edited overrides and fixes"
+	notes: "[
+		Name the editor class as the name of the class to be edited plus the suffix `_CLASS'.
+		For example class ${EV_ENVIRONMENT_I} is edited by ${EV_ENVIRONMENT_I_CLASS}.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -19,8 +23,10 @@ inherit
 		export
 			{ANY} source_path
 		redefine
-			edit_feature_group, make_editor, output_path, write_edited_lines
+			edit_feature_group, make_editor, write_edited_lines
 		end
+
+	EL_FILE_GENERATOR
 
 	EL_MODULE_FILE_SYSTEM; EL_MODULE_NAMING
 
@@ -39,10 +45,15 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 		do
 			Precursor (a_source_path, a_dry_run)
 			feature_edit_actions := new_feature_edit_actions
-			create output_path
+			create output_dir
 		end
 
 feature -- Access
+
+	output_path: FILE_PATH
+		do
+			Result := output_dir + relative_source_path
+		end
 
 	relative_source_path: FILE_PATH
 		-- source path relative to $ISE_LIBRARY/library
@@ -53,9 +64,9 @@ feature -- Access
 
 feature -- Element change
 
-	set_output_path (a_output_path: FILE_PATH)
+	set_output_dir (a_output_dir: DIR_PATH)
 		do
-			output_path := a_output_path
+			output_dir := a_output_dir
 		end
 
 feature {NONE} -- Implementation
@@ -81,10 +92,10 @@ feature {NONE} -- Implementation
 
 	write_edited_lines (a_output_path: FILE_PATH)
 		do
-			if a_output_path.base ~ relative_source_path.base then
+			if output_dir.exists and then attached output_path as path then
 				do_edit
-				File_system.make_directory (a_output_path.parent)
-				Precursor (a_output_path)
+				File_system.make_directory (path.parent)
+				Precursor (path)
 			end
 		end
 
@@ -113,7 +124,7 @@ feature {NONE} -- Internal attributes
 
 	feature_edit_actions: EL_ZSTRING_HASH_TABLE [PROCEDURE [CLASS_FEATURE]]
 
-	output_path: FILE_PATH
+	output_dir: DIR_PATH
 
 feature {NONE} -- Constants
 
@@ -127,4 +138,6 @@ feature {NONE} -- Constants
 			create Result.make_expanded ("$ISE_LIBRARY/library")
 		end
 
+invariant
+	correctly_named: generator.ends_with ("_CLASS")
 end

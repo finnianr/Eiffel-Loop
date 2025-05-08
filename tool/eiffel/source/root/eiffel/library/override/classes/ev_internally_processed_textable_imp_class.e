@@ -39,4 +39,8 @@ feature {NONE} -- Implementation
 				class_feature.lines.append_comment ("fix")
 			end
 		end
+
+feature {NONE} -- Constants
+
+	Checksum: NATURAL = 2341369100
 end

@@ -47,4 +47,8 @@ feature {NONE} -- Implementation
 			Result ["new_application_i"] := agent change_type_of_implementation_object
 		end
 
+feature {NONE} -- Constants
+
+	Checksum: NATURAL = 2556752336
+
 end
