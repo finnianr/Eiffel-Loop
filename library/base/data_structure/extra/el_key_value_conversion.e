@@ -1,13 +1,13 @@
 note
-	description: "Contract support for converting between keys and values"
+	description: "Contract support for converting between keys and values using an agent function"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-08 10:25:07 GMT (Thursday 8th May 2025)"
-	revision: "1"
+	date: "2025-05-09 6:01:14 GMT (Friday 9th May 2025)"
+	revision: "2"
 
 deferred class
 	EL_KEY_VALUE_CONVERSION [KEY, VALUE]

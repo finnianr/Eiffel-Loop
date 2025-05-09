@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-05 8:53:18 GMT (Monday 5th May 2025)"
-	revision: "37"
+	date: "2025-05-09 9:59:11 GMT (Friday 9th May 2025)"
+	revision: "38"
 
 class
 	OS_COMMAND_TEST_SET
@@ -28,19 +28,20 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["admin_level_execution",	agent test_admin_level_execution],
-				["cpu_info",					agent test_cpu_info],
-				["create_tar_command",		agent test_create_tar_command],
-				["file_md5_sum",				agent test_file_md5_sum],
-				["make_directory_command",	agent test_make_directory_command],
-				["user_list",					agent test_user_list]
+				["admin_level_execution",		agent test_admin_level_execution],
+				["cpu_info",						agent test_cpu_info],
+				["create_tar_command",			agent test_create_tar_command],
+				["file_md5_sum",					agent test_file_md5_sum],
+				["get_gnome_setting_command",	agent test_get_gnome_setting_command],
+				["make_directory_command",		agent test_make_directory_command],
+				["user_list",						agent test_user_list]
 			>>)
 		end
 
 feature -- Tests
 
 	test_admin_level_execution
-		-- OS_COMMAND_TEST_SET.test_admin_level_execution
+		-- OS_COMMAND_TEST_SET.admin_level_execution
 		note
 			testing: "[
 				covers/{EL_WINDOWS_SHELL_COMMAND}.execute,
@@ -68,7 +69,7 @@ feature -- Tests
 		end
 
 	test_cpu_info
-		-- OS_COMMAND_TEST_SET.test_cpu_info
+		-- OS_COMMAND_TEST_SET.cpu_info
 		local
 			cpu_info: EL_CPU_INFO_COMMAND_I; info_cmd: EL_CAPTURED_OS_COMMAND
 			count: INTEGER; line: ZSTRING; field: TUPLE [model_name, processors: ZSTRING]
@@ -92,6 +93,7 @@ feature -- Tests
 		end
 
 	test_create_tar_command
+		-- OS_COMMAND_TEST_SET.create_tar_command
 		note
 			testing: "covers/{EL_PARSED_OS_COMMAND}.make, covers/{EL_PARSED_OS_COMMAND}.valid_variable_names"
 		local
@@ -108,7 +110,7 @@ feature -- Tests
 		end
 
 	test_file_md5_sum
-		-- OS_COMMAND_TEST_SET.test_file_md5_sum
+		-- OS_COMMAND_TEST_SET.file_md5_sum
 		do
 			if {PLATFORM}.is_unix and then attached file_path ("help-files.txt") as help_path
 				and then attached OS.md5_text_digest (help_path) as str
@@ -119,8 +121,32 @@ feature -- Tests
 			end
 		end
 
+	test_get_gnome_setting_command
+		-- OS_COMMAND_TEST_SET.get_gnome_setting_command
+		note
+			testing: "[
+				covers/{EL_GET_GNOME_SETTING_COMMAND}.string_value,
+				covers/{EL_READABLE_ZSTRING}.substring_between_characters
+			]"
+		local
+			gnome_cmd: EL_GET_GNOME_SETTING_COMMAND
+		do
+			create gnome_cmd.make ("org.freedesktop.ColorHelper")
+			if attached gnome_cmd.file_uri_path ("profile-upload-uri") as uri_path then
+				assert_same_string (Void, uri_path.to_uri_string, "http://www.hughski.com/profile-store.php")
+			end
+			if attached gnome_cmd.string_value ("display-gamma") as display_gamma then
+				assert ("valid display-gamma", display_gamma.has ('.') and then display_gamma.to_double > 0 )
+			end
+			across << "display-whitepoint", "sample-delay" >> as list loop
+				if attached list.item as key and then attached gnome_cmd.string_value (key) as str then
+					assert ("valid integer key", str.is_integer and then str.to_integer > 0 )
+				end
+			end
+		end
+
 	test_make_directory_command
-		-- OS_COMMAND_TEST_SET.test_make_directory_command
+		-- OS_COMMAND_TEST_SET.make_directory_command
 		note
 			testing: "[
 				covers/{EL_USERS_INFO_COMMAND_IMP}.make,
@@ -136,6 +162,7 @@ feature -- Tests
 		end
 
 	test_user_list
+		-- OS_COMMAND_TEST_SET.user_list
 		note
 			testing: "[
 				covers/{EL_USERS_INFO_COMMAND_IMP}.make,

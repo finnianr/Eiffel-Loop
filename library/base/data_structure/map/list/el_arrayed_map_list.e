@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-08 10:26:09 GMT (Thursday 8th May 2025)"
-	revision: "41"
+	date: "2025-05-09 6:27:02 GMT (Friday 9th May 2025)"
+	revision: "42"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]

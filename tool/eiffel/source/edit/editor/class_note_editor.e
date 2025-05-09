@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 11:21:15 GMT (Saturday 5th October 2024)"
-	revision: "20"
+	date: "2025-05-09 10:30:21 GMT (Friday 9th May 2025)"
+	revision: "21"
 
 class
 	CLASS_NOTE_EDITOR
@@ -89,7 +89,7 @@ feature -- Access
 			end
 			across Result as line loop
 				if line.cursor_index > 1 and then not line.item.is_empty then
-					line.item.prepend (Tab)
+					line.item.prepend_character ('%T')
 				end
 			end
 		end

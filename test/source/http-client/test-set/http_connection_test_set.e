@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-05 9:11:37 GMT (Monday 5th May 2025)"
-	revision: "80"
+	date: "2025-05-09 6:16:00 GMT (Friday 9th May 2025)"
+	revision: "81"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -445,7 +445,7 @@ feature {NONE} -- Implementation
 			text: ZSTRING
 		do
 			text := a_text
-			Result := text.substring_between_general (Html.open_tag (name), Html.closed_tag (name), 1)
+			Result := text.substring_between (Html.open_tag (name), Html.closed_tag (name), 1)
 		end
 
 	em_text (text: ZSTRING): ZSTRING

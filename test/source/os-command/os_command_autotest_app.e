@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-27 12:21:24 GMT (Thursday 27th March 2025)"
-	revision: "85"
+	date: "2025-05-09 10:00:09 GMT (Friday 9th May 2025)"
+	revision: "86"
 
 class
 	OS_COMMAND_AUTOTEST_APP
@@ -38,7 +38,6 @@ feature {NONE} -- Implementation
 		EL_FILE_MIRROR_BACKUP,
 
 		EL_GENERATE_PATCH_COMMAND,
-		EL_GET_GNOME_SETTING_COMMAND,
 		EL_GUNZIP_COMMAND,
 		EL_GVFS_CAMERA_VOLUME,
 		EL_GVFS_FILE_SYNC_MEDIUM,

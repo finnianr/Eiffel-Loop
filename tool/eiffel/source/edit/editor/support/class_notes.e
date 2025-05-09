@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 14:50:28 GMT (Saturday 29th March 2025)"
-	revision: "16"
+	date: "2025-05-09 10:30:21 GMT (Friday 9th May 2025)"
+	revision: "17"
 
 class
 	CLASS_NOTES
@@ -88,7 +88,7 @@ feature {NONE} -- Line states
 			if line.ends_with (Verbatim_string_end) then
 				state := agent find_field
 			else
-				if line.starts_with (Tab) then
+				if line.starts_with_character ('%T') then
 					verbatim_field.append_text (line.substring_end (2))
 				else
 					verbatim_field.append_text (line)
@@ -97,11 +97,6 @@ feature {NONE} -- Line states
 		end
 
 feature {NONE} -- Implementation
-
-	Quote: ZSTRING
-		once
-			Result := "%""
-		end
 
 	default_description: ZSTRING
 		local
@@ -116,7 +111,7 @@ feature {NONE} -- Implementation
 		local
 			name: ZSTRING
 		do
-			name := line.substring_between (Tab, Quote, 1)
+			name := line.substring_between_characters ('%T', '"', 1)
 			name.right_adjust
 			Result := name.count > 3 and then name [name.count] = ':'
 		end
@@ -128,11 +123,6 @@ feature {NONE} -- Constants
 	Description_defaults: ARRAY [ZSTRING]
 		once
 			Result := << "Summary description for", "Objects that" >>
-		end
-
-	Tab: ZSTRING
-		once
-			Result := "%T"
 		end
 
 feature {NONE} -- Constants

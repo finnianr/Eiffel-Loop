@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-06 7:38:51 GMT (Tuesday 6th May 2025)"
-	revision: "146"
+	date: "2025-05-09 10:23:05 GMT (Friday 9th May 2025)"
+	revision: "147"
 
 class
 	ZSTRING_TEST_SET
@@ -863,6 +863,7 @@ feature -- Duplication tests
 				covers/{ZSTRING}.slice,
 				covers/{ZSTRING}.substring,
 				covers/{ZSTRING}.substring_between,
+				covers/{ZSTRING}.substring_between_characters,
 				covers/{ZSTRING}.substring_end,
 			]"
 		local
@@ -888,8 +889,12 @@ feature -- Duplication tests
 			-- substring_between
 				create str_list.make_split (test.zs, ' ')
 				padded_middle_word := str_list [2].enclosed (' ', ' ')
-				assert_same_string (Void, test.zs.substring_between (str_list [1], str_list [3], 1), padded_middle_word)
-				assert_same_string (Void, test.zs.substring_between (str_list [1], space * 1, 1), Empty_string)
+				assert_same_string (Void, test.zs.substring_between (str_list.first, str_list [3], 1), padded_middle_word)
+				if str_list.first.count = 1 then
+					assert_same_string (Void, test.zs.substring_between_characters (str_list.first [1], ' ', 1), Empty_string)
+				else
+					assert_same_string (Void, test.zs.substring_between (str_list.first, space * 1, 1), Empty_string)
+				end
 			-- substring_end
 				start_index := test.s_32.count - 2; end_index := test.s_32.count
 				if attached test.s_32.substring (start_index, end_index) as last_three then

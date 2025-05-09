@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2025-05-09 10:11:00 GMT (Friday 9th May 2025)"
+	revision: "16"
 
 class
 	EL_MARKUP_ENCODING
@@ -55,7 +55,7 @@ feature {NONE} -- State handlers
 		do
 			start_index := line.substring_index (Attribute_encoding, 1)
 			if start_index.to_boolean then
-				set_from_name (line.substring_between (Double_quote, Double_quote, start_index + Attribute_encoding.count))
+				set_from_name (line.substring_between_characters (Double_qmark, Double_qmark, start_index + Attribute_encoding.count))
 				state := final
 			end
 		end
@@ -67,9 +67,6 @@ feature {NONE} -- Constants
 			Result := "encoding"
 		end
 
-	Double_quote: ZSTRING
-		once
-			Result := "%""
-		end
+	Double_qmark: CHARACTER_32 = '"'
 
 end

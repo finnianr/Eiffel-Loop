@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-29 9:41:59 GMT (Tuesday 29th April 2025)"
-	revision: "11"
+	date: "2025-05-09 10:09:51 GMT (Friday 9th May 2025)"
+	revision: "12"
 
 class
 	EL_HTML_META_VALUE_READER [M -> EL_HTML_META_VALUES create make end]
@@ -56,11 +56,11 @@ feature {NONE} -- Implementation
 				if i > 0 then
 					i := line.substring_right_index (Tag.name, i)
 					if i > 0 then
-						name := line.substring_between (Tag.quote, Tag.quote, i)
+						name := line.substring_between_characters (Double_qmark, Double_qmark, i)
 						if meta_value.field_export_table.has (name) then
 							i := line.substring_right_index (Tag.content, i)
 							if i > 0 then
-								value := line.substring_between (Tag.quote, Tag.quote, i)
+								value := line.substring_between_characters (Double_qmark, Double_qmark, i)
 								if not (value.starts_with (Tag.begin_undefined) and then value.ends_with (Tag.end_undefined)) then
 									meta_value.set_field (name, value)
 									value_count := value_count + 1
@@ -78,10 +78,12 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Constants
 
-	Tag: TUPLE [meta, name, content, head_end, quote, begin_undefined, end_undefined: ZSTRING]
+	Double_qmark: CHARACTER_32 = '"'
+
+	Tag: TUPLE [meta, name, content, head_end, begin_undefined, end_undefined: ZSTRING]
 		once
 			create Result
-			Tuple.fill (Result, "<meta, name=, content=, </head>, %", ($, undefined)")
+			Tuple.fill (Result, "<meta, name=, content=, </head>, ($, undefined)")
 		end
 
 end

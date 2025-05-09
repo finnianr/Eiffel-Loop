@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 15:52:36 GMT (Thursday 17th August 2023)"
-	revision: "20"
+	date: "2025-05-09 6:15:47 GMT (Friday 9th May 2025)"
+	revision: "21"
 
 class
 	EL_YOUTUBE_VIDEO
@@ -296,7 +296,7 @@ feature {NONE} -- Implementation
 				Cmd_video_duration.put_path (Var.video_path, download.file_path)
 				Cmd_video_duration.execute
 				if attached Cmd_video_duration.lines.first as first then
-					Result := new_time (first.substring_between_general ("Duration: ", ", ", 1)).fine_seconds
+					Result := new_time (first.substring_between ("Duration: ", ", ", 1)).fine_seconds
 				end
 			end
 		end

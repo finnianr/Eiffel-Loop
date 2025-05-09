@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-08 12:29:12 GMT (Thursday 8th May 2025)"
-	revision: "14"
+	date: "2025-05-09 10:01:32 GMT (Friday 9th May 2025)"
+	revision: "15"
 
 class
 	EL_GET_GNOME_SETTING_COMMAND
@@ -65,17 +65,14 @@ feature -- Setting values
 		end
 
 	string_value (key_name: STRING): ZSTRING
-		local
-			quote_index: INTEGER;
 		do
 			put_string (Var.key, key_name)
 			execute
-			if lines.count > 0 then
-				if attached lines.first as line and then line.occurrences (qmark) = 2 then
-					quote_index := line.index_of (qmark, 1) + 1 -- index of single quote '
-					Result := line.substring_to_from (qmark, $quote_index)
+			if lines.count > 0 and then attached lines.first as line then
+				if line.occurrences (Single_qmark) = 2 then
+					Result := line.substring_between_characters (Single_qmark, Single_qmark, 1)
 				else
-					Result := lines.first
+					Result := line
 				end
 			else
 				create Result.make_empty
@@ -89,6 +86,6 @@ feature {NONE} -- Constants
 			Result := Gsettings + " get $schema $key"
 		end
 
-	Qmark: CHARACTER_32 = '%''
+	Single_qmark: CHARACTER_32 = '%''
 
 end

@@ -1,13 +1,13 @@
 note
-	description: "Set gnome setting command"
+	description: "Set GNOME setting command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 9:21:32 GMT (Tuesday 9th July 2024)"
-	revision: "9"
+	date: "2025-05-09 6:31:22 GMT (Friday 9th May 2025)"
+	revision: "10"
 
 class
 	EL_SET_GNOME_SETTING_COMMAND

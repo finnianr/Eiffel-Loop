@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:16:37 GMT (Monday 23rd September 2024)"
-	revision: "22"
+	date: "2025-05-09 10:12:27 GMT (Friday 9th May 2025)"
+	revision: "23"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
@@ -120,7 +120,7 @@ feature {NONE} -- State handlers
 			elseif line.starts_with (data_fields [index]) then
 				state := agent append_field_data (?, index + 1)
 				if data_fields [index] ~ Name.exponent then
-					value := line.substring_between (Bracket.left, Bracket.right, 1)
+					value := line.substring_between_characters ('(', ')', 1)
 					value.remove_head (2)
 					data_table.put (value, data_fields [index])
 				else
@@ -136,7 +136,7 @@ feature {NONE} -- State handlers
 			value: ZSTRING
 		do
 			if line.starts_with (Name.key_size) then
-				value := line.substring_between (Bracket.left, Bracket.right, 1)
+				value := line.substring_between_characters ('(', ')', 1)
 				value.remove_tail (4)
 				key_size := value.to_integer
 				state := agent append_field_data (?, 1)
@@ -160,13 +160,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	name: TUPLE [exponent, key_size, serial_number: ZSTRING]
-
-feature {NONE} -- Constants
-
-	Bracket: TUPLE [left, right: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "(, )")
-		end
 
 end

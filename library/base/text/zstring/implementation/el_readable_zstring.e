@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-03 13:52:58 GMT (Saturday 3rd May 2025)"
-	revision: "164"
+	date: "2025-05-09 10:27:59 GMT (Friday 9th May 2025)"
+	revision: "165"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -434,46 +434,55 @@ feature -- Substrings
 			unencoded_valid: Result.is_valid
 		end
 
-	substring_between (start_string, end_string: EL_READABLE_ZSTRING; start_index: INTEGER): like Current
-			-- Returns string between substrings start_string and end_string from start_index.
-			-- if end_string is empty or not found, returns the tail string starting from the character
-			-- to the right of start_string. Returns empty string if start_string is not found.
+	substring_between (start_string, end_string: READABLE_STRING_GENERAL; search_start_index: INTEGER): like Current
+		-- string between substrings `start_string' and `end_string' searching from `search_start_index'.
+		-- If `end_string' is empty or not found, returns the tail string starting from the character
+		-- to the right of `start_string'. `Result' is empty string if `start_string' is not found.
 
-			--	EXAMPLE:
-			--			local
-			--				log_line, ip_address: ASTRING
-			--			do
-			--				log_line := "Apr 13 05:34:49 myching sshd[7079]: Failed password for root from 43.255.191.152 port 55471 ssh2"
-			--				ip_address := log_line.substring_between ("Failed password for root from ", " port")
-			--				check
-			--					correct_ip_address: ip_address.same_string ("43.255.191.152")
-			--				end
-			--			end
+		--	EXAMPLE:
+		--			local
+		--				log_line, ip_address: ASTRING
+		--			do
+		--				log_line := "Apr 13 05:34:49 myching sshd[7079]: Failed password for root from 43.255.191.152 port 55471 ssh2"
+		--				ip_address := log_line.substring_between ("Failed password for root from ", " port")
+		--				check
+		--					correct_ip_address: ip_address.same_string ("43.255.191.152")
+		--				end
+		--			end
 		local
-			pos_start_string, pos_end_string: INTEGER
+			start_index, end_index: INTEGER
 		do
-			pos_start_string := substring_index (start_string, start_index)
-			if pos_start_string > 0 then
+			start_index := substring_index (start_string, search_start_index)
+			if start_index > 0 then
 				if end_string.is_empty then
-					pos_end_string := count + 1
+					end_index := count + 1
 				else
-					pos_end_string := substring_index (end_string, pos_start_string + start_string.count)
+					end_index := substring_index (end_string, start_index + start_string.count)
 				end
-				if pos_end_string > 0 then
-					Result := substring (pos_start_string + start_string.count, pos_end_string - 1)
+				if end_index > 0 then
+					Result := substring (start_index + start_string.count, end_index - 1)
 				else
-					Result := substring (pos_start_string + start_string.count, count)
+					Result := substring (start_index + start_string.count, count)
 				end
 			else
 				Result := new_string (0)
 			end
 		end
 
-	substring_between_general (start_string, end_string: READABLE_STRING_GENERAL; start_index: INTEGER): like Current
+	substring_between_characters (uc_left, uc_right: CHARACTER_32; start_index: INTEGER): like Current
+		-- string between first occurrences of `uc_left' and `uc_right' respectively.
+		-- Search starts from `start_index'. If `uc_left' not found, `Result' is empty.
+		-- If `uc_right' not found, `Result' is tail string starting from character to the right of `uc_left'.
+		local
+			left_index: INTEGER
 		do
-			Result := substring_between (
-				adapted_argument (start_string, 1), adapted_argument (end_string, 2), start_index
-			)
+			left_index := index_of (uc_left, start_index)
+			if left_index > 0 then
+				left_index := left_index + 1
+				Result := substring_to_from (uc_right, $left_index)
+			else
+				Result := new_string (0)
+			end
 		end
 
 	substring_end (start_index: INTEGER): like Current

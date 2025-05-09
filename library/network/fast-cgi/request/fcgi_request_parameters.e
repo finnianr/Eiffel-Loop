@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-29 9:32:54 GMT (Tuesday 29th April 2025)"
-	revision: "37"
+	date: "2025-05-09 10:13:14 GMT (Friday 9th May 2025)"
+	revision: "38"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -36,8 +36,6 @@ inherit
 		end
 
 	EL_MODULE_IP_ADDRESS; EL_MODULE_TUPLE
-
-	EL_CHARACTER_32_CONSTANTS
 
 create
 	make, make_from_utf_8_table
@@ -112,7 +110,7 @@ feature -- Access
 			scalar: NATURAL
 		do
 			scalar := 1_000_000
-			if attached server_software.substring_between (char ('/'), space, 1) as substring then
+			if attached server_software.substring_between_characters ('/', ' ', 1) as substring then
 				across substring.split ('.') as list loop
 					Result := Result + scalar * list.item.to_natural
 					scalar := scalar // 1000

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 19:06:16 GMT (Thursday 17th April 2025)"
-	revision: "24"
+	date: "2025-05-09 6:08:43 GMT (Friday 9th May 2025)"
+	revision: "25"
 
 class
 	EL_CONTAINER_ARITHMETIC [G, N -> NUMERIC]
@@ -24,6 +24,11 @@ inherit
 			{ANY} valid_open_argument
 		redefine
 			item_area
+		end
+
+	EL_KEY_VALUE_CONVERSION [N, G]
+		rename
+			valid_value_to_key as valid_value_to_number
 		end
 
 	EL_CONTAINER_HANDLER
@@ -57,7 +62,7 @@ feature -- Access
 	max_meeting (value: FUNCTION [G, N]; condition: EL_QUERY_CONDITION [G]): N
 		-- maximum of `value' function across all items of `chain' meeting `condition'
 		require
-			valid_value_function: valid_open_argument (value)
+			valid_value_function: valid_value_to_number (value)
 		local
 			find_maximum: EL_NUMERIC_MAXIMUM_ACTION [G, N]
 		do
@@ -77,7 +82,7 @@ feature -- Access
 	min_meeting (value: FUNCTION [G, N]; condition: EL_QUERY_CONDITION [G]): N
 		-- minimum of `value' function across all items of `chain' meeting `condition'
 		require
-			valid_value_function: valid_open_argument (value)
+			valid_value_function: valid_value_to_number (value)
 		local
 			find_minimum: EL_NUMERIC_MINIMUM_ACTION [G, N]
 		do
@@ -97,7 +102,7 @@ feature -- Access
 	sum_meeting (value: FUNCTION [G, N]; condition: EL_QUERY_CONDITION [G]): N
 		-- sum of `value' function across all items of `chain' meeting `condition'
 		require
-			valid_value_function: valid_open_argument (value)
+			valid_value_function: valid_value_to_number (value)
 		local
 			calculate_sum: EL_NUMERIC_SUM_ACTION [G, N]
 		do

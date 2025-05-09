@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 9:12:31 GMT (Saturday 31st August 2024)"
-	revision: "8"
+	date: "2025-05-09 10:06:09 GMT (Friday 9th May 2025)"
+	revision: "9"
 
 class
 	EL_CURRENCY_TEXTS
@@ -27,7 +27,7 @@ feature -- Access
 
 	format (code: NATURAL_8): ZSTRING
 		do
-			Result := information (code).substring_between (Bracket.left, Bracket.right, 1)
+			Result := information (code).substring_between_characters ('(', ')', 1)
 		end
 
 	information (code: NATURAL_8): ZSTRING
@@ -200,12 +200,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Bracket: TUPLE [left, right: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "(, )")
-		end
 
 	Key_template: ZSTRING
 		once

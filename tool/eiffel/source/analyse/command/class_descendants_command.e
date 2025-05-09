@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 14:51:58 GMT (Saturday 29th March 2025)"
-	revision: "36"
+	date: "2025-05-09 10:31:34 GMT (Friday 9th May 2025)"
+	revision: "37"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -93,7 +93,7 @@ feature {NONE} -- Line states
 			l_target_name: ZSTRING
 		do
 			if line.begins_with (Element_target_name) then
-				l_target_name := line.substring_between (char ('"'), char ('"'), 1).as_lower
+				l_target_name := line.substring_between_characters ('"', '"', 1).as_lower
 				if l_target_name ~ target_name then
 					ecf_path := a_ecf_path
 				end
