@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-11 9:53:02 GMT (Sunday 11th May 2025)"
-	revision: "17"
+	date: "2025-05-11 10:02:53 GMT (Sunday 11th May 2025)"
+	revision: "18"
 
 class
 	EL_VTD_XPATH_QUERY
@@ -80,8 +80,7 @@ feature -- Element change
 			--
 		do
 			dispose
-			xpath := Native_xpath_table.item (a_xpath)
-			make_from_pointer (c_create_xpath_query (xpath.base_address))
+			make_from_pointer (c_create_xpath_query (Native_xpath_table.item (a_xpath).base_address))
 		end
 
 	set_xpath_for_namespace (a_xpath: READABLE_STRING_GENERAL; namespace_key: STRING)
@@ -89,7 +88,7 @@ feature -- Element change
 		require
 			not_namespace_empty: not namespace_key.is_empty
 		local
-			c_ns_prefix, c_ns_url: EL_C_WIDE_CHARACTER_STRING
+			c_ns_prefix, c_ns_url: EL_C_WIDE_CHARACTER_STRING; xpath: EL_VTD_NATIVE_XPATH_I [COMPARABLE]
 		do
 			dispose
 			xpath := Native_xpath_table.item (a_xpath)
@@ -286,7 +285,5 @@ feature {NONE} -- Internal attributes
 	context: EL_XPATH_NODE_CONTEXT
 
 	nodeset_index: INTEGER
-
-	xpath: EL_VTD_NATIVE_XPATH_I [COMPARABLE]
 
 end
