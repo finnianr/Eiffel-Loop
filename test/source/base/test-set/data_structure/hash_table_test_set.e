@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-05 16:48:47 GMT (Monday 5th May 2025)"
-	revision: "66"
+	date: "2025-05-11 5:58:41 GMT (Sunday 11th May 2025)"
+	revision: "67"
 
 class	HASH_TABLE_TEST_SET inherit BASE_EQA_TEST_SET
 

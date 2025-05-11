@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 18:06:06 GMT (Sunday 4th May 2025)"
-	revision: "30"
+	date: "2025-05-11 8:57:05 GMT (Sunday 11th May 2025)"
+	revision: "31"
 
 class
 	EVOLICITY_TEST_SET
@@ -45,6 +45,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_function_call
+		-- EVOLICITY_TEST_SET.function_call
 		note
 			testing: "[
 				covers/{EVC_FUNCTION_REFERENCE}.make
@@ -69,6 +70,7 @@ feature -- Tests
 		end
 
 	test_if_then
+		-- EVOLICITY_TEST_SET.if_then
 		note
 			testing: "[
 				covers/{EVC_TUPLE_CONTEXT}.make,
@@ -83,15 +85,19 @@ feature -- Tests
 				covers/{EVC_COMPILER}.value_reference
 			]"
 		local
-			x: NATURAL; y, i: INTEGER; z: REAL_32
+			x: NATURAL; y, i: INTEGER; z: REAL_32; is_true: BOOLEAN_REF
 			str, cat_str: STRING; dog_str: ZSTRING; pig_str: STRING_32
 			context: EVC_CONTEXT_IMP; boolean_array: ARRAY [BOOLEAN]
 			animal_list: ARRAY [READABLE_STRING_GENERAL]
 		do
 			create context.make
 			create str.make_empty; cat_str := "cat"; dog_str := "dog"; pig_str := "pig"
+			is_true := True
 			context.put_any ("str", str)
 			context.put_any ("squared", agent squared)
+			context.put_any ("has_substring", agent has_substring)
+			context.put_any ("is_feline", agent is_feline)
+			context.put_any ("is_true", is_true)
 			animal_list := << cat_str, dog_str, pig_str >>
 			across animal_list as list loop
 				context.put_any (list.item.to_string_8, list.item)
@@ -121,7 +127,12 @@ feature -- Tests
 						dog_str.same_string_general (cat_str),
 						dog_str > cat_str,
 						cat_str < dog_str,
-						pig_str > dog_str and pig_str > cat_str
+						pig_str > dog_str and pig_str > cat_str,
+						is_true.item,
+						is_feline (cat_str).item,
+						is_feline (dog_str).item,
+						has_substring (cat_str, "at"),
+						has_substring (dog_str, "at")
 					>>
 					assert ("same number of tests", lines_array.count = boolean_array.count)
 					if attached If_then_manifest.split ('%N') as line then
@@ -135,6 +146,7 @@ feature -- Tests
 		end
 
 	test_iteration_loops
+		-- EVOLICITY_TEST_SET.iteration_loops
 		local
 			check_sum_table: EL_HASH_TABLE [STRING, NATURAL]
 		do
@@ -147,7 +159,7 @@ feature -- Tests
 		end
 
 	test_merge_template
-		-- EVOLICITY_TEST_SET.test_merge_template
+		-- EVOLICITY_TEST_SET.merge_template
 		note
 			testing: "[
 				covers/{EVC_FUNCTION_REFERENCE}.make,
@@ -302,11 +314,6 @@ feature {NONE} -- Implementation
 			Result := Data_dir.evol
 		end
 
-	squared (x: NATURAL): NATURAL
-		do
-			Result := x * x
-		end
-
 	to_boolean_array (lines: EL_ZSTRING_LIST): ARRAY [BOOLEAN]
 		do
 			if attached {EL_ARRAYED_LIST [BOOLEAN]} lines.derived_list (agent {ZSTRING}.to_boolean) as list  then
@@ -314,6 +321,23 @@ feature {NONE} -- Implementation
 			else
 				create Result.make_empty
 			end
+		end
+
+feature {NONE} -- Evolicity functions
+
+	has_substring (a, b: STRING): BOOLEAN_REF
+		do
+			Result := a.has_substring (b).to_reference
+		end
+
+	is_feline (animal: STRING): BOOLEAN_REF
+		do
+			Result := (animal ~ "cat").to_reference
+		end
+
+	squared (x: NATURAL): NATURAL
+		do
+			Result := x * x
 		end
 
 feature {NONE} -- Constants
@@ -333,6 +357,11 @@ feature {NONE} -- Constants
 		#if $test.dog > $test.cat then
 		#if $test.cat < $test.dog then
 		#if $test.pig > $test.dog and $test.pig > $test.cat then
+		#if $test.is_true then
+		#if @test.is_feline ($test.cat) then
+		#if @test.is_feline ($test.dog) then
+		#if @test.has_substring ($test.cat, "at") then
+		#if @test.has_substring ($test.dog, "at") then
 	]"
 
 	Integer: EL_FORMAT_INTEGER

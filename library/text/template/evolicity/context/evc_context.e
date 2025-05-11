@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 9:08:30 GMT (Tuesday 15th April 2025)"
-	revision: "29"
+	date: "2025-05-11 8:06:36 GMT (Sunday 11th May 2025)"
+	revision: "30"
 
 deferred class
 	EVC_CONTEXT
@@ -208,7 +208,7 @@ feature {EVC_CONTEXT} -- Implementation
 			index_end := variable_ref.count
 			Result := context_item (variable_ref, index)
 			if index < index_end then
-				if index = (index_end - 1) and then Feature_table.has_key (variable_ref [index_end])
+				if index = (index_end - 1) and then Feature_table.has_immutable_key (variable_ref [index_end])
 					and then attached {FINITE [ANY]} Result as container
 				then
 					-- is a reference to string/list count or empty status
@@ -305,7 +305,7 @@ feature {NONE} -- Enumeration
 
 feature {NONE} -- Constants
 
-	Feature_table: EL_HASH_TABLE [INTEGER, STRING]
+	Feature_table: EL_IMMUTABLE_KEY_8_TABLE [INTEGER]
 		once
 			create Result.make_assignments (<<
 				["count",	 Feature_count],

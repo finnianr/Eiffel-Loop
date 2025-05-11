@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 7:38:56 GMT (Thursday 20th March 2025)"
-	revision: "20"
+	date: "2025-05-11 7:46:04 GMT (Sunday 11th May 2025)"
+	revision: "21"
 
 class
 	EVC_FILE_LEXER
@@ -61,7 +61,7 @@ feature {NONE} -- Expression Pattern
 	boolean_value: like one_of
 			--
 		do
-			Result := one_of (<< simple_comparison_expression, variable_reference >>)
+			Result := one_of (<< simple_comparison_expression, variable_reference, function_call >>)
 		end
 
 	bracketed_boolean_value: like all_of
@@ -92,7 +92,7 @@ feature {NONE} -- Expression Pattern
 				all_of (<<
 					text_token ("not", Token.keyword_not),
 					optional_nonbreaking_white_space,
-					one_of (<< variable_reference, bracketed_boolean_value >>)
+					one_of (<< function_call, variable_reference, bracketed_boolean_value >>)
 				>>)
 			>>)
 		end

@@ -850,3 +850,6 @@ Fully tested EL_TRANSFORMABLE_ZSTRING.replace_set_members and prune_set_members
 Mon 5th May 2025, 7:52:35
 New class EL_REFLECTIVE_ATTRIBUTE_TABLE
 
+Fri 9th May 2025, 10:48:33
+New routine substring_between_characters and test_get_gnome_setting_command
+
