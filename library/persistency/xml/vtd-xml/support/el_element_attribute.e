@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 13:43:26 GMT (Wednesday 2nd August 2023)"
-	revision: "5"
+	date: "2025-05-11 9:48:42 GMT (Sunday 11th May 2025)"
+	revision: "6"
 
 class
 	EL_ELEMENT_ATTRIBUTE
@@ -15,10 +15,7 @@ class
 inherit
 	EL_VTD_XML_ATTRIBUTE_API
 
-	EL_VTD_SHARED_NATIVE_XPATH
-		rename
-			native_xpath as native_name
-		end
+	EL_VTD_SHARED_NATIVE_XPATH_TABLE
 
 	EL_SHARED_C_WIDE_CHARACTER_STRING
 
@@ -42,7 +39,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			name_general := Empty_string_8
+			name := Default_name
 		end
 
 feature -- Numeric value
@@ -52,11 +49,7 @@ feature -- Numeric value
 		require
 			is_double: as_string_8.is_double
 		do
-			if attached native_name (name_general) as name then
-				Result := c_evx_node_context_attribute_double (
-					exception_callbacks_c_struct, self_ptr, name.base_address
-				)
-			end
+			Result := c_evx_node_context_attribute_double (exception_callbacks_c_struct, self_ptr, name.base_address)
 		end
 
 	as_integer: INTEGER
@@ -64,11 +57,7 @@ feature -- Numeric value
 		require
 			is_integer: as_string_8.is_integer
 		do
-			if attached native_name (name_general) as name then
-				Result := c_evx_node_context_attribute_integer (
-					exception_callbacks_c_struct, self_ptr, name.base_address
-				)
-			end
+			Result := c_evx_node_context_attribute_integer (exception_callbacks_c_struct, self_ptr, name.base_address)
 		end
 
 	as_integer_64: INTEGER_64
@@ -76,11 +65,7 @@ feature -- Numeric value
 		require
 			is_integer_64: as_string_8.is_integer_64
 		do
-			if attached native_name (name_general) as name then
-				Result := c_evx_node_context_attribute_integer_64 (
-					exception_callbacks_c_struct, self_ptr, name.base_address
-				)
-			end
+			Result := c_evx_node_context_attribute_integer_64 (exception_callbacks_c_struct, self_ptr, name.base_address)
 		end
 
 	as_natural: NATURAL
@@ -104,11 +89,7 @@ feature -- Numeric value
 		require
 			is_real: as_string_8.is_real
 		do
-			if attached native_name (name_general) as name then
-				Result := c_evx_node_context_attribute_real (
-					exception_callbacks_c_struct, self_ptr, name.base_address
-				)
-			end
+			Result := c_evx_node_context_attribute_real (exception_callbacks_c_struct, self_ptr, name.base_address)
 		end
 
 feature -- Access
@@ -190,11 +171,11 @@ feature -- Status query
 
 feature -- Element change
 
-	set_context (element_context: EL_XPATH_NODE_CONTEXT; a_name_general: READABLE_STRING_GENERAL)
+	set_context (element_context: EL_XPATH_NODE_CONTEXT; name_general: READABLE_STRING_GENERAL)
 		do
 			self_ptr := element_context.self_ptr
 			exception_callbacks_c_struct := element_context.exception_callbacks_c_struct
-			name_general := a_name_general
+			name := Native_xpath_table.item (name_general)
 		end
 
 feature {NONE} -- Implementation
@@ -202,27 +183,27 @@ feature {NONE} -- Implementation
 	attribute_raw_string: POINTER
 			--
 		do
-			if attached native_name (name_general) as name then
-				Result := c_evx_node_context_attribute_raw_string (
-					exception_callbacks_c_struct, self_ptr, name.base_address
-				)
-			end
+			Result := c_evx_node_context_attribute_raw_string (exception_callbacks_c_struct, self_ptr, name.base_address)
 		end
 
 	attribute_string: POINTER
 			--
 		do
-			if attached native_name (name_general) as name then
-				Result := c_evx_node_context_attribute_string (
-					exception_callbacks_c_struct, self_ptr, name.base_address
-				)
-			end
+			Result := c_evx_node_context_attribute_string (exception_callbacks_c_struct, self_ptr, name.base_address)
 		end
 
 feature {NONE} -- Internal attributes
 
 	exception_callbacks_c_struct: POINTER
 
-	name_general: READABLE_STRING_GENERAL
+	name: like Default_name
+		-- native VTD name
+
+feature {NONE} -- Constants
+
+	Default_name: EL_VTD_NATIVE_XPATH_I [COMPARABLE]
+		once
+			create {EL_VTD_NATIVE_XPATH_IMP} Result.make_empty
+		end
 
 end

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 13:55:06 GMT (Wednesday 8th November 2023)"
-	revision: "9"
+	date: "2025-05-11 9:29:33 GMT (Sunday 11th May 2025)"
+	revision: "10"
 
 deferred class
-	EL_VTD_NATIVE_XPATH_I [T]
+	EL_VTD_NATIVE_XPATH_I [CHAR -> COMPARABLE]
 
 inherit
-	TO_SPECIAL [T]
+	TO_SPECIAL [CHAR]
 		export
 			{NONE} area
 		end
@@ -50,7 +50,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	null_terminator: T
+	null_terminator: CHAR
 		deferred
 		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:07:36 GMT (Monday 23rd September 2024)"
-	revision: "16"
+	date: "2025-05-11 9:53:02 GMT (Sunday 11th May 2025)"
+	revision: "17"
 
 class
 	EL_VTD_XPATH_QUERY
@@ -39,9 +39,9 @@ inherit
 			read_string_32 as as_string_32,
 			read_boolean as as_boolean,
 			read_pointer as as_pointer
---		undefine
---			copy, is_equal, out
 		end
+
+	EL_VTD_SHARED_NATIVE_XPATH_TABLE
 
 create
 	make, make_xpath, make_xpath_for_namespace
@@ -80,7 +80,7 @@ feature -- Element change
 			--
 		do
 			dispose
-			create {EL_VTD_NATIVE_XPATH_IMP} xpath.make (a_xpath)
+			xpath := Native_xpath_table.item (a_xpath)
 			make_from_pointer (c_create_xpath_query (xpath.base_address))
 		end
 
@@ -92,7 +92,7 @@ feature -- Element change
 			c_ns_prefix, c_ns_url: EL_C_WIDE_CHARACTER_STRING
 		do
 			dispose
-			create {EL_VTD_NATIVE_XPATH_IMP} xpath.make (a_xpath)
+			xpath := Native_xpath_table.item (a_xpath)
 			if C_namespaces.has_key (namespace_key) then
 				c_ns_prefix := C_namespaces.found_item [1]
 				c_ns_url := C_namespaces.found_item [2]
@@ -287,6 +287,6 @@ feature {NONE} -- Internal attributes
 
 	nodeset_index: INTEGER
 
-	xpath: EL_VTD_NATIVE_XPATH_I [ANY]
+	xpath: EL_VTD_NATIVE_XPATH_I [COMPARABLE]
 
 end
