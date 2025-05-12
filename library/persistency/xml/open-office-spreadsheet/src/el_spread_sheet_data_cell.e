@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:00:34 GMT (Tuesday 18th March 2025)"
-	revision: "11"
+	date: "2025-05-12 7:50:13 GMT (Monday 12th May 2025)"
+	revision: "12"
 
 class
 	EL_SPREAD_SHEET_DATA_CELL
@@ -24,9 +24,16 @@ create
 
 feature {NONE} -- Initialization
 
+	make (a_text: ZSTRING)
+			-- Initialize from the characters of `s'.
+		do
+			text := a_text
+			make_default
+		end
+
 	make_empty
 		do
-			create paragraphs.make_empty
+			create text.make_empty
 			make_default
 		end
 
@@ -51,61 +58,45 @@ feature {NONE} -- Initialization
 		local
 			paragraph_nodes: EL_XPATH_NODE_CONTEXT_LIST; str: ZSTRING
 		do
-			make_empty
-
 			cell_context.set_namespace_key (NS_text)
 			paragraph_nodes := cell_context.context_list (Xpath_text_paragraph)
-			paragraphs.grow (paragraph_nodes.count)
-			across paragraph_nodes as paragraph loop
-				str := paragraph.node.as_full_string
-				if str.is_empty then
-					str := paragraph.node @ Xpath_text_node
+			if attached Once_paragraph_list as paragraph_list then
+				paragraph_list.wipe_out
+				across paragraph_nodes as paragraph loop
+					str := paragraph.node.as_full_string
+					if str.is_empty then
+						str := paragraph.node @ Xpath_text_node
+					end
+					if str.count > 0 then
+						paragraph_list.extend (str)
+					end
 				end
-				if not str.is_empty then
-					paragraphs.extend (str)
-				end
+				make (paragraph_list.joined_lines)
+			else
+				make_empty
 			end
-		end
-
-	make (a_text: ZSTRING)
-			-- Initialize from the characters of `s'.
-		do
-			create paragraphs.make_with_lines (a_text)
-			make_default
 		end
 
 feature -- Status query
 
 	is_empty: BOOLEAN
 		do
-			Result := paragraphs.is_empty
+			Result := text.is_empty
 		end
 
 feature -- Access
 
-	text: ZSTRING
-		do
-			Result := paragraphs.joined_lines
-		end
-
-	paragraphs: EL_ZSTRING_LIST
-
 	count: INTEGER
 		do
-			Result := paragraphs.joined_character_count
+			Result := text.count
 		end
 
-feature {NONE} -- Implementation
-
-	append_paragraph (paragraph_node: EL_XPATH_NODE_CONTEXT)
+	as_paragraphs: EL_ZSTRING_LIST
 		do
-			paragraphs.extend (paragraph_node.as_full_string)
-			if paragraphs.last.is_empty then
-				across paragraph_node.context_list (Xpath_text_node) as l_text loop
-					paragraphs.last.append (l_text.node.as_full_string)
-				end
-			end
+			Result := text.lines
 		end
+
+	text: ZSTRING
 
 feature {NONE} -- Evolicity reflection
 
@@ -120,17 +111,22 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make_assignments (<<
-				["is_empty", agent: BOOLEAN_REF do Result := is_empty.to_reference end],
-				["escape_single_quote", agent get_escape_single_quote]
+				["is_empty",				agent: BOOLEAN_REF do Result := is_empty.to_reference end],
+				["escape_single_quote",	agent get_escape_single_quote]
 			>>)
 		end
 
 feature {NONE} -- Constants
 
-	Xpath_text_paragraph: STRING_32 = "text:p"
-
 	NS_text: STRING = "text"
 
+	Once_paragraph_list: EL_ZSTRING_LIST
+		once
+			create Result.make_empty
+		end
+
 	Xpath_text_node: STRING_32 = "text()"
+
+	Xpath_text_paragraph: STRING_32 = "text:p"
 
 end

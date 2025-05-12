@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-11 8:26:31 GMT (Tuesday 11th March 2025)"
-	revision: "35"
+	date: "2025-05-12 6:32:33 GMT (Monday 12th May 2025)"
+	revision: "36"
 
 class
 	EL_404_INTERCEPT_SERVICE
@@ -111,9 +111,7 @@ feature {NONE} -- Implementation
 		do
 			create groups.make ("groups")
 			groups.execute
-			if groups.lines.count > 0 then
-				Result := groups.lines.first.split (' ').has_item ("adm")
-			end
+			Result := groups.lines.first_or_empty.split (' ').has_item ("adm")
 		end
 
 	log_request (relative_path: ZSTRING; servlet_info: STRING)

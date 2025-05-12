@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 7:57:53 GMT (Monday 31st March 2025)"
-	revision: "14"
+	date: "2025-05-12 7:14:41 GMT (Monday 12th May 2025)"
+	revision: "15"
 
 class
 	EL_SPREAD_SHEET_TABLE
@@ -117,22 +117,32 @@ feature {NONE} -- Implementation
 		end
 
 	column_table (defined_ranges: EL_ZSTRING_HASH_TABLE [ZSTRING]): EL_ZSTRING_HASH_TABLE [INTEGER]
-
 		local
-			cell_range_address: EL_ZSTRING_LIST; column_interval: INTEGER_INTERVAL
+			cell_range_address: EL_SPLIT_ZSTRING_LIST; left_c, right_c: CHARACTER_8
+			column: INTEGER
 		do
 			create Result.make_equal (11)
 			create columns.make_empty
 			across defined_ranges as range loop
-				create cell_range_address.make_adjusted_split (range.key, '.', {EL_SIDE}.Left)
-				cell_range_address.first.remove_ends
-				if cell_range_address.first ~ name then
-					create column_interval.make (
-						cell_range_address [2].z_code (1).to_integer_32 - 64,
-						cell_range_address [3].z_code (1).to_integer_32 - 64
-					)
-					if column_interval.count = 1 then
-						Result [range.item] := column_interval.lower
+			-- parse: 'IT Jobs'.G1:.G46
+				create cell_range_address.make (range.key, '.')
+				if attached cell_range_address as list and then list.count = 3 then
+					from list.start until list.after loop
+						inspect list.index
+							when 1 then
+								name := list.item_copy
+								name.remove_bookends ('%'', '%'')
+							when 2 then
+								left_c := range.key.item_8 (list.item_lower)
+							when 3 then
+								right_c := range.key.item_8 (list.item_lower)
+						else
+						end
+						list.forth
+					end
+					if left_c = right_c then
+						column := left_c |-| 'A' + 1
+						Result [range.item] := column
 					end
 				end
 			end

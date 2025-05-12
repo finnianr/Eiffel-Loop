@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:09:59 GMT (Monday 27th November 2023)"
-	revision: "7"
+	date: "2025-05-12 6:15:10 GMT (Monday 12th May 2025)"
+	revision: "8"
 
 class
 	EL_FORMATTED_MONOSPACE_TEXT
@@ -35,7 +35,7 @@ feature -- Element change
 				lines.forth
 			end
 			check
-				same_size: lines.first.count = lines.last.count
+				same_size: lines.count > 0 implies lines.first.count = lines.last.count
 			end
 
 			lines.put_front (space * (maximum_count + 2))

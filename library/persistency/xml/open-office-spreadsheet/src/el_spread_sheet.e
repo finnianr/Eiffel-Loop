@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 12:16:31 GMT (Thursday 7th September 2023)"
-	revision: "20"
+	date: "2025-05-12 7:21:42 GMT (Monday 12th May 2025)"
+	revision: "21"
 
 class
 	EL_SPREAD_SHEET
@@ -60,8 +60,7 @@ feature {NONE} -- Initaliazation
 	make_with_xdoc (xdoc: EL_XML_DOC_CONTEXT; a_name: ZSTRING; table_names: EL_ZSTRING_LIST)
 		-- make with selected table names
 		local
-			xpath, cell_range_address, l_name: ZSTRING
-			table_nodes: EL_XPATH_NODE_CONTEXT_LIST
+			xpath, cell_range_address: ZSTRING; table_nodes: EL_XPATH_NODE_CONTEXT_LIST
 			defined_ranges: EL_ZSTRING_HASH_TABLE [ZSTRING]
 		do
 			name := a_name
@@ -86,8 +85,9 @@ feature {NONE} -- Initaliazation
 					across spreadsheet_ctx.context_list ("table:named-expressions/table:named-range") as named_range loop
 						cell_range_address := named_range.node ["table:cell-range-address"]
 						cell_range_address.prune_all ('$')
-						l_name := named_range.node ["table:name"]
-						defined_ranges [cell_range_address] := l_name
+						if attached named_range.node ["table:name"] as l_name then
+							defined_ranges [cell_range_address] := l_name
+						end
 					end
 					xpath := selected_tables_xpath (table_names)
 					table_nodes := spreadsheet_ctx.context_list (xpath.to_unicode)

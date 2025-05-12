@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-09 10:01:32 GMT (Friday 9th May 2025)"
-	revision: "15"
+	date: "2025-05-12 6:11:13 GMT (Monday 12th May 2025)"
+	revision: "16"
 
 class
 	EL_GET_GNOME_SETTING_COMMAND
@@ -68,14 +68,9 @@ feature -- Setting values
 		do
 			put_string (Var.key, key_name)
 			execute
-			if lines.count > 0 and then attached lines.first as line then
-				if line.occurrences (Single_qmark) = 2 then
-					Result := line.substring_between_characters (Single_qmark, Single_qmark, 1)
-				else
-					Result := line
-				end
-			else
-				create Result.make_empty
+			Result := lines.first_or_empty
+			if Result.occurrences (Single_qmark) = 2 then
+				Result := Result.substring_between_characters (Single_qmark, Single_qmark, 1)
 			end
 		end
 
