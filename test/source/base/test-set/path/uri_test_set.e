@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 8:11:33 GMT (Tuesday 22nd April 2025)"
-	revision: "41"
+	date: "2025-05-12 8:34:43 GMT (Monday 12th May 2025)"
+	revision: "42"
 
 class	URI_TEST_SET inherit	BASE_EQA_TEST_SET
 
@@ -89,7 +89,7 @@ feature -- Tests
 				assert ("same path", dir_path ~ uri.to_dir_path)
 			end
 			create uri.make_file ("/home/finnian/Desktop")
-			assert_same_string (Void, uri.to_string, URI_list.first)
+			assert_same_string (Void, uri.to_string, URI_list.first_or_empty)
 		end
 
 	test_uri_join

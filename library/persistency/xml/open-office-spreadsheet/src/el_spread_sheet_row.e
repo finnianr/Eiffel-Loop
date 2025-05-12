@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 17:58:03 GMT (Friday 29th March 2024)"
-	revision: "7"
+	date: "2025-05-12 8:29:55 GMT (Monday 12th May 2025)"
+	revision: "8"
 
 class
 	EL_SPREAD_SHEET_ROW
@@ -36,8 +36,7 @@ feature {NONE} -- Initialization
 	make (table_row_node_list: EL_XPATH_NODE_CONTEXT_LIST; number_of_columns: INTEGER; a_columns: like columns)
 			--
 		local
-			data_cell: EL_SPREAD_SHEET_DATA_CELL
-			i, number_columns_repeated: INTEGER
+			data_cell: EL_SPREAD_SHEET_DATA_CELL; i, number_columns_repeated: INTEGER
 		do
 			make_array (number_of_columns)
 			columns := a_columns

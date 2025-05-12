@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 9:11:23 GMT (Saturday 29th March 2025)"
-	revision: "1"
+	date: "2025-05-12 8:34:42 GMT (Monday 12th May 2025)"
+	revision: "2"
 
 deferred class
 	EL_READABLE_STRING_CHAIN [S -> READABLE_STRING_GENERAL create make end]
@@ -84,6 +84,15 @@ feature -- Access
 		do
 			if count > 0 then
 				Result := first
+			else
+				create Result.make (0)
+			end
+		end
+
+	last_or_empty: S
+		do
+			if count > 0 then
+				Result := last
 			else
 				create Result.make (0)
 			end

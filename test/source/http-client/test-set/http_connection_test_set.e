@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-09 6:16:00 GMT (Friday 9th May 2025)"
-	revision: "81"
+	date: "2025-05-12 8:34:42 GMT (Monday 12th May 2025)"
+	revision: "82"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -425,7 +425,7 @@ feature {NONE} -- Implementation
 		do
 			list := expected_leading_string_and_count.to_string_8
 			assert ("2 items", list.count = 2)
-			assert ("retrieved", doc_text.starts_with (list.first) and line_count = list.last.to_integer)
+			assert ("retrieved", doc_text.starts_with (list.first_or_empty) and line_count = list.last.to_integer)
 		end
 
 	assert_valid_headers (headers: like web.last_headers)

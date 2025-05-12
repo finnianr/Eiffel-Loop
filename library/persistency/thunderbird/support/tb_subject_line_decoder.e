@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 11:38:34 GMT (Wednesday 6th November 2024)"
-	revision: "21"
+	date: "2025-05-12 8:34:43 GMT (Monday 12th May 2025)"
+	revision: "22"
 
 class
 	TB_SUBJECT_LINE_DECODER
@@ -43,7 +43,7 @@ feature -- Access
 			if line.starts_with (Marker.begin) and then line.ends_with (Marker.end_) then
 				create parts.make_split (line.substring (3, line.count - 2), '?')
 
-				set_encoding_from_name (parts.first)
+				set_encoding_from_name (parts.first_or_empty)
 				inspect parts.i_th (2) [1]
 					when 'Q' then
 						-- Eg: =?ISO-8859-15?Q?=DCber_My_Ching?=
@@ -52,7 +52,7 @@ feature -- Access
 						-- Eg: =?UTF-8?B?w5xiZXLigqwgTXkgQ2hpbmc=?=
 						latin_str := Base_64.decoded (parts.last)
 				else
-					latin_str := unescaped (parts.last)
+					latin_str := unescaped (parts.last_or_empty)
 				end
 			else
 				set_latin_encoding (1)
