@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-19 9:23:29 GMT (Wednesday 19th February 2025)"
-	revision: "32"
+	date: "2025-05-14 16:50:48 GMT (Wednesday 14th May 2025)"
+	revision: "33"
 
 deferred class
 	EL_LOGGABLE
@@ -69,8 +69,8 @@ feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LIO} -- Basic operations
 feature -- Measurement
 
 	call_stack_count: INTEGER
-			-- For use in routines that did not call enter to
-			-- push routine on to call stack
+		-- For use in routines that did not call enter to
+		-- push routine on to call stack
 		do
 			Result := routine_call_stack.count
 		end

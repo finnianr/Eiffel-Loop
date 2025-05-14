@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:01:53 GMT (Tuesday 18th March 2025)"
-	revision: "42"
+	date: "2025-05-14 17:00:59 GMT (Wednesday 14th May 2025)"
+	revision: "43"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -115,6 +115,7 @@ feature -- Basic operations
 				if unable_to_listen then
 					log_error (Empty_string_8, "Application unable to listen")
 				else
+					log_stack_position := log.call_stack_count
 					do_transitions
 
 					broker.close
@@ -245,6 +246,7 @@ feature {NONE} -- Implementation
 
 			if attached {OPERATING_SYSTEM_SIGNAL_FAILURE} cause as os then
 				signal := os.signal_code
+
 			elseif attached {IO_FAILURE} cause then
 				-- arrives here in workbench mode
 				if broker.is_pipe_broken then
@@ -256,18 +258,17 @@ feature {NONE} -- Implementation
 				log_message (cause.generator, cause.description)
 				log_message ("Ctrl-C detected", "shutting down ..")
 				state := Final
-				retry
 			elseif signal = Unix_signals.broken_pipe then
 				broker.close
 				log_message (cause.generator, Unix_signals.broken_pipe_message)
-				retry
 			else
 				log_message ("Exiting after unrescueable exception", cause.generator)
 				Exception.set_last_cause (cause)
 				Exception.write_last_trace (Current)
 				state := Final
-				retry
 			end
+			log.restore (log_stack_position)
+			retry
 		end
 
 	log_parameters_enabled: BOOLEAN
@@ -309,6 +310,8 @@ feature {NONE} -- Internal attributes
 	date_time: EL_DATE_TIME
 
 	final: PROCEDURE
+
+	log_stack_position: INTEGER
 
 	server_backlog: INTEGER
 		-- The number of requests that can remain outstanding.

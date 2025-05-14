@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-10 17:14:50 GMT (Monday 10th March 2025)"
-	revision: "22"
+	date: "2025-05-14 8:21:22 GMT (Wednesday 14th May 2025)"
+	revision: "23"
 
 class
 	EL_404_INTERCEPT_CONFIG
@@ -22,6 +22,8 @@ inherit
 		rename
 			match_output_dir as dir_path
 		end
+
+	EL_CHARACTER_8_CONSTANTS
 
 create
 	make_default, make_from_file
@@ -84,7 +86,7 @@ feature {NONE} -- Build from XML
 							if name.is_empty then
 								filter_table.put_whitelist (word)
 
-							elseif word.count = 1 and then word [1] = '.' then
+							elseif word ~ dot then
 							-- '.' indicates the file is in the root directory
 								filter_table.put_whitelist (name.twin)
 							else

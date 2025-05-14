@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 8:28:53 GMT (Tuesday 3rd September 2024)"
-	revision: "13"
+	date: "2025-05-12 13:41:29 GMT (Monday 12th May 2025)"
+	revision: "14"
 
 class
 	ZSTRING_BENCHMARK_COMMAND
@@ -21,7 +21,10 @@ inherit
 
 	EL_SHARED_ZSTRING_CODEC
 
-feature {EL_COMMAND_CLIENT} -- Initialization
+create
+	make
+
+feature {EL_COMMAND_LINE_APPLICATION} -- Initialization
 
 	make (output_dir: DIR_PATH; template_path: FILE_PATH; a_trial_duration_ms: INTEGER; filter: ZSTRING)
 		local
