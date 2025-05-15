@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-09 10:00:09 GMT (Friday 9th May 2025)"
-	revision: "86"
+	date: "2025-05-15 9:01:23 GMT (Thursday 15th May 2025)"
+	revision: "87"
 
 class
 	OS_COMMAND_AUTOTEST_APP
@@ -44,11 +44,13 @@ feature {NONE} -- Implementation
 
 		EL_HOST_NAME_COMMAND,
 
+		EL_MD5_HASH_COMMAND,
 		EL_NATIVE_DIRECTORY_PATH_LIST,
 		EL_NATIVE_DIRECTORY_TREE_FILE_PROCESSOR,
 		EL_NOTIFY_SEND_ERROR_COMMAND,
 		EL_SET_GNOME_SETTING_COMMAND,
 
+		EL_SECURE_SHELL_COMMAND,
 		EL_SSH_MIRROR_BACKUP,
 		EL_SYMLINK_LISTING_COMMAND,
 		EL_VIDEO_TO_MP3_COMMAND_IMP

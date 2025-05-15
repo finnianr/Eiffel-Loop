@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-02 10:53:37 GMT (Sunday 2nd March 2025)"
-	revision: "5"
+	date: "2025-05-15 8:45:43 GMT (Thursday 15th May 2025)"
+	revision: "6"
 
 class
 	C_LANGUAGE_INTERFACE_AUTOTEST_APP
@@ -34,8 +34,7 @@ feature {NONE} -- Implementation
 		EL_CPP_BOOLEAN_VECTOR,
 		EL_CPP_ITERATOR [EL_CPP_OBJECT],
 		EL_CPP_LIST [EL_CPP_ITERATION_CURSOR [EL_CPP_OBJECT], EL_CPP_OBJECT],
-		EL_CPP_STD_ITERATION_CURSOR [ANY],
-		EL_IMMOVEABLE
+		EL_CPP_STD_ITERATION_CURSOR [ANY]
 	]
 		do
 			create Result
