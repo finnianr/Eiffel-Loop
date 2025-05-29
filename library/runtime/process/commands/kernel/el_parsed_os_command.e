@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-26 7:42:46 GMT (Wednesday 26th March 2025)"
-	revision: "16"
+	date: "2025-05-28 8:42:20 GMT (Wednesday 28th May 2025)"
+	revision: "17"
 
 class
 	EL_PARSED_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -27,11 +27,11 @@ inherit
 		export
 			{EL_FALLIBLE} error_list
 		redefine
-			all_variables_set, default_name, execute, make_default, make_command
+			all_variables_set, default_name, execute, make_default, make_with_name
 		end
 
 create
-	make_command
+	make_command, make_with_name
 
 feature {NONE} -- Initialization
 
@@ -42,9 +42,9 @@ feature {NONE} -- Initialization
 			make_command (default_template)
 		end
 
-	make_command (a_template: READABLE_STRING_GENERAL)
+	make_with_name (name, a_template: READABLE_STRING_GENERAL)
 		do
-			Precursor (a_template)
+			Precursor (name, a_template)
 			fill_variables (variables)
 		end
 

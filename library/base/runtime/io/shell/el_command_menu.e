@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-17 10:26:00 GMT (Monday 17th February 2025)"
-	revision: "18"
+	date: "2025-05-28 12:43:40 GMT (Wednesday 28th May 2025)"
+	revision: "19"
 
 class
 	EL_COMMAND_MENU
@@ -87,9 +87,9 @@ feature -- Basic operations
 			lio.put_new_line
 			lio.put_line (User_input.ESC_to_quit)
 			lio.put_new_line
-			from row := 0 until row > row_count loop
+			from row := 1 until row > row_count loop
 				from column := 1 until column > column_count loop
-					index := (column - 1) * row_count + row + 1
+					index := (column - 1) * row_count + (row - 1) + 1
 					if options.valid_index (index) then
 						lio.put_labeled_string (option_number.formatted (index), options [index])
 						if column < column_count then
@@ -112,8 +112,8 @@ feature {NONE} -- Implementation
 			column, row, index, width: INTEGER
 		do
 			from column := 1 until column > column_count loop
-				from row := 0 until row = row_count loop
-					index := (column - 1) * row_count + row + 1
+				from row := 1 until row > row_count loop
+					index := (column - 1) * row_count + (row - 1) + 1
 					if options.valid_index (index) then
 						width := options [index].count + option_number.width + 2 -- ": "
 						if width > max_column_widths [column] then

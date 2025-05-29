@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-27 14:43:35 GMT (Thursday 27th March 2025)"
-	revision: "19"
+	date: "2025-05-28 7:39:38 GMT (Wednesday 28th May 2025)"
+	revision: "20"
 
 deferred class
 	EL_SECURE_SHELL_OS_COMMAND
@@ -79,11 +79,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Evolicity reflection
 
-	get_is_remote_destination: BOOLEAN_REF
-		do
-			Result := is_remote_destination.to_reference
-		end
-
 	get_ssh_context: EL_SECURE_SHELL_CONTEXT
 		do
 			if attached ssh_context as context then
@@ -96,9 +91,9 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: EVC_FUNCTION_TABLE
 		do
 			create Result.make_assignments (<<
-				["remote", agent remote],
-				[Var_is_remote_destination, agent get_is_remote_destination],
-				[Var_ssh,						 agent get_ssh_context]
+				["remote",						 agent remote],
+				["ssh",							 agent get_ssh_context],
+				[Var_is_remote_destination, agent: BOOLEAN_REF do Result := is_remote_destination.to_reference end]
 			>>)
 		end
 
@@ -111,7 +106,5 @@ feature {NONE} -- Deferred
 feature {NONE} -- Constants
 
 	Var_is_remote_destination: STRING = "is_remote_destination"
-
-	Var_ssh: STRING = "ssh"
 
 end

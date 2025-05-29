@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 12:08:01 GMT (Saturday 5th April 2025)"
-	revision: "9"
+	date: "2025-05-23 7:30:28 GMT (Friday 23rd May 2025)"
+	revision: "10"
 
 deferred class
 	EL_TEXTABLE
@@ -18,16 +18,13 @@ inherit
 			set_text
 		end
 
-	EL_READABLE_STRING_GENERAL_ROUTINES_I
-		export
-			{NONE} all
-		end
-
 feature -- Element change
 
 	set_text (a_text: separate READABLE_STRING_GENERAL)
+		local
+			sg: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			Precursor (to_unicode_general (a_text))
+			Precursor (sg.to_unicode_general (a_text))
 		end
 
 end

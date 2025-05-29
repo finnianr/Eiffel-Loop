@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-28 13:57:13 GMT (Friday 28th March 2025)"
-	revision: "18"
+	date: "2025-05-29 11:09:05 GMT (Thursday 29th May 2025)"
+	revision: "20"
 
 class
 	EL_RSYNC_COMMAND_IMP
@@ -35,9 +35,9 @@ feature -- Access
 		#if $is_remote_destination then
 			--rsh="$ssh.command"
 			#if $make_remote_dir_enabled then
-				--rsync-path="mkdir -p $ssh.user_domain:@remote ($destination_parent) && rsync"
+				--rsync-path="mkdir -p @remote ($destination_parent) && rsync"
 			#end
-			$source_path $ssh.user_domain:@remote ($destination_path)$trailing_slash
+			$source_path $ssh.user_domain:"@remote ($destination_path)$trailing_slash"
 		#else
 			$source_path $destination_path$trailing_slash
 		#end

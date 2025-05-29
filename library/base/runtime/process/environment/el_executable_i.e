@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-02 10:52:18 GMT (Wednesday 2nd April 2025)"
-	revision: "19"
+	date: "2025-05-29 10:53:53 GMT (Thursday 29th May 2025)"
+	revision: "20"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -170,7 +170,7 @@ feature -- Basic operations
 feature -- Status report
 
 	Is_work_bench: BOOLEAN
-			-- True if application is called from within EiffelStudio
+		-- True if application is called from within EiffelStudio
 		once
 			Result := ({INTEGER_32}).type_id - ({INTEGER_32_REF}).type_id = 1
 		ensure

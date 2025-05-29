@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-26 7:44:31 GMT (Wednesday 26th March 2025)"
-	revision: "16"
+	date: "2025-05-28 8:45:27 GMT (Wednesday 28th May 2025)"
+	revision: "17"
 
 class
 	EL_PARSED_CAPTURED_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -37,11 +37,21 @@ inherit
 			{ANY} execute, is_valid_platform, has_error, lines, print_error,
 					set_working_directory, working_directory
 		undefine
-			all_variables_set, default_name, execute, make_command
+			all_variables_set, default_name, execute, make_command, make_with_name
+		redefine
+			make_default
 		end
 
 create
-	make_command
+	make_command, make_with_name
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			Precursor {EL_CAPTURED_OS_COMMAND}
+			create variables
+		end
 
 note
 	descendants: "[
