@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-26 10:34:01 GMT (Wednesday 26th March 2025)"
-	revision: "25"
+	date: "2025-05-30 7:41:02 GMT (Friday 30th May 2025)"
+	revision: "26"
 
 deferred class
 	EL_COMMAND_SHELL_I
@@ -75,7 +75,7 @@ feature -- Basic operations
 	refresh
 		-- refresh `command_table'
 		do
-			make (menu.name, menu.row_count)
+			make (menu.name, menu.row_interval.upper)
 		end
 
 	run_command_loop

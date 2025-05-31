@@ -2,14 +2,25 @@ note
 	description: "[
 		Implementation of ${EL_RSYNC_COMMAND_I} with Unix [https://linux.die.net/man/1/rsync rsync command]
 	]"
+	notes: "[
+		Example of rsync destination path:
+
+			finnian@example.com:"'/home/finnian/.config/Hex 11 Software'/"
+
+		The single quotes are required because of the spaces in path.
+		The double quotes are necessary otherwise it creates remote path `/home/finnian/.config/Hex'.
+
+		The value of `$trailing_slash' is '/' for file copying, and for directory copying
+		it is just a space which is ignored.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-29 11:40:05 GMT (Thursday 29th May 2025)"
-	revision: "21"
+	date: "2025-05-30 7:07:23 GMT (Friday 30th May 2025)"
+	revision: "22"
 
 class
 	EL_RSYNC_COMMAND_IMP
@@ -41,18 +52,5 @@ feature -- Access
 		#else
 			$source_path $destination_path$trailing_slash
 		#end
-	]"
-
-note
-	notes: "[
-		Example of rsync destination path:
-		
-			finnian@example.com:"'/home/finnian/.config/Hex 11 Software'/"
-			
-		The single quotes are required because of the spaces in path.
-		The double quotes are necessary otherwise it just creates remote path `/home/finnian/.config/Hex'
-		
-		The value of `$trailing_slash' is '/' for file copying, and for directory copying
-		it is just a space which is ignored.
 	]"
 end

@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-28 12:43:40 GMT (Wednesday 28th May 2025)"
-	revision: "19"
+	date: "2025-05-30 7:41:51 GMT (Friday 30th May 2025)"
+	revision: "20"
 
 class
 	EL_COMMAND_MENU
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 
 	make (a_name: READABLE_STRING_GENERAL; a_options: like options; a_row_count: INTEGER)
 		local
-			 math: EL_INTEGER_MATH
+			 math: EL_INTEGER_MATH; column_count, row_count: INTEGER
 		do
 			create name.make_from_general (a_name); options := a_options
 			row_count := a_row_count.min (a_options.count)
@@ -52,6 +52,7 @@ feature {NONE} -- Initialization
 			if a_options.count \\ row_count > 0 then
 				column_count := column_count + 1
 			end
+			column_interval := 1 |..| column_count; row_interval := 1 |..| row_count
 			create option_number.make (math.digit_count (a_options.count))
 			create max_column_widths.make_filled (0, 1, column_count)
 			fill_max_column_widths
@@ -68,7 +69,7 @@ feature -- Access
 			Result := options [i]
 		end
 
-	row_count: INTEGER
+	row_interval: INTEGER_INTERVAL
 
 feature -- Status query
 
@@ -81,26 +82,24 @@ feature -- Basic operations
 
 	display
 		local
-			row, column, index, padding_width: INTEGER
+			index, padding_width: INTEGER
 		do
 			lio.put_labeled_string ("MENU", name)
 			lio.put_new_line
 			lio.put_line (User_input.ESC_to_quit)
 			lio.put_new_line
-			from row := 1 until row > row_count loop
-				from column := 1 until column > column_count loop
-					index := (column - 1) * row_count + (row - 1) + 1
+			across row_interval as row loop
+				across column_interval as column loop
+					index := option_index (column.item, row.item)
 					if options.valid_index (index) then
 						lio.put_labeled_string (option_number.formatted (index), options [index])
-						if column < column_count then
-							padding_width := max_column_widths [column] - options [index].count + 1 - option_number.width - 1
+						if column_interval.has (column.item) then
+							padding_width := max_column_widths [column.item] - options [index].count + 1 - option_number.width - 1
 							lio.put_string (Space * padding_width)
 						end
 					end
-					column := column + 1
 				end
 				lio.put_new_line
-				row := row + 1
 			end
 			lio.put_new_line
 		end
@@ -109,27 +108,29 @@ feature {NONE} -- Implementation
 
 	fill_max_column_widths
 		local
-			column, row, index, width: INTEGER
+			index, width: INTEGER
 		do
-			from column := 1 until column > column_count loop
-				from row := 1 until row > row_count loop
-					index := (column - 1) * row_count + (row - 1) + 1
+			across column_interval as column loop
+				across row_interval as row loop
+					index := option_index (column.item, row.item)
 					if options.valid_index (index) then
 						width := options [index].count + option_number.width + 2 -- ": "
-						if width > max_column_widths [column] then
-							max_column_widths [column] := width
+						if width > max_column_widths [column.item] then
+							max_column_widths [column.item] := width
 						end
 					end
-					row := row + 1
 				end
-				column := column + 1
 			end
+		end
+
+	option_index (column, row: INTEGER): INTEGER
+		do
+			Result := (column - 1) * row_interval.upper + row
 		end
 
 feature {NONE} -- Internal attributes
 
-	column_count: INTEGER
-		-- count of columns
+	column_interval: INTEGER_INTERVAL
 
 	max_column_widths: ARRAY [INTEGER]
 

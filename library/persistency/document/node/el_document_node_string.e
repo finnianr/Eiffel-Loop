@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:35:12 GMT (Saturday 5th April 2025)"
-	revision: "50"
+	date: "2025-05-31 8:19:59 GMT (Saturday 31st May 2025)"
+	revision: "51"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -26,7 +26,7 @@ inherit
 
 			{ANY} count, wipe_out, share, set_from_general, unescape,
 					-- Basic operations
-					set, set_8, set_32, append_adjusted_to,
+					append_lines_to, set, set_8, set_32, append_adjusted_to,
 					-- Element change
 					append, append_character, append_count_from_c, append_substring,
 					prepend, prepend_character,

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 14:56:16 GMT (Thursday 17th April 2025)"
-	revision: "26"
+	date: "2025-05-31 9:03:59 GMT (Saturday 31st May 2025)"
+	revision: "27"
 
 class
 	EL_UTF_8_STRING
@@ -47,7 +47,7 @@ feature -- String conversion
 	adjusted (keep_ref: BOOLEAN): ZSTRING
 		-- string with adjusted whitespace
 		do
-			Result := buffer
+			Result := Buffer
 			set_string (Result, True)
 			if keep_ref then
 				Result := Result.twin
@@ -138,6 +138,13 @@ feature -- Element change
 
 feature -- String setting
 
+	append_lines_to (list: CHAIN [ZSTRING])
+		do
+			across adjusted (False).split ('%N') as line loop
+				list.extend (line.item_copy)
+			end
+		end
+
 	set (other: ZSTRING)
 		-- set `other' from adjusted `Current' UTF-8 string
 		do
@@ -177,12 +184,10 @@ feature -- String setting
 		end
 
 	set_string_8 (str_8_out: STRING_8; adjust_whitespace: BOOLEAN)
-		local
-			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			str_8_out.wipe_out
 			if attached space_adjusted (adjust_whitespace) as l_adjusted and then l_adjusted.count > 0
-				and then attached sg.super_readable_8 (l_adjusted) as str
+				and then attached super_readable_8 (l_adjusted) as str
 			then
 				if str.is_ascii then
 					str.append_to_string_8 (str_8_out)
