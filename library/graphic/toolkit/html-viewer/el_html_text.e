@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 9:58:41 GMT (Tuesday 27th August 2024)"
-	revision: "25"
+	date: "2025-05-31 11:35:12 GMT (Saturday 31st May 2025)"
+	revision: "26"
 
 class
 	EL_HTML_TEXT
@@ -142,7 +142,7 @@ feature -- Status query
 
 	is_hyper_link_active: BOOLEAN
 		do
-			Result := not link_stack.is_empty and then not link_stack.item.href.is_empty
+			Result := link_stack.count > 0 and then not link_stack.item.href.is_empty
 		end
 
 feature {NONE} -- Ordered list Xpath events
@@ -194,6 +194,20 @@ feature {NONE} -- Xpath event handlers
 				external_links.extend (link_stack.item)
 			end
 			link_stack.remove
+		end
+
+	on_anchor_href
+		do
+			if link_stack.count > 0 then
+				last_node.set_8 (link_stack.item.href)
+			end
+		end
+
+	on_anchor_id
+		do
+			if link_stack.count > 0 then
+				last_node.set (link_stack.item.id)
+			end
 		end
 
 	on_block_quote
@@ -359,8 +373,8 @@ feature {EL_HTML_TEXT_HYPERLINK_AREA} -- Implementation
 				[on_close, "//i",  				agent do text_blocks.last.disable_italic end],
 
 				[on_open, "//a",  				agent do link_stack.put (create {EL_HYPERLINK}.make_default) end],
-				[on_open, "//a/@id",  			agent do link_stack.item.set_id (last_node.adjusted (False)) end],
-				[on_open, "//a/@href",  		agent do link_stack.item.set_href (last_node.adjusted_8 (False)) end],
+				[on_open, "//a/@id",  			agent on_anchor_id],
+				[on_open, "//a/@href",  		agent on_anchor_href],
 				[on_close, "//a",  				agent on_anchor_close],
 
 				[on_open, "//blockquote", 		agent on_block_quote],
