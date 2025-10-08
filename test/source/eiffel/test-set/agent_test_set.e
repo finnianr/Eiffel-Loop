@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 17:08:04 GMT (Tuesday 18th March 2025)"
-	revision: "14"
+	date: "2025-06-08 6:11:08 GMT (Sunday 8th June 2025)"
+	revision: "15"
 
 class
 	AGENT_TEST_SET
@@ -89,8 +89,7 @@ feature -- Basic operations
 
 	open_function_target
 		local
-			duration: FUNCTION [AUDIO_EVENT, REAL]
-			event: AUDIO_EVENT
+			duration: FUNCTION [AUDIO_EVENT, REAL]; event: AUDIO_EVENT
 		do
 			duration := agent {AUDIO_EVENT}.duration
 			lio.put_string ("duration.is_target_closed: ")

@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-30 7:41:51 GMT (Friday 30th May 2025)"
-	revision: "20"
+	date: "2025-10-08 8:34:10 GMT (Wednesday 8th October 2025)"
+	revision: "21"
 
 class
 	EL_COMMAND_MENU
@@ -47,10 +47,12 @@ feature {NONE} -- Initialization
 			 math: EL_INTEGER_MATH; column_count, row_count: INTEGER
 		do
 			create name.make_from_general (a_name); options := a_options
-			row_count := a_row_count.min (a_options.count)
-			column_count := a_options.count // row_count
-			if a_options.count \\ row_count > 0 then
-				column_count := column_count + 1
+			if a_options.count > 0 then
+				row_count := a_row_count.min (a_options.count)
+				column_count := a_options.count // row_count
+				if a_options.count \\ row_count > 0 then
+					column_count := column_count + 1
+				end
 			end
 			column_interval := 1 |..| column_count; row_interval := 1 |..| row_count
 			create option_number.make (math.digit_count (a_options.count))
