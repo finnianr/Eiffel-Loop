@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Compile CSV spreadsheet of historical currency exchange rates for multiple currencies
 	]"
@@ -40,8 +40,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:56:22 GMT (Sunday 30th March 2025)"
-	revision: "20"
+	date: "2025-10-14 12:31:48 GMT (Tuesday 14th October 2025)"
+	revision: "21"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_COMMAND
@@ -50,22 +50,12 @@ inherit
 	EL_APPLICATION_COMMAND
 
 	EL_FALLIBLE
-		redefine
-			reset
-		end
-
-	EL_PARSER
-		export
-			{NONE} all
-		redefine
-			default_source_text, reset
-		end
 
 	EL_STRING_GENERAL_ROUTINES_I
 
-	TP_FACTORY
+	EL_MODULE_EXCEPTION; EL_MODULE_FILE; EL_MODULE_OS; EL_MODULE_LOG; EL_MODULE_TUPLE
 
-	EL_MODULE_EXCEPTION; EL_MODULE_FILE; EL_MODULE_OS; EL_MODULE_LOG
+	EL_SHARED_ENCODINGS
 
 create
 	make
@@ -78,9 +68,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			output_path := a_output_path; date_format := a_date_format
 
-			make_default
-
-			create parsed
+			create parsed_date.make_now
 			create currency_code.make_empty
 			create base_currency.make_empty
 			create exchange_rate_table.make (365)
@@ -158,11 +146,6 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	default_source_text: STRING
-		do
-			Result := Empty_string_8
-		end
-
 	file_currency_code (html_path: FILE_PATH): STRING
 		do
 			Result := html_path.base_name.substring_to ('-')
@@ -176,73 +159,30 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_pattern: like all_of
-		-- match string like: (01/01/2023)</td><td data-title="Closing Rate">&#36;1 USD = &#8364;0.9343</td>
+	parse_row (row_html: STRING)
+		-- Parse XML fragment as for example:
+		
+		--	<tr id="01-01-2024" class="colone">
+		--		<td data-title="Date">Monday  1 January 2024</td>
+		--		<td data-title="Closing Rate">&#163;1 GBP = &#8364;1.1534</td>
+		--		<td data-title="Get link">GBP/EUR rate for 01/01/2024</td>
+		-- </tr>
+		local
+			xdoc: EL_XML_DOC_CONTEXT; rate_string: ZSTRING
+			parsed_rate: REAL
 		do
-			Result := all_of (<<
-			-- match "(02/01/2022)</td>"
-				character_literal ('('),
-				natural_number |to| agent on_day,
-				character_literal ('/'),
-				natural_number |to| agent on_month,
-				character_literal ('/'),
-				natural_number |to| agent on_year,
-				string_literal (")</td>"),
+			create xdoc.make_from_fragment (row_html, Encodings.Latin_1.code_page)
+			parsed_date.make_with_format (xdoc [Xpath.id], Date_input_format)
+			rate_string := xdoc @ Xpath.rate_text
+			parsed_rate := rate_string.substring_to_reversed (Euro_symbol).to_real
 
-			-- match anything up to " USD = &#8364;"
-				while_not_p_match_any (
-					all_of (<< string_literal (currency_code + " = &#"), natural_number, character_literal (';') >>)
-				),
-			-- match 0.8793
-				decimal_constant |to| agent on_exchange_rate,
-				string_literal ("</td>")
-			>>)
-			Result.set_action_last (agent on_entry_found)
-		end
-
-	parsed_date: INTEGER
-		do
-			if attached Shared_date as date then
-				date.set_date (parsed.year, parsed.month, parsed.day)
-				Result := date.ordered_compact_date
-			end
-		end
-
-	parse_html (html_path: FILE_PATH)
-		do
-			lio.put_labeled_string ("Data source", html_path.base)
-			lio.put_new_line
-			lio.put_string ("Parsing ")
-			previous_index := 0
-			reset_pattern
-			set_source_text (File.plain_text (html_path))
-			find_all (Void)
-			lio.put_line (" OK")
-			lio.put_new_line
-		end
-
-	reset
-		do
-			Precursor {EL_FALLIBLE}
-			Precursor {EL_PARSER}
-		end
-
-feature {NONE} -- Event handlers
-
-	on_day (start_index, end_index: INTEGER)
-		do
-			parsed.day := integer_32_substring (start_index, end_index)
-		end
-
-	on_entry_found (start_index, end_index: INTEGER)
-		do
-			exchange_rate_table.binary_search (parsed_date)
+			exchange_rate_table.binary_search (parsed_date.ordered_compact_date)
 			if exchange_rate_table.found then
 				if exchange_rate_table.index \\ 20 = 0 then
 					lio.put_character ('.')
 				end
 				if previous_index + 1 = exchange_rate_table.index then
-					exchange_rate_table.item_value [column_index] := parsed.rate
+					exchange_rate_table.item_value [column_index] := parsed_rate
 					previous_index := exchange_rate_table.index
 				else
 					exchange_rate_table.go_i_th (previous_index + 1)
@@ -251,19 +191,31 @@ feature {NONE} -- Event handlers
 			end
 		end
 
-	on_exchange_rate (start_index, end_index: INTEGER)
+	parse_html (html_path: FILE_PATH)
+		-- iterate over each HTML table row starting: "<tr id="
+		local
+			row_intervals: EL_OCCURRENCE_INTERVALS; html: STRING
+			start_index, end_index: INTEGER
 		do
-			parsed.rate := real_32_substring (start_index, end_index)
-		end
-
-	on_month (start_index, end_index: INTEGER)
-		do
-			parsed.month := integer_32_substring (start_index, end_index)
-		end
-
-	on_year (start_index, end_index: INTEGER)
-		do
-			parsed.year := integer_32_substring (start_index, end_index)
+			lio.put_labeled_string ("Data source", html_path.base)
+			lio.put_new_line
+			lio.put_string ("Parsing ")
+			previous_index := 0
+			html := File.plain_text (html_path)
+			create row_intervals.make_by_string (html, Table_row.open)
+			if attached row_intervals as row then
+				from row.start until row.after loop
+					start_index := row.item_lower
+					end_index := html.substring_index (Table_row.close, row.item_upper + 1)
+					if end_index > 0 then
+						end_index := end_index + Table_row.close.count - 1
+						parse_row (html.substring (start_index, end_index))
+					end
+					row.forth
+				end
+			end
+			lio.put_line (" OK")
+			lio.put_new_line
 		end
 
 feature {NONE} -- Internal attributes
@@ -283,13 +235,27 @@ feature {NONE} -- Internal attributes
 
 	output_path: FILE_PATH
 
-	parsed: TUPLE [rate: REAL; year, month, day: INTEGER]
+	parsed_date: EL_DATE
 
 	previous_index: INTEGER
 
 feature {NONE} -- Constants
 
-	Delimiter: STRING = "</a></td></tr>"
+	Date_input_format: STRING = "dd-mm-yyyy"
+
+	Euro_symbol: CHARACTER_32 = '€'
+
+	Table_row: TUPLE [open, close: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "<tr id=,</tr>")
+		end
+
+	Xpath: TUPLE [id, rate_text: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "id, td [2]/text()")
+		end
 
 	Shared_date: EL_DATE
 		once
