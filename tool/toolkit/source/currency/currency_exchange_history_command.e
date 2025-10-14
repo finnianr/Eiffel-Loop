@@ -40,8 +40,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-14 12:31:48 GMT (Tuesday 14th October 2025)"
-	revision: "21"
+	date: "2025-10-14 15:14:48 GMT (Tuesday 14th October 2025)"
+	revision: "22"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_COMMAND
@@ -53,7 +53,7 @@ inherit
 
 	EL_STRING_GENERAL_ROUTINES_I
 
-	EL_MODULE_EXCEPTION; EL_MODULE_FILE; EL_MODULE_OS; EL_MODULE_LOG; EL_MODULE_TUPLE
+	EL_MODULE_EXCEPTION; EL_MODULE_FILE; EL_MODULE_LIO; EL_MODULE_OS; EL_MODULE_TUPLE
 
 	EL_SHARED_ENCODINGS
 
@@ -101,8 +101,10 @@ feature -- Basic operations
 
 	execute
 		local
-			csv_file: PLAIN_TEXT_FILE; i, i_final: INTEGER
+			csv_file: PLAIN_TEXT_FILE; i, i_final: INTEGER; date: EL_DATE
 		do
+			create date.make_now
+
 			across html_path_list as path until has_error loop
 				currency_code := file_currency_code (path.item)
 				column_index := path.cursor_index
@@ -129,7 +131,8 @@ feature -- Basic operations
 				csv_file.put_new_line
 
 				from table.start until table.after loop
-					csv_file.put_string (formatted (table.item_key))
+					date.make_by_ordered_compact_date (table.item_key)
+					csv_file.put_string (date.formatted_out (date_format))
 
 					i_final := table.item_value.count
 					from i := 0 until i = i_final loop
@@ -151,29 +154,49 @@ feature {NONE} -- Implementation
 			Result := html_path.base_name.substring_to ('-')
 		end
 
-	formatted (compact_date: INTEGER): STRING
+	parse_html (html_path: FILE_PATH)
+		-- iterate over each HTML table row starting: "<tr id="
+		local
+			row_intervals: EL_OCCURRENCE_INTERVALS; start_index, end_index: INTEGER
 		do
-			if attached Shared_date as date then
-				date.make_by_ordered_compact_date (compact_date)
-				Result := date.formatted_out (date_format)
+			lio.put_labeled_string ("Data source", html_path.base)
+			lio.put_new_line
+			lio.put_string ("Parsing ")
+			previous_index := 0
+			if attached File.plain_text (html_path) as html then
+				create row_intervals.make_by_string (html, Table_row.open)
+				if attached row_intervals as row then
+					from row.start until row.after loop
+						start_index := row.item_lower
+						end_index := html.substring_index (Table_row.close, row.item_upper + 1)
+						if end_index > 0 then
+							parse_row (html.substring (start_index, end_index + 4))
+						end
+						row.forth
+					end
+				end
 			end
+			lio.put_line (" OK")
+			lio.put_new_line
 		end
 
 	parse_row (row_html: STRING)
-		-- Parse XML fragment as for example:
-		
+		-- Parse XML row fragment as for example:
+
 		--	<tr id="01-01-2024" class="colone">
 		--		<td data-title="Date">Monday  1 January 2024</td>
 		--		<td data-title="Closing Rate">&#163;1 GBP = &#8364;1.1534</td>
 		--		<td data-title="Get link">GBP/EUR rate for 01/01/2024</td>
 		-- </tr>
+		require
+			starts_with_tr: row_html.starts_with (Table_row.open)
+			ends_with_tr_close: row_html.ends_with (Table_row.close)
 		local
-			xdoc: EL_XML_DOC_CONTEXT; rate_string: ZSTRING
-			parsed_rate: REAL
+			xdoc: EL_XML_DOC_CONTEXT; rate_string: ZSTRING; parsed_rate: REAL
 		do
 			create xdoc.make_from_fragment (row_html, Encodings.Latin_1.code_page)
-			parsed_date.make_with_format (xdoc [Xpath.id], Date_input_format)
-			rate_string := xdoc @ Xpath.rate_text
+			parsed_date.make_with_format (xdoc [Xpath.id], Date_id_format)
+			rate_string := xdoc @ Xpath.td_2_text
 			parsed_rate := rate_string.substring_to_reversed (Euro_symbol).to_real
 
 			exchange_rate_table.binary_search (parsed_date.ordered_compact_date)
@@ -189,33 +212,6 @@ feature {NONE} -- Implementation
 					Exception.raise_developer ("Missing day %S for %S", [exchange_rate_table.item_key, currency_code])
 				end
 			end
-		end
-
-	parse_html (html_path: FILE_PATH)
-		-- iterate over each HTML table row starting: "<tr id="
-		local
-			row_intervals: EL_OCCURRENCE_INTERVALS; html: STRING
-			start_index, end_index: INTEGER
-		do
-			lio.put_labeled_string ("Data source", html_path.base)
-			lio.put_new_line
-			lio.put_string ("Parsing ")
-			previous_index := 0
-			html := File.plain_text (html_path)
-			create row_intervals.make_by_string (html, Table_row.open)
-			if attached row_intervals as row then
-				from row.start until row.after loop
-					start_index := row.item_lower
-					end_index := html.substring_index (Table_row.close, row.item_upper + 1)
-					if end_index > 0 then
-						end_index := end_index + Table_row.close.count - 1
-						parse_row (html.substring (start_index, end_index))
-					end
-					row.forth
-				end
-			end
-			lio.put_line (" OK")
-			lio.put_new_line
 		end
 
 feature {NONE} -- Internal attributes
@@ -241,7 +237,8 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Date_input_format: STRING = "dd-mm-yyyy"
+	Date_id_format: STRING = "dd-mm-yyyy"
+		-- id="31-01-2024"
 
 	Euro_symbol: CHARACTER_32 = '€'
 
@@ -251,15 +248,10 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "<tr id=,</tr>")
 		end
 
-	Xpath: TUPLE [id, rate_text: STRING]
+	Xpath: TUPLE [id, td_2_text: STRING]
 		once
 			create Result
 			Tuple.fill (Result, "id, td [2]/text()")
-		end
-
-	Shared_date: EL_DATE
-		once
-			create Result.make_now
 		end
 
 end
