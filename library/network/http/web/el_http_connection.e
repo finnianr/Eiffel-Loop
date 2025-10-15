@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 7:24:11 GMT (Friday 25th April 2025)"
-	revision: "59"
+	date: "2025-10-15 10:26:31 GMT (Wednesday 15th October 2025)"
+	revision: "60"
 
 class
 	EL_HTTP_CONNECTION
@@ -47,6 +47,8 @@ feature {NONE} -- Initialization
 			Precursor
 			create url.make_empty
 			create user_agent.make_empty
+			cert_verification := True
+			host_verification := True
 			redirection_url := Empty_string_8
 			set_silent_output
 		end
@@ -101,14 +103,17 @@ feature -- Access
 			Result := Http_status.name (page_error_code)
 		end
 
+	redirection_url: STRING
+		-- redirection location
+
 	url: EL_URL
 
 	user_agent: STRING
 
-	redirection_url: STRING
-		-- redirection location
-
 feature -- Status query
+
+	cert_verification: EL_BOOLEAN_OPTION
+		-- should certificates be verified for https
 
 	has_page_error (code: INTEGER_16): BOOLEAN
 		do
@@ -120,9 +125,8 @@ feature -- Status query
 			Result := (400 |..| 510).has (page_error_code.to_integer_32)
 		end
 
-	is_certificate_verified: BOOLEAN
-
-	is_host_verified: BOOLEAN
+	host_verification: EL_BOOLEAN_OPTION
+		-- should host name be verified for https
 
 	is_html_response: BOOLEAN
 		-- `True' if `last_string' starts with <!DOCTYPE html..
@@ -205,6 +209,7 @@ feature -- Basic operations
 		-- write any cookies if `cookie_store_path' is set and closes connection
 		do
 			url.wipe_out
+			cert_verification := True; host_verification := True
 			request_headers.wipe_out; post_data_count := 0
 			if post_data.count > Max_post_data_count then
 				post_data.resize (Max_post_data_count)
@@ -448,8 +453,8 @@ feature -- Status change
 			set_curl_string_8_option (CURLOPT_url, url)
 		-- Essential calls for using https
 			if url.is_https then
-				set_certificate_verification (is_certificate_verified)
-				set_hostname_verification (is_host_verified)
+				set_certificate_verification (cert_verification.is_enabled)
+				set_hostname_verification (host_verification.is_enabled)
 			end
 		end
 

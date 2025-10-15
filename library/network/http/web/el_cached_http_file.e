@@ -1,7 +1,7 @@
 note
 	description: "[
 		Cache HTTP GET content under standard cache directory defined by
-		${EL_STANDARD_DIRECTORY_I}.**App_cache**
+		${EL_STANDARD_DIRECTORY_I}.App_cache
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2025-10-15 10:40:22 GMT (Wednesday 15th October 2025)"
+	revision: "9"
 
 class
 	EL_CACHED_HTTP_FILE

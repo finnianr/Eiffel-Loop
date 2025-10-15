@@ -40,8 +40,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-14 15:14:48 GMT (Tuesday 14th October 2025)"
-	revision: "22"
+	date: "2025-10-15 11:14:53 GMT (Wednesday 15th October 2025)"
+	revision: "23"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_COMMAND
@@ -53,7 +53,7 @@ inherit
 
 	EL_STRING_GENERAL_ROUTINES_I
 
-	EL_MODULE_EXCEPTION; EL_MODULE_FILE; EL_MODULE_LIO; EL_MODULE_OS; EL_MODULE_TUPLE
+	EL_MODULE_EXCEPTION; EL_MODULE_FILE; EL_MODULE_LIO; EL_MODULE_TUPLE
 
 	EL_SHARED_ENCODINGS
 
@@ -62,34 +62,25 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_output_path: FILE_PATH; a_date_format: STRING)
+	make (
+		a_output_path: FILE_PATH; a_year: INTEGER; a_base_currency, a_date_format: STRING
+		a_currency_list: EL_STRING_8_LIST
+	)
 		local
-			date, dec_30_th: EL_DATE; r: REAL; rate_array: SPECIAL [REAL]; year: INTEGER
+			date, dec_30_th: EL_DATE; r: REAL; rate_array: SPECIAL [REAL]
 		do
-			output_path := a_output_path; date_format := a_date_format
+			output_path := a_output_path; year := a_year; base_currency := a_base_currency
+			date_format := a_date_format; currency_list := a_currency_list
 
 			create parsed_date.make_now
 			create currency_code.make_empty
-			create base_currency.make_empty
 			create exchange_rate_table.make (365)
+			create dec_30_th.make (a_year, 12, 30)
 
-			html_path_list := OS.file_list (output_path.parent, "*.html")
-			if html_path_list.count > 0 and then attached html_path_list.first_path as html_path then
-				if attached html_path.base_name.to_string_8.split ('-') as parts and then parts.count > 3 then
-					year := parts.last.to_integer
-					base_currency := parts [2]
-				end
-				create dec_30_th.make (year, 12, 30)
-
-				from create date.make (year, 1, 1) until date > dec_30_th loop
-					create rate_array.make_filled (r.one, html_path_list.count + 1)
-					exchange_rate_table.extend (date.ordered_compact_date, rate_array)
-					date.day_forth
-				end
-				html_path_list.sort (False) -- USD before GBP
-			else
-				create exchange_rate_table.make_empty
-				put_error_message (ZSTRING ("ERROR: no HTML exchange pages found in %S folder.") #$ [output_path.parent])
+			from create date.make (a_year, 1, 1) until date > dec_30_th loop
+				create rate_array.make_filled (r.one, a_currency_list.count + 1)
+				exchange_rate_table.extend (date.ordered_compact_date, rate_array)
+				date.day_forth
 			end
 		end
 
@@ -105,10 +96,12 @@ feature -- Basic operations
 		do
 			create date.make_now
 
-			across html_path_list as path until has_error loop
-				currency_code := file_currency_code (path.item)
-				column_index := path.cursor_index
-				parse_html (path.item)
+			currency_list.sort (False)
+
+			across currency_list as code until has_error loop
+				currency_code := code.item
+				column_index := code.cursor_index
+				parse_html (Url_template #$ [code.item, base_currency, year])
 			end
 			if has_error then
 				print_errors (lio)
@@ -117,16 +110,16 @@ feature -- Basic operations
 				create csv_file.make_open_write (output_path)
 
 				csv_file.put_string ("Column No.,2")
-				across html_path_list as list loop
+				across currency_list as code loop
 					csv_file.put_character (',')
-					csv_file.put_integer (list.cursor_index + 2)
+					csv_file.put_integer (code.cursor_index + 2)
 				end
 				csv_file.put_new_line
 
 				csv_file.put_string ("," + base_currency + " (1)")
-				across html_path_list as list loop
+				across currency_list as code loop
 					csv_file.put_character (',')
-					csv_file.put_string (file_currency_code (list.item) + " to " + base_currency)
+					csv_file.put_string (code.item + " to " + base_currency)
 				end
 				csv_file.put_new_line
 
@@ -149,21 +142,19 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	file_currency_code (html_path: FILE_PATH): STRING
-		do
-			Result := html_path.base_name.substring_to ('-')
-		end
-
-	parse_html (html_path: FILE_PATH)
+	parse_html (history_url: ZSTRING)
 		-- iterate over each HTML table row starting: "<tr id="
 		local
 			row_intervals: EL_OCCURRENCE_INTERVALS; start_index, end_index: INTEGER
+			page_file: EL_CACHED_HTTP_FILE
 		do
-			lio.put_labeled_string ("Data source", html_path.base)
+			lio.put_labeled_string ("Data source", history_url)
 			lio.put_new_line
+			create page_file.make (history_url, 10_000)
+
 			lio.put_string ("Parsing ")
 			previous_index := 0
-			if attached File.plain_text (html_path) as html then
+			if attached File.plain_text (page_file.path) as html then
 				create row_intervals.make_by_string (html, Table_row.open)
 				if attached row_intervals as row then
 					from row.start until row.after loop
@@ -181,7 +172,7 @@ feature {NONE} -- Implementation
 		end
 
 	parse_row (row_html: STRING)
-		-- Parse XML row fragment as for example:
+		-- Parse XML table row fragment as for example:
 
 		--	<tr id="01-01-2024" class="colone">
 		--		<td data-title="Date">Monday  1 January 2024</td>
@@ -222,18 +213,20 @@ feature {NONE} -- Internal attributes
 
 	currency_code: STRING
 
+	currency_list: EL_STRING_8_LIST
+
 	date_format: STRING
 
 	exchange_rate_table: EL_KEY_INDEXED_ARRAYED_MAP_LIST [INTEGER, SPECIAL [REAL]]
 		-- cannot use EL_HASH_TABLE because it lacks a routine `go_i_th (index)'
-
-	html_path_list: EL_FILE_PATH_LIST
 
 	output_path: FILE_PATH
 
 	parsed_date: EL_DATE
 
 	previous_index: INTEGER
+
+	year: INTEGER
 
 feature {NONE} -- Constants
 
@@ -246,6 +239,11 @@ feature {NONE} -- Constants
 		once
 			create Result
 			Tuple.fill (Result, "<tr id=,</tr>")
+		end
+
+	Url_template: ZSTRING
+		once
+			Result := "https://www.exchangerates.org.uk/%S-%S-spot-exchange-rates-history-%S.html"
 		end
 
 	Xpath: TUPLE [id, td_2_text: STRING]
