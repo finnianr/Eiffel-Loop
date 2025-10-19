@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-15 16:40:48 GMT (Thursday 15th February 2024)"
-	revision: "3"
+	date: "2025-10-19 16:43:36 GMT (Sunday 19th October 2025)"
+	revision: "4"
 
 class
 	EL_FALLIBLE
@@ -32,6 +32,13 @@ feature -- Access
 		end
 
 feature -- Element change
+
+	set_errors (other: EL_FALLIBLE)
+		do
+			if other.has_error then
+				internal_error_list := other.error_list
+			end
+		end
 
 	put (error: EL_ERROR_DESCRIPTION)
 		do

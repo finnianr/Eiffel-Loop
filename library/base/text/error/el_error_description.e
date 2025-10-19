@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-12 6:26:22 GMT (Monday 12th May 2025)"
-	revision: "10"
+	date: "2025-10-19 16:57:27 GMT (Sunday 19th October 2025)"
+	revision: "11"
 
 class
 	EL_ERROR_DESCRIPTION
@@ -32,7 +32,7 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 create
-	make, make_code, make_empty, make_with_lines, make_from_array
+	make, make_code, make_empty, make_with_lines, make_from_array, make_substituted
 
 feature {NONE} -- Initialization
 
@@ -52,6 +52,12 @@ feature {NONE} -- Initialization
 		do
 			make_empty
 			code := a_code
+		end
+
+	make_substituted (template: READABLE_STRING_GENERAL; inserts: TUPLE)
+		do
+			make_empty
+			extend_substituted (template, inserts)
 		end
 
 feature -- Access

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-02 19:00:15 GMT (Friday 2nd May 2025)"
-	revision: "36"
+	date: "2025-10-19 17:40:56 GMT (Sunday 19th October 2025)"
+	revision: "37"
 
 class
 	EL_XML_DOC_CONTEXT
@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 			make_default
 
 			if parse_failed then
-				data := Default_xml_data
+				data := Default_xml
 				if attached {EL_VTD_EXCEPTION} Exception.last_exception as last then
 					last_exception := last
 				end
@@ -86,7 +86,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor
-			data := Default_xml_data
+			data := Default_xml
 			create file_path
 		end
 
@@ -290,7 +290,7 @@ feature {NONE} -- Constants
 
 	Default_name: STRING = "default"
 
-	Default_xml_data: EL_STRING_8_POINTER
+	Default_xml: STRING
 		once
 			Result := XML.Default_doc.to_xml
 		end

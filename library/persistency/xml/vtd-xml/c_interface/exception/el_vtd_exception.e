@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 13:22:47 GMT (Monday 23rd September 2024)"
-	revision: "4"
+	date: "2025-10-19 17:05:49 GMT (Sunday 19th October 2025)"
+	revision: "5"
 
 class
 	EL_VTD_EXCEPTION
@@ -50,11 +50,27 @@ feature -- Access
 	 		end
 		end
 
+	error_label: STRING
+		do
+			Result := "VTD-XML " + type_description + " error"
+		end
+
+feature -- Conversion
+
+	to_error: EL_ERROR_DESCRIPTION
+		do
+			create Result.make (error_label)
+			Result.extend (message)
+			if sub_message.count > 0 then
+				Result.extend (sub_message)
+			end
+		end
+
 feature -- Basic operations
 
 	put_error (log: EL_LOGGABLE)
 		do
-			log.put_labeled_string ("VTD-XML " + type_description + " error", message)
+			log.put_labeled_string (error_label, message)
 			log.put_new_line
 			if sub_message.count > 0 then
 				log.put_line (sub_message)
@@ -76,13 +92,13 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
+	Error_template: ZSTRING
+		once
+			Result := "VTD-XML %S error: %S (%S)"
+		end
 	Exception_enum: EL_VTD_EXCEPTION_ENUM
 		once
 			create Result
 		end
 
-	Error_template: ZSTRING
-		once
-			Result := "VTD-XML %S error: %S (%S)"
-		end
 end
