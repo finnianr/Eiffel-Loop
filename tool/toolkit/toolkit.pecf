@@ -76,6 +76,7 @@ system:
 			EL_base = "base/base.ecf"
 			EL_app_manage = "app-manage.ecf"
 			EL_compression = "compression.ecf"
+			EL_currency = "currency.ecf"
 			EL_encryption = "encryption.ecf"
 			EL_file_process = "file-processing.ecf"
 			EL_evolicity = "evolicity.ecf"

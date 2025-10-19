@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2025-10-18 7:46:29 GMT (Saturday 18th October 2025)"
+	revision: "18"
 
 class
 	EL_UNIQUE_MACHINE_ID
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 		do
 			create md5.make
 			md5.sink_string_8 (System.CPU_model_name)
-			-- did not realise until 2022 that bytes are in reverse
+		-- did not realise until 2022 that bytes are in reverse
 			md5.sink_array_reversed (mac_address)
 		end
 

@@ -5,13 +5,12 @@
 	notes: "[
 		**Download HTML**
 		
-		Manually download data into output folder from site ''exchangerates.org.uk'' as in example:
+		In case of any problems with auto-download, manually download to this location:
+		
+			$HOME/.cache/Eiffel-Loop/toolkit/https
 		
 			https://www.exchangerates.org.uk/GBP-EUR-spot-exchange-rates-history-2023.html
 			https://www.exchangerates.org.uk/USD-EUR-spot-exchange-rates-history-2023.html
-			
-		The second currency (EUR) in file name is the base currency. For some reason using
-		the **curl** program will not work, you need to use a browser.
 			
 		**Sample output**
 		
@@ -40,8 +39,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-15 11:14:53 GMT (Wednesday 15th October 2025)"
-	revision: "23"
+	date: "2025-10-15 11:21:03 GMT (Wednesday 15th October 2025)"
+	revision: "24"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_COMMAND

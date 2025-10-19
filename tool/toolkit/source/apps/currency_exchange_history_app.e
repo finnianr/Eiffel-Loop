@@ -13,14 +13,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-15 10:44:27 GMT (Wednesday 15th October 2025)"
-	revision: "22"
+	date: "2025-10-19 9:00:03 GMT (Sunday 19th October 2025)"
+	revision: "23"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_APP
 
 inherit
 	EL_COMMAND_LINE_APPLICATION [CURRENCY_EXCHANGE_HISTORY_COMMAND]
+
+	EL_SHARED_CURRENCY_ENUM
 
 create
 	make
@@ -40,9 +42,7 @@ feature {NONE} -- Implementation
 
 	is_valid_code (code: STRING): BOOLEAN
 		do
-			if code.count = 3 then
-				Result := across code as c all c.item.is_upper end
-			end
+			Result := Currency_enum.valid_name (code)
 		end
 
 	default_make: PROCEDURE [like command]

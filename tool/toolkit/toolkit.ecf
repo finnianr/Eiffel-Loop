@@ -50,6 +50,7 @@ See doc/toolkit.txt for details.
 		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false"/>
 		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
 		<library name = "EL_compression" location = "$EIFFEL_LOOP/library/compression.ecf" readonly = "false"/>
+		<library name = "EL_currency" location = "$EIFFEL_LOOP/library/currency.ecf" readonly = "false"/>
 		<library name = "EL_encryption" location = "$EIFFEL_LOOP/library/encryption.ecf" readonly = "false"/>
 		<library name = "EL_file_process" location = "$EIFFEL_LOOP/library/file-processing.ecf" readonly = "false"/>
 		<library name = "EL_evolicity" location = "$EIFFEL_LOOP/library/evolicity.ecf" readonly = "false"/>
