@@ -18,8 +18,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-19 17:57:49 GMT (Sunday 19th October 2025)"
-	revision: "25"
+	date: "2025-10-20 7:04:29 GMT (Monday 20th October 2025)"
+	revision: "26"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_COMMAND
@@ -43,7 +43,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 	)
 		do
 			output_path := a_output_path; date_format := a_date_format
-			create history_table.make (year, base_currency, currency_list)
+			create rate_grid.make (year, base_currency, currency_list)
 		end
 
 feature -- Constants
@@ -55,19 +55,19 @@ feature -- Basic operations
 	execute
 		do
 			lio.put_path_field ("Writing CSV %S", output_path)
-			history_table.export_to_csv (output_path, date_format)
+			rate_grid.export_to_csv (output_path, date_format)
 			lio.put_new_line
 		end
 
 	error_check (application: EL_FALLIBLE)
 		-- check for parsing errors before execution
 		do
-			application.set_errors (history_table)
+			application.set_errors (rate_grid)
 		end
 
 feature {NONE} -- Internal attributes
 
-	history_table: EL_EXCHANGE_RATE_HISTORY_TABLE
+	rate_grid: EL_EXCHANGE_RATE_HISTORY_GRID
 
 	date_format: STRING
 

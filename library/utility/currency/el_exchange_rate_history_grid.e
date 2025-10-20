@@ -1,24 +1,23 @@
 ﻿note
 	description: "[
-		Exchange rate history table for one year in multiple currencies relative to a base currency
-		using data from UK site [https://www.exchangerates.org.uk].
+		Exchange rate history grid using data from UK site [https://www.exchangerates.org.uk].
+		Grid consists of columns of currency rates for a given list of currencies relative to a
+		base currency for one calender year. Each row is a day of the year.
 	]"
 	notes: "[
-		**Data Structure**
+		**CSV Export Example**
 		
-		Did not use `EL_HASH_TABLE' because it lacks a routine `go_i_th (index)'
-
-		**Sample output**
-
 			Column No.,2,3,4
 			,EUR (1),USD to EUR,GBP to EUR
 			20210101,1,0.8241,1.1268
 			20210102,1,0.824,1.1267
 			20210103,1,0.8163,1.117
+			
+		See routine `export_to_csv'
 
 		**Application to LibreOffice Calc**
 
-		The resulting CSV file can be imported into LibreOffice Calc or other spreadsheet application
+		The resulting CSV export file can be imported into LibreOffice Calc or other spreadsheet application
 		and used to convert an amount to a target base currency based on historical exchange rate.
 
 		Use an expression like the following to multiply by historical exchange rate based on date
@@ -35,21 +34,36 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-19 17:57:10 GMT (Sunday 19th October 2025)"
-	revision: "1"
+	date: "2025-10-20 7:06:30 GMT (Monday 20th October 2025)"
+	revision: "2"
 
 class
-	EL_EXCHANGE_RATE_HISTORY_TABLE
+	EL_EXCHANGE_RATE_HISTORY_GRID
 
 inherit
-	EL_KEY_INDEXED_ARRAYED_MAP_LIST [INTEGER, SPECIAL [REAL]]
+	ARRAY2 [REAL]
 		rename
-			make as make_sized
+			height as day_count,
+			make as make_grid,
+			put as put_rate,
+			item as rate
+		export
+			{NONE} all
+			{ANY} rate, day_count, width
+		end
+
+	DATE_CONSTANTS
+		export
+			{NONE} all
+		undefine
+			copy, is_equal
 		end
 
 	EL_FALLIBLE
 		rename
 			put as put_error
+		export
+			{NONE} all
 		undefine
 			copy, is_equal
 		end
@@ -65,24 +79,29 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_year: INTEGER; a_base_currency: STRING; a_currency_list: EL_STRING_8_LIST)
 		local
-			date, dec_30_th: EL_DATE; r: REAL; rate_array: SPECIAL [REAL]
+			i_th_day, dec_31st: EL_DATE; r: REAL; year_day_count: INTEGER
 		do
 			year := a_year; base_currency := a_base_currency; currency_list := a_currency_list
-			make_sized (365)
+			year_day_count := if is_leap_year (year) then Days_in_leap_year else Days_in_non_leap_year end
 
 			create parsed_date.make_now
-			create dec_30_th.make (a_year, 12, 30)
+			create dec_31st.make (a_year, 12, 31)
 
-			from create date.make (a_year, 1, 1) until date > dec_30_th loop
-				create rate_array.make_filled (r.one, a_currency_list.count + 1)
-				extend (date.ordered_compact_date, rate_array)
-				date.day_forth
+			make_filled (r.one, year_day_count, a_currency_list.count + 1)
+
+			create day_of_year_table.make (day_count)
+
+			from create i_th_day.make (a_year, 1, 1) until i_th_day > dec_31st loop
+				day_of_year_table.extend (day_of_year_table.count + 1, i_th_day.ordered_compact_date)
+				i_th_day.day_forth
 			end
 
 			currency_list.sort (False)
 			across currency_list as code until has_error loop
-				parse_html (code.cursor_index, code.item)
+				parse_html (code.cursor_index + 1, code.item)
 			end
+		ensure
+			day_of_year_table_filled: day_of_year_table.count = day_count
 		end
 
 feature -- Basic operations
@@ -90,7 +109,7 @@ feature -- Basic operations
 	export_to_csv (output_path: FILE_PATH; date_format: STRING)
 		-- export to `output_path' as comma separated values with dates formatted as `date_format'
 		local
-			csv_file: PLAIN_TEXT_FILE; i, i_final: INTEGER; date: EL_DATE
+			csv_file: PLAIN_TEXT_FILE; column, day_row: INTEGER; date: EL_DATE
 		do
 			create date.make_now
 			create csv_file.make_open_write (output_path)
@@ -109,18 +128,17 @@ feature -- Basic operations
 			end
 			csv_file.put_new_line
 
-			from start until after loop
-				date.make_by_ordered_compact_date (item_key)
+			across day_of_year_table as table loop
+				day_row := table.item
+				date.make_by_ordered_compact_date (table.key)
 				csv_file.put_string (date.formatted_out (date_format))
 
-				i_final := item_value.count
-				from i := 0 until i = i_final loop
+				from column := 1 until column > width loop
 					csv_file.put_character (',')
-					csv_file.put_real (item_value [i])
-					i := i + 1
+					csv_file.put_real (rate (day_row, column))
+					column := column + 1
 				end
 				csv_file.put_new_line
-				forth
 			end
 			csv_file.close
 		end
@@ -139,7 +157,7 @@ feature {NONE} -- Implementation
 			create page_file.make (history_url, 10_000)
 
 			lio.put_string ("Parsing ")
-			previous_index := 0
+			previous_day_row := 0
 			if attached File.plain_text (page_file.path) as html then
 				create row_intervals.make_by_string (html, Table_row.open)
 				if attached row_intervals as row then
@@ -172,7 +190,7 @@ feature {NONE} -- Implementation
 			ends_with_tr_close: row_html.ends_with (Table_row.close)
 		local
 			xdoc: EL_XML_DOC_CONTEXT; rate_string: ZSTRING; parsed_rate: REAL
-			error: EL_ERROR_DESCRIPTION
+			error: EL_ERROR_DESCRIPTION; day_row: INTEGER
 		do
 			create xdoc.make_from_fragment (row_html, Encodings.Latin_1.code_page)
 			if attached xdoc.last_exception as exception then
@@ -183,19 +201,16 @@ feature {NONE} -- Implementation
 				rate_string := xdoc @ Xpath.td_2_text
 				parsed_rate := rate_string.substring_to_reversed (Euro_symbol).to_real
 
-				binary_search (parsed_date.ordered_compact_date)
-				if found then
-					if index \\ 20 = 0 then
+				if day_of_year_table.has_key (parsed_date.ordered_compact_date) then
+					day_row := day_of_year_table.found_item
+					if day_row \\ 20 = 0 then
 						lio.put_character ('.')
 					end
-					if previous_index + 1 = index then
-						item_value [column_index] := parsed_rate
-						previous_index := index
-					else
-						go_i_th (previous_index + 1)
-						create error.make_substituted ("Missing day %S for %S", [item_key, currency_code])
-						put_error (error)
-					end
+					put_rate (parsed_rate, day_row, column_index)
+					previous_day_row := day_row
+				else
+					create error.make_substituted ("Missing day %S for %S", [previous_day_row + 1, currency_code])
+					put_error (error)
 				end
 			end
 		end
@@ -208,9 +223,12 @@ feature {NONE} -- Internal attributes
 
 	parsed_date: EL_DATE
 
-	previous_index: INTEGER
+	previous_day_row: INTEGER
 
 	year: INTEGER
+
+	day_of_year_table: HASH_TABLE [INTEGER, INTEGER]
+		-- lookup day of year from `ordered_compact_date'
 
 feature {NONE} -- Constants
 
