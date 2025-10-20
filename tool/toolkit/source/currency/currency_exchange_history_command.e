@@ -11,6 +11,14 @@
 
 			https://www.exchangerates.org.uk/GBP-EUR-spot-exchange-rates-history-2023.html
 			https://www.exchangerates.org.uk/USD-EUR-spot-exchange-rates-history-2023.html
+			
+		**Why curl fails on repeated requests**
+		
+		According to ChatGTP, the page returned is a Cloudflare error page.
+
+		A big inline script that sets window._cf_chl_opt (with cType: 'managed', cRay, __cf_chl_* tokens)
+		and loads /cdn-cgi/challenge-platform/... this JS challenge must run in a real browser to set cookies
+		before you’re allowed through. Plain curl can’t solve it.
 	]"
 
 	author: "Finnian Reilly"
@@ -18,8 +26,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-20 7:04:29 GMT (Monday 20th October 2025)"
-	revision: "26"
+	date: "2025-10-20 8:43:06 GMT (Monday 20th October 2025)"
+	revision: "27"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_COMMAND

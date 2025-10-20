@@ -34,8 +34,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-20 7:06:30 GMT (Monday 20th October 2025)"
-	revision: "2"
+	date: "2025-10-20 8:00:25 GMT (Monday 20th October 2025)"
+	revision: "3"
 
 class
 	EL_EXCHANGE_RATE_HISTORY_GRID
@@ -87,12 +87,14 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create parsed_date.make_now
 			create dec_31st.make (a_year, 12, 31)
 
-			make_filled (r.one, year_day_count, a_currency_list.count + 1)
+		-- Column 1 is reserved for `base_currency' which should be 1.0 for all days
+			make_filled (r.zero, year_day_count, a_currency_list.count + 1)
 
 			create day_of_year_table.make (day_count)
 
 			from create i_th_day.make (a_year, 1, 1) until i_th_day > dec_31st loop
 				day_of_year_table.extend (day_of_year_table.count + 1, i_th_day.ordered_compact_date)
+				put_rate (r.one, day_of_year_table.count, 1)
 				i_th_day.day_forth
 			end
 
@@ -101,7 +103,23 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 				parse_html (code.cursor_index + 1, code.item)
 			end
 		ensure
+			valid_column_count: width = currency_list.count + 1
 			day_of_year_table_filled: day_of_year_table.count = day_count
+		end
+
+feature -- Access
+
+	base_currency: STRING
+
+	year: INTEGER
+
+feature -- Conversion
+
+	to_day_row (date: DATE): INTEGER
+		require
+			valid_year: date.year = year
+		do
+			Result := day_of_year_table [date.ordered_compact_date]
 		end
 
 feature -- Basic operations
@@ -146,7 +164,7 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	parse_html (column_index: INTEGER; currency_code: STRING)
-		-- iterate over each HTML table row starting: "<tr id="
+		-- iterate over each HTML table row for `currency_code' starting: "<tr id="
 		local
 			row_intervals: EL_OCCURRENCE_INTERVALS; start_index, end_index: INTEGER
 			page_file: EL_CACHED_HTTP_FILE; history_url: ZSTRING
@@ -201,8 +219,8 @@ feature {NONE} -- Implementation
 				rate_string := xdoc @ Xpath.td_2_text
 				parsed_rate := rate_string.substring_to_reversed (Euro_symbol).to_real
 
-				if day_of_year_table.has_key (parsed_date.ordered_compact_date) then
-					day_row := day_of_year_table.found_item
+				day_row := to_day_row (parsed_date)
+				if day_row > 0 then
 					if day_row \\ 20 = 0 then
 						lio.put_character ('.')
 					end
@@ -217,18 +235,14 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	base_currency: STRING
-
 	currency_list: EL_STRING_8_LIST
+
+	day_of_year_table: HASH_TABLE [INTEGER, INTEGER]
+		-- lookup day of year from `ordered_compact_date'
 
 	parsed_date: EL_DATE
 
 	previous_day_row: INTEGER
-
-	year: INTEGER
-
-	day_of_year_table: HASH_TABLE [INTEGER, INTEGER]
-		-- lookup day of year from `ordered_compact_date'
 
 feature {NONE} -- Constants
 
