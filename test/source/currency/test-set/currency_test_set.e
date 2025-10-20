@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-20 8:54:23 GMT (Monday 20th October 2025)"
-	revision: "8"
+	date: "2025-10-20 17:23:50 GMT (Monday 20th October 2025)"
+	revision: "9"
 
 class
 	CURRENCY_TEST_SET
@@ -47,9 +47,17 @@ feature -- Tests
 		-- caches https://www.exchangerates.org.uk/USD-EUR-spot-exchange-rates-history-2024.html
 		-- to $HOME/.cache/Eiffel-Loop/test/https
 		-- Cloudfare prevents repeated curl requests to same URL.
+		note
+			testing: "[
+				covers/{EL_EXCHANGE_RATE_HISTORY_GRID}.parse_html,
+				covers/{EL_EXCHANGE_RATE_HISTORY_GRID}.parse_row,
+				covers/{EL_EXCHANGE_RATE_HISTORY_GRID}.day_rate,
+				covers/{EL_EXCHANGE_RATE_HISTORY_GRID}.to_day_row,
+				covers/{EL_EXCHANGE_RATE_HISTORY_GRID}.export_to_csv
+			]"
 		local
 			rate_grid: EL_EXCHANGE_RATE_HISTORY_GRID; currency_list: EL_STRING_8_LIST
-			csv_path: FILE_PATH; high, low, rate: REAL; i_th_day, dec_31st: DATE; row, year: INTEGER
+			csv_path: FILE_PATH; high, low, rate: REAL; i_th_day, dec_31st: DATE; year: INTEGER
 		do
 			year := 2024
 			create currency_list.make_from_tuple (["USD"])
@@ -61,9 +69,8 @@ feature -- Tests
 			create dec_31st.make (year, 12, 31)
 
 			from create i_th_day.make (year, 1, 1) until i_th_day > dec_31st loop
-				row := rate_grid.to_day_row (i_th_day)
-				assert ("valid row", row <= 366)
-				rate := rate_grid.rate (row, 2); high := high.max (rate); low := low.min (rate)
+				rate := rate_grid.day_rate ("USD", i_th_day)
+				high := high.max (rate); low := low.min (rate)
 				i_th_day.day_forth
 			end
 			assert ("expected range", (high * 10_000).rounded = 9662 and (low * 10_000).rounded = 8922)
@@ -87,7 +94,10 @@ feature -- Tests
 	test_locale_table
 		-- CURRENCY_TEST_SET.locale_table
 		note
-			testing: "covers/{EL_LOCALIZED_CURRENCY_TABLE}.item, covers/{EL_FUNCTION_CACHE_TABLE}.item"
+			testing: "[
+				covers/{EL_LOCALIZED_CURRENCY_TABLE}.item,
+				covers/{EL_FUNCTION_CACHE_TABLE}.item
+			]"
 		local
 			c1, c2: EL_CURRENCY
 		do

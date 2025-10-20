@@ -34,8 +34,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-20 14:47:49 GMT (Monday 20th October 2025)"
-	revision: "4"
+	date: "2025-10-20 17:22:02 GMT (Monday 20th October 2025)"
+	revision: "5"
 
 class
 	EL_EXCHANGE_RATE_HISTORY_GRID
@@ -46,10 +46,10 @@ inherit
 			height as day_count,
 			make as make_grid,
 			put as put_rate,
-			item as rate
+			item as rate_item alias "[]"
 		export
 			{NONE} all
-			{ANY} rate, day_count, width
+			{ANY} rate_item, day_count, width
 		end
 
 	EL_FALLIBLE
@@ -114,7 +114,27 @@ feature -- Access
 
 	base_currency: STRING
 
+	day_rate (currency_code: STRING; date: DATE): REAL
+		require
+			valid_currency: has_currency (currency_code)
+		local
+			column, row: INTEGER
+		do
+			column := currency_list.index_of (currency_code, 1)
+			row := to_day_row (date)
+			if row > 0 and column > 0 then
+				Result := rate_item (row, column + 1)
+			end
+		end
+
 	year: INTEGER
+
+feature -- Status query
+
+	has_currency (code: STRING): BOOLEAN
+		do
+			Result := currency_list.has (code)
+		end
 
 feature -- Conversion
 
@@ -156,7 +176,7 @@ feature -- Basic operations
 
 				from column := 1 until column > width loop
 					csv_file.put_character (',')
-					csv_file.put_real (rate (day_row, column))
+					csv_file.put_real (rate_item (day_row, column))
 					column := column + 1
 				end
 				csv_file.put_new_line
