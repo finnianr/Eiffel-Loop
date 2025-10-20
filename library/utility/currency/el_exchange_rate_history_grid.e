@@ -34,8 +34,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-20 8:00:25 GMT (Monday 20th October 2025)"
-	revision: "3"
+	date: "2025-10-20 14:47:49 GMT (Monday 20th October 2025)"
+	revision: "4"
 
 class
 	EL_EXCHANGE_RATE_HISTORY_GRID
@@ -52,13 +52,6 @@ inherit
 			{ANY} rate, day_count, width
 		end
 
-	DATE_CONSTANTS
-		export
-			{NONE} all
-		undefine
-			copy, is_equal
-		end
-
 	EL_FALLIBLE
 		rename
 			put as put_error
@@ -68,9 +61,18 @@ inherit
 			copy, is_equal
 		end
 
-	EL_MODULE_FILE; EL_MODULE_LIO; EL_MODULE_TUPLE
+	EL_IO_LOGGABLE
+
+	EL_MODULE_FILE; EL_MODULE_TUPLE
 
 	EL_SHARED_ENCODINGS
+
+	DATE_CONSTANTS
+		export
+			{NONE} all
+		undefine
+			copy, is_equal
+		end
 
 create
 	make
@@ -81,6 +83,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		local
 			i_th_day, dec_31st: EL_DATE; r: REAL; year_day_count: INTEGER
 		do
+			make_lio
 			year := a_year; base_currency := a_base_currency; currency_list := a_currency_list
 			year_day_count := if is_leap_year (year) then Days_in_leap_year else Days_in_non_leap_year end
 
@@ -174,7 +177,7 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 			create page_file.make (history_url, 10_000)
 
-			lio.put_string ("Parsing ")
+			lio.put_string ("Parsing.")
 			previous_day_row := 0
 			if attached File.plain_text (page_file.path) as html then
 				create row_intervals.make_by_string (html, Table_row.open)
@@ -190,7 +193,7 @@ feature {NONE} -- Implementation
 				end
 			end
 			if not has_error then
-				lio.put_line (" OK")
+				lio.put_line (" DONE")
 				lio.put_new_line
 			end
 		end
@@ -221,7 +224,7 @@ feature {NONE} -- Implementation
 
 				day_row := to_day_row (parsed_date)
 				if day_row > 0 then
-					if day_row \\ 20 = 0 then
+					if day_row \\ 5 = 0 then
 						lio.put_character ('.')
 					end
 					put_rate (parsed_rate, day_row, column_index)

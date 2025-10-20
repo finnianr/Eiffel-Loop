@@ -13,14 +13,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-19 16:46:10 GMT (Sunday 19th October 2025)"
-	revision: "24"
+	date: "2025-10-20 14:44:58 GMT (Monday 20th October 2025)"
+	revision: "25"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_APP
 
 inherit
 	EL_COMMAND_LINE_APPLICATION [CURRENCY_EXCHANGE_HISTORY_COMMAND]
+		redefine
+			visible_types
+		end
 
 	EL_SHARED_CURRENCY_ENUM
 
@@ -58,6 +61,11 @@ feature {NONE} -- Implementation
 	valid_currency_code: like No_checks.item
 		do
 			Result := ["Code %"%S%" should be 3 upper case letters", agent is_valid_code]
+		end
+
+	visible_types: TUPLE [EL_EXCHANGE_RATE_HISTORY_GRID]
+		do
+			create Result
 		end
 
 end

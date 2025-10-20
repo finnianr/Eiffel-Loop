@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:32 GMT (Tuesday 18th March 2025)"
-	revision: "26"
+	date: "2025-10-20 14:57:36 GMT (Monday 20th October 2025)"
+	revision: "27"
 
 deferred class
 	EL_DOCUMENT_NODE_SCANNER
@@ -34,11 +34,11 @@ deferred class
 inherit
 	ANY
 
-	EL_MODULE_LIO
-
 	EL_DOCUMENT_CLIENT
 
 	EL_FACTORY_CLIENT
+
+	EL_MODULE_LIO
 
 feature {NONE}  -- Initialisation
 

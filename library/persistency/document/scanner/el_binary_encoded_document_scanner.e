@@ -6,22 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-13 13:17:35 GMT (Sunday 13th August 2023)"
-	revision: "14"
+	date: "2025-10-20 15:01:13 GMT (Monday 20th October 2025)"
+	revision: "15"
 
 class
 	EL_BINARY_ENCODED_DOCUMENT_SCANNER
 
 inherit
 	EL_DOCUMENT_NODE_SCANNER
-		undefine
-			new_lio
 		redefine
 			make_default, on_meta_data, on_start_document, on_end_document,
 			on_start_tag, on_end_tag, on_content, on_comment, on_processing_instruction
 		end
-
-	EL_MODULE_LIO
 
 create
 	make
@@ -67,7 +63,7 @@ feature {NONE} -- Parsing events
 			i: INTEGER
 		do
 			if is_lio_enabled then
-				Lio.put_labeled_string ("on_start_tag", last_node_name)
+				lio.put_labeled_string ("on_start_tag", last_node_name)
 				lio.put_new_line
 			end
 			name_stack.extend (last_node_name.string)

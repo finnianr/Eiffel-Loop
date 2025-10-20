@@ -856,3 +856,6 @@ New routine substring_between_characters and test_get_gnome_setting_command
 Wed 28th May 2025, 15:17:40
 Fix duplication of shell menu item
 
+Mon 20th Oct 2025, 10:40:43
+CURRENCY_TEST_SET.currency_history_exchange_rates
+
