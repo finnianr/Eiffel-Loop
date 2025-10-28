@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-26 17:16:08 GMT (Wednesday 26th March 2025)"
-	revision: "35"
+	date: "2025-10-28 11:36:34 GMT (Tuesday 28th October 2025)"
+	revision: "36"
 
 class
 	EL_OS_ROUTINES
@@ -31,6 +31,11 @@ inherit
 	EL_MODULE_COMMAND; EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE
 
 	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_DIRECTORY
+		rename
+			Directory as Shared_directory
+		end
 
 feature -- Access
 
@@ -127,6 +132,13 @@ feature -- Directory operations
 				cmd.set_target_path (target_path)
 				cmd.set_link_path (link_path)
 				cmd.execute
+			end
+		end
+
+	rename_directory (from_path, to_path: DIR_PATH)
+		do
+			if attached Shared_directory.named (from_path) as dir then
+				dir.rename_to (to_path)
 			end
 		end
 
