@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 17:52:37 GMT (Friday 11th April 2025)"
-	revision: "34"
+	date: "2025-10-28 8:30:11 GMT (Tuesday 28th October 2025)"
+	revision: "35"
 
 class
 	EL_DIRECTORY
@@ -161,6 +161,12 @@ feature -- Measurement
 		end
 
 feature -- Element change
+
+	rename_to (new_name: DIR_PATH)
+		-- Change directory name to `new_name'.
+		do
+			change_name (new_name.as_string_32)
+		end
 
 	set_to_current
 		-- same as `set_path_name (".")'

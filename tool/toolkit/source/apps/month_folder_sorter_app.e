@@ -1,11 +1,11 @@
 note
 	description: "[
-		Command line interface to ${JPEG_FILE_TIME_STAMPER}
-		which ensures JPEG file modified time corresponds to `Exif.Image.DateTime'
+		Command line interface to ${MONTH_FOLDER_SORTER} to abbreviate month folder names
+		and prefix with sort number.
 	]"
 	notes: "[
 		Usage:
-			el_toolkit -jpeg_time_stamp -source <dir-path>
+			el_toolkit -sort_months -sort_months <dir-path>
 	]"
 
 	author: "Finnian Reilly"
@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-28 7:10:59 GMT (Tuesday 28th October 2025)"
-	revision: "21"
+	date: "2025-10-28 7:28:37 GMT (Tuesday 28th October 2025)"
+	revision: "1"
 
 class
-	JPEG_FILE_TIME_STAMPER_APP
+	MONTH_FOLDER_SORTER_APP
 
 inherit
-	EL_COMMAND_LINE_APPLICATION [JPEG_FILE_TIME_STAMPER]
+	EL_COMMAND_LINE_APPLICATION [MONTH_FOLDER_SORTER]
 		redefine
 			Option_name
 		end
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				required_argument ("source", "JPEG directory tree", << directory_must_exist >>)
+				required_argument ("target", "Directory tree", << directory_must_exist >>)
 			>>
 		end
 
@@ -44,6 +44,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Option_name: STRING = "jpeg_time_stamp"
+	Option_name: STRING = "sort_months"
 
 end

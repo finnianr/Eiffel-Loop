@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2025-10-28 7:12:39 GMT (Tuesday 28th October 2025)"
+	revision: "9"
 
 class
 	SLIDE_SHOW_APP
@@ -30,7 +30,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("")
+			Result := agent {like command}.make (create {FILE_PATH})
 		end
 
 	visible_types: TUPLE -- [EL_OS_COMMAND]
