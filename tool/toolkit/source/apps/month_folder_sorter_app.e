@@ -1,11 +1,11 @@
 note
 	description: "[
 		Command line interface to ${MONTH_FOLDER_SORTER} to abbreviate month folder names
-		and prefix with sort number.
+		and prefix with sort number for target directory.
 	]"
 	notes: "[
 		Usage:
-			el_toolkit -sort_months -sort_months <dir-path>
+			el_toolkit -sort_months -target <dir-path>
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-28 7:28:37 GMT (Tuesday 28th October 2025)"
-	revision: "1"
+	date: "2025-10-29 8:15:33 GMT (Wednesday 29th October 2025)"
+	revision: "2"
 
 class
 	MONTH_FOLDER_SORTER_APP

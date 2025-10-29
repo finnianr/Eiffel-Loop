@@ -6,9 +6,10 @@ note
 
 			$month_number-$month_abbreviation
 
-		Example:
+		Renaming Examples:
 
 			August -> 08-Aug
+			Sep    -> 09-Sep
 	]"
 
 	author: "Finnian Reilly"
@@ -16,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-28 11:55:14 GMT (Tuesday 28th October 2025)"
-	revision: "2"
+	date: "2025-10-29 8:19:42 GMT (Wednesday 29th October 2025)"
+	revision: "3"
 
 class
 	MONTH_FOLDER_SORTER
@@ -27,9 +28,12 @@ inherit
 
 	EL_MODULE_COMMAND; EL_MODULE_OS; EL_MODULE_LIO; EL_MODULE_FORMAT
 
-	DATE_CONSTANTS
-
 	EL_CHARACTER_32_CONSTANTS
+
+	DATE_CONSTANTS
+		export
+			{NONE} all
+		end
 
 create
 	make
@@ -39,7 +43,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 	make (a_target_dir: DIR_PATH)
 		do
 			target_dir := a_target_dir
-			create names_list.make (12)
+			create names_list.make (24)
 			across << long_months_text, months_text >> as array loop
 				across array.item as list loop
 					names_list.extend (list.item)
@@ -55,7 +59,7 @@ feature -- Basic operations
 			across OS.directory_list (target_dir) as path loop
 				check_dir (path.item)
 			end
-			if not found_items then
+			if not item_renamed then
 				lio.put_line ("All month names normalized for chronological sort")
 			end
 		end
@@ -79,7 +83,7 @@ feature {NONE} -- Implementation
 					sort_path := a_dir_path.twin
 					sort_path.set_base (sortable_month)
 					OS.rename_directory (a_dir_path, sort_path)
-					found_items := True
+					item_renamed := True
 				end
 			end
 		end
@@ -91,12 +95,12 @@ feature {NONE} -- Internal attributes
 
 	target_dir: DIR_PATH
 
-	found_items: BOOLEAN
+	item_renamed: BOOLEAN
 
 feature {NONE} -- Constants
 
 	Description: STRING = "[
-		Abbreviate month folder names and prefix with a chronological sort number
+		Abbreviate month folder names and prefix with a chronological sort number for target directory
 	]"
 
 end
