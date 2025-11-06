@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 11:24:58 GMT (Tuesday 5th November 2024)"
-	revision: "13"
+	date: "2025-11-06 7:19:01 GMT (Thursday 6th November 2025)"
+	revision: "14"
 
 class
 	AIA_OPERATION
@@ -26,14 +26,15 @@ create
 feature {NONE} -- Initialization
 
 	make (string: STRING)
-		local
-			name_value: ZSTRING
 		do
 			create json_list.make (string)
 			json_list.start
-			name_value := json_list.item_value (False)
-			create name.make (name_value.count)
-			Naming.from_camel_case (Buffer.copied_general (name_value), name)
+			if attached json_list.item_immutable_value as name_value then
+				create name.make (name_value.count)
+				Naming.from_camel_case (name_value, name)
+			else
+				create name.make_empty
+			end
 			json_list.forth
 		end
 
@@ -42,12 +43,5 @@ feature -- Access
 	json_list: JSON_NAME_VALUE_LIST
 
 	name: STRING
-
-feature {NONE} -- Constants
-
-	Buffer: EL_STRING_8_BUFFER
-		once
-			create Result
-		end
 
 end

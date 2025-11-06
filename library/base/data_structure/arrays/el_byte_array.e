@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 12:38:09 GMT (Tuesday 5th November 2024)"
-	revision: "16"
+	date: "2025-11-06 6:36:11 GMT (Thursday 6th November 2025)"
+	revision: "17"
 
 class
 	EL_BYTE_ARRAY
@@ -83,9 +83,9 @@ feature {NONE} -- Initialization
 
 	make_from_string_32 (str_32: READABLE_STRING_32)
 		local
-			buffer: EL_STRING_8_BUFFER_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
-			make_from_string (buffer.copied_general_as_utf_8 (str_32))
+			make_from_string (sg.super_readable_32 (str_32).to_utf_8)
 		end
 
 feature -- Measurement

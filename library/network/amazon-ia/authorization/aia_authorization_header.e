@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 12:03:27 GMT (Friday 21st March 2025)"
-	revision: "30"
+	date: "2025-11-06 7:29:55 GMT (Thursday 6th November 2025)"
+	revision: "31"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -29,8 +29,6 @@ inherit
 
 	EL_MODULE_DIGEST
 
-	EL_STRING_8_CONSTANTS
-
 create
 	make, make_from_string, make_signed
 
@@ -38,17 +36,17 @@ feature {NONE} -- Initialization
 
 	make_from_string (str: STRING)
 		local
-			modified_name_list: EL_STRING_8_LIST
+			modified_name_list: EL_STRING_8_LIST; modified: STRING
 		do
 			make
-			if attached Buffer.copied (Algorithm_equals) as modified then
-				-- Tweak `str' to make it splittable as series of assignments
-				modified.append (str)
-				modified.insert_character (',', modified.index_of (' ', Algorithm_equals.count))
+			-- Tweak `str' to make it splittable as series of assignments
+			create modified.make (Algorithm_equals.count + str.count + 1)
+			modified.append (Algorithm_equals)
+			modified.append (str)
+			modified.insert_character (',', modified.index_of (' ', Algorithm_equals.count))
 
-				create modified_name_list.make_adjusted_split (modified, ',', {EL_SIDE}.Left)
-				modified_name_list.do_all (agent set_field_from_nvp (?, '='))
-			end
+			create modified_name_list.make_adjusted_split (modified, ',', {EL_SIDE}.Left)
+			modified_name_list.do_all (agent set_field_from_nvp (?, '='))
 		end
 
 	make_signed (signer: AIA_SIGNER; canonical_request: AIA_CANONICAL_REQUEST)
@@ -113,11 +111,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Algorithm_equals: STRING = "algorithm="
-
-	Buffer: EL_STRING_8_BUFFER
-		once
-			create Result
-		end
 
 	Default_algorithm: STRING_8
 		once

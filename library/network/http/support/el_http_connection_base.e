@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:55:07 GMT (Friday 7th February 2025)"
-	revision: "21"
+	date: "2025-11-06 7:40:35 GMT (Thursday 6th November 2025)"
+	revision: "22"
 
 deferred class
 	EL_HTTP_CONNECTION_BASE
@@ -127,11 +127,11 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			Curl.setopt_void_star (self_ptr, a_option, a_data_ptr)
 		end
 
-	set_curl_string_32_option (a_option: INTEGER; string: STRING_32)
+	set_curl_string_32_option (a_option: INTEGER; string: READABLE_STRING_32)
 		local
-			buffer: EL_STRING_8_BUFFER_ROUTINES
+			utf_8: EL_UTF_8_CONVERTER
 		do
-			Curl.setopt_string (self_ptr, a_option, Buffer.copied_general_as_utf_8 (string))
+			Curl.setopt_string (self_ptr, a_option, utf_8.string_32_to_string_8 (string))
 		end
 
 	set_curl_string_8_option (a_option: INTEGER; string: STRING)
@@ -140,10 +140,8 @@ feature {EL_HTTP_COMMAND} -- Implementation
 		end
 
 	set_curl_string_option (a_option: INTEGER; string: ZSTRING)
-		local
-			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			Curl.setopt_string (self_ptr, a_option, Buffer.copied_general_as_utf_8 (string))
+			set_curl_string_32_option (a_option, string)
 		end
 
 	set_header_function (callback, user_data: POINTER)

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 14:08:27 GMT (Monday 28th April 2025)"
-	revision: "35"
+	date: "2025-11-06 6:38:01 GMT (Thursday 6th November 2025)"
+	revision: "36"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_collection_read_write
-		-- ECD_READER_WRITER_TEST_SET.test_collection_read_write
+		-- ECD_READER_WRITER_TEST_SET.collection_read_write
 		note
 			testing: "[
 				covers/{EL_MEMORY_READER_WRITER}.read_string,
@@ -67,6 +67,7 @@ feature -- Tests
 		end
 
 	test_print_fields
+		-- ECD_READER_WRITER_TEST_SET.print_fields
 		do
 			if attached new_country (Ireland) as country then
 				do_test ("print_fields", 932900685, agent country.print_fields (lio), [])
@@ -101,10 +102,12 @@ feature -- Tests
 		end
 
 	test_read_write
+		-- ECD_READER_WRITER_TEST_SET.read_write
 		note
 			testing: "[
 				covers/{EL_MEMORY_READER_WRITER}.read_string,
-				covers/{EL_MEMORY_READER_WRITER}.write_string
+				covers/{EL_MEMORY_READER_WRITER}.write_string,
+				covers/{EL_BYTE_ARRAY}.make_from_string_32
 			]"
 		local
 			t: EL_TIME_ROUTINES
@@ -128,7 +131,7 @@ feature -- Tests
 		end
 
 	test_storable_arrayed_list
-		-- ECD_READER_WRITER_TEST_SET.test_storable_arrayed_list
+		-- ECD_READER_WRITER_TEST_SET.storable_arrayed_list
 		local
 			country_list: ECD_STORABLE_ARRAYED_LIST [COUNTRY]
 			country: COUNTRY
@@ -155,7 +158,7 @@ feature -- Tests
 		end
 
 	test_storable_tuple_list
-		-- ECD_READER_WRITER_TEST_SET.test_storable_tuple_list
+		-- ECD_READER_WRITER_TEST_SET.storable_tuple_list
 		note
 			testing: "[
 				covers/{ECD_ARRAYED_TUPLE_LIST}.make_from_file,
@@ -179,7 +182,7 @@ feature -- Tests
 		end
 
 	test_write_meta_data
-		-- ECD_READER_WRITER_TEST_SET.test_write_meta_data
+		-- ECD_READER_WRITER_TEST_SET.write_meta_data
 		note
 			testing: "covers/{EL_REFLECTIVELY_SETTABLE_STORABLE}.write_meta_data"
 		local
