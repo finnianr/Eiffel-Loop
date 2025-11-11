@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-11 12:01:49 GMT (Tuesday 11th November 2025)"
-	revision: "8"
+	date: "2025-11-11 16:31:40 GMT (Tuesday 11th November 2025)"
+	revision: "9"
 
 deferred class
 	EL_HASH_SET_BASE [H -> HASHABLE]
@@ -242,15 +242,15 @@ feature {NONE} -- Implementation
 		local
 			increment, hash_code, table_size, pos: INTEGER
 			first_available_position, visited_count: INTEGER
-			old_key, default_key: H; break, is_map: BOOLEAN
+			old_key, default_key: H; break: BOOLEAN
 		do
 			if attached insertion_marks as l_inserted and then attached content as area then
-				is_map := reference_comparison
+				control := Not_found_constant
 				from
 					first_available_position := -1
 					table_size := capacity
 					hash_code := search_key.hash_code
-					-- Increment computed for no cycle: `table_size' is prime
+				-- Increment computed for no cycle: `table_size' is prime
 					increment := 1 + hash_code \\ (table_size - 1)
 					pos := (hash_code \\ table_size) - increment
 				until
@@ -259,31 +259,25 @@ feature {NONE} -- Implementation
 					pos := (pos + increment) \\ table_size
 					visited_count := visited_count + 1
 					old_key := area [pos]
-					if old_key = default_key or old_key = Void then
+					if ({H}).is_expanded and then old_key = default_key then
 						if l_inserted [pos] then
-							control := Not_found_constant
-							break := True
-							if first_available_position >= 0 then
-								pos := first_available_position
-							end
+							control := Found_constant
 						elseif first_available_position < 0 then
 							first_available_position := pos
 						end
-					elseif is_map then
-						if search_key = old_key then
-							control := Found_constant
-							break := True
+						break := True
+
+					elseif old_key = Void then
+						if first_available_position < 0 then
+							first_available_position := pos
 						end
 					elseif same_keys (search_key, old_key) then
 						control := Found_constant
 						break := True
 					end
 				end
-				if not break then
-					control := Not_found_constant
-					if first_available_position >= 0 then
-						pos := first_available_position
-					end
+				if not break and then first_available_position >= 0 then
+					pos := first_available_position
 				end
 				position := pos
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-11 12:03:22 GMT (Tuesday 11th November 2025)"
-	revision: "4"
+	date: "2025-11-11 13:23:45 GMT (Tuesday 11th November 2025)"
+	revision: "5"
 
 class HASH_SET_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -62,7 +62,7 @@ feature -- Test
 				create set_1.make_from (lines, True)
 				create set_2.make_from (lines, True)
 				set_2.wipe_out
-				assert ("zero count", set_2.count = 0)
+				assert ("is empty", set_2.count = 0)
 				assert ("is empty", set_2.to_list.is_empty)
 				across set_1.to_list as list loop
 					set_2.put (list.item)
@@ -72,6 +72,7 @@ feature -- Test
 			-- prune
 				range_0_to_9 := 0 |..| 9
 				create code_set.make_from (range_0_to_9, False)
+				assert ("10 items", code_set.count = 10)
 
 				range_0_to_4 := 0 |..| 4
 				across range_0_to_4 as code loop
@@ -121,21 +122,16 @@ feature -- Test
 				covers/{EL_HASH_SET_BASE}.internal_search
 			]"
 		local
-			name_set, library_set: EL_HASH_SET [STRING]; name_table: SEARCH_TABLE [STRING]
 			evolicity_class, name: STRING; evolicity_class_removed: BOOLEAN
+			name_set, library_set: EL_HASH_SET [STRING]
 		do
 			library_set := new_class_set (Class_set_1)
 			name_set := new_class_set (Class_set_2)
-			create name_table.make (name_set.count)
-			across name_set as set loop
-				name_table.put (set.item)
-			end
 			evolicity_class := "EVOLICITY_GETTER_FUNCTION_TABLE"
 		--	Reproduce `name_set.intersect (library_set)'
 			across name_set.query_not_in (library_set) as list loop
 				name := list.item
 				name_set.prune (name)
-				name_table.prune (name)
 				if name ~ evolicity_class then
 					evolicity_class_removed := True
 
@@ -143,6 +139,7 @@ feature -- Test
 					failed ("set has " + evolicity_class)
 				end
 			end
+			assert ("two items", name_set.count = 2)
 		-- `intersect' post-condition
 			assert ("is subset", name_set.is_subset (library_set))
 		end
