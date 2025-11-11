@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-06 9:40:06 GMT (Tuesday 6th May 2025)"
-	revision: "33"
+	date: "2025-11-10 14:55:54 GMT (Monday 10th November 2025)"
+	revision: "34"
 
 class
 	LIBRARY_MIGRATION_COMMAND
@@ -41,7 +41,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			make_command (manifest_path)
 			create class_list.make (0)
 			create library_set.make_equal (0)
-			create class_path_table.make (0)
+			create class_path_table.make_equal (0)
 		end
 
 feature -- Constants
@@ -52,9 +52,9 @@ feature -- Basic operations
 
 	execute
 		local
-			reference_set, removal_set: EL_NAME_SET
+			occurrence_set, removal_set: EL_HASH_SET [IMMUTABLE_STRING_8]
 			i: INTEGER; destination_path, source_path: FILE_PATH
-			name_array: ARRAY [STRING]
+			name_array: ARRAY [IMMUTABLE_STRING_8]
 		do
 			Precursor
 			bind_circular
@@ -65,10 +65,10 @@ feature -- Basic operations
 				print_iteration (i)
 				removal_set.wipe_out
 				across class_list as list loop
-					reference_set := list.item.class_reference_set
-					reference_set.intersect (library_set)
+					occurrence_set := list.item.class_occurrence_set
+					occurrence_set.intersect (library_set)
 					print_class_heading (list.item.name)
-					if reference_set.count = 0 then
+					if occurrence_set.count = 0 then
 						print_line ("No dependencies")
 						if attached list.item.circular_dependent as dependent then
 							name_array := << list.item.name, dependent.name >>
@@ -84,7 +84,7 @@ feature -- Basic operations
 							OS.copy_file (source_path, destination_path)
 						end
 					else
-						across reference_set as set loop
+						across occurrence_set as set loop
 							print_line (set.item)
 						end
 					end
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 
 	bind_circular
 		local
-			circular_set: EL_NAME_SET
+			circular_set: EL_HASH_SET [IMMUTABLE_STRING_8]
 		do
 			create circular_set.make_equal (10)
 			across class_list as list loop
@@ -119,18 +119,17 @@ feature {NONE} -- Implementation
 		end
 
 	do_with_file (source_path: FILE_PATH)
-		local
-			name: STRING
 		do
 			if not source_path.has_step (Excluded_imp_step) then
 				class_list.extend (create {LIBRARY_CLASS}.make (source_path))
-				name := source_path.base_name; name.to_upper
-				class_path_table.extend (source_path, name)
-				library_set.put (name)
+				if attached class_list.last.name as name then
+					class_path_table.extend (source_path, name)
+					library_set.put (name)
+				end
 			end
 		end
 
-	in_set (a_class: LIBRARY_CLASS; removal_set: EL_NAME_SET): BOOLEAN
+	in_set (a_class: LIBRARY_CLASS; removal_set: EL_HASH_SET [IMMUTABLE_STRING_8]): BOOLEAN
 		do
 			Result := removal_set.has (a_class.name)
 		end
@@ -139,11 +138,11 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	print_class_heading (name: STRING)
+	print_class_heading (name: IMMUTABLE_STRING_8)
 		do
 		end
 
-	print_line (line: STRING)
+	print_line (line: IMMUTABLE_STRING_8)
 		do
 		end
 
@@ -151,7 +150,7 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	prompt_user (name_array: ARRAY [STRING])
+	prompt_user (name_array: ARRAY [IMMUTABLE_STRING_8])
 		local
 			s: EL_STRING_8_ROUTINES
 		do
@@ -171,13 +170,13 @@ feature {NONE} -- Internal attributes
 
 	class_list: EL_ARRAYED_LIST [LIBRARY_CLASS]
 
-	class_path_table: HASH_TABLE [FILE_PATH, STRING]
+	class_path_table: HASH_TABLE [FILE_PATH, IMMUTABLE_STRING_8]
 
 	destination_dir: DIR_PATH
 
 	home_dir: DIR_PATH
 
-	library_set: EL_HASH_SET [READABLE_STRING_8]
+	library_set: EL_HASH_SET [IMMUTABLE_STRING_8]
 
 feature {NONE} -- Constants
 

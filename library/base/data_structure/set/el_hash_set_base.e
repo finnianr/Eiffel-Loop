@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 11:11:34 GMT (Tuesday 8th April 2025)"
-	revision: "7"
+	date: "2025-11-11 12:01:49 GMT (Tuesday 11th November 2025)"
+	revision: "8"
 
 deferred class
 	EL_HASH_SET_BASE [H -> HASHABLE]
@@ -234,22 +234,23 @@ feature {NONE} -- Implementation
 		end
 
 	internal_search (search_key: H)
-		-- Search for item of `search_key'.
-		-- If successful, set `position' to index
-		-- of item with this key (the same index as the key's index).
-		-- If not, set position to possible position for insertion.
-		-- Set `control' to `Found_constant' or `Not_found_constant'.
+			-- Search for item of `search_key'.
+			-- If successful, set `position' to index
+			-- of item with this key (the same index as the key's index).
+			-- If not, set position to possible position for insertion.
+			-- Set `control' to `Found_constant' or `Not_found_constant'.
 		local
 			increment, hash_code, table_size, pos: INTEGER
 			first_available_position, visited_count: INTEGER
-			old_key: H; break: BOOLEAN
+			old_key, default_key: H; break, is_map: BOOLEAN
 		do
 			if attached insertion_marks as l_inserted and then attached content as area then
+				is_map := reference_comparison
 				from
 					first_available_position := -1
 					table_size := capacity
 					hash_code := search_key.hash_code
-				-- Increment computed for no cycle: `table_size' is prime
+					-- Increment computed for no cycle: `table_size' is prime
 					increment := 1 + hash_code \\ (table_size - 1)
 					pos := (hash_code \\ table_size) - increment
 				until
@@ -257,32 +258,35 @@ feature {NONE} -- Implementation
 				loop
 					pos := (pos + increment) \\ table_size
 					visited_count := visited_count + 1
-					if l_inserted [pos] then
-						old_key := area.item (pos)
-						if object_comparison then
-							if same_keys (search_key, old_key) then
-								control := Found_constant; break := True
+					old_key := area [pos]
+					if old_key = default_key or old_key = Void then
+						if l_inserted [pos] then
+							control := Not_found_constant
+							break := True
+							if first_available_position >= 0 then
+								pos := first_available_position
 							end
-						elseif search_key = old_key then
-							control := Found_constant; break := True
-						end
-					else
-						control := Not_found_constant
-						if first_available_position < 0 then
+						elseif first_available_position < 0 then
 							first_available_position := pos
-						else
-							pos := first_available_position
 						end
+					elseif is_map then
+						if search_key = old_key then
+							control := Found_constant
+							break := True
+						end
+					elseif same_keys (search_key, old_key) then
+						control := Found_constant
+						break := True
 					end
 				end
-			end
-			if not break then
-				control := Not_found_constant
-				if first_available_position >= 0 then
-					pos := first_available_position
+				if not break then
+					control := Not_found_constant
+					if first_available_position >= 0 then
+						pos := first_available_position
+					end
 				end
+				position := pos
 			end
-			position := pos
 		end
 
 	new_key_tester: like key_tester

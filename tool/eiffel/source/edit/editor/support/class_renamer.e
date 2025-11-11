@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:49:42 GMT (Monday 14th April 2025)"
-	revision: "4"
+	date: "2025-11-10 7:43:57 GMT (Monday 10th November 2025)"
+	revision: "5"
 
 class
 	CLASS_RENAMER
@@ -35,7 +35,7 @@ feature -- Element change
 
 	set_source_text (a_source_text, old_name: STRING)
 		local
-			sg: EL_STRING_GENERAL_ROUTINES; i, lower, upper: INTEGER
+			i, lower, upper: INTEGER
 		do
 			source_text := a_source_text; old_name_count := old_name.count
 
@@ -48,7 +48,7 @@ feature -- Element change
 				if attached area_v2 as a then
 					from until i = a.count loop
 						lower := a [i]; upper := a [i + 1]
-						if sg.super_8 (a_source_text).is_identifier_boundary (lower, upper) then
+						if super_8 (a_source_text).is_identifier_boundary (lower, upper) then
 							list.extend (lower, upper)
 						end
 						i := i + 2

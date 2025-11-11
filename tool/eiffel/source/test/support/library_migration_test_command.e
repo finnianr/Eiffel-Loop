@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2025-11-10 13:07:53 GMT (Monday 10th November 2025)"
+	revision: "4"
 
 class
 	LIBRARY_MIGRATION_TEST_COMMAND
@@ -29,7 +29,7 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	print_class_heading (name: STRING)
+	print_class_heading (name: IMMUTABLE_STRING_8)
 		do
 			lio.put_labeled_string ("Class", name)
 			lio.put_new_line
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	print_line (line: STRING)
+	print_line (line: IMMUTABLE_STRING_8)
 		do
 			lio.put_line (line)
 		end
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	prompt_user (name_array: ARRAY [STRING])
+	prompt_user (name_array: ARRAY [IMMUTABLE_STRING_8])
 		do
 		end
 

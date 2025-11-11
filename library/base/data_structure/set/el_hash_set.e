@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 11:33:33 GMT (Wednesday 16th April 2025)"
-	revision: "39"
+	date: "2025-11-10 8:01:25 GMT (Monday 10th November 2025)"
+	revision: "40"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -96,9 +96,9 @@ feature {NONE} -- Initialization
 			if attached as_structure (container) as structure then
 				make (structure.count)
 
-		-- May `object_comparison' be changed ?
-		-- (Answer: only if set empty; otherwise insertions might
-		-- introduce duplicates, destroying the set property.)
+			-- May `object_comparison' be changed ?
+			-- (Answer: only if set empty; otherwise insertions might
+			-- introduce duplicates, destroying the set property.)
 				object_comparison := a_object_comparison
 
 				structure.do_for_all (create {EL_PUT_IN_COLLECTION_ACTION [H]}.make (Current))

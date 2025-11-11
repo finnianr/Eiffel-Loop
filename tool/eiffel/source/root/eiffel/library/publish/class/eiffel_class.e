@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:07:00 GMT (Sunday 22nd September 2024)"
-	revision: "68"
+	date: "2025-11-10 12:33:34 GMT (Monday 10th November 2025)"
+	revision: "69"
 
 class
 	EIFFEL_CLASS
@@ -298,9 +298,9 @@ feature {NONE} -- Implementation
 
 	set_class_use_set
 		local
-			analyzer: EIFFEL_CLASS_USE_ANALYZER
+			analyzer: CLASS_NAME_OCCURRENCE_ANALYZER
 		do
-			create analyzer.make (code_text)
+			create analyzer.make_from_zstring (code_text)
 			class_use_set := analyzer.class_name_set
 		end
 

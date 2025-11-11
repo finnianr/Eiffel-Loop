@@ -1,7 +1,7 @@
 note
 	description: "[
-		Compile set of class names used in a class source text, but excluding
-		names inside curly brackets used as class export lists.
+		Compile set of class names that occur in a class source text, but excluding
+		names inside curly brackets (feature export lists).
 	]"
 
 	author: "Finnian Reilly"
@@ -9,35 +9,43 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 9:16:41 GMT (Friday 20th September 2024)"
-	revision: "6"
+	date: "2025-11-10 12:34:33 GMT (Monday 10th November 2025)"
+	revision: "7"
 
 class
-	EIFFEL_CLASS_USE_ANALYZER
+	CLASS_NAME_OCCURRENCE_ANALYZER
 
 inherit
 	EIFFEL_SOURCE_READER
-		rename
-			make as make_reader
+		redefine
+			initialize, make
 		end
 
 	EL_STRING_HANDLER
 
 create
-	make
+	make_from_zstring, make_from_file
 
 feature {NONE} -- Initialization
 
-	make (source: ZSTRING)
+	make_from_zstring (source: ZSTRING)
 		do
 			make_encoding (Latin_1)
+			initialize
+			analyze (source.area, 0, source.count - 1)
+			create class_name_set.make_from (Use_set_buffer, True)
+		end
+
+	make (source: READABLE_STRING_8; a_encoding: NATURAL)
+		do
+			Precursor (source, a_encoding)
+			create class_name_set.make_from (Use_set_buffer, True)
+		end
+
+	initialize
+		do
 			Use_set_buffer.wipe_out
 			class_name_set := Use_set_buffer
-			analyze (source.area, 0, source.count - 1)
-			create class_name_set.make_equal (Use_set_buffer.count)
-			across Use_set_buffer as set loop
-				class_name_set.put (set.item)
-			end
 		end
 
 feature -- Access

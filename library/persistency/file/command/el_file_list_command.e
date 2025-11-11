@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:16:25 GMT (Thursday 30th March 2023)"
-	revision: "6"
+	date: "2025-11-10 7:20:03 GMT (Monday 10th November 2025)"
+	revision: "7"
 
 deferred class
 	EL_FILE_LIST_COMMAND
@@ -15,9 +15,7 @@ deferred class
 inherit
 	EL_COMMAND
 
-	EL_MODULE_LIO
-
-	EL_MODULE_TRACK
+	EL_MODULE_LIO; EL_MODULE_TRACK
 
 feature {NONE} -- Initialization
 

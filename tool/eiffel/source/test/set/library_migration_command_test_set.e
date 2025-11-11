@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-19 7:42:30 GMT (Thursday 19th September 2024)"
-	revision: "12"
+	date: "2025-11-11 10:27:29 GMT (Tuesday 11th November 2025)"
+	revision: "13"
 
 class
 	LIBRARY_MIGRATION_COMMAND_TEST_SET
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_library_migration
-		-- LIBRARY_MIGRATION_COMMAND_TEST_SET.test_library_migration
+		-- LIBRARY_MIGRATION_COMMAND_TEST_SET.library_migration
 		local
 			command: LIBRARY_MIGRATION_TEST_COMMAND; home_dir, destination_dir: DIR_PATH
 			relative_path: FILE_PATH; suffix: STRING

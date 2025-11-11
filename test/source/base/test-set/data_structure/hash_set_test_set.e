@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 8:22:45 GMT (Tuesday 22nd April 2025)"
-	revision: "3"
+	date: "2025-11-11 12:03:22 GMT (Tuesday 11th November 2025)"
+	revision: "4"
 
 class HASH_SET_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -23,16 +23,17 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["hash_set",			agent test_hash_set],
-				["set_operations",	agent test_set_operations],
+				["immutable_string",	agent test_immutable_string],
 				["put",					agent test_put],
-				["immutable_string",	agent test_immutable_string]
+				["set_operations",	agent test_set_operations],
+				["internal_search",	agent test_internal_search]
 			>>)
 		end
 
 feature -- Test
 
 	test_hash_set
-		-- HASH_SET_TEST_SET.test_hash_set
+		-- HASH_SET_TEST_SET.hash_set
 		note
 			testing: "[
 				covers/{EL_HASH_SET}.has,
@@ -91,7 +92,7 @@ feature -- Test
 		end
 
 	test_immutable_string
-		-- HASH_SET_TEST_SET.test_immutable_string
+		-- HASH_SET_TEST_SET.immutable_string
 		note
 			testing: "[
 				covers/{EL_IMMUTABLE_STRING_8_SET}.make,
@@ -111,8 +112,43 @@ feature -- Test
 			end
 		end
 
+	test_internal_search
+		-- HASH_SET_TEST_SET.internal_search
+		-- Based on a list of class name set items known to have at one time caused a failure
+		-- The order is significant
+		note
+			testing: "[
+				covers/{EL_HASH_SET_BASE}.internal_search
+			]"
+		local
+			name_set, library_set: EL_HASH_SET [STRING]; name_table: SEARCH_TABLE [STRING]
+			evolicity_class, name: STRING; evolicity_class_removed: BOOLEAN
+		do
+			library_set := new_class_set (Class_set_1)
+			name_set := new_class_set (Class_set_2)
+			create name_table.make (name_set.count)
+			across name_set as set loop
+				name_table.put (set.item)
+			end
+			evolicity_class := "EVOLICITY_GETTER_FUNCTION_TABLE"
+		--	Reproduce `name_set.intersect (library_set)'
+			across name_set.query_not_in (library_set) as list loop
+				name := list.item
+				name_set.prune (name)
+				name_table.prune (name)
+				if name ~ evolicity_class then
+					evolicity_class_removed := True
+
+				elseif not evolicity_class_removed and then not name_set.has (evolicity_class) then
+					failed ("set has " + evolicity_class)
+				end
+			end
+		-- `intersect' post-condition
+			assert ("is subset", name_set.is_subset (library_set))
+		end
+
 	test_put
-		-- HASH_SET_TEST_SET.test_put
+		-- HASH_SET_TEST_SET.put
 		note
 			testing: "[
 				covers/{EL_HASH_SET}.put
@@ -141,7 +177,7 @@ feature -- Test
 		end
 
 	test_set_operations
-		-- HASH_SET_TEST_SET.test_set_operations
+		-- HASH_SET_TEST_SET.set_operations
 		note
 			testing: "[
 				covers/{EL_HASH_SET}.disjoint,
@@ -184,5 +220,41 @@ feature -- Test
 				assert ("remaining not Latin-1", set_all ~ set_not_latin_1)
 			end
 		end
+
+feature {NONE} -- Implementation
+
+	new_class_set (lines: STRING): EL_HASH_SET [STRING]
+		do
+			create Result.make_from (lines.split ('%N'), True)
+		end
+
+feature {NONE} -- Constants
+
+	Class_set_1: STRING = "[
+		EL_COPY_FILE_IMPL
+		EL_OS_COMMAND
+		EL_COMMAND_IMPL
+		EL_SINGLE_OPERAND_FILE_SYSTEM_COMMAND
+		EL_DOUBLE_OPERAND_FILE_SYSTEM_OS_COMMAND
+		EL_COPY_FILE_COMMAND
+		EL_FIND_OS_COMMAND
+		EL_MP3_CONVERT_COMMAND
+		EL_FILE_SYSTEM_OS_COMMAND
+	]"
+
+	Class_set_2: STRING = "[
+		EL_MP3_CONVERT_COMMAND
+		EL_DOUBLE_OPERAND_FILE_SYSTEM_OS_COMMAND
+		EL_MP3_CONVERT_IMPL
+		EL_MODULE_ENVIRONMENT
+		EL_MODULE_LOG
+		INTEGER
+		FILE_NAME
+		ARRAY
+		CHARACTER
+		EVOLICITY_GETTER_FUNCTION_TABLE
+		REAL_REF
+		STRING
+	]"
 
 end
