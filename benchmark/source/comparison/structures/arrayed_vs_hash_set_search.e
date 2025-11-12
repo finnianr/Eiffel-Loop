@@ -5,8 +5,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "14"
+	date: "2025-11-12 10:09:36 GMT (Wednesday 12th November 2025)"
+	revision: "15"
 
 class
 	ARRAYED_VS_HASH_SET_SEARCH

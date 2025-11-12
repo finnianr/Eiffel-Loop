@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-11 13:23:45 GMT (Tuesday 11th November 2025)"
-	revision: "5"
+	date: "2025-11-12 19:02:01 GMT (Wednesday 12th November 2025)"
+	revision: "6"
 
 class HASH_SET_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -22,11 +22,12 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["hash_set",			agent test_hash_set],
-				["immutable_string",	agent test_immutable_string],
-				["put",					agent test_put],
-				["set_operations",	agent test_set_operations],
-				["internal_search",	agent test_internal_search]
+				["hash_set",				  agent test_hash_set],
+				["internal_search",		  agent test_internal_search],
+				["internal_table_search", agent test_internal_table_search],
+				["put",						  agent test_put],
+				["set_operations",		  agent test_set_operations],
+				["string_sets",			  agent test_string_sets]
 			>>)
 		end
 
@@ -92,27 +93,6 @@ feature -- Test
 			end
 		end
 
-	test_immutable_string
-		-- HASH_SET_TEST_SET.immutable_string
-		note
-			testing: "[
-				covers/{EL_IMMUTABLE_STRING_8_SET}.make,
-				covers/{EL_IMMUTABLE_KEY_8_LOOKUP}.has_key
-			]"
-		local
-			word_set: EL_IMMUTABLE_STRING_8_SET
-		do
-			if attached Text.latin_1_words as word_list then
-				create word_set.make (word_list.joined_lines)
-				across word_list as list loop
-					if attached list.item as word then
-						assert ("set member", word_set.has_key (word))
-						assert_same_string (Void, word_set.found_item, word)
-					end
-				end
-			end
-		end
-
 	test_internal_search
 		-- HASH_SET_TEST_SET.internal_search
 		-- Based on a list of class name set items known to have at one time caused a failure
@@ -142,6 +122,38 @@ feature -- Test
 			assert ("two items", name_set.count = 2)
 		-- `intersect' post-condition
 			assert ("is subset", name_set.is_subset (library_set))
+		end
+
+	test_internal_table_search
+		-- HASH_SET_TEST_SET.internal_table_search
+		-- Based on a list of class name set items known to have at one time caused a failure
+		-- The order is significant
+		note
+			testing: "[
+				covers/{SEARCH_TABLE}.internal_search,
+				covers/{SEARCH_TABLE}.prune
+			]"
+		local
+			evolicity_class, name: STRING; evolicity_class_removed: BOOLEAN
+			name_set: SEARCH_TABLE [STRING]; library_set: EL_HASH_SET [STRING]
+			name_list: EL_STRING_8_LIST
+		do
+			library_set := new_class_set (Class_set_1)
+			name_set := new_class_table (Class_set_2)
+			evolicity_class := "EVOLICITY_GETTER_FUNCTION_TABLE"
+		--	Reproduce `name_set.intersect (library_set)'
+			create name_list.make_from_iterable (name_set.linear_representation, False)
+			across name_list.query_not_in (library_set) as list loop
+				name := list.item
+				name_set.prune (name)
+				if name ~ evolicity_class then
+					evolicity_class_removed := True
+
+				elseif not evolicity_class_removed and then not name_set.has (evolicity_class) then
+					failed ("set has " + evolicity_class)
+				end
+			end
+			assert ("two items", name_set.count = 2)
 		end
 
 	test_put
@@ -212,9 +224,55 @@ feature -- Test
 				end
 
 				set_all.merge (set_latin_1)
-				assert ("Full set again", set_all.count = lines.count)
+				assert ("Full set again", set_all.count = Text.lines.count)
+				print_set ("set_all [%S]", set_all)
+				print_set ("set_not_latin_1 [%S]", set_not_latin_1)
 				set_all.intersect (set_not_latin_1)
 				assert ("remaining not Latin-1", set_all ~ set_not_latin_1)
+			end
+		end
+
+	print_set (label: STRING; set: EL_HASH_SET [ZSTRING])
+		do
+			across set.to_list as list loop
+				lio.put_index_labeled_string (list, label, list.item)
+				lio.put_new_line
+			end
+			lio.put_new_line
+		end
+
+	test_string_sets
+		-- HASH_SET_TEST_SET.string_sets
+		note
+			testing: "[
+				covers/{EL_IMMUTABLE_STRING_8_SET}.make,
+				covers/{EL_IMMUTABLE_KEY_8_LOOKUP}.has_key,
+				covers/{EL_NAME_SET}.same_keys,
+				covers/{EL_HASH_SET}.make_from
+			]"
+		local
+			word_set: EL_IMMUTABLE_STRING_8_SET; name_set: EL_NAME_SET
+			name_table: SEARCH_TABLE [STRING]
+		do
+			if attached Text.latin_1_words as word_list then
+				create word_set.make (word_list.joined_lines)
+				create name_set.make_equal (word_set.count)
+				create name_table.make (word_set.count)
+				across word_set as set loop
+				-- Post-condition for {IMMUTABLE_STRING_8}.same_characters fails, so use STRING_8
+					if attached set.item.as_string_8 as str then
+						name_set.put (str)
+						name_table.put (str)
+					end
+				end
+				across word_list as list loop
+					if attached list.item as word then
+						assert ("set member", word_set.has_key (word))
+						assert_same_string (Void, word_set.found_item, word)
+						assert ("name set has", name_set.has_key (word))
+						assert_same_string (Void, name_set.found_item, word)
+					end
+				end
 			end
 		end
 
@@ -223,6 +281,14 @@ feature {NONE} -- Implementation
 	new_class_set (lines: STRING): EL_HASH_SET [STRING]
 		do
 			create Result.make_from (lines.split ('%N'), True)
+		end
+
+	new_class_table (lines: STRING): SEARCH_TABLE [STRING]
+		do
+			create Result.make (lines.occurrences ('%N') + 1)
+			across lines.split ('%N') as list loop
+				Result.put (list.item)
+			end
 		end
 
 feature {NONE} -- Constants

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-10 8:01:25 GMT (Monday 10th November 2025)"
-	revision: "40"
+	date: "2025-11-12 19:19:24 GMT (Wednesday 12th November 2025)"
+	revision: "41"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -131,18 +131,18 @@ feature -- Access
 	subset (is_member: PREDICATE [H]; inverse: BOOLEAN): like Current
 		local
 			include: BOOLEAN; subset_area: SPECIAL [H]
-			pos, last_index: INTEGER; break: BOOLEAN
+			index, last_index: INTEGER; break: BOOLEAN
 			area_item: H
 		do
 			create subset_area.make_empty (capacity)
-			if attached content as area and then attached insertion_marks as l_inserted then
+			if attached content as area and then attached deleted_marks as deleted then
 				last_index := capacity - 1
-				from pos := -1 until break loop
-					pos := next_iteration_index (pos, last_index, l_inserted)
-					if pos > last_index then
+				from index := -1 until break loop
+					index := next_iteration_index (index, last_index, area, deleted)
+					if index > last_index then
 						break := True
 					else
-						area_item := area [pos]
+						area_item := area [index]
 						include := is_member (area_item)
 						if inverse then
 							include := not include
@@ -168,22 +168,22 @@ feature -- Access
 
 	to_list, linear_representation: EL_ARRAYED_LIST [H]
 		local
-			pos, last_index: INTEGER; break: BOOLEAN
-			area: SPECIAL [H]
+			index, last_index: INTEGER; break: BOOLEAN
+			list_area: SPECIAL [H]
 		do
-			create area.make_empty (count)
-			if attached content as l_content and then attached insertion_marks as l_inserted then
+			create list_area.make_empty (count)
+			if attached content as area and then attached deleted_marks as deleted then
 				last_index := capacity - 1
-				from pos := -1 until break loop
-					pos := next_iteration_index (pos, last_index, l_inserted)
-					if pos > last_index then
+				from index := -1 until break loop
+					index := next_iteration_index (index, last_index, area, deleted)
+					if index > last_index then
 						break := True
 					else
-						area.extend (l_content [pos])
+						list_area.extend (area [index])
 					end
 				end
 			end
-			create Result.make_from_special (area)
+			create Result.make_from_special (list_area)
 		end
 
 	to_representation: EL_HASH_SET_REPRESENTATION [H]
@@ -197,7 +197,7 @@ feature -- Comparison
 	is_equal (other: like Current): BOOLEAN
 		-- Does table contain the same information as `other'?
 		local
-			pos, last_index: INTEGER; break: BOOLEAN
+			index, last_index: INTEGER; break: BOOLEAN
 		do
 			if Current = other then
 				Result := True
@@ -205,15 +205,15 @@ feature -- Comparison
 			elseif count = other.count and then object_comparison = other.object_comparison
 				and then key_tester ~ other.key_tester
 			then
-				if attached content as area and then attached insertion_marks as l_inserted then
+				if attached content as area and then attached deleted_marks as deleted then
 					last_index := capacity - 1
 					Result := True
-					from pos := -1 until not Result or break loop
-						pos := next_iteration_index (pos, last_index, l_inserted)
-						if pos > last_index then
+					from index := -1 until not Result or break loop
+						index := next_iteration_index (index, last_index, area, deleted)
+						if index > last_index then
 							break := True
 						else
-							Result := other.has (area [pos])
+							Result := other.has (area [index])
 						end
 					end
 				end
@@ -223,21 +223,21 @@ feature -- Comparison
 	is_subset (other: TRAVERSABLE_SUBSET [H]): BOOLEAN
 		-- Is `Current' set a subset of `other' ?
 		local
-			pos, last_index: INTEGER; break: BOOLEAN
+			index, last_index: INTEGER; break: BOOLEAN
 		do
 			if is_empty then
 				Result := True
 
 			elseif not other.is_empty and then count <= other.count
-				and then attached content as area and then attached insertion_marks as l_inserted
+				and then attached content as area and then attached deleted_marks as deleted
 			then
 				last_index := capacity - 1; Result := True
-				from pos := -1 until break or not Result loop
-					pos := next_iteration_index (pos, last_index, l_inserted)
-					if pos > last_index then
+				from index := -1 until break or not Result loop
+					index := next_iteration_index (index, last_index, area, deleted)
+					if index > last_index then
 						break := True
 					else
-						Result := other.has (area [pos])
+						Result := other.has (area [index])
 					end
 				end
 			end
@@ -250,7 +250,7 @@ feature -- Duplication
 		do
 			standard_copy (other)
 			content := other.content.twin
-			insertion_marks := other.insertion_marks.twin
+			deleted_marks := other.deleted_marks.twin
 		end
 
 	duplicate (n: INTEGER): like Current
@@ -309,12 +309,17 @@ feature -- Removal
 	prune (key: H)
 		-- Remove item associated with `key', if present.
 		-- Set `control' to `Removed' or `Not_found_constant'.
+		local
+			default_key: H
 		do
 			internal_search (key)
 			inspect control
 				when Found_constant then
-					content.fill_with_default (position, position)
-					insertion_marks.put (False, position)
+					content [position] := default_key
+					deleted_marks [position] := True
+					if ({H}).is_expanded and then key = default_key then
+						position_default_key := -1
+					end
 					count := count - 1
 			else
 			end
@@ -336,14 +341,15 @@ feature -- Removal
 	wipe_out
 		-- Reset all items to default values.
 		local
-			default_value: detachable H
+			default_key: H
 		do
-			content.fill_with_default (0, content.count - 1)
-			insertion_marks.fill_with_default (0, insertion_marks.count - 1)
+			content.fill_with_default (0, capacity - 1)
+			deleted_marks.fill_with_default (0, capacity - 1)
 			count := 0
 			control := 0
 			position := 0
-			found_item := default_value
+			position_default_key := -1
+			found_item := default_key
 		end
 
 feature -- Insertion
@@ -352,16 +358,22 @@ feature -- Insertion
 		-- If `key' is present, replace corresponding item by `new',
 		-- if not, insert item `new' with key `key'.
 		-- Set `control' to `Insertion_ok'.
+		local
+			default_key: H
 		do
 			internal_search (key)
-			if control /= Found_constant then
-				if soon_full then
-					expand_size; internal_search (key)
-				end
-				count := count + 1
+			inspect control
+				when Found_constant then
+					if soon_full then
+						expand_size; internal_search (key)
+					end
+					count := count + 1
+			else
 			end
 			content.put (key, position)
-			insertion_marks.put (True, position)
+			if ({H}).is_expanded and then key = default_key then
+				position_default_key := position
+			end
 			control := Insertion_ok
 		ensure then
 			insertion_done: item (key) = key
@@ -380,6 +392,8 @@ feature -- Insertion
 		-- Attempt to insert `new' with `key'.
 		-- Set `control' to `Insertion_ok' or `Insertion_conflict'.
 		-- No insertion if conflict.
+		local
+			default_key: H
 		do
 			internal_search (key)
 			inspect control
@@ -393,7 +407,12 @@ feature -- Insertion
 					internal_search (key)
 				end
 				content.put (key, position)
-				insertion_marks.put (True, position)
+				if deleted_marks [position] then
+					deleted_marks [position] := False
+				end
+				if ({H}).is_expanded and then key = default_key then
+					position_default_key := position
+				end
 				count := count + 1
 				control := Insertion_ok
 				found_item := key
@@ -454,11 +473,11 @@ feature -- Cursor movement
 
 feature -- Contract Support
 
-	valid_cursor (pos: like cursor): BOOLEAN
-		-- Can cursor be moved to position `pos'?
+	valid_cursor (index: like cursor): BOOLEAN
+		-- Can cursor be moved to position `index'?
 		do
-			if pos >= capacity or else (pos >= 0 and pos <= capacity) then
-				Result := insertion_marks [pos]
+			if index >= capacity or else (index >= 0 and index <= capacity) then
+				Result := valid_key (index, content, deleted_marks)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-11 16:31:40 GMT (Tuesday 11th November 2025)"
-	revision: "9"
+	date: "2025-11-12 18:54:30 GMT (Wednesday 12th November 2025)"
+	revision: "10"
 
 deferred class
 	EL_HASH_SET_BASE [H -> HASHABLE]
@@ -43,8 +43,8 @@ feature {NONE} -- Initialization
 				capacity := 5
 			end
 			create content.make_filled (default_value, capacity)
-			create insertion_marks.make_filled (False, capacity)
-			count := 0; control := 0; position := 0
+			create deleted_marks.make_filled (False, capacity)
+			count := 0; control := 0; position := 0; position_default_key := -1
 			iteration_position := capacity -- satisfies invariant: is_empty implies off
 			compare_references
 			found_item := default_value
@@ -176,15 +176,15 @@ feature -- Comparison
 
 feature {EL_HASH_SET_ITERATION_CURSOR} -- Implementation access
 
-	next_iteration_position (a_position: INTEGER): INTEGER
-		-- Given an iteration position `a_position', compute the next one
+	next_iteration_position (index: INTEGER): INTEGER
+		-- Given an iteration position `index', compute the next one
 		do
-			Result := next_iteration_index (a_position, capacity - 1, insertion_marks)
+			Result := next_iteration_index (index, capacity - 1, content, deleted_marks)
 		end
 
-	next_iteration_index (a_position, last_index: INTEGER; a_inserted: like insertion_marks): INTEGER
+	next_iteration_index (index, last_index: INTEGER; area: like content; deleted: like deleted_marks): INTEGER
 		do
-			from Result := a_position + 1 until Result > last_index or else a_inserted [Result] loop
+			from Result := index + 1 until Result > last_index or else valid_key (Result, area, deleted) loop
 				Result := Result + 1
 			end
 		end
@@ -198,16 +198,16 @@ feature {NONE} -- Implementation
 
 	append_to (other: EL_HASH_SET [H])
 		local
-			pos, last_index: INTEGER; break: BOOLEAN
+			index, last_index: INTEGER; break: BOOLEAN
 		do
-			if attached content as area and then attached insertion_marks as l_inserted then
+			if attached content as area and then attached deleted_marks as deleted then
 				last_index := capacity - 1
-				from pos := -1 until break loop
-					pos := next_iteration_index (pos, last_index, l_inserted)
-					if pos > last_index then
+				from index := -1 until break loop
+					index := next_iteration_index (index, last_index, area, deleted)
+					if index > last_index then
 						break := True
 					else
-						other.put (area [pos])
+						other.put (area [index])
 					end
 				end
 			end
@@ -220,12 +220,12 @@ feature {NONE} -- Implementation
 			resize ((3 * capacity) // 2)
 		end
 
-	insertion_count: INTEGER
-		-- count of insertion marks that are `True'
+	deleted_count: INTEGER
+		-- count of deleted marks that are `True'
 		local
 			i: INTEGER
 		do
-			if attached insertion_marks as marks then
+			if attached deleted_marks as marks then
 				from i := 1 until i = marks.count loop
 					Result := Result + marks [i].to_integer
 					i := i + 1
@@ -240,11 +240,11 @@ feature {NONE} -- Implementation
 			-- If not, set position to possible position for insertion.
 			-- Set `control' to `Found_constant' or `Not_found_constant'.
 		local
-			increment, hash_code, table_size, pos: INTEGER
+			increment, hash_code, table_size, index: INTEGER
 			first_available_position, visited_count: INTEGER
 			old_key, default_key: H; break: BOOLEAN
 		do
-			if attached insertion_marks as l_inserted and then attached content as area then
+			if attached deleted_marks as deleted and then attached content as area then
 				control := Not_found_constant
 				from
 					first_available_position := -1
@@ -252,24 +252,25 @@ feature {NONE} -- Implementation
 					hash_code := search_key.hash_code
 				-- Increment computed for no cycle: `table_size' is prime
 					increment := 1 + hash_code \\ (table_size - 1)
-					pos := (hash_code \\ table_size) - increment
+					index := (hash_code \\ table_size) - increment
 				until
 					break or else visited_count >= table_size
 				loop
-					pos := (pos + increment) \\ table_size
+					index := (index + increment) \\ table_size
 					visited_count := visited_count + 1
-					old_key := area [pos]
-					if ({H}).is_expanded and then old_key = default_key then
-						if l_inserted [pos] then
+					old_key := area [index]
+					if old_key = default_key or old_key = Void then
+						if ({H}).is_expanded and then index = position_default_key then
 							control := Found_constant
+							break := True
+						elseif not deleted [index] then
+							control := Not_found_constant
+							break := True
+							if first_available_position >= 0 then
+								index := first_available_position
+							end
 						elseif first_available_position < 0 then
-							first_available_position := pos
-						end
-						break := True
-
-					elseif old_key = Void then
-						if first_available_position < 0 then
-							first_available_position := pos
+							first_available_position := index
 						end
 					elseif same_keys (search_key, old_key) then
 						control := Found_constant
@@ -277,9 +278,9 @@ feature {NONE} -- Implementation
 					end
 				end
 				if not break and then first_available_position >= 0 then
-					pos := first_available_position
+					index := first_available_position
 				end
-				position := pos
+				position := index
 			end
 		end
 
@@ -292,6 +293,23 @@ feature {NONE} -- Implementation
 		-- (If so, resizing is needed to avoid performance degradation.)
 		do
 			Result := (content.count * Size_threshold <= 100 * count)
+		end
+
+	valid_key (index: INTEGER; area: like content; deleted: like deleted_marks): BOOLEAN
+		require
+			valid_index: 0 <= index and index < capacity
+		local
+			default_key: H
+		do
+			if not deleted_marks [index] then
+				if ({H}).is_expanded and then area [index] = default_key and then index = position_default_key then
+					 Result := True
+				else
+					Result := area [index] /= default_key
+				end
+			end
+		ensure
+			definition: Result implies area [index] /= Void
 		end
 
 feature {NONE} -- Deferred
@@ -318,8 +336,8 @@ feature {EL_HASH_SET_BASE, EL_HASH_SET_ITERATION_CURSOR} -- Internal attributes 
 	content: SPECIAL [detachable H]
 		-- Content
 
-	insertion_marks: SPECIAL [BOOLEAN]
-		-- insertion marks
+	deleted_marks: SPECIAL [BOOLEAN]
+		-- deleted marks
 
 feature {NONE} -- Internal attributes
 
@@ -333,6 +351,9 @@ feature {NONE} -- Internal attributes
 
 	position: INTEGER
 		-- Hash table cursor
+
+	position_default_key: INTEGER
+		-- position of key that is a default value if keys are expanded types
 
 feature {NONE} -- Status constants
 
@@ -361,6 +382,6 @@ feature {NONE} -- Constants
 
 invariant
 	count_big_enough: 0 <= count
-	consistent_insertions: insertion_count = count
+	consistent_deletions: capacity - deleted_count = count
 
 end

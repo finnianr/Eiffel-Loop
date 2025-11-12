@@ -31,7 +31,8 @@ See doc/benchmark.txt for details
 		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
 		<!--ISE libraries-->
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
-		<library name = "location" location = "$ISE_LIBRARY/library/base/base.ecf">
+		<library name = "ise_base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
+		<library name = "ise_base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf">
 			<option>
 				<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 			</option>

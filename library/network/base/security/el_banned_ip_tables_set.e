@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-01 13:25:41 GMT (Thursday 1st May 2025)"
-	revision: "8"
+	date: "2025-11-12 17:41:10 GMT (Wednesday 12th November 2025)"
+	revision: "9"
 
 class
 	EL_BANNED_IP_TABLES_SET
@@ -125,7 +125,7 @@ feature -- Element change
 				limited_list.remove_head (count - max_count)
 				create ip_set.make_from (limited_list, False)
 				content := ip_set.content
-				insertion_marks := ip_set.insertion_marks
+				deleted_marks := ip_set.deleted_marks
 				count := max_count; control := 0; position := 0
 				found_address := 0
 			end

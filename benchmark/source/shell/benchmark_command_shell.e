@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-15 10:17:05 GMT (Friday 15th December 2023)"
-	revision: "41"
+	date: "2025-11-12 10:11:06 GMT (Wednesday 12th November 2025)"
+	revision: "42"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -46,6 +46,7 @@ feature {NONE} -- Implementation
 		P_I_TH_LOWER_UPPER_VS_INLINE_CODE,
 		REFLECTED_REFERENCE_VS_OPTIMIZED_FIELD_RW,
 		ROUTINE_CALL_ON_ONCE_VS_EXPANDED,
+		STRING_TABLE_VS_HASH_SET_SEARCH,
 		SYSTEM_TIME_COMPARISON,
 		TOKENIZED_STEPS_VS_XPATH_STRING
 	]
