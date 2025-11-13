@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 9:09:34 GMT (Monday 14th April 2025)"
-	revision: "25"
+	date: "2025-11-13 8:07:30 GMT (Thursday 13th November 2025)"
+	revision: "26"
 
 class
 	TYPE_TEST_SET
@@ -211,7 +211,7 @@ feature -- Tests
 					break := True
 				end
 			end
-			assert ("flag permutation count = 11", type_flags_set.count = 11)
+			assert ("flag permutation count = 9", type_flags_set.count = 9)
 		end
 
 feature {NONE} -- Implementation

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-16 9:19:15 GMT (Wednesday 16th October 2024)"
-	revision: "13"
+	date: "2025-11-13 10:28:44 GMT (Thursday 13th November 2025)"
+	revision: "14"
 
 class
 	EL_WEB_ARCHIVE_HTTP_CONNECTION
@@ -32,6 +32,7 @@ feature -- Access
 		do
 			Parameter_table [once "url"] := a_url
 			open_with_parameters (Wayback_available_url, Parameter_table)
+			set_certificate_authority_info_default
 			read_string_get
 			if has_error then
 				create Result.make_default
@@ -59,9 +60,9 @@ feature -- Status query
 feature -- Constants
 
 	Url_template: ZSTRING
-		-- http://web.archive.org/web/20100921130728/http://www.at-dot-com.com/iching/hex52.html
+		-- https://web.archive.org/web/20100921130728/http://www.at-dot-com.com/iching/hex52.html
 		once
-			Result := "http://web.archive.org/web/%S/%S"
+			Result := "https://web.archive.org/web/%S/%S"
 		end
 
 feature {NONE} -- Constants
@@ -73,6 +74,6 @@ feature {NONE} -- Constants
 
 	Param_url: STRING = "url"
 
-	Wayback_available_url: STRING = "http://archive.org/wayback/available"
+	Wayback_available_url: STRING = "https://archive.org/wayback/available"
 
 end

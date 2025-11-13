@@ -1,3 +1,6 @@
+Ver 2.3.7 (13 Nov 2025)
+*
+
 Ver 2.3.6 (28 May 2025)
 * Fix duplication of shell menu item
 

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-10-15 10:26:31 GMT (Wednesday 15th October 2025)"
-	revision: "60"
+	date: "2025-11-13 10:39:41 GMT (Thursday 13th November 2025)"
+	revision: "61"
 
 class
 	EL_HTTP_CONNECTION
@@ -32,10 +32,6 @@ inherit
 		redefine
 			make
 		end
-
-	EL_MODULE_HTML
-
-	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -468,9 +464,17 @@ feature -- Status change
 
 feature -- SSL settings
 
-	set_certificate_authority_info (cacert_path: FILE_PATH)
+	set_certificate_authority_info (a_cacert_path: FILE_PATH)
 		do
-			set_curl_string_option (CURLOPT_cainfo, cacert_path)
+			set_curl_string_option (CURLOPT_cainfo, a_cacert_path)
+		end
+
+	set_certificate_authority_info_default
+		-- set certificate authority from environment variable CURL_CA_BUNDLE if it exists
+		do
+			if attached execution.item ("CURL_CA_BUNDLE") as ca_path and then ca_path.count > 0 then
+				set_certificate_authority_info (ca_path)
+			end
 		end
 
 	set_certificate_verification (flag: BOOLEAN)
@@ -530,6 +534,7 @@ feature -- SSL settings
 			end
 			set_curl_integer_option (CURLOPT_sslversion, option)
 		end
+
 feature {NONE} -- Disposal
 
 	c_free (this: POINTER)

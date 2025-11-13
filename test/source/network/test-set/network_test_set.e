@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 7:11:10 GMT (Friday 25th April 2025)"
-	revision: "17"
+	date: "2025-11-13 7:42:48 GMT (Thursday 13th November 2025)"
+	revision: "18"
 
 class
 	NETWORK_TEST_SET
@@ -26,19 +26,21 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["network_device_type_enum", agent test_network_device_type_enum],
-				["ip_address_conversion",	  agent test_ip_address_conversion]
+				["ip_address_conversion",	  agent test_ip_address_conversion],
+				["network_device_type_enum", agent test_network_device_type_enum]
 			>>)
 		end
 
 feature -- Tests
 
 	test_ip_address_conversion
+		-- NETWORK_TEST_SET.ip_address_conversion
 		do
 			assert ("same string", IP_address.to_string (IP_address.Loop_back) ~ "127.0.0.1")
 		end
 
 	test_network_device_type_enum
+		-- NETWORK_TEST_SET.network_device_type_enum
 		local
 			enum: EL_NETWORK_DEVICE_TYPE_ENUM
 		do

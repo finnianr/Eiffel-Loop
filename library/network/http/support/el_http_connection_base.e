@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-06 7:40:35 GMT (Thursday 6th November 2025)"
-	revision: "22"
+	date: "2025-11-13 10:41:20 GMT (Thursday 13th November 2025)"
+	revision: "23"
 
 deferred class
 	EL_HTTP_CONNECTION_BASE
@@ -15,40 +15,14 @@ deferred class
 inherit
 	EL_MEMORY_ROUTINES
 
-	EL_CURL_OPTION_CONSTANTS
-		export
-			{NONE} all
-		end
-
-	EL_CURL_SSL_CONSTANTS
-		export
-			{NONE} all
-		end
-
-	EL_CURL_INFO_CONSTANTS
-		export
-			{NONE} all
-		end
-
-	CURL_FORM_CONSTANTS
-		rename
-			is_valid as is_valid_form_constant
-		export
-			{NONE} all
-		end
-
-	EL_STRING_HANDLER
-
-	EL_MODULE_TUPLE; EL_MODULE_URI
-
-	EL_SHARED_CURL_API; EL_SHARED_HTTP_STATUS
-
-	EL_SHARED_PROGRESS_LISTENER
+	EL_HTTP_CONNECTION_CONSTANTS
 		rename
 			progress_listener as close_listener,
 			is_progress_tracking as is_close_tracking,
 			Progress_listener_cell as Close_listener_cell
 		end
+
+	EL_STRING_HANDLER
 
 feature {NONE} -- Initialization
 
@@ -196,8 +170,7 @@ feature {NONE} -- Experimental
 		require
 			no_error: not has_error
 		local
-			result_cell: CELL [STRING]
-			status: INTEGER
+			result_cell: CELL [STRING]; status: INTEGER
 		do
 			create Result.make_empty
 			create result_cell.put (Result)
@@ -326,20 +299,5 @@ feature {NONE} -- Deferred
 	url: EL_URL
 		deferred
 		end
-
-feature {NONE} -- Constants
-
-	Image_types: EL_STRING_8_LIST
-		once
-			Result := "gif, png, jpeg"
-		end
-
-	Mime: TUPLE [image, text: STRING]
-		once
-			create Result
-			Tuple.fill (Result, "image/, text/")
-		end
-
-	Max_post_data_count: INTEGER = 1024
 
 end

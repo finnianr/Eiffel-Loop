@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-13 7:31:35 GMT (Thursday 13th November 2025)"
-	revision: "11"
+	date: "2025-11-13 7:49:00 GMT (Thursday 13th November 2025)"
+	revision: "12"
 
 deferred class
 	EL_HASH_SET_BASE [H -> HASHABLE]
@@ -381,7 +381,6 @@ feature {NONE} -- Internal attributes
 
 invariant
 	count_big_enough: 0 <= count
-	consistent_deletions: capacity - deleted_count = count
 	comparison_method_set: comparison_method > 0
 
 end

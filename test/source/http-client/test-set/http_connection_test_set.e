@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-12 8:34:42 GMT (Monday 12th May 2025)"
-	revision: "82"
+	date: "2025-11-13 10:22:52 GMT (Thursday 13th November 2025)"
+	revision: "83"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -333,16 +333,17 @@ feature -- Tests
 		do
 			across << "einführung.html", "einf%%C3%%BChrung.html" >> as name loop
 				url := "https://myching.software/de/manual/" + name.item
-				web.open (url)
-				web.read_string_head
-				if attached web.last_headers as header then
+				Web.open (url)
+				Web.set_certificate_authority_info_default
+				Web.read_string_head
+				if attached Web.last_headers as header then
 					assert ("Response OK", header.response_code = Http_status.ok)
 					assert_same_string ("content_type", header.content_type, "text/html; charset=UTF-8")
 					across << "X-Powered-By", "powered_by" >> as key loop
 						assert_same_string (Void, header.x_field (key.item), "Eiffel-Loop Fast-CGI servlets")
 					end
 				end
-				web.close
+				Web.close
 			end
 		end
 
