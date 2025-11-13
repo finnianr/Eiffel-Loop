@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-12 19:19:24 GMT (Wednesday 12th November 2025)"
-	revision: "41"
+	date: "2025-11-13 7:27:44 GMT (Thursday 13th November 2025)"
+	revision: "42"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -20,7 +20,8 @@ class
 inherit
 	EL_HASH_SET_BASE [H]
 		export
-			{EL_HASH_SET, EL_HASH_SET_ITERATION_CURSOR} append_to, content, key_tester
+			{EL_HASH_SET, EL_HASH_SET_ITERATION_CURSOR}
+				append_to, comparison_method, content, key_tester, position_default_key
 			{ANY} set_key_tester
 		redefine
 			copy, is_equal, is_subset, intersect, subtract
@@ -68,6 +69,7 @@ feature {NONE} -- Initialization
 		do
 			make_with_key_tester (n, new_key_tester)
 			compare_references
+			set_comparison_method
 		ensure
 			capacity_big_enough: capacity >= n
 			reference_comparison: reference_comparison
@@ -81,6 +83,7 @@ feature {NONE} -- Initialization
 		do
 			make_with_key_tester (n, new_key_tester)
 			compare_objects
+			set_comparison_method
 		ensure
 			capacity_big_enough: capacity >= n
 		end
@@ -106,6 +109,7 @@ feature {NONE} -- Initialization
 				make (0)
 				object_comparison := a_object_comparison
 			end
+			set_comparison_method
 		end
 
 	make_from_special (area: SPECIAL [H]; a_object_comparison: BOOLEAN)
@@ -114,6 +118,7 @@ feature {NONE} -- Initialization
 		do
 			make (area.count)
 			object_comparison := a_object_comparison
+			set_comparison_method
 			from i := 0 until i = area.count loop
 				put (area [i])
 				i := i + 1
@@ -293,14 +298,16 @@ feature -- Basic operations
 		-- If found, set `found' to True, and set
 		-- `found_item' to item associated with `key'.
 		local
-			default_value: detachable H
+			default_value: H
 		do
-			internal_search (key)
-			inspect control
-				when Found_constant then
-					found_item := content.item (position)
-			else
-				found_item := default_value
+			if attached content as area and then attached deleted_marks as deleted then
+				set_position (key, area, deleted)
+				inspect control
+					when Found_constant then
+						found_item := area [position]
+				else
+					found_item := default_value
+				end
 			end
 		end
 
@@ -312,16 +319,16 @@ feature -- Removal
 		local
 			default_key: H
 		do
-			internal_search (key)
-			inspect control
-				when Found_constant then
-					content [position] := default_key
-					deleted_marks [position] := True
-					if ({H}).is_expanded and then key = default_key then
-						position_default_key := -1
-					end
-					count := count - 1
-			else
+			if attached content as area and then attached deleted_marks as deleted then
+				set_position (key, area, deleted)
+				inspect control
+					when Found_constant then
+						area.put (default_key, position)
+						deleted.put (True, position)
+						set_position_default_key (key, -1)
+						count := count - 1
+				else
+				end
 			end
 		end
 
@@ -359,21 +366,25 @@ feature -- Insertion
 		-- if not, insert item `new' with key `key'.
 		-- Set `control' to `Insertion_ok'.
 		local
-			default_key: H
+			area: like content; deleted: like deleted_marks
 		do
-			internal_search (key)
+			area := content; deleted := deleted_marks
+			set_position (key, area, deleted)
 			inspect control
 				when Found_constant then
-					if soon_full then
-						expand_size; internal_search (key)
-					end
-					count := count + 1
 			else
+				if soon_full then
+					expand_size
+					area := content; deleted := deleted_marks
+					set_position (key, area, deleted)
+				end
+				count := count + 1
 			end
-			content.put (key, position)
-			if ({H}).is_expanded and then key = default_key then
-				position_default_key := position
+			area.put (key, position)
+			if deleted [position] then
+				deleted [position] := False
 			end
+			set_position_default_key (key, position)
 			control := Insertion_ok
 		ensure then
 			insertion_done: item (key) = key
@@ -393,26 +404,26 @@ feature -- Insertion
 		-- Set `control' to `Insertion_ok' or `Insertion_conflict'.
 		-- No insertion if conflict.
 		local
-			default_key: H
+			area: like content; deleted: like deleted_marks
 		do
-			internal_search (key)
+			area := content; deleted := deleted_marks
+			set_position (key, area, deleted)
 			inspect control
 				when Found_constant then
 					control := Insertion_conflict
-					found_item := content.item (position)
+					found_item := area [position]
 					inserted := False
 			else
 				if soon_full then
 					expand_size
-					internal_search (key)
+					area := content; deleted := deleted_marks
+					set_position (key, area, deleted)
 				end
-				content.put (key, position)
-				if deleted_marks [position] then
-					deleted_marks [position] := False
+				area.put (key, position)
+				if deleted [position] then
+					deleted [position] := False
 				end
-				if ({H}).is_expanded and then key = default_key then
-					position_default_key := position
-				end
+				set_position_default_key (key, position)
 				count := count + 1
 				control := Insertion_ok
 				found_item := key
@@ -420,7 +431,7 @@ feature -- Insertion
 			end
 		ensure then
 			insertion_done: control = Insertion_ok implies item (key) = key
-			item_if_found: found implies found_item = content.item (position)
+			item_if_found: found implies found_item = content [position]
 		end
 
 	put_copy (key: H)
@@ -439,7 +450,7 @@ feature -- Insertion
 			end
 		ensure then
 			insertion_done: inserted implies item (key) ~ key and item (key) /= key
-			item_if_found: found_item = content.item (position)
+			item_if_found: found_item = content [position]
 		end
 
 feature -- Cursor movement
@@ -504,6 +515,19 @@ feature {NONE} -- Implementation
 			Result.set_key_tester (tester)
 		ensure
 			same_key_tester: Result.key_tester = key_tester
+		end
+
+	set_position_default_key (key: H; index: INTEGER)
+		local
+			default_key: H
+		do
+			inspect comparison_method
+				when Compare_expanded then
+					if key = default_key then
+						position_default_key := index
+					end
+			else
+			end
 		end
 
 	subset_strategy_selection (v: H; other: EL_HASH_SET [H]): SUBSET_STRATEGY_HASHABLE [H]

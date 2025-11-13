@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-12 18:54:30 GMT (Wednesday 12th November 2025)"
-	revision: "10"
+	date: "2025-11-13 7:31:35 GMT (Thursday 13th November 2025)"
+	revision: "11"
 
 deferred class
 	EL_HASH_SET_BASE [H -> HASHABLE]
@@ -24,6 +24,8 @@ inherit
 		undefine
 			changeable_comparison_criterion, is_empty
 		end
+
+	EL_HASH_SET_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -48,6 +50,7 @@ feature {NONE} -- Initialization
 			iteration_position := capacity -- satisfies invariant: is_empty implies off
 			compare_references
 			found_item := default_value
+			position_default_key := -1
 		ensure
 			capacity_big_enough: capacity >= n
 			count_set: count = 0
@@ -77,18 +80,20 @@ feature -- Access
 		-- Item associated with `key', if present
 		-- otherwise default value of type `G'
 		do
-			internal_search (key)
-			inspect control
-				when Found_constant then
-					Result := content.item (position)
-			else
+			if attached content as area then
+				set_position (key, area, deleted_marks)
+				inspect control
+					when Found_constant then
+						Result := area [position]
+				else
+				end
 			end
 		end
 
 	iteration_item, key_for_iteration: H
 		-- Item at cursor position
 		do
-			check attached content.item (iteration_position) as l_item then
+			check attached content [iteration_position] as l_item then
 				Result := l_item
 			end
 		end
@@ -97,7 +102,7 @@ feature -- Access
 		-- Key corresponding to entry `n'
 		do
 			if n >= 0 and n < content.count then
-				Result := content.item (n)
+				Result := content [n]
 			end
 		end
 
@@ -128,7 +133,7 @@ feature -- Status query
 		-- (Shallow equality)
 		do
 			if count > 0 then
-				internal_search (key)
+				set_position (key, content, deleted_marks)
 				Result := (control = Found_constant)
 			end
 		end
@@ -158,22 +163,6 @@ feature -- Status query
 			Result := not object_comparison
 		end
 
-feature -- Comparison
-
-	same_keys (a_search_key, a_key: H): BOOLEAN
-		-- Does `a_search_key' equal to `a_key'?
-		--| Default implementation is using ~.
-		do
-			if attached key_tester as l_tester then
-				Result := l_tester.test (a_search_key, a_key)
-
-			elseif object_comparison then
-				Result := a_search_key ~ a_key
-			else
-				Result := a_search_key = a_key
-			end
-		end
-
 feature {EL_HASH_SET_ITERATION_CURSOR} -- Implementation access
 
 	next_iteration_position (index: INTEGER): INTEGER
@@ -192,6 +181,7 @@ feature {EL_HASH_SET_ITERATION_CURSOR} -- Implementation access
 	set_key_tester (a_key_tester: like key_tester)
 		do
 			key_tester := a_key_tester
+			set_comparison_method
 		end
 
 feature {NONE} -- Implementation
@@ -233,8 +223,45 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	internal_search (search_key: H)
-			-- Search for item of `search_key'.
+	new_key_tester: like key_tester
+		do
+		end
+
+	set_comparison_method
+		do
+			if ({H}).is_expanded then
+				comparison_method := Compare_expanded
+
+			elseif attached key_tester then
+				comparison_method := Compare_with_test
+
+			elseif object_comparison then
+				comparison_method := Compare_is_equal
+			else
+				comparison_method := Compare_reference
+			end
+		end
+
+	same_keys (a_search_key, a_key: H): BOOLEAN
+		-- Does `a_search_key' equal to `a_key' using `comparison_method'?
+		do
+			inspect comparison_method
+				when Compare_expanded, Compare_reference then
+					Result := a_search_key = a_key
+
+				when Compare_is_equal then
+					Result := a_search_key ~ a_key
+
+				when Compare_with_test then
+					if attached key_tester as l_tester then
+						Result := l_tester.test (a_search_key, a_key)
+					end
+			else
+			end
+		end
+
+	set_position (search_key: H; area: like content; deleted: like deleted_marks)
+			-- Set position of item for `search_key'.
 			-- If successful, set `position' to index
 			-- of item with this key (the same index as the key's index).
 			-- If not, set position to possible position for insertion.
@@ -244,48 +271,42 @@ feature {NONE} -- Implementation
 			first_available_position, visited_count: INTEGER
 			old_key, default_key: H; break: BOOLEAN
 		do
-			if attached deleted_marks as deleted and then attached content as area then
-				control := Not_found_constant
-				from
-					first_available_position := -1
-					table_size := capacity
-					hash_code := search_key.hash_code
-				-- Increment computed for no cycle: `table_size' is prime
-					increment := 1 + hash_code \\ (table_size - 1)
-					index := (hash_code \\ table_size) - increment
-				until
-					break or else visited_count >= table_size
-				loop
-					index := (index + increment) \\ table_size
-					visited_count := visited_count + 1
-					old_key := area [index]
-					if old_key = default_key or old_key = Void then
-						if ({H}).is_expanded and then index = position_default_key then
-							control := Found_constant
-							break := True
-						elseif not deleted [index] then
-							control := Not_found_constant
-							break := True
-							if first_available_position >= 0 then
-								index := first_available_position
-							end
-						elseif first_available_position < 0 then
-							first_available_position := index
-						end
-					elseif same_keys (search_key, old_key) then
+			control := Not_found_constant
+			first_available_position := -1
+			table_size := capacity
+			hash_code := search_key.hash_code
+		-- Increment computed for no cycle: `table_size' is prime
+			increment := 1 + hash_code \\ (table_size - 1)
+			from
+				index := (hash_code \\ table_size) - increment
+			until
+				break or else visited_count >= table_size
+			loop
+				index := (index + increment) \\ table_size
+				visited_count := visited_count + 1
+				old_key := area [index]
+				if old_key = default_key or old_key = Void then
+					if index = position_default_key then
 						control := Found_constant
 						break := True
+					elseif not deleted [index] then
+						control := Not_found_constant
+						break := True
+						if first_available_position >= 0 then
+							index := first_available_position
+						end
+					elseif first_available_position < 0 then
+						first_available_position := index
 					end
+				elseif same_keys (search_key, old_key) then
+					control := Found_constant
+					break := True
 				end
-				if not break and then first_available_position >= 0 then
-					index := first_available_position
-				end
-				position := index
 			end
-		end
-
-	new_key_tester: like key_tester
-		do
+			if not break and then first_available_position >= 0 then
+				index := first_available_position
+			end
+			position := index
 		end
 
 	soon_full: BOOLEAN
@@ -302,7 +323,7 @@ feature {NONE} -- Implementation
 			default_key: H
 		do
 			if not deleted_marks [index] then
-				if ({H}).is_expanded and then area [index] = default_key and then index = position_default_key then
+				if area [index] = default_key and then index = position_default_key then
 					 Result := True
 				else
 					Result := area [index] /= default_key
@@ -328,7 +349,7 @@ feature {NONE} -- Deferred
 		-- `found_item' to item associated with `key'.
 		deferred
 		ensure
-			item_if_found: found implies (found_item = content.item (position))
+			item_if_found: found implies (found_item = content [position])
 		end
 
 feature {EL_HASH_SET_BASE, EL_HASH_SET_ITERATION_CURSOR} -- Internal attributes access
@@ -346,6 +367,8 @@ feature {NONE} -- Internal attributes
 		-- several possible conditions.
 		-- Possible control codes are the following:
 
+	comparison_method: NATURAL_8
+
 	iteration_position: INTEGER
 		-- Iteration position value
 
@@ -354,34 +377,11 @@ feature {NONE} -- Internal attributes
 
 	position_default_key: INTEGER
 		-- position of key that is a default value if keys are expanded types
-
-feature {NONE} -- Status constants
-
-	Changed: INTEGER = 3
-		-- Change successful
-
-	Found_constant: INTEGER = 2
-		-- Key found
-
-	Insertion_conflict: INTEGER = 5
-		-- Could not insert an already existing key
-
-	Insertion_ok: INTEGER = 1
-		-- Insertion successful
-
-	Not_found_constant: INTEGER = 6
-		-- Key not found
-
-	Removed: INTEGER = 4
-		-- Remove successful
-
-feature {NONE} -- Constants
-
-	Size_threshold: INTEGER = 80
-		-- Filling percentage over which some resizing is done
+		-- Useful if we want to use 0 as key for `EL_HASH_SET [INTEGER]'
 
 invariant
 	count_big_enough: 0 <= count
 	consistent_deletions: capacity - deleted_count = count
+	comparison_method_set: comparison_method > 0
 
 end

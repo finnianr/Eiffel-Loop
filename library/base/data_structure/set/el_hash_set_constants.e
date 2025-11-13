@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-12 9:29:08 GMT (Wednesday 12th November 2025)"
-	revision: "1"
+	date: "2025-11-13 6:25:42 GMT (Thursday 13th November 2025)"
+	revision: "2"
 
 class
 	EL_HASH_SET_CONSTANTS
@@ -20,7 +20,7 @@ feature {NONE} -- Compare constants
 
 	Compare_reference: NATURAL_8 = 3
 
-	Compare_same_keys: NATURAL_8 = 4
+	Compare_with_test: NATURAL_8 = 4
 
 feature {NONE} -- Status constants
 

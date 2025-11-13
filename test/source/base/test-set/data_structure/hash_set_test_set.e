@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-12 19:02:01 GMT (Wednesday 12th November 2025)"
-	revision: "6"
+	date: "2025-11-13 7:24:29 GMT (Thursday 13th November 2025)"
+	revision: "7"
 
 class HASH_SET_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -164,19 +164,17 @@ feature -- Test
 			]"
 		local
 			word_set: EL_HASH_SET [STRING]; word_table: HASH_TABLE [STRING, STRING]
-			word_count: INTEGER
+			word_count: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
 		do
-			create word_set.make_equal (500)
-			create word_table.make_equal (500)
+			create word_set.make_equal (1)
+			create word_table.make_equal (1)
 
-			across Hexagram.English_titles as title loop
-				across title.item.split (' ') as split loop
-					if attached split.item as word then
-						word_set.put (word)
-						word_table.put (word, word)
-						assert ("both inserted", word_set.inserted = word_table.inserted)
-						word_count := word_count + 1
-					end
+			across Hexagram.English_titles_first.split (' ') as split loop
+				if attached split.item as word then
+					word_set.put (word)
+					word_table.put (word, word)
+					assert ("both inserted", word_set.inserted = word_table.inserted)
+					word_count := word_count + 1
 				end
 			end
 			assert ("same count", word_set.count = word_table.count)
