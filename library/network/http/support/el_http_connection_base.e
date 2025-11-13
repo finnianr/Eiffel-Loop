@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-13 10:41:20 GMT (Thursday 13th November 2025)"
-	revision: "23"
+	date: "2025-11-13 14:03:22 GMT (Thursday 13th November 2025)"
+	revision: "24"
 
 deferred class
 	EL_HTTP_CONNECTION_BASE
@@ -60,12 +60,36 @@ feature -- Status query
 
 feature -- Basic operations
 
+	download (file_path: FILE_PATH)
+		-- save document downloaded using the HTTP GET command
+		do
+			do_command (create {EL_FILE_DOWNLOAD_HTTP_COMMAND}.make (Current, file_path))
+		end
+
 	put_error (log: EL_LOGGABLE)
 		require
 			has_error: has_error
 		do
 			log.put_labeled_substitution ("CURL ERROR", "%S %S", [error_code, error_string])
 			log.put_new_line
+		end
+
+	read_string_get
+		-- read document string using the HTTP GET command
+		do
+			do_command (create {EL_GET_HTTP_COMMAND}.make (Current))
+		end
+
+	read_string_head
+		-- read document headers string using the HTTP HEAD command
+		do
+			do_command (create {EL_HEAD_HTTP_COMMAND}.make (Current))
+		end
+
+	read_string_post
+		-- read document string using the HTTP POST command
+		do
+			do_command (create {EL_POST_HTTP_COMMAND}.make (Current))
 		end
 
 feature {EL_HTTP_COMMAND} -- Implementation

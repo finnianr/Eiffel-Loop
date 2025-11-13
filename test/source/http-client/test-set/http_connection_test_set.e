@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-13 10:22:52 GMT (Thursday 13th November 2025)"
-	revision: "83"
+	date: "2025-11-13 14:12:45 GMT (Thursday 13th November 2025)"
+	revision: "84"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -272,9 +272,11 @@ feature -- Tests
 		note
 			testing: "[
 				covers/{EL_SETTABLE_FROM_JSON_STRING}.set_from_json,
-				covers/{EL_IP_ADDRESS_ROUTINES}.to_number, covers/{EL_IP_ADDRESS_ROUTINES}.to_string,
+				covers/{EL_IP_ADDRESS_ROUTINES}.to_number,
+				covers/{EL_IP_ADDRESS_ROUTINES}.to_string,
 				covers/{EL_IP_ADDRESS_INFO_TABLE}.new_info,
-				covers/{EL_CODE_REPRESENTATION}.to_value, covers/{EL_CODE_REPRESENTATION}.to_string
+				covers/{EL_CODE_REPRESENTATION}.to_value,
+				covers/{EL_CODE_REPRESENTATION}.to_string
 			]"
 		local
 			info: EL_IP_ADDRESS_GEOGRAPHIC_INFO; ip_number: NATURAL

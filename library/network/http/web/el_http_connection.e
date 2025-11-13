@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-13 10:39:41 GMT (Thursday 13th November 2025)"
-	revision: "61"
+	date: "2025-11-13 14:04:33 GMT (Thursday 13th November 2025)"
+	revision: "62"
 
 class
 	EL_HTTP_CONNECTION
@@ -24,11 +24,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_HTTP_CONNECTION_BASE
-		rename
-			is_valid as is_valid_option_constant
-		export
-			{ANY} content, is_valid_http_command
+	EL_HTTP_CONNECTION_OPTIONS
 		redefine
 			make
 		end
@@ -221,12 +217,6 @@ feature -- Basic operations
 		-- handling cURL C callbacks that happened in this month.
 		end
 
-	download (file_path: FILE_PATH)
-		-- save document downloaded using the HTTP GET command
-		do
-			do_command (create {EL_FILE_DOWNLOAD_HTTP_COMMAND}.make (Current, file_path))
-		end
-
 	open (a_url: READABLE_STRING_GENERAL)
 		do
 			open_url (create {EL_URL}.make_from_general (a_url))
@@ -258,24 +248,6 @@ feature -- Basic operations
 			opened: is_open
 		end
 
-	read_string_get
-		-- read document string using the HTTP GET command
-		do
-			do_command (create {EL_GET_HTTP_COMMAND}.make (Current))
-		end
-
-	read_string_head
-		-- read document headers string using the HTTP HEAD command
-		do
-			do_command (create {EL_HEAD_HTTP_COMMAND}.make (Current))
-		end
-
-	read_string_post
-		-- read document string using the HTTP POST command
-		do
-			do_command (create {EL_POST_HTTP_COMMAND}.make (Current))
-		end
-
 feature -- Status setting
 
 	disable_cookie_load
@@ -291,35 +263,6 @@ feature -- Status setting
 	disable_cookies
 		do
 			disable_cookie_store; disable_cookie_load
-		end
-
-	disable_verbose
-		do
-			set_curl_boolean_option (CURLOPT_verbose, False)
-		end
-
-	enable_verbose
-		do
-			set_curl_boolean_option (CURLOPT_verbose, True)
-		end
-
-	reset_cookie_session
-		-- Mark this as a new cookie "session". It will force libcurl to ignore all cookies it is about to load
-		-- that are "session cookies" from the previous session. By default, libcurl always stores and loads all cookies,
-		-- independent if they are session cookies or not. Session cookies are cookies without expiry date and they are meant
-		-- to be alive and existing for this "session" only.
-		do
-			set_curl_boolean_option (CURLOPT_cookiesession, True)
-		end
-
-	set_redirection_follow
-		do
-			set_curl_boolean_option (CURLOPT_followlocation, True)
-		end
-
-	set_silent_output
-		do
-			create {EL_SILENT_LOG} lio.make
 		end
 
 feature -- Status change
@@ -340,6 +283,13 @@ feature -- Status change
 			error_code := 0
 			redirection_url := Empty_string_8
 		end
+
+	set_silent_output
+		do
+			create {EL_SILENT_LOG} lio.make
+		end
+
+feature -- Status change
 
 	set_cookie_load_path (a_cookie_load_path: FILE_PATH)
 		-- Enables the cookie engine, making the connection parse and send cookies on subsequent requests.
@@ -460,79 +410,6 @@ feature -- Status change
 			if is_open then
 				set_curl_string_8_option (CURLOPT_useragent, a_user_agent)
 			end
-		end
-
-feature -- SSL settings
-
-	set_certificate_authority_info (a_cacert_path: FILE_PATH)
-		do
-			set_curl_string_option (CURLOPT_cainfo, a_cacert_path)
-		end
-
-	set_certificate_authority_info_default
-		-- set certificate authority from environment variable CURL_CA_BUNDLE if it exists
-		do
-			if attached execution.item ("CURL_CA_BUNDLE") as ca_path and then ca_path.count > 0 then
-				set_certificate_authority_info (ca_path)
-			end
-		end
-
-	set_certificate_verification (flag: BOOLEAN)
-		-- Curl verifies whether the certificate is authentic,
-		-- i.e. that you can trust that the server is who the certificate says it is.
-		do
-			set_curl_boolean_option (CURLOPT_ssl_verifypeer, flag)
-		end
-
-	set_hostname_verification (flag: BOOLEAN)
-		-- If the site you're connecting to uses a different host name that what
-		-- they have mentioned in their server certificate's commonName (or
-		-- subjectAltName) fields, libcurl will refuse to connect.
-		do
-			set_curl_boolean_option (CURLOPT_ssl_verifyhost, flag)
-		end
-
-	set_tls_version (version: INTEGER)
-		require
-			valid_unix_version: {PLATFORM}.is_unix implies (<< 0, 1_0, 1_1, 1_2 >>).has (version)
-			valid_windows_version: {PLATFORM}.is_windows implies 0 = version
-		local
-			option: INTEGER
-		do
-			inspect version
-				when 1_0 then
-					option := curl_sslversion_TLSv1_0
-				when 1_1 then
-					option := curl_sslversion_TLSv1_1
-				when 1_2 then
-					option := curl_sslversion_TLSv1_2
-			else
-				option := curl_sslversion_TLSv1
-			end
-			set_curl_integer_option (CURLOPT_sslversion, option)
-		end
-
-	set_tls_version_1_x
-		do
-			set_curl_integer_option (CURLOPT_sslversion, curl_sslversion_TLSv1)
-		end
-
-	set_version (version: INTEGER)
-		-- 0 is default
-		require
-			valid_version: (<< 0, 2, 3 >>).has (version)
-		local
-			option: INTEGER
-		do
-			inspect version
-				when 2 then
-					option := curl_sslversion_sslv2
-				when 3 then
-					option := curl_sslversion_sslv3
-			else
-				option := curl_sslversion_default
-			end
-			set_curl_integer_option (CURLOPT_sslversion, option)
 		end
 
 feature {NONE} -- Disposal

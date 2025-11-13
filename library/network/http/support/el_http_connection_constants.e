@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-13 10:41:13 GMT (Thursday 13th November 2025)"
-	revision: "1"
+	date: "2025-11-13 14:09:22 GMT (Thursday 13th November 2025)"
+	revision: "2"
 
 class
 	EL_HTTP_CONNECTION_CONSTANTS
 
 inherit
+	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_HTML; EL_MODULE_TUPLE; EL_MODULE_URI
+
 	EL_CURL_OPTION_CONSTANTS
 		export
 			{NONE} all
@@ -34,8 +36,6 @@ inherit
 		export
 			{NONE} all
 		end
-
-	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_HTML; EL_MODULE_TUPLE; EL_MODULE_URI
 
 	EL_STRING_8_CONSTANTS
 
