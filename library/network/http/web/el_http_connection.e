@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-15 14:31:47 GMT (Saturday 15th November 2025)"
-	revision: "64"
+	date: "2025-11-15 15:28:15 GMT (Saturday 15th November 2025)"
+	revision: "65"
 
 class
 	EL_HTTP_CONNECTION
@@ -115,7 +115,7 @@ feature -- Status query
 
 	is_open: BOOLEAN
 		do
-			Result := curl /= Default_curl
+			Result := not curl.is_default
 		end
 
 	is_redirected: BOOLEAN
@@ -190,8 +190,7 @@ feature -- Basic operations
 			url.wipe_out
 			cert_verification := True; host_verification := True
 
-			curl.close
-			curl := Default_curl
+			curl.close; curl := Default_curl
 
 			close_listener.notify_tick -- Used with `EL_MODULE_TRACK' to track progress of `open', `close' cycles
 
@@ -216,18 +215,8 @@ feature -- Basic operations
 	open_with_parameters (a_url: EL_URL; a_parameter_table: like PARAMETER_TABLE)
 		do
 			reset
-			create curl.make (lio)
+			create curl.make (lio, timeout_millsecs, timeout_to_connect, user_agent)
 			set_url_with_parameters (a_url, a_parameter_table)
-			curl.set_boolean_option (CURLOPT_verbose, False)
-			if not user_agent.is_empty then
-				curl.set_string_8_option (CURLOPT_useragent, user_agent)
-			end
-			if timeout_millsecs.to_boolean then
-				curl.set_integer_option (CURLOPT_timeout_ms, timeout_millsecs)
-			end
-			if timeout_to_connect.to_boolean then
-				curl.set_integer_option (CURLOPT_connect_timeout, timeout_to_connect)
-			end
 		ensure
 			opened: is_open
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-15 14:31:52 GMT (Saturday 15th November 2025)"
-	revision: "1"
+	date: "2025-11-15 15:28:08 GMT (Saturday 15th November 2025)"
+	revision: "2"
 
 class
 	EL_CURL_HTTP_CONNECTION
@@ -45,11 +45,21 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_lio: EL_LOGGABLE)
+	make (a_lio: EL_LOGGABLE; timeout_millsecs, timeout_to_connect: INTEGER; user_agent: STRING)
 		do
 			make_default
 			make_from_pointer (Curl.new_pointer)
 			lio := a_lio
+			set_boolean_option (CURLOPT_verbose, False)
+			if not user_agent.is_empty then
+				set_string_8_option (CURLOPT_useragent, user_agent)
+			end
+			if timeout_millsecs.to_boolean then
+				set_integer_option (CURLOPT_timeout_ms, timeout_millsecs)
+			end
+			if timeout_to_connect.to_boolean then
+				set_integer_option (CURLOPT_connect_timeout, timeout_to_connect)
+			end
 		end
 
 	make_default
@@ -83,6 +93,12 @@ feature -- Status query
 		-- `True' if CURL operation returned with an error
 		do
 			Result := error_code /= 0
+		end
+
+	is_default: BOOLEAN
+		-- `True' if connection not initialized
+		do
+			Result := self_ptr.is_default_pointer
 		end
 
 feature -- Element change
