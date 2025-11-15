@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 14:53:51 GMT (Thursday 7th September 2023)"
-	revision: "15"
+	date: "2025-11-15 12:11:16 GMT (Saturday 15th November 2025)"
+	revision: "16"
 
 class
 	EL_XML_HTTP_CONNECTION
@@ -54,7 +54,7 @@ feature {NONE} -- Event handling
 
 	on_not_xml_read
 		do
-			last_string := default_document.to_xml
+			curl.set_last_string (default_document.to_xml)
 		end
 
 	on_xml_read

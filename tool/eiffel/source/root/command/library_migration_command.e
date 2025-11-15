@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-10 14:55:54 GMT (Monday 10th November 2025)"
-	revision: "34"
+	date: "2025-11-15 8:55:22 GMT (Saturday 15th November 2025)"
+	revision: "35"
 
 class
 	LIBRARY_MIGRATION_COMMAND
@@ -52,7 +52,7 @@ feature -- Basic operations
 
 	execute
 		local
-			occurrence_set, removal_set: EL_HASH_SET [IMMUTABLE_STRING_8]
+			dependency_set, removal_set: EL_HASH_SET [IMMUTABLE_STRING_8]
 			i: INTEGER; destination_path, source_path: FILE_PATH
 			name_array: ARRAY [IMMUTABLE_STRING_8]
 		do
@@ -65,10 +65,10 @@ feature -- Basic operations
 				print_iteration (i)
 				removal_set.wipe_out
 				across class_list as list loop
-					occurrence_set := list.item.class_occurrence_set
-					occurrence_set.intersect (library_set)
+					dependency_set := list.item.dependency_set
+					dependency_set.intersect (library_set)
 					print_class_heading (list.item.name)
-					if occurrence_set.count = 0 then
+					if dependency_set.count = 0 then
 						print_line ("No dependencies")
 						if attached list.item.circular_dependent as dependent then
 							name_array := << list.item.name, dependent.name >>
@@ -84,7 +84,7 @@ feature -- Basic operations
 							OS.copy_file (source_path, destination_path)
 						end
 					else
-						across occurrence_set as set loop
+						across dependency_set as set loop
 							print_line (set.item)
 						end
 					end
@@ -121,7 +121,7 @@ feature {NONE} -- Implementation
 	do_with_file (source_path: FILE_PATH)
 		do
 			if not source_path.has_step (Excluded_imp_step) then
-				class_list.extend (create {LIBRARY_CLASS}.make (source_path))
+				class_list.extend (create {CLASS_DEPENDENCIES}.make (source_path))
 				if attached class_list.last.name as name then
 					class_path_table.extend (source_path, name)
 					library_set.put (name)
@@ -129,7 +129,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	in_set (a_class: LIBRARY_CLASS; removal_set: EL_HASH_SET [IMMUTABLE_STRING_8]): BOOLEAN
+	in_set (a_class: CLASS_DEPENDENCIES; removal_set: EL_HASH_SET [IMMUTABLE_STRING_8]): BOOLEAN
 		do
 			Result := removal_set.has (a_class.name)
 		end
@@ -168,7 +168,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	class_list: EL_ARRAYED_LIST [LIBRARY_CLASS]
+	class_list: EL_ARRAYED_LIST [CLASS_DEPENDENCIES]
 
 	class_path_table: HASH_TABLE [FILE_PATH, IMMUTABLE_STRING_8]
 

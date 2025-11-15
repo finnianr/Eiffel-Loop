@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2025-11-15 12:11:56 GMT (Saturday 15th November 2025)"
+	revision: "6"
 
 class
 	EL_HEAD_HTTP_COMMAND
@@ -28,9 +28,9 @@ feature {NONE} -- Implementation
 
 	prepare
 		do
-			connection.set_write_function (curl_on_data_transfer, pointer_to_c_callbacks_struct)
-			connection.set_curl_boolean_option (CURLOPT_header, True)
-			connection.set_nobody (True)
+			curl.set_write_function (curl_on_data_transfer, pointer_to_c_callbacks_struct)
+			curl.set_boolean_option (CURLOPT_header, True)
+			curl.set_nobody (True)
 		end
 
 end

@@ -1,15 +1,23 @@
 note
+	description: "[
+		RESULTS: internal_search
+		Passes over 1000 millisecs (in descending order)
+
+			STRING_TABLE [STRING] :  9461.0 times (100%)
+			EL_HASH_SET [STRING]  :  6860.0 times (-27.5%)
+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-12 10:23:18 GMT (Wednesday 12th November 2025)"
-	revision: "1"
+	date: "2025-11-13 17:12:52 GMT (Thursday 13th November 2025)"
+	revision: "2"
 
 class
-	STRING_TABLE_VS_HASH_SET_SEARCH
+	SEARCH_TABLE_VS_HASH_SET_SEARCH
 
 inherit
 	EL_BENCHMARK_COMPARISON
@@ -21,7 +29,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "STRING_TABLE VS EL_HASH_SET for internal_search"
+	Description: STRING = "SEARCH_TABLE VS EL_HASH_SET for internal_search"
 
 feature -- Basic operations
 
@@ -33,9 +41,9 @@ feature -- Basic operations
 			across Hexagram.English_titles as title loop
 				word_list.append_sequence (title.item.split (' '))
 			end
-			compare ("internal_search", <<
+			compare ("internal_search VS set_position", <<
 				["EL_HASH_SET [STRING]",	agent put_into_set (word_list)],
-				["STRING_TABLE [STRING]",	agent put_into_table (word_list)]
+				["SEARCH_TABLE [STRING]",	agent put_into_table (word_list)]
 			>>)
 		end
 

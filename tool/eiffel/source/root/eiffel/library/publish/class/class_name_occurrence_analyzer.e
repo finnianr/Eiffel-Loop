@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-10 12:34:33 GMT (Monday 10th November 2025)"
-	revision: "7"
+	date: "2025-11-14 9:17:58 GMT (Friday 14th November 2025)"
+	revision: "8"
 
 class
 	CLASS_NAME_OCCURRENCE_ANALYZER
@@ -33,19 +33,19 @@ feature {NONE} -- Initialization
 			make_encoding (Latin_1)
 			initialize
 			analyze (source.area, 0, source.count - 1)
-			create class_name_set.make_from (Use_set_buffer, True)
+			create class_name_set.make_from (Name_buffer, True)
 		end
 
 	make (source: READABLE_STRING_8; a_encoding: NATURAL)
 		do
 			Precursor (source, a_encoding)
-			create class_name_set.make_from (Use_set_buffer, True)
+			create class_name_set.make_from (Name_buffer, True)
 		end
 
 	initialize
 		do
-			Use_set_buffer.wipe_out
-			class_name_set := Use_set_buffer
+			Name_buffer.wipe_out
+			class_name_set := Name_buffer
 		end
 
 feature -- Access
@@ -71,7 +71,7 @@ feature {NONE} -- Events
 					put_class := True
 				end
 				if put_class then
-					class_name_set.put (Immutable_8.new_substring (area, i, count))
+					class_name_set.put (new_global_name (Immutable_8.new_substring (area, i, count)))
 				end
 			end
 		end
@@ -119,6 +119,18 @@ feature {NONE} -- Implementation
 			Result := area.valid_index (i) and then area [i] = c
 		end
 
+	new_global_name (a_name: IMMUTABLE_STRING_8): IMMUTABLE_STRING_8
+		do
+			if attached Global_name_set as name_set then
+				if not name_set.has_key (a_name) then
+					name_set.put (create {IMMUTABLE_STRING_8}.make_from_string (a_name))
+				end
+				Result := name_set.found_item
+			else
+				create Result.make_empty
+			end
+		end
+
 feature {NONE} -- Constants
 
 	Keywords_agent_and_attached: SPECIAL [STRING]
@@ -127,8 +139,14 @@ feature {NONE} -- Constants
 			Result [1] := "attached"
 		end
 
-	Use_set_buffer: EL_HASH_SET [IMMUTABLE_STRING_8]
+	Name_buffer: EL_HASH_SET [IMMUTABLE_STRING_8]
 		once
 			create Result.make_equal (100)
 		end
+
+	Global_name_set: EL_HASH_SET [IMMUTABLE_STRING_8]
+		once
+			create Result.make_equal (100)
+		end
+
 end

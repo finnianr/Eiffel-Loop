@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-13 7:49:00 GMT (Thursday 13th November 2025)"
-	revision: "12"
+	date: "2025-11-13 16:46:01 GMT (Thursday 13th November 2025)"
+	revision: "13"
 
 deferred class
 	EL_HASH_SET_BASE [H -> HASHABLE]
@@ -323,7 +323,7 @@ feature {NONE} -- Implementation
 			default_key: H
 		do
 			if not deleted_marks [index] then
-				if area [index] = default_key and then index = position_default_key then
+				if index = position_default_key and then area [index] = default_key then
 					 Result := True
 				else
 					Result := area [index] /= default_key

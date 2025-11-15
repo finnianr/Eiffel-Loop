@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:32:29 GMT (Thursday 4th April 2024)"
-	revision: "28"
+	date: "2025-11-15 12:11:16 GMT (Saturday 15th November 2025)"
+	revision: "29"
 
 class
 	PP_NVP_API_CONNECTION
@@ -115,7 +115,7 @@ feature -- Button management
 		local
 			cache_path: FILE_PATH
 		do
-			error_code := 0
+			curl.clear_error
 			cache_path := new_cache_path (a_meta_data.l_hosted_button_id)
 			if cache_path.exists and then cache_path.modification_time = a_meta_data.l_modify_date.to_unix then
 				lio.put_string (" from cache")

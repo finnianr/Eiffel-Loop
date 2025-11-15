@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2025-11-15 15:06:41 GMT (Saturday 15th November 2025)"
+	revision: "8"
 
 deferred class
 	EL_DOWNLOAD_HTTP_COMMAND
@@ -34,8 +34,8 @@ feature {NONE} -- Implementation
 
 	prepare
 		do
-			connection.set_write_function (curl_on_data_transfer, pointer_to_c_callbacks_struct)
-			connection.set_curl_boolean_option (CURLOPT_header, False)
+			curl.set_write_function (curl_on_data_transfer, pointer_to_c_callbacks_struct)
+			curl.set_boolean_option (CURLOPT_header, False)
 			connection.set_cookie_options
 		end
 

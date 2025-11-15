@@ -859,3 +859,6 @@ Fix duplication of shell menu item
 Mon 20th Oct 2025, 10:40:43
 CURRENCY_TEST_SET.currency_history_exchange_rates
 
+Thu 13th Nov 2025, 17:23:44
+Fixed poor performance of EL_HASH_SET
+

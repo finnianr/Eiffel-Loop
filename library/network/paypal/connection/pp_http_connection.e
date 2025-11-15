@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-16 7:19:30 GMT (Thursday 16th May 2024)"
-	revision: "11"
+	date: "2025-11-15 12:11:16 GMT (Saturday 15th November 2025)"
+	revision: "12"
 
 class
 	PP_HTTP_CONNECTION
@@ -46,7 +46,7 @@ feature -- Basic operations
 			set_certificate_verification (True)
 			set_hostname_verification (True)
 			set_certificate_authority_info (Configuration.cert_authority_info_path)
-			request_headers ["Connection"] := "Close"
+			curl.put_request_header ("Connection", "Close")
 		end
 
 end

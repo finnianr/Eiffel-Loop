@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-13 10:28:44 GMT (Thursday 13th November 2025)"
-	revision: "14"
+	date: "2025-11-15 12:02:05 GMT (Saturday 15th November 2025)"
+	revision: "15"
 
 class
 	EL_WEB_ARCHIVE_HTTP_CONNECTION
@@ -28,10 +28,10 @@ feature -- Access
 
 	wayback (a_url: STRING): EL_WAYBACK_CLOSEST
 		local
-			json_list: JSON_NAME_VALUE_LIST
+			json_list: JSON_NAME_VALUE_LIST; url_table: like Empty_parameter_table
 		do
-			Parameter_table [once "url"] := a_url
-			open_with_parameters (Wayback_available_url, Parameter_table)
+			create url_table.make_one (Param_url, a_url)
+			open_with_parameters (Wayback_available_url, url_table)
 			set_certificate_authority_info_default
 			read_string_get
 			if has_error then
@@ -66,11 +66,6 @@ feature -- Constants
 		end
 
 feature {NONE} -- Constants
-
-	Parameter_table: EL_HASH_TABLE [STRING, STRING]
-		once
-			create Result.make (1)
-		end
 
 	Param_url: STRING = "url"
 

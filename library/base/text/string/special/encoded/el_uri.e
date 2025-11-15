@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:37:33 GMT (Saturday 5th April 2025)"
-	revision: "51"
+	date: "2025-11-15 12:05:14 GMT (Saturday 15th November 2025)"
+	revision: "52"
 
 class
 	EL_URI
@@ -224,7 +224,9 @@ feature -- Element change
 	append_query_from_table (value_table: HASH_TABLE [READABLE_STRING_GENERAL, READABLE_STRING_GENERAL])
 		-- append `value_table' to `query' part of URI
 		do
-			replace_query_from_table (value_table, True)
+			if not value_table.is_empty then
+				replace_query_from_table (value_table, True)
+			end
 		end
 
 	join (a_path: EL_PATH)

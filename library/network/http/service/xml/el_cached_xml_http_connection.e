@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-16 9:14:30 GMT (Wednesday 16th October 2024)"
-	revision: "11"
+	date: "2025-11-15 12:11:16 GMT (Saturday 15th November 2025)"
+	revision: "12"
 
 class
 	EL_CACHED_XML_HTTP_CONNECTION
@@ -44,7 +44,7 @@ feature {NONE} -- Event handling
 	on_not_xml_read
 		do
 			if cache_file_path.exists then
-				last_string := File.plain_text (cache_file_path)
+				curl.set_last_string (File.plain_text (cache_file_path))
 				lio.put_path_field ("Read %S", cache_file_path)
 				lio.put_new_line
 			else

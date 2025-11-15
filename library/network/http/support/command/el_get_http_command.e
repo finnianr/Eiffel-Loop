@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2025-11-15 12:11:56 GMT (Saturday 15th November 2025)"
+	revision: "6"
 
 class
 	EL_GET_HTTP_COMMAND
@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 
 	prepare
 		do
-			connection.enable_get_method
+			curl.enable_get_method
 			Precursor
 		end
 

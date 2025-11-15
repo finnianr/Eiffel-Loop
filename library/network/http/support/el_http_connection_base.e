@@ -6,16 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-13 14:03:22 GMT (Thursday 13th November 2025)"
-	revision: "24"
+	date: "2025-11-15 12:15:16 GMT (Saturday 15th November 2025)"
+	revision: "25"
 
 deferred class
 	EL_HTTP_CONNECTION_BASE
 
 inherit
-	EL_MEMORY_ROUTINES
+	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_HTML; EL_MODULE_TUPLE; EL_MODULE_URI
 
-	EL_HTTP_CONNECTION_CONSTANTS
+	EL_CURL_OPTION_CONSTANTS
+		export
+			{NONE} all
+		end
+
+	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_HTTP_STATUS
+
+	EL_SHARED_PROGRESS_LISTENER
 		rename
 			progress_listener as close_listener,
 			is_progress_tracking as is_close_tracking,
@@ -23,16 +32,6 @@ inherit
 		end
 
 	EL_STRING_HANDLER
-
-feature {NONE} -- Initialization
-
-	make
-		do
-			create last_string.make_empty
-			create http_response.make_empty
-			create request_headers.make_equal (0)
-			create post_data.make (0)
-		end
 
 feature -- Access
 
@@ -49,13 +48,18 @@ feature -- Access
 		end
 
 	last_string: STRING
+		do
+			Result := curl.last_string
+		end
+
+	url: EL_URL
 
 feature -- Status query
 
 	has_error: BOOLEAN
 		-- `True' if CURL operation returned with an error
 		do
-			Result := error_code /= 0
+			Result := curl.has_error
 		end
 
 feature -- Basic operations
@@ -70,8 +74,7 @@ feature -- Basic operations
 		require
 			has_error: has_error
 		do
-			log.put_labeled_substitution ("CURL ERROR", "%S %S", [error_code, error_string])
-			log.put_new_line
+			curl.put_error (log)
 		end
 
 	read_string_get
@@ -92,130 +95,11 @@ feature -- Basic operations
 			do_command (create {EL_POST_HTTP_COMMAND}.make (Current))
 		end
 
-feature {EL_HTTP_COMMAND} -- Implementation
-
-	enable_get_method
-		do
-			set_curl_boolean_option (CURLOPT_httpget, True)
-			set_curl_boolean_option (CURLOPT_post, False)
-		end
-
-	enable_post_method
-		do
-			set_curl_boolean_option (CURLOPT_httpget, False)
-			set_curl_boolean_option (CURLOPT_post, True)
-			if post_data.count > 0 then
-				set_curl_option_with_data (CURLOPT_postfields, post_data.item)
-				set_curl_integer_option (CURLOPT_postfieldsize, post_data_count)
-			end
-		end
-
-	set_curl_boolean_option (a_option: INTEGER; flag: BOOLEAN)
-		do
-			Curl.setopt_integer (self_ptr, a_option, flag.to_integer)
-		end
-
-	set_curl_integer_option (a_option: INTEGER; option: INTEGER)
-		do
-			Curl.setopt_integer (self_ptr, a_option, option)
-		end
-
-	set_curl_option_with_data (a_option: INTEGER; a_data_ptr: POINTER)
-		do
-			Curl.setopt_void_star (self_ptr, a_option, a_data_ptr)
-		end
-
-	set_curl_string_32_option (a_option: INTEGER; string: READABLE_STRING_32)
-		local
-			utf_8: EL_UTF_8_CONVERTER
-		do
-			Curl.setopt_string (self_ptr, a_option, utf_8.string_32_to_string_8 (string))
-		end
-
-	set_curl_string_8_option (a_option: INTEGER; string: STRING)
-		do
-			Curl.setopt_string (self_ptr, a_option, string)
-		end
-
-	set_curl_string_option (a_option: INTEGER; string: ZSTRING)
-		do
-			set_curl_string_32_option (a_option, string)
-		end
-
-	set_header_function (callback, user_data: POINTER)
-		do
-			set_curl_option_with_data (CURLOPT_headerfunction, callback)
-			set_curl_option_with_data (CURLOPT_headerdata, user_data)
-		end
-
-	set_nobody (flag: BOOLEAN)
-		do
-			set_curl_boolean_option (CURLOPT_nobody, flag)
-		end
-
-	set_write_function (callback, user_data: POINTER)
-		do
-			set_curl_option_with_data (CURLOPT_writefunction, callback)
-			set_curl_option_with_data (CURLOPT_writedata, user_data)
-		end
-
 feature {NONE} -- Implementation
 
 	content: ZSTRING
 		do
 			create Result.make_from_utf_8 (last_string)
-		end
-
-	new_parameter_table: detachable HASH_TABLE [READABLE_STRING_GENERAL, READABLE_STRING_GENERAL]
-		do
-			create {HASH_TABLE [STRING, STRING]} Result.make (0)
-		end
-
-feature {NONE} -- Experimental
-
-	read_string_experiment
-			-- Failed experiment. Might come back to it again
-		local
-			form_post, form_last: CURL_FORM
-		do
-			create form_post.make; create form_last.make
-			set_form_parameters (form_post, form_last)
-
-			create http_response.make_empty
---			set_write_function (self_ptr)
-			set_curl_integer_option (CURLOPT_writedata, http_response.object_id)
-			error_code := Curl.perform (self_ptr)
-			last_string.share (http_response)
-		end
-
-	redirect_url: STRING
-		-- Fails because Curlinfo_redirect_url will not satisfy contract CURL_INFO_CONSTANTS.is_valid
-		-- For some reason Curlinfo_redirect_url is missing from CURL_INFO_CONSTANTS
-		require
-			no_error: not has_error
-		local
-			result_cell: CELL [STRING]; status: INTEGER
-		do
-			create Result.make_empty
-			create result_cell.put (Result)
-			status := Curl.get_info (self_ptr, Curlinfo_redirect_url, result_cell)
-			if status = 0 then
-				Result := result_cell.item
-			end
-		end
-
-	set_form_parameters (form_post, form_last: CURL_FORM)
-			-- Haven't worked out how to use this yet
-		do
---			across parameters as parameter loop
---				Curl.formadd_string_string (
---					form_post, form_last,
---					CURLFORM_COPYNAME, parameter.key,
---					CURLFORM_COPYCONTENTS, parameter.item,
---					CURLFORM_END
---				)
---			end
-			Curl.setopt_form (self_ptr, CURLOPT_httppost, form_post)
 		end
 
 feature {EL_HTTP_COMMAND} -- Implementation
@@ -235,31 +119,13 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			end
 		end
 
-	do_transfer
-			-- do data transfer to/from host
-		local
-			string_list: POINTER
-		do
-			string_list := request_headers.to_curl_string_list
-			if is_attached (string_list) then
-				set_curl_option_with_data (CURLOPT_httpheader, string_list)
-			end
-			error_code := Curl.perform (self_ptr)
-			if is_attached (string_list) then
-				curl.free_string_list (string_list)
-			end
-			if has_error then
-				put_error (lio)
-			end
-		end
-
 	set_cookie_options
 		do
 			if attached cookie_store_path as store_path then
-				set_curl_string_option (CURLOPT_cookiejar, store_path)
+				curl.set_string_option (CURLOPT_cookiejar, store_path)
 			end
 			if attached cookie_load_path as load_path then
-				set_curl_string_option (CURLOPT_cookiefile, load_path)
+				curl.set_string_option (CURLOPT_cookiefile, load_path)
 			end
 		end
 
@@ -292,36 +158,42 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			end
 		end
 
-feature {NONE} -- Implementation attributes
+feature {EL_HTTP_COMMAND} -- Implementation attributes
+
+	curl: EL_CURL_HTTP_CONNECTION
 
 	lio: EL_LOGGABLE
 
-	request_headers: EL_CURL_HEADER_TABLE
-		-- request headers to send
+feature {NONE} -- Type definitions
 
-	http_response: CURL_STRING
-
-	post_data: MANAGED_POINTER
-
-	post_data_count: INTEGER
-
-feature {NONE} -- Deferred
-
-	error_string: STRING
-		deferred
+	PARAMETER_TABLE: HASH_TABLE [READABLE_STRING_GENERAL, READABLE_STRING_GENERAL]
+		require
+			never_called: False
+		once
+			Result := Empty_parameter_table
 		end
 
-	is_html_response: BOOLEAN
-		-- `True' if `last_string' is html
-		deferred
+feature {NONE} -- Constants
+
+	Default_curl: EL_CURL_HTTP_CONNECTION
+		once ("PROCESS")
+			create Result.make_default
 		end
 
-	self_ptr: POINTER
-		deferred
+	Empty_parameter_table: EL_HASH_TABLE [STRING, STRING]
+		once
+			create Result.make (0)
 		end
 
-	url: EL_URL
-		deferred
+	Image_types: EL_STRING_8_LIST
+		once
+			Result := "gif, png, jpeg"
+		end
+
+	Mime: TUPLE [image, text: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "image/, text/")
 		end
 
 end

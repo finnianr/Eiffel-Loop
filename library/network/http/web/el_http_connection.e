@@ -12,22 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-13 14:04:33 GMT (Thursday 13th November 2025)"
-	revision: "62"
+	date: "2025-11-15 14:31:47 GMT (Saturday 15th November 2025)"
+	revision: "64"
 
 class
 	EL_HTTP_CONNECTION
 
 inherit
-	EL_OWNED_C_OBJECT
-		export
-			{NONE} all
-		end
-
 	EL_HTTP_CONNECTION_OPTIONS
-		redefine
-			make
-		end
 
 create
 	make
@@ -36,7 +28,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			Precursor
+			curl := Default_curl
 			create url.make_empty
 			create user_agent.make_empty
 			cert_verification := True
@@ -63,11 +55,7 @@ feature -- Access
 
 	error_string: STRING
 		do
-			if has_error then
-				create Result.make_from_c (Curl.error_string (error_code))
-			else
-				create Result.make_empty
-			end
+			Result := curl.error_string
 		end
 
 	http_version: DOUBLE
@@ -98,8 +86,6 @@ feature -- Access
 	redirection_url: STRING
 		-- redirection location
 
-	url: EL_URL
-
 	user_agent: STRING
 
 feature -- Status query
@@ -129,7 +115,7 @@ feature -- Status query
 
 	is_open: BOOLEAN
 		do
-			Result := is_attached (self_ptr)
+			Result := curl /= Default_curl
 		end
 
 	is_redirected: BOOLEAN
@@ -145,6 +131,7 @@ feature -- Status query
 			error_message: detachable STRING
 		do
 			open_url (a_url)
+			set_certificate_authority_info_default
 			read_string_head
 			close
 			if has_error then
@@ -202,12 +189,9 @@ feature -- Basic operations
 		do
 			url.wipe_out
 			cert_verification := True; host_verification := True
-			request_headers.wipe_out; post_data_count := 0
-			if post_data.count > Max_post_data_count then
-				post_data.resize (Max_post_data_count)
-			end
-			post_data.item.memory_set (0, post_data.count)
-			dispose
+
+			curl.close
+			curl := Default_curl
 
 			close_listener.notify_tick -- Used with `EL_MODULE_TRACK' to track progress of `open', `close' cycles
 
@@ -224,25 +208,25 @@ feature -- Basic operations
 
 	open_url (a_url: EL_URL)
 		do
-			open_with_parameters (a_url, Void)
+			open_with_parameters (a_url, Empty_parameter_table)
 		ensure
 			opened: is_open
 		end
 
-	open_with_parameters (a_url: EL_URL; parameter_table: like new_parameter_table)
+	open_with_parameters (a_url: EL_URL; a_parameter_table: like PARAMETER_TABLE)
 		do
 			reset
-			make_from_pointer (Curl.new_pointer)
-			set_url_with_parameters (a_url, parameter_table)
-			set_curl_boolean_option (CURLOPT_verbose, False)
+			create curl.make (lio)
+			set_url_with_parameters (a_url, a_parameter_table)
+			curl.set_boolean_option (CURLOPT_verbose, False)
 			if not user_agent.is_empty then
-				set_curl_string_8_option (CURLOPT_useragent, user_agent)
+				curl.set_string_8_option (CURLOPT_useragent, user_agent)
 			end
 			if timeout_millsecs.to_boolean then
-				set_curl_integer_option (CURLOPT_timeout_ms, timeout_millsecs)
+				curl.set_integer_option (CURLOPT_timeout_ms, timeout_millsecs)
 			end
 			if timeout_to_connect.to_boolean then
-				set_curl_integer_option (CURLOPT_connect_timeout, timeout_to_connect)
+				curl.set_integer_option (CURLOPT_connect_timeout, timeout_to_connect)
 			end
 		ensure
 			opened: is_open
@@ -271,16 +255,14 @@ feature -- Status change
 		do
 			create user_agent.make_empty
 			if is_open then
-				set_curl_string_8_option (CURLOPT_useragent, user_agent)
+				curl.set_string_8_option (CURLOPT_useragent, user_agent)
 			end
 		end
 
 	reset
 		do
-			last_string.wipe_out
 			url.wipe_out
-			post_data_count := 0
-			error_code := 0
+			curl.reset
 			redirection_url := Empty_string_8
 		end
 
@@ -326,6 +308,7 @@ feature -- Status change
 
 	set_http_version (version: INTEGER)
 		require
+			is_open: is_open
 			valid_version: (<< 1_0, 1_1 >>).has (version)
 		local
 			option: INTEGER
@@ -340,7 +323,7 @@ feature -- Status change
 				option := curl_http_version_none
 				http_version := 0
 			end
-			set_curl_integer_option (CURLOPT_http_version, option)
+			curl.set_integer_option (CURLOPT_http_version, option)
 		end
 
 	set_log_output (log: EL_LOGGABLE)
@@ -348,21 +331,11 @@ feature -- Status change
 			lio := log
 		end
 
-	set_post_data (raw_string_8: STRING)
-		-- You must make sure that the data is formatted the way you want the server to receive it.
-		-- libcurl will not convert or encode it for you in any way. For example, the web server may
-		-- assume that this data is url-encoded.
-		do
-			post_data_count := raw_string_8.count
-			if post_data_count > post_data.count then
-				post_data.resize (post_data_count)
-			end
-			post_data.put_special_character_8 (raw_string_8.area, 0, 0, post_data_count)
-		end
-
 	set_post_parameters (parameters: EL_URI_QUERY_ZSTRING_HASH_TABLE)
+		require
+			is_open: is_open
 		do
-			set_post_data (parameters.query_string (True, False))
+			curl.set_post_data (parameters.query_string (True, False))
 		end
 
 	set_timeout (millisecs: INTEGER)
@@ -388,15 +361,15 @@ feature -- Status change
 			set_url_with_parameters (a_url, Void)
 		end
 
-	set_url_with_parameters (a_url: EL_URL; parameter_table: like new_parameter_table)
+	set_url_with_parameters (a_url: EL_URL; a_parameter_table: like PARAMETER_TABLE)
+		require
+			is_open: is_open
 		do
 			url.wipe_out
 			url.append (a_url)
-			if attached parameter_table as table then
-				url.append_query_from_table (table)
-			end
+			url.append_query_from_table (a_parameter_table)
 --			Curl already does url encoding
-			set_curl_string_8_option (CURLOPT_url, url)
+			curl.set_string_8_option (CURLOPT_url, url)
 		-- Essential calls for using https
 			if url.is_https then
 				set_certificate_verification (cert_verification.is_enabled)
@@ -408,17 +381,7 @@ feature -- Status change
 		do
 			user_agent := a_user_agent
 			if is_open then
-				set_curl_string_8_option (CURLOPT_useragent, a_user_agent)
-			end
-		end
-
-feature {NONE} -- Disposal
-
-	c_free (this: POINTER)
-		--
-		do
-			if not is_in_final_collect then
-				Curl.clean_up (self_ptr)
+				curl.set_string_8_option (CURLOPT_useragent, a_user_agent)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-13 7:24:29 GMT (Thursday 13th November 2025)"
-	revision: "7"
+	date: "2025-11-13 17:01:37 GMT (Thursday 13th November 2025)"
+	revision: "8"
 
 class HASH_SET_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 				["hash_set",				  agent test_hash_set],
 				["internal_search",		  agent test_internal_search],
 				["internal_table_search", agent test_internal_table_search],
-				["put",						  agent test_put],
+				["put_prune_has",			  agent test_put_prune_has],
 				["set_operations",		  agent test_set_operations],
 				["string_sets",			  agent test_string_sets]
 			>>)
@@ -156,8 +156,8 @@ feature -- Test
 			assert ("two items", name_set.count = 2)
 		end
 
-	test_put
-		-- HASH_SET_TEST_SET.put
+	test_put_prune_has
+		-- HASH_SET_TEST_SET.put_prune_has
 		note
 			testing: "[
 				covers/{EL_HASH_SET}.put
@@ -165,22 +165,41 @@ feature -- Test
 		local
 			word_set: EL_HASH_SET [STRING]; word_table: HASH_TABLE [STRING, STRING]
 			word_count: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
+			with_comma_list, without_comma_list: EL_STRING_8_LIST
+			inserted_count: INTEGER
 		do
 			create word_set.make_equal (1)
 			create word_table.make_equal (1)
+			create with_comma_list.make (100)
+			create without_comma_list.make (100)
 
-			across Hexagram.English_titles_first.split (' ') as split loop
-				if attached split.item as word then
-					word_set.put (word)
-					word_table.put (word, word)
-					assert ("both inserted", word_set.inserted = word_table.inserted)
-					word_count := word_count + 1
+			across Hexagram.English_titles as list loop
+				across list.item.split (' ') as split loop
+					if attached split.item as word then
+						word_set.put (word)
+						if word_set.inserted then
+							inserted_count := inserted_count + 1
+							if attached sg.super_8 (word).ends_with_character (',') then
+								with_comma_list.extend (word)
+							else
+								without_comma_list.extend (word)
+							end
+						end
+						word_table.put (word, word)
+						assert ("both inserted", word_set.inserted = word_table.inserted)
+						word_count := word_count + 1
+					end
 				end
 			end
 			assert ("same count", word_set.count = word_table.count)
+			assert ("inserted OK", inserted_count = word_set.count)
 			lio.put_integer_field ("word count", word_count)
 			lio.put_integer_field (" unique word count", word_set.count)
 			lio.put_new_line
+
+			with_comma_list.do_all (agent word_set.prune)
+			assert ("has only without comma", without_comma_list.for_all (agent word_set.has))
+			assert ("same count", word_set.count = without_comma_list.count)
 		end
 
 	test_set_operations
@@ -228,15 +247,6 @@ feature -- Test
 				set_all.intersect (set_not_latin_1)
 				assert ("remaining not Latin-1", set_all ~ set_not_latin_1)
 			end
-		end
-
-	print_set (label: STRING; set: EL_HASH_SET [ZSTRING])
-		do
-			across set.to_list as list loop
-				lio.put_index_labeled_string (list, label, list.item)
-				lio.put_new_line
-			end
-			lio.put_new_line
 		end
 
 	test_string_sets
@@ -287,6 +297,15 @@ feature {NONE} -- Implementation
 			across lines.split ('%N') as list loop
 				Result.put (list.item)
 			end
+		end
+
+	print_set (label: STRING; set: EL_HASH_SET [ZSTRING])
+		do
+			across set.to_list as list loop
+				lio.put_index_labeled_string (list, label, list.item)
+				lio.put_new_line
+			end
+			lio.put_new_line
 		end
 
 feature {NONE} -- Constants

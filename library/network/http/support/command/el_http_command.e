@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-13 14:01:58 GMT (Thursday 13th November 2025)"
-	revision: "10"
+	date: "2025-11-15 12:11:56 GMT (Saturday 15th November 2025)"
+	revision: "11"
 
 deferred class
 	EL_HTTP_COMMAND
@@ -54,11 +54,16 @@ feature -- Basic operations
 			reset
 			callback := new_callback
 			prepare
-			connection.do_transfer
+			curl.do_transfer
 			callback.release
 		end
 
 feature {NONE} -- Implementation
+
+	curl: EL_CURL_HTTP_CONNECTION
+		do
+			Result := connection.curl
+		end
 
 	prepare
 		deferred
