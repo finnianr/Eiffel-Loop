@@ -16,14 +16,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 10:25:00 GMT (Friday 14th February 2025)"
-	revision: "95"
+	date: "2025-11-17 15:49:37 GMT (Monday 17th November 2025)"
+	revision: "96"
 
 deferred class
 	EL_APPLICATION
 
 inherit
 	EL_APPLICATION_BASE
+
+	EL_MODULE_EXECUTABLE; EL_MODULE_OS_RELEASE
 
 	EL_FALLIBLE
 		export
@@ -34,6 +36,10 @@ inherit
 		rename
 			make as make_solitary
 		end
+
+	EL_CHARACTER_32_CONSTANTS
+
+ 	EL_SHARED_APPLICATION_OPTION; EL_SHARED_SOFTWARE_VERSION
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 

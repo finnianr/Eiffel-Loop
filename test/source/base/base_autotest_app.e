@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-24 17:18:30 GMT (Thursday 24th April 2025)"
-	revision: "208"
+	date: "2025-11-17 15:54:38 GMT (Monday 17th November 2025)"
+	revision: "209"
 
 class
 	BASE_AUTOTEST_APP
@@ -73,13 +73,6 @@ create
 	make
 
 feature {NONE} -- Compiled classes
-
-	app_manage: TUPLE [
-		EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER
-	]
-		do
-			create Result
-		end
 
 	data_structure: TUPLE [
 		EL_AGENT_FACTORY_POOL [ANY],

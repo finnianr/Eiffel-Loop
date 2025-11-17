@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-15 8:58:17 GMT (Saturday 15th November 2025)"
-	revision: "12"
+	date: "2025-11-17 16:04:51 GMT (Monday 17th November 2025)"
+	revision: "13"
 
 class
 	CLASS_DEPENDENCIES
@@ -24,12 +24,15 @@ feature {NONE} -- Initialization
 
 	make (a_source_path: FILE_PATH)
 		local
-			analyzer: CLASS_NAME_OCCURRENCE_ANALYZER
+			compiler: COMPACT_CLASS_NAME_SET_COMPILER
 		do
 			source_path := a_source_path
-			name := a_source_path.base_name.as_upper.to_shared_immutable_8
-			create analyzer.make_from_file (a_source_path)
-			dependency_set := analyzer.class_name_set
+			if attached a_source_path.base_name.to_latin_1 as source_name then
+				source_name.to_upper
+				name := source_name
+			end
+			create compiler.make_from_file (a_source_path)
+			dependency_set := compiler.class_name_set
 			dependency_set.prune (name)
 		end
 
@@ -38,7 +41,7 @@ feature -- Access
 	circular_dependent: detachable CLASS_DEPENDENCIES
 
 	dependency_set: EL_HASH_SET [IMMUTABLE_STRING_8]
-		-- set of classes on which class with `name' depends
+		-- set of classes on which class `name' depends
 
 	name: IMMUTABLE_STRING_8
 

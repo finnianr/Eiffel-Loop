@@ -9,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-14 9:17:58 GMT (Friday 14th November 2025)"
-	revision: "8"
+	date: "2025-11-17 8:58:04 GMT (Monday 17th November 2025)"
+	revision: "9"
 
 class
-	CLASS_NAME_OCCURRENCE_ANALYZER
+	CLASS_NAME_SET_COMPILER
 
 inherit
 	EIFFEL_SOURCE_READER
@@ -54,24 +54,26 @@ feature -- Access
 
 feature {NONE} -- Events
 
+	on_class_name (area: SPECIAL [CHARACTER]; i, count: INTEGER)
+		do
+			class_name_set.put (Immutable_8.new_substring (area, i, count))
+		end
+
 	on_comment (area: SPECIAL [CHARACTER]; i, count: INTEGER)
 		do
 		end
 
 	on_identifier (area: SPECIAL [CHARACTER]; i, count: INTEGER)
-		local
-			put_class: BOOLEAN
 		do
 			if is_class_name (area, i, count) then
 			-- ignore names in curly brackets: {MY_CLASS}
 			-- except for constructs: agent {MY_CLASS} OR attached {MY_CLASS}
 				if has_character ('{', area, i - 1) or else has_character ('}', area, i + count) then
-					put_class := attached_or_agent (area, i)
+					if attached_or_agent (area, i) then
+						on_class_name (area, i, count)
+					end
 				else
-					put_class := True
-				end
-				if put_class then
-					class_name_set.put (new_global_name (Immutable_8.new_substring (area, i, count)))
+					on_class_name (area, i, count)
 				end
 			end
 		end
@@ -119,18 +121,6 @@ feature {NONE} -- Implementation
 			Result := area.valid_index (i) and then area [i] = c
 		end
 
-	new_global_name (a_name: IMMUTABLE_STRING_8): IMMUTABLE_STRING_8
-		do
-			if attached Global_name_set as name_set then
-				if not name_set.has_key (a_name) then
-					name_set.put (create {IMMUTABLE_STRING_8}.make_from_string (a_name))
-				end
-				Result := name_set.found_item
-			else
-				create Result.make_empty
-			end
-		end
-
 feature {NONE} -- Constants
 
 	Keywords_agent_and_attached: SPECIAL [STRING]
@@ -140,11 +130,6 @@ feature {NONE} -- Constants
 		end
 
 	Name_buffer: EL_HASH_SET [IMMUTABLE_STRING_8]
-		once
-			create Result.make_equal (100)
-		end
-
-	Global_name_set: EL_HASH_SET [IMMUTABLE_STRING_8]
 		once
 			create Result.make_equal (100)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-15 12:15:16 GMT (Saturday 15th November 2025)"
-	revision: "25"
+	date: "2025-11-15 16:26:59 GMT (Saturday 15th November 2025)"
+	revision: "26"
 
 deferred class
 	EL_HTTP_CONNECTION_BASE
@@ -161,6 +161,7 @@ feature {EL_HTTP_COMMAND} -- Implementation
 feature {EL_HTTP_COMMAND} -- Implementation attributes
 
 	curl: EL_CURL_HTTP_CONNECTION
+		-- object representing a HTTP connection
 
 	lio: EL_LOGGABLE
 

@@ -1,0 +1,141 @@
+note
+	description: "[
+		Tool to migrate librares to newer compiler version by copying classes one by one to new library structure
+		starting with classes that do not depend on other classes within the library
+	]"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2025-11-17 18:26:37 GMT (Monday 17th November 2025)"
+	revision: "1"
+
+class
+	GRADUAL_LIBRARY_COPY_COMMAND
+
+inherit
+	SOURCE_MANIFEST_COMMAND
+		rename
+			make as make_command
+		redefine
+			execute, read_manifest_files
+		end
+
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_OS; EL_MODULE_USER_INPUT
+
+	EL_FILE_OPEN_ROUTINES
+
+create
+	make
+
+feature {EL_COMMAND_CLIENT} -- Initialization
+
+	make (manifest_path, alias_map_path: FILE_PATH; a_home_dir: DIR_PATH; suffix: STRING; dry_run: BOOLEAN)
+		require
+			home_dir_exists: a_home_dir.exists
+			suffix_not_empty: suffix.count > 0
+		local
+			set_compiler: COMPACT_CLASS_NAME_SET_COMPILER
+		do
+			home_dir := a_home_dir; destination_dir := a_home_dir.parent #+ (a_home_dir.base + suffix)
+			if alias_map_path.exists then
+				create set_compiler.make_alias_table (alias_map_path)
+			end
+			is_dry_run := dry_run
+			make_command (manifest_path)
+			create class_table.make_equal (1)
+			create class_list.make (100)
+			prompt := True
+		end
+
+feature -- Constants
+
+	Description: STRING = "Move library contents class by class in order of lowest dependency count"
+
+feature -- Status query
+
+	is_dry_run: BOOLEAN
+
+	prompt: EL_BOOLEAN_OPTION
+
+feature -- Basic operations
+
+	execute
+		local
+			done: BOOLEAN; level: INTEGER
+		do
+			Precursor
+			from until done loop
+				level := level + 1
+				reduce_class_table (level)
+				done := class_list.is_empty
+			end
+
+			class_list.wipe_out
+			across class_table as table until table.cursor_index > 50 loop
+				class_list.extend (table.key)
+			end
+			class_list.sort (True)
+			lio.put_integer_field ("REMAINING", class_table.count)
+			lio.put_new_line
+			lio.put_columns (class_list, 3, 0)
+		end
+
+feature {NONE} -- Implementation
+
+	do_with_file (source_path: FILE_PATH)
+		local
+			l_class: CLASS_DEPENDENCIES
+		do
+			if not source_path.has_step (Excluded_imp_step) then
+				create l_class.make (source_path)
+				class_table.extend (l_class, l_class.name)
+			end
+		end
+
+	reduce_class_table (level: INTEGER)
+		do
+			class_list.wipe_out
+			across class_table.key_list as list loop
+				if attached list.item as key and then class_table.has_key (key) then
+					if across class_table.found_item.dependency_set as set all not class_table.has (set.item) end then
+						class_list.extend (key)
+						class_table.remove (key)
+					end
+				end
+			end
+			if class_list.count > 0 then
+				class_list.sort (True)
+				lio.put_integer_field ("LEVEL", level)
+				lio.put_new_line_x2
+				lio.put_columns (class_list, 3, 0)
+				lio.put_integer_field ("count", class_list.count)
+				lio.put_new_line_x2
+			end
+		end
+
+	read_manifest_files
+		do
+			Precursor
+			class_table.accommodate (manifest.file_count)
+		end
+
+feature {NONE} -- Internal attributes
+
+	class_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
+
+	class_table: EL_HASH_TABLE [CLASS_DEPENDENCIES, IMMUTABLE_STRING_8]
+
+	destination_dir: DIR_PATH
+
+	home_dir: DIR_PATH
+
+feature {NONE} -- Constants
+
+	Excluded_imp_step: ZSTRING
+		once
+			Result := if {PLATFORM}.is_unix then "imp_mswin" else "imp_unix" end
+		end
+end

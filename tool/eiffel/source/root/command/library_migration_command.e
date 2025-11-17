@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-15 8:55:22 GMT (Saturday 15th November 2025)"
-	revision: "35"
+	date: "2025-11-17 10:14:47 GMT (Monday 17th November 2025)"
+	revision: "36"
 
 class
 	LIBRARY_MIGRATION_COMMAND
@@ -32,21 +32,34 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (manifest_path: FILE_PATH; a_home_dir: DIR_PATH; suffix: STRING)
+	make (manifest_path, alias_map_path: FILE_PATH; a_home_dir: DIR_PATH; suffix: STRING; dry_run: BOOLEAN)
 		require
 			home_dir_exists: a_home_dir.exists
 			suffix_not_empty: suffix.count > 0
+		local
+			set_compiler: COMPACT_CLASS_NAME_SET_COMPILER
 		do
 			home_dir := a_home_dir; destination_dir := a_home_dir.parent #+ (a_home_dir.base + suffix)
+			if alias_map_path.exists then
+				create set_compiler.make_alias_table (alias_map_path)
+			end
+			is_dry_run := dry_run
 			make_command (manifest_path)
 			create class_list.make (0)
 			create library_set.make_equal (0)
 			create class_path_table.make_equal (0)
+			prompt := True
 		end
 
 feature -- Constants
 
 	Description: STRING = "Move library contents class by class in order of lowest dependency count"
+
+feature -- Status query
+
+	is_dry_run: BOOLEAN
+
+	prompt: EL_BOOLEAN_OPTION
 
 feature -- Basic operations
 
@@ -76,19 +89,19 @@ feature -- Basic operations
 							name_array := << list.item.name >>
 						end
 						prompt_user (name_array)
-						across name_array as name loop
-							removal_set.put (name.item)
-							source_path := class_path_table [name.item]
-							destination_path := destination_dir + source_path.relative_path (home_dir)
-							File_system.make_directory (destination_path.parent)
-							OS.copy_file (source_path, destination_path)
+						if not is_dry_run then
+							across name_array as name loop
+								removal_set.put (name.item)
+								source_path := class_path_table [name.item]
+								destination_path := destination_dir + source_path.relative_path (home_dir)
+								File_system.make_directory (destination_path.parent)
+								OS.copy_file (source_path, destination_path)
+							end
 						end
 					else
-						across dependency_set as set loop
-							print_line (set.item)
-						end
+						lio.put_columns (dependency_set, 3, 40)
 					end
-					print_tab_left
+					lio.put_new_line
 				end
 				class_list.prune_those (agent in_set (?, removal_set))
 				library_set.subtract (removal_set)
@@ -134,27 +147,34 @@ feature {NONE} -- Implementation
 			Result := removal_set.has (a_class.name)
 		end
 
-	print_iteration (i: INTEGER)
-		do
-		end
-
 	print_class_heading (name: IMMUTABLE_STRING_8)
 		do
+			lio.put_labeled_string ("Class", name)
+			lio.put_new_line_x2
+		end
+
+	print_iteration (i: INTEGER)
+		do
+			lio.put_integer_field ("ITERATION", i)
+			lio.put_new_line
 		end
 
 	print_line (line: IMMUTABLE_STRING_8)
 		do
-		end
-
-	print_tab_left
-		do
+			lio.put_line (line)
 		end
 
 	prompt_user (name_array: ARRAY [IMMUTABLE_STRING_8])
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			if attached User_input.line ("Press <Enter> to copy file " + s.joined_with_string (name_array, " and ")) then
+			if attached s.joined_with_string (name_array, " and ") as str then
+				if prompt.is_enabled and then attached User_input.line ("Press <Enter> to copy file " + str) then
+					do_nothing
+				else
+					lio.put_labeled_string ("Copying", str)
+					lio.put_new_line
+				end
 			end
 		end
 

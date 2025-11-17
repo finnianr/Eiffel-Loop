@@ -1,13 +1,13 @@
 note
-	description: "Interface to cURL easy API"
+	description: "Interface to cURL easy API from [https://curl.se/libcurl/ libcurl]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-31 14:12:45 GMT (Wednesday 31st May 2023)"
-	revision: "11"
+	date: "2025-11-15 16:29:39 GMT (Saturday 15th November 2025)"
+	revision: "12"
 
 class
 	EL_CURL_API

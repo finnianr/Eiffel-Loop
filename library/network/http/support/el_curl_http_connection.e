@@ -1,13 +1,13 @@
 note
-	description: "HTTP connection using the curl API"
+	description: "HTTP connection using the [https://curl.se/libcurl/ libcurl C API]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-15 15:28:08 GMT (Saturday 15th November 2025)"
-	revision: "2"
+	date: "2025-11-15 16:28:18 GMT (Saturday 15th November 2025)"
+	revision: "3"
 
 class
 	EL_CURL_HTTP_CONNECTION
