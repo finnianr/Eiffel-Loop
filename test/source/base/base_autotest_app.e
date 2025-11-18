@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-17 15:54:38 GMT (Monday 17th November 2025)"
-	revision: "209"
+	date: "2025-11-18 12:27:37 GMT (Tuesday 18th November 2025)"
+	revision: "210"
 
 class
 	BASE_AUTOTEST_APP
@@ -209,6 +209,7 @@ feature {NONE} -- Compiled classes
 	runtime: TUPLE [
 		EL_ASTRING_READER,
 		EL_ENVIRON_VARIABLE,
+		EL_FILE_GENERATOR,
 
 		EL_MEMORY_ARRAY [ANY],
 		EL_MEMORY_CHARACTER_ARRAY,

@@ -9,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-17 18:26:37 GMT (Monday 17th November 2025)"
-	revision: "1"
+	date: "2025-11-18 12:53:08 GMT (Tuesday 18th November 2025)"
+	revision: "2"
 
 class
-	GRADUAL_LIBRARY_COPY_COMMAND
+	LIBRARY_GRADUAL_COPY_COMMAND
 
 inherit
 	SOURCE_MANIFEST_COMMAND
@@ -64,23 +64,40 @@ feature -- Basic operations
 
 	execute
 		local
-			done: BOOLEAN; level: INTEGER
+			done: BOOLEAN; level, i: INTEGER
 		do
 			Precursor
+			lio.put_integer_field ("Total classes", class_table.count)
+			lio.put_new_line
 			from until done loop
 				level := level + 1
 				reduce_class_table (level)
 				done := class_list.is_empty
 			end
 
-			class_list.wipe_out
-			across class_table as table until table.cursor_index > 50 loop
-				class_list.extend (table.key)
-			end
-			class_list.sort (True)
-			lio.put_integer_field ("REMAINING", class_table.count)
 			lio.put_new_line
-			lio.put_columns (class_list, 3, 0)
+			if attached new_dependency_count_map_list as list then
+				print_level (level + 1)
+				lio.put_integer_field ("Remaining classes", class_table.count)
+				lio.put_new_line
+				from list.start until list.after or else list.item_value > class_table.count // 10 loop
+					lio.put_integer_field (list.item_key, list.item_value)
+					lio.put_new_line
+					list.forth
+				end
+				lio.put_new_line
+				print_level (level + 2)
+				from done := False until list.after or else done loop
+					i := i + 1
+					lio.put_integer_field (list.item_key, list.item_value)
+					lio.put_new_line
+					if i \\ 50 = 0 then
+						User_input.press_enter
+						done := User_input.escape_pressed
+					end
+					list.forth
+				end
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -93,6 +110,30 @@ feature {NONE} -- Implementation
 				create l_class.make (source_path)
 				class_table.extend (l_class, l_class.name)
 			end
+		end
+
+	new_dependency_count_map_list: EL_ARRAYED_MAP_LIST [IMMUTABLE_STRING_8, INTEGER]
+		do
+			create Result.make (class_table.count)
+			across class_table as table loop
+				if table.cursor_index \\ 100 = 0 then
+					lio.put_character ('.')
+				end
+				Result.extend (table.key, table.item.dependency_count (class_table))
+			end
+			Result.sort_by_value (True)
+		end
+
+	print_level (n: INTEGER)
+		do
+			lio.put_integer_field ("LEVEL", n)
+			lio.put_new_line_x2
+		end
+
+	read_manifest_files
+		do
+			Precursor
+			class_table.accommodate (manifest.file_count)
 		end
 
 	reduce_class_table (level: INTEGER)
@@ -108,18 +149,11 @@ feature {NONE} -- Implementation
 			end
 			if class_list.count > 0 then
 				class_list.sort (True)
-				lio.put_integer_field ("LEVEL", level)
-				lio.put_new_line_x2
+				print_level (level)
 				lio.put_columns (class_list, 3, 0)
 				lio.put_integer_field ("count", class_list.count)
 				lio.put_new_line_x2
 			end
-		end
-
-	read_manifest_files
-		do
-			Precursor
-			class_table.accommodate (manifest.file_count)
 		end
 
 feature {NONE} -- Internal attributes

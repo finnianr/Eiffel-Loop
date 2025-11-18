@@ -1,5 +1,7 @@
 note
-	description: "Query condition"
+	description: "[
+		Abstract query condition for use with ${EL_CONTAINER_STRUCTURE}.query and related functions
+	]"
 	tests: "Class ${CONTAINER_STRUCTURE_TEST_SET}"
 
 	author: "Finnian Reilly"
@@ -7,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2025-11-18 9:08:41 GMT (Tuesday 18th November 2025)"
+	revision: "14"
 
 deferred class
 	EL_QUERY_CONDITION [G]

@@ -11,14 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-17 17:54:17 GMT (Monday 17th November 2025)"
-	revision: "35"
+	date: "2025-11-18 7:56:52 GMT (Tuesday 18th November 2025)"
+	revision: "36"
 
 class
 	LIBRARY_MIGRATION_APP
 
 inherit
-	SOURCE_MANIFEST_APPLICATION [GRADUAL_LIBRARY_COPY_COMMAND]
+	SOURCE_MANIFEST_APPLICATION [LIBRARY_GRADUAL_COPY_COMMAND]
 		redefine
 			argument_list
 		end

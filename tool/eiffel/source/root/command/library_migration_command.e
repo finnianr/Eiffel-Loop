@@ -9,11 +9,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-17 10:14:47 GMT (Monday 17th November 2025)"
-	revision: "36"
+	date: "2025-11-18 13:06:48 GMT (Tuesday 18th November 2025)"
+	revision: "37"
 
 class
 	LIBRARY_MIGRATION_COMMAND
+	
+obsolete "Use LIBRARY_GRADUAL_COPY_COMMAND"
 
 inherit
 	SOURCE_MANIFEST_COMMAND
@@ -70,7 +72,6 @@ feature -- Basic operations
 			name_array: ARRAY [IMMUTABLE_STRING_8]
 		do
 			Precursor
-			bind_circular
 
 			create removal_set.make_equal (0)
 			from until class_list.is_empty or i > 10 loop
@@ -83,11 +84,7 @@ feature -- Basic operations
 					print_class_heading (list.item.name)
 					if dependency_set.count = 0 then
 						print_line ("No dependencies")
-						if attached list.item.circular_dependent as dependent then
-							name_array := << list.item.name, dependent.name >>
-						else
-							name_array := << list.item.name >>
-						end
+						name_array := << list.item.name >>
 						prompt_user (name_array)
 						if not is_dry_run then
 							across name_array as name loop
@@ -109,27 +106,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
-
-	bind_circular
-		local
-			circular_set: EL_HASH_SET [IMMUTABLE_STRING_8]
-		do
-			create circular_set.make_equal (10)
-			across class_list as list loop
-				if not circular_set.has (list.item.name) then
-					across class_list as l_class until attached list.item.circular_dependent loop
-						if l_class.item /= list.item then
-							list.item.try_bind (l_class.item)
-							if attached list.item.circular_dependent as dependent then
-								circular_set.put (dependent.name)
-							end
-						end
-					end
-				end
-			end
-			class_list.prune_those (agent in_set (?, circular_set))
-			library_set.subtract (circular_set)
-		end
 
 	do_with_file (source_path: FILE_PATH)
 		do
