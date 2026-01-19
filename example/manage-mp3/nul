@@ -1,36 +1,37 @@
-# /etc/fstab: static file system information.
-#
-# Use 'blkid' to print the universally unique identifier for a
-# device; this may be used with UUID= as a more robust way to name devices
-# that works even if disks are added and removed. See fstab(5).
-#
-# <file system> <mount point>   <type>  <options>       <dump>  <pass>
-# / was on /dev/sda8 during installation
-UUID=aaba5f87-78a2-4e33-86fb-f463eb22f9a8 /              	ext4    defaults														0	1
-
-# Mint 20.1 on /dev/sda7
-# UUID=68687ebe-b22a-42fd-b396-18e87e6a8b0d /mnt/mint20		ext4    errors=remount-ro    0       2
-
-UUID=89558c9a-9b98-4439-99fb-93717dadbf04 none           	swap    sw              											0	0
-
-# OCZ SSD
-UUID=FE10A83A10A7F833							/home/finnian/dev ntfs-3g	defaults,gid=1000,uid=1000,locale=en_US.UTF-8  	0	0
-UUID=f9a21f6e-078e-4771-8bf8-1d4b3dfa4a5e	/opt/ES				ext4    	errors=remount-ro	 										0	1
-
-# declaration of Samsung Galaxy Note to be mounted under /media/GT-N5110 for use with go-mtpfs
-# DeviceFs(GT-N5110)	/media/GT-N5110				fuse.DeviceFs(GT-N5110) allow_other,rw,user,noauto    	00
-
-# UUID=99B0-ACDB	/boot/efi	vfat	defaults	0	1
-
-# Media partition /dev/sda9
-UUID=d2b731df-fb25-498c-a66e-53bcdb130fce /mnt/media      	ext4    rw,auto							 							0	0
-
-
-# Map media folders
-
-/mnt/media/Graphics								/home/finnian/Graphics	none defaults,bind 0 0
-/mnt/media/Music									/home/finnian/Music		none defaults,bind 0 0
-/mnt/media/Pictures								/home/finnian/Pictures	none defaults,bind 0 0
-/mnt/media/Podcasts								/home/finnian/Podcasts	none defaults,bind 0 0
-/mnt/media/Videos									/home/finnian/Videos		none defaults,bind 0 0
-
+-- # /etc/fstab: static file system information.
+-- #
+-- # Use 'blkid' to print the universally unique identifier for a
+-- # device; this may be used with UUID= as a more robust way to name devices
+-- # that works even if disks are added and removed. See fstab(5).
+-- #
+-- # <file system> <mount point>   <type>  <options>       <dump>  <pass>
+-- # / was on /dev/sda8 during installation
+-- UUID=aaba5f87-78a2-4e33-86fb-f463eb22f9a8 /              	ext4    defaults														0	1
+-- 
+-- # Mint 20.1 on /dev/sda7
+-- # UUID=68687ebe-b22a-42fd-b396-18e87e6a8b0d /mnt/mint20		ext4    errors=remount-ro    0       2
+-- 
+-- UUID=89558c9a-9b98-4439-99fb-93717dadbf04 none           	swap    sw              											0	0
+-- 
+-- # OCZ SSD
+-- UUID=FE10A83A10A7F833							/home/finnian/dev ntfs-3g	defaults,gid=1000,uid=1000,locale=en_US.UTF-8  	0	0
+-- UUID=f9a21f6e-078e-4771-8bf8-1d4b3dfa4a5e	/opt/ES				ext4    	errors=remount-ro	 										0	1
+-- 
+-- # declaration of Samsung Galaxy Note to be mounted under /media/GT-N5110 for use with go-mtpfs
+-- # DeviceFs(GT-N5110)	/media/GT-N5110				fuse.DeviceFs(GT-N5110) allow_other,rw,user,noauto    	00
+-- 
+-- # UUID=99B0-ACDB	/boot/efi	vfat	defaults	0	1
+-- 
+-- # Media partition /dev/sda9
+-- UUID=d2b731df-fb25-498c-a66e-53bcdb130fce /mnt/media      	ext4    rw,auto							 							0	0
+-- 
+-- 
+-- # Map media folders
+-- 
+-- /mnt/media/Graphics								/home/finnian/Graphics	none defaults,bind 0 0
+-- /mnt/media/Music									/home/finnian/Music		none defaults,bind 0 0
+-- /mnt/media/Pictures								/home/finnian/Pictures	none defaults,bind 0 0
+-- /mnt/media/Podcasts								/home/finnian/Podcasts	none defaults,bind 0 0
+-- /mnt/media/Videos									/home/finnian/Videos		none defaults,bind 0 0
+-- 
+-- 
