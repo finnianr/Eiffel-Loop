@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:54:14 GMT (Monday 23rd September 2024)"
-	revision: "8"
+	date: "2025-11-22 11:01:35 GMT (Saturday 22nd November 2025)"
+	revision: "9"
 
 class
 	EL_BOYER_MOORE_SEARCHER_32
@@ -82,31 +82,31 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	index (text: STRING_32; start_index: INTEGER): INTEGER
-			-- index of first pattern occurrence in text starting from 'start_index'
-			-- Returns 0 if not found
+		-- index of first pattern occurrence in text starting from 'start_index'
+		-- Returns 0 if not found
 		local
 			pos, i, shift: INTEGER; position_shifted, found: BOOLEAN
-			shifts: like char_shifts; other_shifts: like other_char_shifts
 		do
-			shifts := char_shifts; other_shifts := other_char_shifts
-			from pos := start_index until found or pos > text.count - pattern_count + 1 loop
-				position_shifted := False
-				from i := pattern_count until position_shifted or i = 0 loop
-					if shifts.has_key (text [pos + i - 1]) then
-						shift := shifts.found_item [i]
-						if shift /= 0 then
-							pos := pos + shift
-							position_shifted := True
+			if attached char_shifts as shifts and then attached other_char_shifts as other_shifts then
+				from pos := start_index until found or pos > text.count - pattern_count + 1 loop
+					position_shifted := False
+					from i := pattern_count until position_shifted or i = 0 loop
+						if shifts.has_key (text [pos + i - 1]) then
+							shift := shifts.found_item [i]
+							if shift /= 0 then
+								pos := pos + shift
+								position_shifted := True
 
-						elseif i = 1 then
-							Result := pos
-							found := True
+							elseif i = 1 then
+								Result := pos
+								found := True
+							end
+						else
+							pos := pos + other_shifts [i]
+							position_shifted := True
 						end
-					else
-						pos := pos + other_shifts [i]
-						position_shifted := True
+						i := i - 1
 					end
-					i := i - 1
 				end
 			end
 		end
@@ -140,8 +140,7 @@ feature {NONE} -- Implementation
 	last_index_of (str, pattern: STRING_32): INTEGER
 			-- last pos of pattern in str
 		local
-			pos: INTEGER
-			match_found: BOOLEAN
+			pos: INTEGER; match_found: BOOLEAN
 		do
 			if pattern.count <= str.count then
 				from pos := str.count - pattern.count + 1 until match_found or pos = 0 loop

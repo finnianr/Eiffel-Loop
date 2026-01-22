@@ -1,7 +1,7 @@
 note
 	description: "[
 		Tool to migrate librares to newer compiler version by copying classes one by one to new library structure
-		starting with classes that do not depend on other classes within the library
+		starting with classes that have the fewest dependencies on other classes in same library.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-18 12:53:08 GMT (Tuesday 18th November 2025)"
-	revision: "2"
+	date: "2025-11-21 14:33:15 GMT (Friday 21st November 2025)"
+	revision: "3"
 
 class
 	LIBRARY_GRADUAL_COPY_COMMAND
@@ -64,7 +64,7 @@ feature -- Basic operations
 
 	execute
 		local
-			done: BOOLEAN; level, i: INTEGER
+			done: BOOLEAN; level, small_count: INTEGER
 		do
 			Precursor
 			lio.put_integer_field ("Total classes", class_table.count)
@@ -75,27 +75,37 @@ feature -- Basic operations
 				done := class_list.is_empty
 			end
 
-			lio.put_new_line
 			if attached new_dependency_count_map_list as list then
-				print_level (level + 1)
+				lio.put_new_line
+
+				print_level (level)
 				lio.put_integer_field ("Remaining classes", class_table.count)
 				lio.put_new_line
-				from list.start until list.after or else list.item_value > class_table.count // 10 loop
+				small_count := class_table.count // 10
+				from list.start until list.after or else list.item_value > small_count loop
 					lio.put_integer_field (list.item_key, list.item_value)
 					lio.put_new_line
 					list.forth
 				end
 				lio.put_new_line
-				print_level (level + 2)
-				from done := False until list.after or else done loop
-					i := i + 1
-					lio.put_integer_field (list.item_key, list.item_value)
-					lio.put_new_line
-					if i \\ 50 = 0 then
-						User_input.press_enter
-						done := User_input.escape_pressed
+
+				if attached new_big_dependency_count_group_table (list, small_count) as table then
+					table.sort_by_key (True)
+					from done := False; table.start until table.after or else done loop
+						level := level + 1
+						print_level (level)
+						lio.put_integer_field ("Extensive dependency count", table.key_for_iteration)
+						lio.put_new_line
+
+						if attached table.item_for_iteration as level_list then
+							level_list.sort (True)
+							lio.put_columns (level_list, 3, 0)
+							lio.put_new_line
+							User_input.press_enter
+							done := User_input.escape_pressed
+						end
+						table.forth
 					end
-					list.forth
 				end
 			end
 		end
@@ -122,6 +132,23 @@ feature {NONE} -- Implementation
 				Result.extend (table.key, table.item.dependency_count (class_table))
 			end
 			Result.sort_by_value (True)
+		end
+
+	new_big_dependency_count_group_table (
+		list: like new_dependency_count_map_list; threshold_count: INTEGER
+	): EL_GROUPED_LIST_TABLE [IMMUTABLE_STRING_8, INTEGER]
+		require
+			valid_item: not list.off
+		local
+			done: BOOLEAN
+		do
+			create Result.make_equal (list.count // 10)
+			from done := False until list.after or else done loop
+				if class_table.has_key (list.item_key) then
+					Result.extend (class_table.found_item.big_dependency_count (class_table, threshold_count), list.item_key)
+				end
+				list.forth
+			end
 		end
 
 	print_level (n: INTEGER)

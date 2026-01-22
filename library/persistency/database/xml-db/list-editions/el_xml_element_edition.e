@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:32 GMT (Tuesday 18th March 2025)"
-	revision: "9"
+	date: "2026-01-22 13:50:21 GMT (Thursday 22nd January 2026)"
+	revision: "10"
 
 deferred class
 	EL_XML_ELEMENT_EDITION [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT]
@@ -57,7 +57,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["index", agent get_index],
 				["element", agent get_element]
 			>>)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 12:17:51 GMT (Thursday 7th September 2023)"
-	revision: "12"
+	date: "2026-01-22 13:50:04 GMT (Thursday 22nd January 2026)"
+	revision: "13"
 
 class
 	EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT create make_default end]
@@ -44,10 +44,9 @@ feature -- Access
 
 feature -- Element change
 
-	put_replacement (element: STORABLE_TYPE; a_index: INTEGER)
-			--
+	put_blank
 		do
-			store_edition (create {like Type_replacement_edition}.make (element, a_index))
+			storage_file.put_character (' ')
 		end
 
 	put_extension (element: STORABLE_TYPE)
@@ -62,9 +61,10 @@ feature -- Element change
 			store_edition (create {like Type_removal_edition}.make (a_index))
 		end
 
-	put_blank
+	put_replacement (element: STORABLE_TYPE; a_index: INTEGER)
+			--
 		do
-			storage_file.put_character (' ')
+			store_edition (create {like Type_replacement_edition}.make (element, a_index))
 		end
 
 	set_storage_file_path (a_storage_file_path: like storage_file_path)
@@ -85,7 +85,7 @@ feature -- Basic operations
 		do
 			if not editions_text.is_empty then
 				create template.make (XML_template)
-				template.set_variable ("EDITIONS_LIST", editions_text)
+				template.put ("EDITIONS_LIST", editions_text)
 
 				create xdoc.make_from_string (template.substituted)
 
@@ -110,10 +110,10 @@ feature -- Basic operations
 			create editions_text.make_empty
 		end
 
-	reset
+	close
 			--
 		do
-			storage_file.close; reopen
+			storage_file.close
 		end
 
 	close_and_delete
@@ -122,16 +122,16 @@ feature -- Basic operations
 			storage_file.close; storage_file.delete
 		end
 
-	close
-			--
-		do
-			storage_file.close
-		end
-
 	reopen
 			--
 		do
 			storage_file.open_write
+		end
+
+	reset
+			--
+		do
+			storage_file.close; reopen
 		end
 
 feature -- Status query
@@ -143,6 +143,64 @@ feature -- Status query
 		end
 
 feature {NONE} -- Implementation
+
+	apply_edition (edition: like Type_edition)
+			--
+		do
+			edition.apply (target_list)
+		end
+
+	creation_action_table: EL_HASH_TABLE [FUNCTION [EL_XPATH_NODE_CONTEXT, like Type_edition], STRING]
+			--
+		do
+			create Result.make_assignments (<<
+				[Tag_extend, agent extension_edition],
+				[Tag_remove, agent removal_edition],
+				[Tag_replace, agent replacement_edition]
+			>>)
+			Result.compare_objects
+		end
+
+	extension_edition (edition_node: EL_XPATH_NODE_CONTEXT): like Type_extension_edition
+			--
+		do
+			create Result.make (create {STORABLE_TYPE}.make_default)
+			prepare_element (Result.element)
+			Result.element.set_from_xpath_node (edition_node)
+		end
+
+	is_closing_tag (tag_name, text: STRING): BOOLEAN
+		do
+			if text.starts_with (once "</") and then text.substring_index (tag_name, 3) = 3 then
+				Result := True
+			end
+		end
+
+	is_opening_tag (tag_name, text: STRING): BOOLEAN
+		do
+			if text.starts_with (once "<") and then text.substring_index (tag_name, 2) = 2 then
+				Result := True
+			end
+		end
+
+	prepare_element (element: STORABLE_TYPE)
+			-- prepare element for setting by xpath node
+		do
+		end
+
+	removal_edition (edition_node: EL_XPATH_NODE_CONTEXT): like Type_removal_edition
+			--
+		do
+			create Result.make (edition_node ["index"])
+		end
+
+	replacement_edition (edition_node: EL_XPATH_NODE_CONTEXT): like Type_replacement_edition
+			--
+		do
+			create Result.make (create {STORABLE_TYPE}.make_default, edition_node ["index"])
+			prepare_element (Result.element)
+			Result.element.set_from_xpath_node (edition_node)
+		end
 
 	set_editions_text
 			-- Set editions text ommitting any possibley corrupted editions
@@ -176,26 +234,6 @@ feature {NONE} -- Implementation
 			editions_file.close
 		end
 
-	is_opening_tag (tag_name, text: STRING): BOOLEAN
-		do
-			if text.starts_with (once "<") and then text.substring_index (tag_name, 2) = 2 then
-				Result := True
-			end
-		end
-
-	is_closing_tag (tag_name, text: STRING): BOOLEAN
-		do
-			if text.starts_with (once "</") and then text.substring_index (tag_name, 3) = 3 then
-				Result := True
-			end
-		end
-
-	apply_edition (edition: like Type_edition)
-			--
-		do
-			edition.apply (target_list)
-		end
-
 	store_edition (edition: like Type_edition)
 			--
 		local
@@ -211,57 +249,19 @@ feature {NONE} -- Implementation
 			storage_file.flush
 		end
 
-	extension_edition (edition_node: EL_XPATH_NODE_CONTEXT): like Type_extension_edition
-			--
-		do
-			create Result.make (create {STORABLE_TYPE}.make_default)
-			prepare_element (Result.element)
-			Result.element.set_from_xpath_node (edition_node)
-		end
-
-	replacement_edition (edition_node: EL_XPATH_NODE_CONTEXT): like Type_replacement_edition
-			--
-		do
-			create Result.make (create {STORABLE_TYPE}.make_default, edition_node ["index"])
-			prepare_element (Result.element)
-			Result.element.set_from_xpath_node (edition_node)
-		end
-
-	removal_edition (edition_node: EL_XPATH_NODE_CONTEXT): like Type_removal_edition
-			--
-		do
-			create Result.make (edition_node ["index"])
-		end
-
-	prepare_element (element: STORABLE_TYPE)
-			-- prepare element for setting by xpath node
-		do
-		end
-
-	creation_action_table: EL_HASH_TABLE [FUNCTION [EL_XPATH_NODE_CONTEXT, like Type_edition], STRING]
-			--
-		do
-			create Result.make (<<
-				[Tag_extend, agent extension_edition],
-				[Tag_remove, agent removal_edition],
-				[Tag_replace, agent replacement_edition]
-			>>)
-			Result.compare_objects
-		end
-
 feature {NONE} -- Implementation: attributes
 
-	storage_file_path: FILE_PATH
-
-	storage_file: PLAIN_TEXT_FILE
+	crc: EL_CYCLIC_REDUNDANCY_CHECK_32
 
 	creation_actions: like creation_action_table
 
-	target_list: LIST [STORABLE_TYPE]
-
 	editions_text: STRING
 
-	crc: EL_CYCLIC_REDUNDANCY_CHECK_32
+	storage_file: PLAIN_TEXT_FILE
+
+	storage_file_path: FILE_PATH
+
+	target_list: LIST [STORABLE_TYPE]
 
 feature {NONE} -- Type definitions
 
@@ -269,30 +269,25 @@ feature {NONE} -- Type definitions
 
 	Type_extension_edition: EL_EXTENSION_EDITION [STORABLE_TYPE]
 
-	Type_replacement_edition: EL_REPLACEMENT_EDITION [STORABLE_TYPE]
-
 	Type_removal_edition: EL_REMOVAL_EDITION [STORABLE_TYPE]
+
+	Type_replacement_edition: EL_REPLACEMENT_EDITION [STORABLE_TYPE]
 
 feature {NONE} -- Constants
 
-	XML_template: STRING =
-		--
-
-	"[
-		<?xml version="1.0" encoding="iso-8859-1"?>
-		<list-editions>
-		$EDITIONS_LIST
-		</list-editions>
-	]"
+	Editions_checksum_beginning: STRING
+		once
+			Result := Editions_checksum_template.substring (1, Editions_checksum_template.index_of ('=', 1))
+		end
 
 	Editions_checksum_template: ZSTRING
 		once
 			Result := "<editions-checksum value=%"%S%"/>"
 		end
 
-	Editions_checksum_beginning: STRING
+	Tag_extend: STRING
 		once
-			Result := Editions_checksum_template.substring (1, Editions_checksum_template.index_of ('=', 1))
+			Result := (create {like Type_extension_edition}).tag_name
 		end
 
 	Tag_remove: STRING
@@ -305,9 +300,14 @@ feature {NONE} -- Constants
 			Result := (create {like Type_replacement_edition}).tag_name
 		end
 
-	Tag_extend: STRING
-		once
-			Result := (create {like Type_extension_edition}).tag_name
-		end
+	XML_template: STRING =
+		--
+
+	"[
+		<?xml version="1.0" encoding="iso-8859-1"?>
+		<list-editions>
+		$EDITIONS_LIST
+		</list-editions>
+	]"
 
 end

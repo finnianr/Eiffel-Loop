@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-18 13:05:26 GMT (Tuesday 18th November 2025)"
-	revision: "14"
+	date: "2025-11-21 9:03:59 GMT (Friday 21st November 2025)"
+	revision: "15"
 
 class
 	CLASS_DEPENDENCIES
@@ -38,13 +38,25 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	dependency_count (class_table: EL_HASH_TABLE [CLASS_DEPENDENCIES, IMMUTABLE_STRING_8]): INTEGER
+	big_dependency_count (a_class_table: like CLASS_TABLE; threshold_count: INTEGER): INTEGER
+		-- count of dependency classes in `a_class_table' with `dependency_count' > `threshold_count'
+		do
+			across dependency_set as set loop
+				if a_class_table.has_key (set.item)
+					and then a_class_table.found_item.dependency_count (a_class_table) > threshold_count
+				then
+					Result := Result + 1
+				end
+			end
+		end
+
+	dependency_count (a_class_table: like CLASS_TABLE): INTEGER
 		-- dependency count
 		local
 			is_counted_set: EL_HASH_SET [IMMUTABLE_STRING_8]
 		do
-			create is_counted_set.make_equal (class_table.count // 2)
-			Result := internal_dependency_count (class_table, is_counted_set)
+			create is_counted_set.make_equal (a_class_table.count // 2)
+			Result := internal_dependency_count (a_class_table, is_counted_set)
 		end
 
 	dependency_set: EL_HASH_SET [IMMUTABLE_STRING_8]
@@ -56,21 +68,27 @@ feature -- Access
 
 feature {CLASS_DEPENDENCIES} -- Implementation
 
-	internal_dependency_count (
-		class_table: EL_HASH_TABLE [CLASS_DEPENDENCIES, IMMUTABLE_STRING_8]
-		is_counted_set: EL_HASH_SET [IMMUTABLE_STRING_8]
-	): INTEGER
+	internal_dependency_count (a_class_table: like CLASS_TABLE; is_counted_set: EL_HASH_SET [IMMUTABLE_STRING_8]): INTEGER
 		-- recursive dependency count for `a_class'
 		do
 			is_counted_set.put (name)
 			if is_counted_set.inserted then
 				Result := 1
 				across dependency_set as set loop
-					if class_table.has_key (set.item) then
-						Result := Result + class_table.found_item.internal_dependency_count (class_table, is_counted_set)
+					if a_class_table.has_key (set.item) then
+						Result := Result + a_class_table.found_item.internal_dependency_count (a_class_table, is_counted_set)
 					end
 				end
 			end
+		end
+
+feature -- Type definitions
+
+	CLASS_TABLE: EL_HASH_TABLE [CLASS_DEPENDENCIES, IMMUTABLE_STRING_8]
+		require
+			never_called: False
+		once
+			create Result.make (0)
 		end
 
 end

@@ -2,6 +2,13 @@ note
 	description: "[
 		Tool to migrate librares to newer compiler version by copying classes one by one to new library structure
 		starting with classes that do not depend on other classes within the library
+		
+	]"
+	notes: "[
+		**OBSOLETE**
+		
+		${LIBRARY_GRADUAL_COPY_COMMAND} has a better alogorithm for identifying dependencies.
+		File copy routines from this class can be added later.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,12 +16,12 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-11-18 13:06:48 GMT (Tuesday 18th November 2025)"
-	revision: "37"
+	date: "2025-11-18 13:38:16 GMT (Tuesday 18th November 2025)"
+	revision: "38"
 
 class
 	LIBRARY_MIGRATION_COMMAND
-	
+
 obsolete "Use LIBRARY_GRADUAL_COPY_COMMAND"
 
 inherit
