@@ -7,6 +7,11 @@ system:
 
 	target:
 		name = Wex_MCI
+		description:
+			"""
+				export:
+					WEX_MCI = $EIFFEL_LOOP/contrib/C++/Wex_MCI
+			"""
 		root:
 			all_classes = true
 		option:
@@ -17,12 +22,12 @@ system:
 			name = Wex; location = source; recursive = true
 
 		external_include:
-			location = "$(EL_CONTRIB)/C++/Wex_MCI/include"
+			location = "$(WEX_MCI)/include"
 			condition:
 				platform = windows
 
 		external_object:
-			location = "$(EL_CONTRIB)/C++/Wex_MCI/spec/$ISE_PLATFORM/wex_mci.lib"
+			location = "$(WEX_MCI)/spec/$ISE_PLATFORM/wex_mci.lib"
 			condition:
 				platform = windows
 
