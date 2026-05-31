@@ -17,6 +17,12 @@ system:
 		"""
 	target:
 		name = EL_vision2_x
+		description:
+			"""
+				export:
+					C_GTK_INIT = $EIFFEL_LOOP/C_library/gtk-init
+					CAIRO_LIB = $EIFFEL_LOOP/contrib/C/Cairo*
+			"""
 		root:
 			all_classes = true
 		option:
@@ -26,7 +32,7 @@ system:
 
 		unix_externals:
 			external_include:
-				location = "$(EL_C_LIB)/gtk-init/source"
+				location = "$(C_GTK_INIT)/source"
 			external_include:
 				location = "cairo.h"
 			external_object:
@@ -36,21 +42,21 @@ system:
 			external_object:
 				location = "-lX11"
 			external_object:
-				location = "$(EL_C_LIB)/gtk-init/spec/$(ISE_PLATFORM)/libgtkinit.a"
+				location = "$(C_GTK_INIT)/spec/$(ISE_PLATFORM)/libgtkinit.a"
 
 		windows_externals:
 			external_include:
-				location = "$(EL_C_CAIRO)/include/atk-1.0"
+				location = "$(CAIRO_LIB)/include/atk-1.0"
 			external_include:
-				location = "$(EL_C_CAIRO)/include/cairo"
+				location = "$(CAIRO_LIB)/include/cairo"
 			external_include:
-				location = "$(EL_C_CAIRO)/include/glib-2.0"
+				location = "$(CAIRO_LIB)/include/glib-2.0"
 			external_include:
-				location = "$(EL_C_CAIRO)/include/gtk-3.0"
+				location = "$(CAIRO_LIB)/include/gtk-3.0"
 			external_include:
-				location = "$(EL_C_CAIRO)/include/gdk-pixbuf-2.0"
+				location = "$(CAIRO_LIB)/include/gdk-pixbuf-2.0"
 			external_include:
-				location = "$(EL_C_CAIRO)/include/pango-1.0"
+				location = "$(CAIRO_LIB)/include/pango-1.0"
 
 		# ISE libraries
 		libraries:

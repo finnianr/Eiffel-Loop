@@ -3,13 +3,18 @@ pyxis-doc:
 system:
 	configuration_ns = "1-10-0"
 	name = curl; library_target = curl; uuid = "D51EF190-6157-4B47-8E73-FA93DCBB7A71"
+	description:
+		"""
+			cURL: libcURL wrapper library for Eiffel.
+			Copyright (c) 1984-2006, Eiffel Software and others.
+			Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt).
+		"""
 	target:
 		name = curl
 		description:
 			"""
-				cURL: libcURL wrapper library for Eiffel.
-				Copyright (c) 1984-2006, Eiffel Software and others.
-				Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt).
+				export:
+					LIB_CURL = $ISE_LIBRARY/library/cURL
 			"""
 		root:
 			all_classes = true
@@ -19,24 +24,24 @@ system:
 		setting:
 			name = dotnet_naming_convention; value = true
 		external_include:
-			location = "$(ISE_LIBRARY)\\library\\cURL\\spec\\include"
+			location = "$(LIB_CURL)\\spec\\include"
 			condition:
 				platform = windows
 
 		external_object:
-			location = "$(ISE_LIBRARY)/library/cURL/spec/$(ISE_PLATFORM)/lib/eiffel_curl.o"
+			location = "$(LIB_CURL)/spec/$(ISE_PLATFORM)/lib/eiffel_curl.o"
 			condition:
 				platform /= windows; concurrency = none
 		external_object:
-			location = "$(ISE_LIBRARY)/library/cURL/spec/$(ISE_PLATFORM)/lib/MTeiffel_curl.o"
+			location = "$(LIB_CURL)/spec/$(ISE_PLATFORM)/lib/MTeiffel_curl.o"
 			condition:
 				platform /= windows; concurrency /= none
 		external_object:
-			location = "$(ISE_LIBRARY)\\library\\cURL\\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\\lib\\eiffel_curl.lib"
+			location = "$(LIB_CURL)\\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\\lib\\eiffel_curl.lib"
 			condition:
 				platform = windows; concurrency = none; dotnet = false
 		external_object:
-			location = "$(ISE_LIBRARY)\\library\\cURL\\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\\lib\\mteiffel_curl.lib"
+			location = "$(LIB_CURL)\\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\\lib\\mteiffel_curl.lib"
 			condition:
 				platform = windows; concurrency /= none; dotnet = false
 

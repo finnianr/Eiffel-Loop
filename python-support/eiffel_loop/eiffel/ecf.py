@@ -6,9 +6,11 @@
 #	revision: "0.1"
 
 import os, sys
+from glob import glob
+from string import Template
 
 from eiffel_loop.eiffel import ise_environ
-
+from eiffel_loop.os import env as os_env
 from eiffel_loop.os import path
 from eiffel_loop import platform
 
@@ -22,8 +24,14 @@ ise = ise_environ.shared
 def programs_suffix ():
 	result = '.exe' if sys.platform == 'win32' else ''
 	return result
+	
+def node_description (ctx):
+	result = ctx.text ("description")
+	if not result:
+		result = ''
+	return result
 
-class SYSTEM_VERSION (object):
+class SYSTEM_VERSION:
 # Description: ecf version information
 
 
@@ -59,7 +67,7 @@ class SYSTEM_VERSION (object):
 
 # end SYSTEM_VERSION		
 
-class LIBRARY (object):
+class LIBRARY:
 # Description: ecf library context
 
 	windows = "windows"
@@ -73,11 +81,7 @@ class LIBRARY (object):
 
 		self.platform = platform.name ()
 
-		description = ctx.text ("description")
-		if description:
-			self.description = description
-		else:
-			self.description = ""
+		self.description = node_description (ctx)
 
 		for name in self.platform_attributes:
 			value = ctx.attribute ("condition/platform/@" + name)
@@ -115,10 +119,11 @@ class EXTERNAL_OBJECT (LIBRARY):
 	}
 
 # Initialization
-	def __init__ (self, ctx):
+	def __init__ (self, ctx, export_table):
 		LIBRARY.__init__ (self, ctx)
 
 		self.is_multithreaded = True
+		self.export_table = export_table
 		done = False
 		for name, table in self.Multithreaded_conditions.items ():
 			for attribute_name, false_value in table.items ():
@@ -143,14 +148,18 @@ class EXTERNAL_OBJECT (LIBRARY):
 	def location (self):
 		result = self.ctx.attribute ('@location')
 		if result:
-			result = result.translate (None , '()')
+			result = result.translate (str.maketrans ('', '', '()'))
+			result = path.expanded (result, self.export_table)
+				
+		else:
+			raise KeyError ("%s does not have @location" % self.ctx.name ())
 
 		return result
 
 	def library (self):
 		prefix = ''
 		result = self.location ()
-		if result != 'none':
+		if result:
 			for part in result.split():
 				lib = part.strip()
 				if lib.startswith ('-L'):
@@ -190,7 +199,7 @@ class EXTERNAL_OBJECT (LIBRARY):
 
 # end EXTERNAL_OBJECT
 
-class SYSTEM_INFO (object):
+class SYSTEM_INFO:
 
 	Build_dir = 'build'
 
@@ -199,9 +208,11 @@ class SYSTEM_INFO (object):
 		if not isinstance (root_ctx, XPATH_ROOT_CONTEXT):
 			raise ValueError ("root_ctx is not a XPATH_ROOT_CONTEXT")
 
-		self.ctx = root_ctx.context_list ('/system')[0]
+		self.ctx = root_ctx.new_context ('/system')
 		for k, v in self.ctx.attrib_table ().items():
 			setattr (self, k, v)
+			
+		self.target_ctx = self.ctx.new_context ('target')
 		
 		self.platform = platform.name ()
 
@@ -216,19 +227,19 @@ class SYSTEM_INFO (object):
 
 	def type (self):
 		# classic | dotnet
-		return self.ctx.attribute ('target[1]/@name')
+		return self.target_ctx.attribute ('@name')
 
 	def version (self):
 		return SYSTEM_VERSION (self.ctx)
 
 	def precompile_path (self):
-		result = self.ctx.attribute ('target[1]/precompile/@location')
+		result = self.target_ctx.attribute ('precompile/@location')
 		if result:
 			result = path.expanded_translated (result)
 		return result
 
 	def root_class_name (self):
-		return self.ctx.attribute ('target[1]/root[1]/@class')
+		return self.target_ctx.attribute ('root[1]/@class')
 
 	def root_class_path (self):
 		base_name = self.root_class_name ().swapcase () + '.e'
@@ -268,28 +279,32 @@ class SYSTEM_INFO (object):
 	def __new_cluster_list (self):
 		# list of non ISE libraries
 		result = {}
-		for ctx in self.ctx.context_list ('target[1]/cluster'):
+		for ctx in self.target_ctx.context_list ('cluster'):
 			location = path.normpath (ctx.attribute ("@location"))
 			result [ctx.attribute ("@name")] = path.expandvars (location)
 		return result
 
 # end SYSTEM_INFO
 
-class EIFFEL_CONFIG_FILE (object):
+class EIFFEL_CONFIG_FILE:
+
+# Constants
+	Export_tag = 'export:'
+	Empty_dict = dict ()
 
 # Initialization
 	def __init__ (self, ecf_path, ecf_table = dict (), ise_platform = None):
 		self.location = ecf_path
 		try:
-			ecf_ctx = XPATH_ROOT_CONTEXT (ecf_path, 'ec')
+			system = SYSTEM_INFO (XPATH_ROOT_CONTEXT (ecf_path, 'ec'))
 
 		except KeyError:
 			raise KeyError ("Problem namespace prefix: " + ecf_path)
-
-		system = SYSTEM_INFO (ecf_ctx)
 		
 		self.uuid = system.uuid
 		self.name = system.name
+		self.target_ctx = system.target_ctx
+		self.export_table = self.__new_export_table ()
 
 		self.platform = ise_platform if ise_platform else system.platform
 
@@ -302,21 +317,21 @@ class EIFFEL_CONFIG_FILE (object):
 		top_level = len (ecf_table) == 0
 		if top_level:
 			self.__set_top_level_properties (system)
-			print "\nLibraries:",
+			print("\nLibraries:", end=' ')
 
-		print path.basename (ecf_path) + ',',
+		print (path.basename (ecf_path) + ',', end=' '),
 
 		ecf_table [ecf_path] = self
 
-		self.objects_list = self.__new_external_objects_list (ecf_ctx)
+		self.objects_list = self.__new_external_objects_list ()
 		self.external_libs = self.__external_libs ()
 		self.c_shared_objects = self.__external_shared_objects ()
 
-		for library in self.__new_library_list (ecf_ctx):
+		for library in self.__new_library_list ():
 			location = library.expanded_location (ecf_path)
 
 			# prevent infinite recursion for circular references
-			if ecf_table.has_key (location):
+			if location in ecf_table:
 				ecf = ecf_table [location]
 			else:
 				# Recurse ecf file
@@ -325,13 +340,48 @@ class EIFFEL_CONFIG_FILE (object):
 			self.libraries_table [ecf.uuid] = ecf
 			for uuid in ecf.libraries_table:
 				self.libraries_table [uuid] = ecf.libraries_table [uuid]
+
 		if top_level:
-			self.libraries = []
-			for uuid in self.libraries_table:
-				self.libraries.append (self.libraries_table [uuid])
-			print ''
-			print ''
+			self.libraries = self.libraries_table.values ()
+			for library in self.libraries: 
+				for var, export_path in library.export_table.items ():
+					if var in self.export_table:
+						if export_path != self.export_table [var]:
+							msg_template = "Differing values for export variable '%s'\n\t1. %s\n\t2. %s"
+							raise ValueError (msg_template % (var, export_path, self.export_table [var]))
+					else:
+						self.export_table [var] = export_path
+
+			print('')
+			print('')
+			
+# Basic operations
+
+	def set_export_paths (self):
+		# Export C/C++ library paths to OS environ
 		
+		if self.export_table:
+			print ('Export C/C++ library paths to OS environ')
+			for name in sorted (self.export_table.keys ()):
+				export_path = self.export_table [name]
+				print (name + " =", export_path)
+				os.environ [name] = export_path
+			print('')
+
+	def print_export_path_dict (self, dict_name):
+		# print a dictionary manifest for `self.export_table' like the following example:
+		# 	c_names = {
+		# 		'ID3_LIB' : 'id3lib',
+		# 		'LIB_ID3TAG' : 'libid3tag'
+		# 	}		
+		
+		if self.export_table:
+			print ("%s = {" % dict_name)
+			for name in sorted (self.export_table.keys ()):
+				export_path = self.export_table [name]
+				print ("\t'%s' : '%s'," % (name, path.basename (export_path)))
+			print ('}')
+
 # Implementation
 
 	def __set_top_level_properties (self, system):
@@ -355,20 +405,71 @@ class EIFFEL_CONFIG_FILE (object):
 				result.extend (shared)
 		return result
 
-	def __new_library_list (self, ecf_ctx):
+	def __new_export_table (self):
+		# list of export paths defined in target[1]/description
+		# Used for C/C++ library/include paths.
+
+		# Example from ID3-tags.pecf:
+		#	target:
+		#		name = EL_id3_tag
+		#		description:
+		#			"""
+		#				export:
+		#					ID3_LIB = $EIFFEL/external/C++/id3lib*
+		#					LIB_ID3TAG = $EIFFEL/external/C/libid3tag*
+		#			"""
+		
+		line_list = node_description (self.target_ctx).split ('\n')
+		try:
+			i = line_list.index (self.Export_tag)
+			result = dict ()
+			for line in line_list [i + 1:]:
+				nv_pair = line.split ('=')
+				if len (nv_pair) == 2:
+					name = nv_pair [0].strip()
+					if not name in os.environ:
+						result [name] = self.__new_expanded_export (result, name, nv_pair [1].strip())
+		except ValueError:
+			result = self.Empty_dict
+					
+		return result
+
+	def __new_expanded_export (self, export_table, name, a_path):
+		# expanded export path `a_path'
+		if a_path.startswith ('os_env.'):
+			result = eval (a_path)
+		else:
+			result = path.expanded (a_path)
+		
+		if result [-1] == '*':
+			path_list = glob (path.expanded (result))
+			if len (path_list) == 1:
+				result = path_list [0]
+			else:
+				raise ValueError ("Only one %s path should match wildcard: " % (name) + a_path)
+				
+		if '$' in result:
+			result = Template (result).safe_substitute (export_table)
+				
+		if not path.exists (result) and path.isabs (result):
+			raise FileNotFoundError (name + ": " + result)
+			
+		return result					
+
+	def __new_library_list (self):
 		# list of non ISE libraries
 		result = []
-		for ctx in ecf_ctx.context_list ('/system/target[1]/library'):
+		for ctx in self.target_ctx.context_list ('library'):
 			library = LIBRARY (ctx)
 			#print library.location (), library.platform
 			if not library.is_ise () and library.platform == self.platform:
 				result.append (library)
 		return result
 
-	def __new_external_objects_list (self, ecf_ctx):
+	def __new_external_objects_list (self):
 		result = []
-		for ctx in ecf_ctx.context_list ('/system/target[1]/external_object'):
-			external = EXTERNAL_OBJECT (ctx)
+		for ctx in self.target_ctx.context_list ('external_object'):
+			external = EXTERNAL_OBJECT (ctx, self.export_table)
 			if external.matches_multithreaded (self.platform):
 				result.append (external)
 		return result

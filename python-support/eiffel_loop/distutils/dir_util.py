@@ -5,20 +5,34 @@
 #	date: "2 June 2010"
 #	revision: "0.1"
 
-import platform
+import shutil, platform, os
 from os import path
-from distutils.dir_util import *
 
 from eiffel_loop import osprocess
 
 global is_windows
 
-is_windows = platform.system () == 'Windows'
+is_windows = platform.system() == 'Windows'
+
+def mkpath (dir_path, verbose=0, dry_run=0):
+    os.makedirs(dir_path, exist_ok=True)
+
+def remove_tree (dir_path, verbose=0, dry_run=0):
+    shutil.rmtree(dir_path)
+
+def copy_tree (src, dst, preserve_mode=1, preserve_times=1, preserve_symlinks=0,
+              update=0, verbose=0, dry_run=0):
+    shutil.copytree(src, dst, dirs_exist_ok=True)
+    result = []
+    for root, dirs, files in os.walk(dst):
+        for f in files:
+            result.append(os.path.join(root, f))
+    return result
 
 # Directory operations requiring root or administrator permissions
 
 def sudo_mkpath (dir_path):
-	# obsolete: use eiffel_loop.os.system.new_file_system ()
+	# obsolete: use util.os_imp (FILE_SYSTEM, True)
 	creating_root = False
 	parent_path = path.dirname (dir_path)
 	is_empty = len (dir_path) == 0
@@ -39,14 +53,14 @@ def sudo_mkpath (dir_path):
 		osprocess.sudo_call (['mkdir', dir_path])
 
 def sudo_copy_tree (src_path, dest_path):
-	# obsolete: use eiffel_loop.os.system.new_file_system ()
+	# obsolete: use util.os_imp (FILE_SYSTEM, True)
 	if is_windows:
 		osprocess.call (['xcopy', '/S', '/I', src_path, dest_path], shell = True)
 	else:
 		osprocess.sudo_call (['cp', '-r', src_path, dest_path])
 
 def sudo_remove_tree (dir_path):
-	# obsolete: use eiffel_loop.os.system.new_file_system ()
+	# obsolete: use util.os_imp (FILE_SYSTEM, True)
 	if is_windows:
 		osprocess.call (['rmdir', '/S', '/Q', dir_path], shell = True)
 	else:

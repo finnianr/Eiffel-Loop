@@ -26,6 +26,18 @@ system:
 		"""
 	target:
 		name = EL_id3_tag
+		description:
+			"""
+				The source code for both libid3tag and id3lib is under $EIFFEL/external
+				but the compiled libraries are under $EIFFEL_LOOP/contrib
+			
+				export:
+					EXT_CPP_ID3LIB = $EIFFEL/external/C++/id3lib*
+					EL_CPP_ID3LIB $EIFFEL_LOOP/contrib/C++/id3lib
+					EXT_C_ID3TAG = $EIFFEL/external/C/libid3tag*
+					EL_C_ID3TAG = $EIFFEL_LOOP/contrib/C/libid3tag
+					OS_SPEC = spec/$ISE_PLATFORM
+			"""
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
@@ -42,23 +54,23 @@ system:
 			external_cflag:
 				value = "-DID3LIB_LINKOPTION=1 -DWIN32 -EHsc"
 			external_object:
-				location = "$(EL_CPP_ID3LIB)/spec/$(ISE_PLATFORM)/id3.lib"
+				location = "$(EL_CPP_ID3LIB)/$(OS_SPEC)/id3.lib"
 			external_include:
-				location = "$(EXT_C_LIBID3TAG)"
+				location = "$(EXT_C_ID3TAG)"
 			external_object:
-				location = "$(EL_C_LIBID3TAG)/spec/$(ISE_PLATFORM)/id3tag.lib"
+				location = "$(EL_C_ID3TAG)/$(OS_SPEC)/id3tag.lib"
 
 		unix_externals:
 			# For Unix: libid3 and libid3tag externals
 			external_include: 
 				location = "$(EXT_CPP_ID3LIB)/include"
 			external_object:
-				location = "-L$(EL_CPP_ID3LIB)/spec/$(ISE_PLATFORM) -lid3"
+				location = "-L$(EL_CPP_ID3LIB)/$(OS_SPEC) -lid3"
 
 			external_include:
-				location = "$(EXT_C_LIBID3TAG)"
+				location = "$(EXT_C_ID3TAG)"
 			external_object:
-				location = "-L$(EL_C_LIBID3TAG)/spec/$(ISE_PLATFORM) -lid3tag"
+				location = "-L$(EL_C_ID3TAG)/$(OS_SPEC) -lid3tag"
 				description: 
 					"""
 						WARNING: subtle bug

@@ -12,13 +12,17 @@ Common networking classes
 * FTP upload and download
 	</description>
 	<target name = "EL_network">
+		<description>
+export:
+	C_NET_ADAPTOR = $EIFFEL_LOOP/C_library/network-adapter
+		</description>
 		<root all_classes = "true"/>
 		<option namespace = "Eiffel-Loop.Library.net" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
 		<!--C externals-->
-		<external_include location = "$(EL_C_LIB)/network-adapter/source"/>
-		<external_object location = "$(EL_C_LIB)/network-adapter/spec/$(ISE_PLATFORM)/network-adapter.lib">
+		<external_include location = "$(C_NET_ADAPTOR)/source"/>
+		<external_object location = "$(C_NET_ADAPTOR)/spec/$(ISE_PLATFORM)/network-adapter.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>

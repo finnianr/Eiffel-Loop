@@ -14,4 +14,4 @@ person_data = ("Alice", 30, "USA")
 # Initialize the class using * unpacking
 person = Person(*person_data)
 
-print person
+print (person)

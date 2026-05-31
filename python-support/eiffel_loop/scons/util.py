@@ -33,11 +33,11 @@ def complete_targets (target, source, env):
 	return target, source
 
 def add_lib_a_to_targets (target, source, env):
-	print 'add_lib_a_to_targets', len (target), len (source)
+	print('add_lib_a_to_targets', len (target), len (source))
 	for i in range (0, len (source)):
 		target_path = str (target [i])
 		lib_a_path = target_path.replace ('.so.2',  '.a')
-		print 'Emitting %s' % i, lib_a_path
+		print('Emitting %s' % i, lib_a_path)
 		target.append (lib_a_path)
 		source.append (source [i])
 	return target, source

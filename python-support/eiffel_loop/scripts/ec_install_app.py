@@ -13,18 +13,21 @@ from optparse import OptionParser
 
 from eiffel_loop.eiffel import project
 
-# Install executable from package or F_code directory
+def main():
+	# Install executable from package or F_code directory
+	usage = "usage: ec_install_app --install <install directory> [--f_code]"
+	parser = OptionParser(usage = usage)
+	parser.add_option (
+		"-f", "--f_code", action="store_true", dest="f_code", default=False, help="Install F_code executable"
+	)
+	parser.add_option (
+		"-i", "--install", action="store", dest="install_dir", default="default", help="Installation location"
+	)
+	(options, args) = parser.parse_args()
 
-usage = "usage: python ec_install_app --install <install directory> [--f_code]"
-parser = OptionParser(usage = usage)
-parser.add_option (
-	"-f", "--f_code", action="store_true", dest="f_code", default=False, help="Install F_code executable"
-)
-parser.add_option (
-	"-i", "--install", action="store", dest="install_dir", default="default", help="Installation location"
-)
-(options, args) = parser.parse_args()
+	project.new_eiffel_project ().install (options.install_dir, options.f_code)
 
-project.new_eiffel_project ().install (options.install_dir, options.f_code)
+if __name__ == '__main__':
+	main()
 
 

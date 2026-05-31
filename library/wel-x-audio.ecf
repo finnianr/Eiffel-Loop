@@ -8,6 +8,10 @@ Audio extensions for the [https://www.eiffel.org/doc/solutions/WEL WEL GUI libra
 that facilitate playback and other audio functions.
 	</description>
 	<target name = "EL_wel_x_audio">
+		<description>
+export:
+	C_AUDIO_LIB = $EIFFEL_LOOP/C_library/audio
+		</description>
 		<root all_classes = "true"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true"/>
 		<!--ISE libraries-->
@@ -25,12 +29,12 @@ that facilitate playback and other audio functions.
 		</library>
 		<!--For Windows: Internal WaveOut API callback function.-->
 		<external_include location = "$(ISE_LIBRARY)/C_library/zlib"/>
-		<external_include location = "$(EL_C_LIB)/audio/source">
+		<external_include location = "$(C_AUDIO_LIB)/source">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_object location = "$(EL_C_LIB)/audio/spec/$(ISE_PLATFORM)/el_audio.lib">
+		<external_object location = "$(C_AUDIO_LIB)/spec/$(ISE_PLATFORM)/el_audio.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>

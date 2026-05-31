@@ -79,9 +79,9 @@ if option.help ():
 	
 else:
 	project_py = project.read_project_py ()
-	print "project_py.keep_assertions", project_py.keep_assertions
+	print("project_py.keep_assertions", project_py.keep_assertions)
 
-	print 'compile_eiffel', project_py.compile_eiffel
+	print('compile_eiffel', project_py.compile_eiffel)
 
 	project.set_build_environment (project_py)
 	project_py.print_environ ()
@@ -95,7 +95,7 @@ else:
 
 	config.root_class_path = option.root_class ()
 	if config.root_class_path:
-		print "Alternative root class: '%s'" % config.root_class_path
+		print("Alternative root class: '%s'" % config.root_class_path)
 
 	f_code_tar = None; tar_build = None
 
@@ -119,7 +119,7 @@ else:
 			build = FINALIZED_BUILD_FROM_TAR (config, project_py)
 
 			if not path.exists (build.f_code_tar_path ()):
-				print "Cannot find:", build.f_code_tar_path ()
+				print("Cannot find:", build.f_code_tar_path ())
 				build = FINALIZED_BUILD (config, project_py)
 
 	else:
@@ -135,9 +135,9 @@ else:
 
 	eiffel.check_C_libraries (env, build)
 	if len (build.SConscripts) > 0:
-		print "\nDepends on External libraries:"
+		print("\nDepends on External libraries:")
 		for script in build.SConscripts:
-			print "\t" + script
+			print("\t" + script)
 
 	SConscript (build.SConscripts, exports='env')
 

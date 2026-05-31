@@ -9,7 +9,7 @@ import os
 import platform as os_platform
 
 from eiffel_loop.os import path
-from eiffel_loop.os import environ as os_environ
+from eiffel_loop.os import env as os_env
 from eiffel_loop import platform as system
 
 class ISE_ENVIRON (object):
@@ -68,7 +68,7 @@ class ISE_ENVIRON (object):
 
 	def update (self):
 		environ = os.environ
-		print "updating for", environ [self.Key_platform]
+		print("updating for", environ [self.Key_platform])
 
 		self.platform = environ [self.Key_platform]
 		self.version = environ [self.Key_version]
@@ -76,7 +76,7 @@ class ISE_ENVIRON (object):
 
 		is_x86_environ = self.platform == self.Platform_32_bit
 
-		for key, template in os_environ.user_templates ().items ():
+		for key, template in os_env.user_templates ().items ():
 			if key in self.Path_keys:
 				if is_x86_environ:
 					template = path.files_x86 (template)
@@ -86,7 +86,7 @@ class ISE_ENVIRON (object):
 		self.set_dir_paths ()
 
 	def set_c_compiler (self):
-		if os.environ.has_key (self.Key_c_compiler):
+		if self.Key_c_compiler in os.environ:
 			self.c_compiler = os.environ [self.Key_c_compiler]
 		elif system.is_unix ():
 			self.c_compiler = 'gcc'
@@ -100,7 +100,7 @@ class ISE_ENVIRON (object):
 		self.eiffel = environ [self.Key_eiffel]
 		self.precomp = environ [self.Key_precomp]
 
-		if os.environ.has_key (self.Key_library):
+		if self.Key_library in os.environ:
 			self.library = environ [self.Key_library]
 		else:
 			self.library = self.eiffel
@@ -123,9 +123,7 @@ class ISE_ENVIRON (object):
 			if vc.startswith ('vc'):
 				# vc140 -> 14.0
 				vc_version = vc [2:]
-				array = bytearray (vc_version)
-				array.insert (len (array) - 1, '.')
-				self.msvc_version = str (array)
+				self.msvc_version = vc_version [:-1] + '.' + vc_version [-1]
 
 # end class ISE_ENVIRON
 

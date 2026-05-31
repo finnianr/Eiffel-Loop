@@ -4,4 +4,7 @@
 
 # add -c option to clean up objects files after build
 
-build_c_library.py $*
+export PYTHONPATH=$EIFFEL/library/Eiffel-Loop/python-support
+
+build_c_library $*
+

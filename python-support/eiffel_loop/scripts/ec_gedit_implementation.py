@@ -13,35 +13,26 @@ import sys, os, platform
 
 from eiffel_loop.eiffel.project import new_eiffel_project
 from eiffel_loop.os import path
-from eiffel_loop.os import system
+from eiffel_loop.os import file_system as _file
 
-if len (sys.argv) == 2:
-	file_path = sys.argv [1]
-else:
-	file_path = None
-
-if file_path:
-	Windows_imp_list = ['imp_mswin', 'mswin']
-	Unix_imp_list = ['imp_unix', 'gtk']
-
-	steps = file_path.split (os.sep)
-	if os.name == 'nt':
-		imp_list_current = Windows_imp_list; imp_list_other = Unix_imp_list
+def main():
+	if len (sys.argv) == 2:
+		file_path = sys.argv [1]
 	else:
-		imp_list_current = Unix_imp_list; imp_list_other = Windows_imp_list
+		file_path = None
 
-	for imp_current in imp_list_current:
-		if imp_current in steps:
-			imp_other = imp_list_other [imp_list_current.index (imp_current)]
-			steps [steps.index (imp_current)] = imp_other
-			break
+	if file_path:
+		other_path = _file.other_os_imp (file_path)
+		if path.exists (other_path):
+			_file.edit (other_path)
+		else:
+			raise FileNotFoundError ("Other implementation: " + other_path)
+			
+		print("DONE"); exit (0)
 
-	file_path = os.sep.join (steps)
+	else:
+		print("USAGE: ec_gedit_implementation <$file_name>")
 
-	system.edit_file (file_path)
-
-	print "DONE"; exit (0)
-
-else:
-	print "USAGE: ec_gedit_implementation.py <$file_name>"
+if __name__ == '__main__':
+	main()
 

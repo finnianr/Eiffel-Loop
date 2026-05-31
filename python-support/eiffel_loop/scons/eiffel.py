@@ -11,7 +11,7 @@ from os import path
 from eiffel_loop import osprocess
 from eiffel_loop.eiffel import project
 from eiffel_loop.distutils import dir_util
-from distutils import file_util
+from eiffel_loop.distutils import file_util
 from SCons import Script
 
 # Builder routines
@@ -40,21 +40,21 @@ def write_ecf_from_pecf (target, source, env):
 		Script.Exit (1)
 
 def check_C_libraries (env, build):
-	print 'Checking for C libraries'
+	print('Checking for C libraries')
 	# Check for availability of C libraries
 	conf = Script.Configure (env)
-	print 'IMPLICIT', build.implicit_C_libs
+	print('IMPLICIT', build.implicit_C_libs)
 	for c_lib in build.implicit_C_libs:
 		if not conf.CheckLib (c_lib):
 			Script.Exit (1)
 	env = conf.Finish()
 
-	print 'EXPLICIT'
+	print('EXPLICIT')
 	for c_lib in build.explicit_C_libs:
-		print 'Checking for C library %s... ' % c_lib,
+		print('Checking for C library %s... ' % c_lib, end=' ')
 		if path.exists (c_lib):
-			print 'yes'
+			print('yes')
 		else:
-			print 'no'
+			print('no')
 			Script.Exit (1)
 

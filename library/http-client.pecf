@@ -13,6 +13,11 @@ system:
 		"""
 	target:
 		name = EL_http_client
+		description:
+			"""
+				export:
+					C_LIB_CURL = $EIFFEL_LOOP/C_library/cURL
+			"""
 		root:
 			all_classes = true
 		option:
@@ -24,15 +29,15 @@ system:
 
 		# C externals
 		external_include: 
-			location = "$(EL_C_LIB)/cURL/source"
+			location = "$(C_LIB_CURL)/source"
 
 		unix_externals:		
 			external_object:
-				location = "-L$(EL_C_LIB)/cURL/spec/$(ISE_PLATFORM) -lelcurl"
+				location = "-L$(C_LIB_CURL)/spec/$(ISE_PLATFORM) -lelcurl"
 
 		windows_externals:		
 			external_object:
-				location = "$(EL_C_LIB)/cURL/spec/$(ISE_PLATFORM)/elcurl.lib"
+				location = "$(C_LIB_CURL)/spec/$(ISE_PLATFORM)/elcurl.lib"
 
 		# ISE libraries
 		libraries:

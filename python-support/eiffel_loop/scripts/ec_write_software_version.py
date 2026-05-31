@@ -13,21 +13,23 @@ from optparse import OptionParser
 
 from eiffel_loop.eiffel import project
 
-# Install executable from package or F_code directory
+def main():
+	usage = "usage: ec_write_software_version --file <output-file>"
+	parser = OptionParser(usage=usage)
+	parser.add_option (
+		"-f", "--file", action="store", dest="file_path", default='version.txt', help="Output file for software version to file"
+	)
+	(options, args) = parser.parse_args()
 
-usage = "usage: python ec_write_software_version.py --file <output-file>"
-parser = OptionParser(usage=usage)
-parser.add_option (
-	"-f", "--file", action="store", dest="file_path", default='version.txt', help="Output file for software version to file"
-)
-(options, args) = parser.parse_args()
+	prj = project.new_eiffel_project ()
+	print("%s version: %s" % (prj.exe_name, prj.version))
 
-prj = project.new_eiffel_project ()
-print "%s version: %s" % (prj.exe_name, prj.version)
+	f = open (options.file_path, 'w')
+	f.write (prj.version)
+	f.close ()
 
-f = open (options.file_path, 'w')
-f.write (prj.version)
-f.close ()
+if __name__ == '__main__':
+	main()
 
 
 

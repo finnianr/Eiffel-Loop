@@ -16,7 +16,7 @@ new_line = ''
 def crc_32 (lines):
 	prev = 0
 	for line in lines:
-		prev = zlib.crc32 (line, prev)
+		prev = zlib.crc32 (line.encode (), prev)
 	return prev & 0xFFFFFFFF
 
 def file_lines (file_path):
@@ -36,8 +36,8 @@ def drop_line (fout, line):
 
 def set_dll_definitions (dll_path, def_path):
 	cmd = ['dumpbin','/EXPORTS', dll_path]
-	print cmd
-	proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+	print(cmd)
+	proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, text=True)
 
 	fout = open (def_path, 'w')
 	fout.write ('LIBRARY %s\n' % path.basename (dll_path))
@@ -86,6 +86,34 @@ def has_ansi_C_standard_headers (conf):
 			result = False
 			break
 	return result
+	
+# classes
+
+class COMMAND_STRINGS:
+	# Abbreviate output of C compiler in scons builder
+
+	def __init__ (self, var_names):
+		self.name_list = var_names.split ()
+
+	def abbreviate (self, path_str):
+		result = str (path_str)
+		for var in self.name_list:
+			val = os.environ.get (var, '')
+			if val and result.startswith (val):
+				result = ''.join (['$$', var, result [len (val):]])
+				break
+	
+		return result
+
+	def configure (self, env):
+		# Abbreviate long paths in build output using standard SCons command strings placed in 
+		# build environment `env'
+		
+		env ['CCCOMSTR'] = 'Compiling: ${short(str(TARGET))}'
+		env ['ARCOMSTR'] = 'Archiving: ${short(str(TARGET))}'
+		env ['RANLIBCOMSTR'] = 'Indexing: ${short(str(TARGET))}'
+		env ['short'] = self.abbreviate
+		
 	
 class CONFIG_HEADER (object):
 

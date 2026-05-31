@@ -5,11 +5,12 @@
 #	date: "2 June 2010"
 #	revision: "0.1"
 
-import platform, string, fnmatch, os, sys
-
-from distutils.file_util import *
+import shutil, platform, fnmatch, os, sys
 
 from eiffel_loop import osprocess
+
+def copy_file (src, dst, preserve_mode=1, preserve_times=1, update=0, link=None, verbose=0, dry_run=0):
+    return shutil.copy2(src, dst)
 
 global is_windows
 
@@ -22,8 +23,8 @@ is_windows = sys.platform == 'win32'
 
 def sudo_copy_file (src_path, dest_path):
 	# obsolete: use eiffel_loop.os.system.new_file_system ()
-	print 'from', src_path
-	print 'to', dest_path
+	print('from', src_path)
+	print('to', dest_path)
 	if is_windows:
 		copy_file (src_path, dest_path)
 		# Won't work if '+' in path

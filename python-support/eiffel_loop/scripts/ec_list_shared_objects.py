@@ -13,41 +13,43 @@ from optparse import OptionParser
 
 from eiffel_loop.eiffel.ecf import EIFFEL_CONFIG_FILE
 
-# Install executable from package or F_code directory
+def main():
+	usage = "usage: ec_list_shared_objects --ecf <ecf-path> [--platform <platform>]"
+	parser = OptionParser(usage = usage)
+	parser.add_option (
+		"-p", "--platform", action="store", dest = "ise_platform", default = None, help = "ISE platform"
+	)
+	parser.add_option (
+		"-e", "--ecf", action="store", dest = "ecf_path", default="", help="Eiffel configuration file path"
+	)
+	(option, args) = parser.parse_args()
 
-usage = "usage: ec_list_shared_objects.py --ecf <ecf-path> [--f_code]"
-parser = OptionParser(usage = usage)
-parser.add_option (
-	"-p", "--platform", action="store", dest = "ise_platform", default = None, help = "ISE platform"
-)
-parser.add_option (
-	"-e", "--ecf", action="store", dest = "ecf_path", default="", help="Eiffel configuration file path"
-)
-(option, args) = parser.parse_args()
+	if path.exists (option.ecf_path):
+		if option.ise_platform:
+			print("Selected platform", option.ise_platform)
+			ecf = EIFFEL_CONFIG_FILE (option.ecf_path, dict (), option.ise_platform)
+		else:
+			ecf = EIFFEL_CONFIG_FILE (option.ecf_path)
 
-if path.exists (option.ecf_path):
-	if option.ise_platform:
-		print "Selected platform", option.ise_platform
-		ecf = EIFFEL_CONFIG_FILE (option.ecf_path, dict (), option.ise_platform)
+		for objects in ecf.objects_list:
+			print(objects.description)
+			for so in objects.shared_libraries ():
+				print('  ', so)
+			print()
+
+		c_shared_objects = ecf.c_shared_objects
+		if c_shared_objects:
+			print('ecf.c_shared_objects:')
+			for so in c_shared_objects:
+				print(' ', so)
+		else:
+			print("No shared objects")
+
 	else:
-		ecf = EIFFEL_CONFIG_FILE (option.ecf_path)
-	
-	for objects in ecf.objects_list:
-		print objects.description
-		for so in objects.shared_libraries ():
-			print '  ', so
-		print
-	
-	c_shared_objects = ecf.c_shared_objects
-	if c_shared_objects:
-		print 'ecf.c_shared_objects:'
-		for so in c_shared_objects:
-			print ' ', so
-	else:
-		print "No shared objects"
-			
-else:
-	print "Cannot find", option.ecf_path
+		print("Cannot find", option.ecf_path)
+
+if __name__ == '__main__':
+	main()
 
 
 

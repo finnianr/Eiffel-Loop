@@ -7,18 +7,37 @@
 
 import os
 from os.path import *
-import string
+from string import Template
 
 global program_files
 
 program_files = 'Program Files'
 
-def expanded (a_path):
-	result = normpath (expandvars (a_path))
+def as_ecf (a_path):
+	parts = splitext (a_path)
+	if parts [1] == '.pecf':
+		result = parts [0] + '.ecf'
+	else:
+		result = a_path
 	return result
 
-def expanded_translated (a_path):
-	result = expanded (a_path.translate (string.maketrans ('\\','/')))
+def as_pecf (a_path):
+	parts = splitext (a_path)
+	if parts [1] == '.ecf':
+		result = parts [0] + '.pecf'
+	else:
+		result = a_path
+
+	return result
+
+def expanded (a_path, environ_dict = None):
+	result = normpath (expandvars (a_path))
+	if environ_dict and '$' in result:
+		result = Template (result).safe_substitute (environ_dict)
+	return result
+
+def expanded_translated (a_path, environ_dict = None):
+	result = expanded (a_path.translate (str.maketrans ('\\', '/')), environ_dict)
 	return result
 
 def files_x86 (a_path):
@@ -39,20 +58,10 @@ def curdir_up_to (step):
 			result = dirname (result)
 	return result
 
-def as_ecf (a_path):
-	parts = splitext (a_path)
-	if parts [1] == '.pecf':
-		result = parts [0] + '.ecf'
-	else:
-		result = a_path
+def normal (path, insert = None):
+	result = normpath (path)
+	if insert:
+		result = result % insert
 	return result
-
-def as_pecf (a_path):
-	parts = splitext (a_path)
-	if parts [1] == '.ecf':
-		result = parts [0] + '.pecf'
-	else:
-		result = a_path
-
-	return result
+	
 

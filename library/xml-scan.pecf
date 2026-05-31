@@ -33,6 +33,11 @@ system:
 		"""
 	target:
 		name = EL_xml_scan
+		description:
+			"""
+				export:
+					C_EXPAT = $EIFFEL_LOOP/contrib/C/Expat
+			"""
 		root:
 			all_classes = true
 
@@ -45,18 +50,18 @@ system:
 
 		# Expat
 		external_include: 
-			location = "$(EL_C_EXPAT)/include"
+			location = "$(C_EXPAT)/include"
 
 		external_cflag:
 			value = "-DXML_BUILDING_EXPAT"
 
 		external_object:
-			location = "-L$(EL_C_EXPAT)/spec/$(ISE_PLATFORM) -lexpat"
+			location = "-L$(C_EXPAT)/spec/$(ISE_PLATFORM) -lexpat"
 			condition:
 				platform = unix
 
 		external_object:
-			location = "$(EL_C_EXPAT)/spec/$(ISE_PLATFORM)/expat.lib"
+			location = "$(C_EXPAT)/spec/$(ISE_PLATFORM)/expat.lib"
 			condition:
 				platform = windows
 

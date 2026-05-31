@@ -28,47 +28,51 @@ Special thanks to [https://github.com/scotchi Scott Wheeler], the original autho
 for his kind assistance and and support in creating this Eiffel binding.
 	</description>
 	<target name = "EL_taglib">
+		<description>
+export:
+	CPP_TAGLIB = $EIFFEL/external/C++/taglib*
+		</description>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
 		<root all_classes = "true"/>
-		<external_include location = "$(EXT_CPP_TAGLIB)\taglib">
+		<external_include location = "$(CPP_TAGLIB)\taglib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EXT_CPP_TAGLIB)\taglib\mpeg\id3v2">
+		<external_include location = "$(CPP_TAGLIB)\taglib\mpeg\id3v2">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EXT_CPP_TAGLIB)\taglib\toolkit">
+		<external_include location = "$(CPP_TAGLIB)\taglib\toolkit">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_object location = "$(EL_CPP_TAGLIB)\taglib\spec\$(ISE_PLATFORM)\tag.lib">
+		<external_object location = "$(CPP_TAGLIB)\taglib\spec\$(ISE_PLATFORM)\tag.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_object>
 		<!--For Unix-->
-		<external_include location = "$(EXT_CPP_TAGLIB)/taglib">
+		<external_include location = "$(CPP_TAGLIB)/taglib">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EXT_CPP_TAGLIB)/taglib/mpeg/id3v2">
+		<external_include location = "$(CPP_TAGLIB)/taglib/mpeg/id3v2">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EXT_CPP_TAGLIB)/taglib/toolkit">
+		<external_include location = "$(CPP_TAGLIB)/taglib/toolkit">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</external_include>
-		<external_object location = "-L$(EL_CPP_TAGLIB)/spec/$(ISE_PLATFORM) -ltag">
+		<external_object location = "-L$(CPP_TAGLIB)/spec/$(ISE_PLATFORM) -ltag">
 			<condition>
 				<platform value = "unix"/>
 			</condition>

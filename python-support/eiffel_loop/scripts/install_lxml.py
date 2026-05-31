@@ -19,7 +19,7 @@
 
 import os
 from os import path
-from urllib import FancyURLopener
+from urllib.request import FancyURLopener
 
 class HTTP_CONNECTION (FancyURLopener):
 	# user-agent
@@ -61,9 +61,9 @@ def lxml_cp27_javascript (text):
 	# Unresolved bug 12 Nov 2016
 	# pos_lxml = -1 pol_ul_close = -1 
 	
-	print pos_lxml, pol_ul_close
+	print(pos_lxml, pol_ul_close)
 
-	print text [pos_lxml:pol_ul_close]
+	print(text [pos_lxml:pol_ul_close])
 
 	result = []
 	for line in (text [pos_lxml:pol_ul_close]).split ('\n'):
@@ -82,14 +82,14 @@ def lxml_cp27_javascript (text):
 #-1 -1 BUG HERE
 
 connection = HTTP_CONNECTION ()
-print 'Connecting ..'
+print('Connecting ..')
 url = "http://www.lfd.uci.edu/~gohlke/pythonlibs"
 page = connection.open (url)
 
-for js in lxml_cp27_javascript (str (page.read ())):
-	print js
-	print decoded_path (js)
-	print 
+for js in lxml_cp27_javascript (page.read ().decode ('utf-8')):
+	print(js)
+	print(decoded_path (js))
+	print()
 
 page.close ()
 

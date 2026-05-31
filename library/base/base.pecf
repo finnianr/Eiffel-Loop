@@ -38,16 +38,6 @@ system:
 		mapping:
 			FILE_PATH = EL_FILE_PATH
 
-		# Needed for Windows XP
-		external_object:
-			location = "$EL_C_MSC_RUNTIME/spec/$ISE_PLATFORM/msvcr71.dll"
-			description:
-				"MS VC++ Runtime (for Windows XP)"
-			condition:
-				shared = true
-				platform = windows
-				copy = "$location"
-
 		# ISE libraries
 		libraries:
 			location = "$ISE_LIBRARY/library"

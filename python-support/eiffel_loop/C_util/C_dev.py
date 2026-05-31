@@ -1,23 +1,35 @@
 #	author: "Finnian Reilly"
-#	copyright: "Copyright (c) 2001-2021 Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2026 Finnian Reilly"
 #	contact: "finnian at eiffel hyphen loop dot com"
 #	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-#	date: "9 Sep 2024"
-#	revision: "3"
+#	date: "19 May 2026"
+#	revision: "4"
 
 import os, subprocess, sys
 from os import path
-from eiffel_loop.os.environ import REGISTRY_NODE
+from eiffel_loop.os.util import REGISTRY_NODE
 from eiffel_loop.eiffel import ise_environ
 
 global ise
 ise = ise_environ.shared
 
 if sys.platform == "win32":
-	import _winreg
+	import winreg as _winreg
 
 def ascii (value):
 	return value.encode ('ascii')
+	
+# for gcc compiler
+
+def define_list (space_separated: str) -> list [str]:
+	# convert "EIF_THREADS EIF_LINUXTHREADS ISE_GC" into ['-DEIF_THREADS', '-DEIF_LINUXTHREADS', '-DISE_GC']
+	return [f'-D{token}' for token in space_separated.split()]
+
+def flag_list (space_separated: str) -> list [str]:
+	# convert "unroll-loops peephole" into ['-funroll-loops', '-fpeephole']
+	return [f'-f{token}' for token in space_separated.split()]
+
+# Classes
 
 class MICROSOFT_COMPILER_OPTIONS (object):
 
@@ -78,7 +90,7 @@ class MICROSOFT_COMPILER_OPTIONS (object):
 
 #end MICROSOFT_COMPILER_OPTIONS
 
-class MICROSOFT_SDK (object):
+class MICROSOFT_SDK:
 	# Compiler SDK
 	# Quick help on SetEnv.Cmd and vcvarsall.bat for various SDK versions below
 
@@ -127,30 +139,30 @@ class MICROSOFT_SDK (object):
 		# create script to obtain modified OS environment variables
 		f = open (self.Set_compiler_env_bat, 'w')
 		f.write ('@echo off\n')
-		print 'call "%s" %s\n' % (self.setenv_cmd, arg_str)
+		print('call "%s" %s\n' % (self.setenv_cmd, arg_str))
 		f.write ('call "%s" %s\n' % (self.setenv_cmd, arg_str))
 		f.write ('set') # outputs all environment values for parsing
 		f.close ()
 
 		# Capture script output
-		p = subprocess.Popen([self.Set_compiler_env_bat], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		p = subprocess.Popen([self.Set_compiler_env_bat], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 		out, err = p.communicate()
 		os.remove (self.Set_compiler_env_bat)
-	
+
 		# parse script output
 		for line in out.split ('\n'):
 			# check if output is help text
 			for usage in ['Usage:', 'usage.']:
 				if line.find (usage) >= 0:
-					print "ERROR Invalid MSC option: " + arg_str
+					print("ERROR Invalid MSC option: " + arg_str)
 					exit (1)
 
-			pos_equal = line.find ('=') 
+			pos_equal = line.find ('=')
 			if pos_equal > 0:
 				name = line [0:pos_equal]
 				value = line [pos_equal + 1:-1]
 				# Fixes a problem on Windows for user 'maeda'
-				name = ascii (name).upper (); value = ascii (value)
+				name = name.upper ()
 				result [name] = value
 
 		if self.sdk_version == 'v7.1':

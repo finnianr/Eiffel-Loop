@@ -48,5 +48,5 @@ target_architectures = ['x64']
 
 # Install with version link
 if options.install_dir:
-	print 'options.install_dir', options.install_dir
+	print('options.install_dir', options.install_dir)
 

@@ -10,36 +10,18 @@
 # that there is a directory "<root>/Eiffel/library" in the current path containing
 # Eiffel libraries to be added to environment
 
-import platform, sys, os
+import platform, os
 from string import Template
 
 from eiffel_loop.os import path
 from eiffel_loop.os import environ
+from eiffel_loop.os import env as os_env
+
 from eiffel_loop.eiffel import ise_environ
 from eiffel_loop.C_util.C_dev import MICROSOFT_COMPILER_OPTIONS
+from eiffel_loop.package import LIBRARY_NAME
 
 from eiffel_loop.eiffel.test import TESTS
-
-def is_version_number (a_str):
-	if a_str [-1].isalpha ():
-		# Eg. 0.15.1b -> 0.15.1
-		parts = a_str [0:-1].split ('.')
-	else:	
-		parts = a_str.split ('.')
-
-	result = all (s.isdigit () for s in parts)
-	return result
-
-def library_environ_name (lib_name):
-	result = lib_name
-	hypen_pos = lib_name.rfind ('-')
-	if hypen_pos > 0:
-		if is_version_number (lib_name [hypen_pos + 1:]):
-			result = lib_name [: hypen_pos]
-	
-	result = result.upper ().replace ('-', '_')
-
-	return result
 
 def eiffel_environ ():
 	result = environ_extra.copy ()
@@ -50,62 +32,62 @@ def eiffel_environ ():
 
 	return result
 
-def eiffel_library_dir ():
-	cur_dir = path.curdir (); result = ''; eiffel_dir = ''
-	if var_eiffel in os.environ:
-		result = path.join (os.environ [var_eiffel], library_basename)
+def new_eiffel_library_dir ():
+	# the environment path $EIFFEL/library calculated even when `EIFFEL' is not defined
+	# raise FileNotFoundError if it does not exist
+	
+	result = ''
+	if eiffel_upper in os.environ:
+		result = path.join (os.environ [eiffel_upper], library_basename)
 
-	if not path.exists (result):
-		if eiffel_basename in cur_dir.split (os.sep):
-			eiffel_dir = path.curdir_up_to (eiffel_basename)
-			result = path.join (eiffel_dir, library_basename)
+	for i in range (2):
+		if not path.exists (result):
+			match i:
+				case 0:
+				#	Check for */Eiffel/* in current directory
+					if eiffel_title in path.curdir ().split (os.sep):
+						result = path.join (path.curdir_up_to (eiffel_title), library_basename)
+				case 1:
+					message = 'ERROR: cannot find Eiffel library directory\n\t'
+					if not eiffel_upper in os.environ:
+						message = message + 'Environment variable $%s is not defined\n\t' % eiffel_upper
+						
+					if path.exists (path.dirname (result)):
+						detail = '"%s" does not have a library directory' % path.dirname (result)
+					else:
+						detail = "Current directory does not contain a '%s' step" % eiffel_title
 
-	if not path.exists (result):
-		print 'ERROR: cannot find "library" directory'
-		if var_eiffel in os.environ:
-			print '\tEnvironment variable $%s not defined' % var_eiffel
-		if path.exists (eiffel_dir):
-			print '\t"%s" does not have a library directory' % eiffel_dir
-		else:
-			print "\tCannot find step %s in current directory path" % eiffel_basename
-
-		exit (0)
+					raise FileNotFoundError (message + detail)
 
 	return result
 
-def set_environ_from_directory (a_dir):
-	for name in os.listdir (a_dir):
-		file_path = path.join (a_dir, name)
+def new_eiffel_library_table ():
+	# table of generated environment variables for all libraries found under directory $EIFFEL/library
+	# For example:
+	# The presence of $EIFFEL/library/Eiffel-Loop-2.3.1 will pair
+	#		EIFFEL_LOOP : '$EIFFEL/library/Eiffel-Loop'
+
+	result = dict ()
+	for name in os.listdir (eiffel_library_dir):
+		file_path = path.join (eiffel_library_dir, name)
 		if path.isdir (file_path):
-			environ_extra [library_environ_name (name)] = file_path
-
-def set_c_externals_environ (prefix, a_dir):
-	print 'a_dir', a_dir
-	# set C/C++ external library location env labels
-	for c_name in ["C", "C++"]:
-		c_dir = path.join (eiffel_dir, path.normpath (a_dir), c_name)
-		if path.exists (c_dir):
-			for name in os.listdir (c_dir):
-				dir_path = path.join (c_dir, name)
-				if path.isdir (dir_path):
-					c_type = path.basename (path.dirname (dir_path)).replace ('+', 'P')
-					label = '_'.join ([prefix, c_type, library_environ_name (name)])
-					environ_extra [label] = dir_path
-		else:
-			print "not found", c_dir
-
+			name = LIBRARY_NAME (file_path)
+			# derive environ variable from library name stripped of version info
+			result [name.base.upper ().replace ('-', '_')] = file_path
+			
+	return result
 
 def print_environ ():
 	for key in ['INCLUDE', 'LIB', 'LIBPATH', 'PATH', 'PYTHONPATH']:
 		if key in os.environ:
-			print
-			print key + ':'
+			print()
+			print(key + ':')
 			for p in os.environ [key].split (os.pathsep):
 				if p:
-					print '  ', p
-	print
+					print('  ', p)
+	print()
 	for name in sorted (eiffel_environ ()):
-		print name + " =", os.environ [name]
+		print (name + " =", os.environ [name])
 
 # routines to call from project.py
 
@@ -131,7 +113,8 @@ def set_ise_platform (a_platform):
 
 # SCRIPT BEGIN
 
-global environ_extra, path_extra, ise, var_eiffel, eiffel_basename, library_basename, eiffel_dir
+global environ_extra, path_extra, ise, eiffel_upper, library_basename
+global eiffel_title, eiffel_dir, eiffel_library_dir
 
 ise = ise_environ.shared
 
@@ -144,19 +127,12 @@ path_extra = []
 
 preserve_resources = []
 
-environ_extra = { 
-	# Java
-	'JDK_HOME' 						: environ.jdk_home (),
-
-	# Third party C/C++ libraries
-	'PYTHON_HOME'   				: environ.python_home_dir (),
-	'PYTHON_LIB_NAME'	  			: environ.python_dir_name ()
-}
-
-var_eiffel = 'EIFFEL'
-eiffel_basename = 'Eiffel'
+eiffel_upper = 'EIFFEL'; eiffel_title = 'Eiffel'
 library_basename = 'library'
-eiffel_dir = path.dirname (eiffel_library_dir ())
+eiffel_library_dir = new_eiffel_library_dir ()
+eiffel_dir = path.dirname (eiffel_library_dir)
+
+environ_extra = new_eiffel_library_table ()
 
 # keep assertions in finalized build
 keep_assertions = False
@@ -167,17 +143,7 @@ build_info_path = 'source/build_info.e'
 build_f_code_tar = False
 compile_eiffel = True
 
-set_environ_from_directory (eiffel_library_dir ())
-
-# set labels subdirectories of $EIFFEL/external/C and $EIFFEL/external/C++
-
-set_c_externals_environ ('EXT', 'external')
-set_c_externals_environ ('EL',  'library/Eiffel-Loop/contrib')
-	
-set_environ ('EL_CONTRIB',	'$EIFFEL_LOOP/contrib')
-set_environ ('EL_C_LIB',	'$EIFFEL_LOOP/C_library')
-
-if not sys.platform == 'win32':
+if os.name == 'posix':
 	set_environ ('LANG', 'C')
 
 

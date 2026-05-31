@@ -17,6 +17,11 @@ system:
 		"""
 	target:
 		name = EL_compression
+		description:
+			"""
+				export:
+					C_ZLIB = $ISE_LIBRARY/C_library/zlib
+			"""
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
@@ -26,10 +31,10 @@ system:
 			all_classes = true
 				
 		external_include:
-			location = "$(ISE_LIBRARY)/C_library/zlib"
+			location = "$(C_ZLIB)"
 
 		external_object:
-			location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
+			location = "-L$(C_ZLIB) -lz"
 			condition:
 				platform = unix
 

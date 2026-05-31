@@ -8,12 +8,12 @@
 from lxml import etree
 from io import BytesIO
 
-class XPATH_CONTEXT (object):
+class XPATH_CONTEXT:
 
 	def __init__ (self, ctx, nsmap = None):
 		self.__ctx = ctx
 		if nsmap:
-			self.ns_prefix = nsmap.keys ()[0] + ':'
+			self.ns_prefix = next (iter (nsmap)) + ':'
 		else:
 			self.ns_prefix = None
 		self.nsmap = nsmap
@@ -52,6 +52,9 @@ class XPATH_CONTEXT (object):
 			else:
 				result.append (node)
 		return result
+
+	def new_context (self, xpath, **kwargs):
+		return XPATH_CONTEXT (self.node_list (xpath, **kwargs)[0], self.nsmap)
 
 	def text (self, xpath, **kwargs):
 		attrib_list = self.node_list (xpath, **kwargs)
@@ -102,7 +105,11 @@ class XPATH_CONTEXT (object):
 class XPATH_ROOT_CONTEXT (XPATH_CONTEXT):
 
 	def __init__ (self, file_path, ns_prefix = None):
-		doc = etree.parse (file_path)
+		try:
+			doc = etree.parse (file_path)
+		except etree.XMLSyntaxError as e:
+			print(f"Invalid XML: {e}")
+			
 		if ns_prefix:
 			XPATH_CONTEXT.__init__ (self, doc, {ns_prefix : doc.getroot().nsmap [None]})
 		else:
@@ -114,7 +121,7 @@ class XPATH_FRAGMENT_CONTEXT (XPATH_CONTEXT):
 	def __init__ (self, fragment_text, ns_prefix = None):
 		# create root context using a text fragment (must be latin-1 encoded)
 
-		doc = etree.parse (BytesIO (self.Xml_header + fragment_text))
+		doc = etree.parse (BytesIO ((self.Xml_header + fragment_text).encode ('iso-8859-1')))
 		if ns_prefix:
 			XPATH_CONTEXT.__init__ (self, doc, {ns_prefix : doc.getroot().nsmap [None]})
 		else:

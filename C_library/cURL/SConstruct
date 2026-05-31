@@ -4,33 +4,33 @@
 #	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 #	date: "20 July 2016"
 
-import os, sys, platform
+import os
 from os import path
 
+from eiffel_loop.os import path
 from eiffel_loop.scons import util
 from eiffel_loop.eiffel import ise_environ
+from eiffel_loop.scons import c
 
 global ise
 ise = ise_environ.shared
 
-def new_path (a_path):
-	return path.expandvars (path.normpath (a_path))
-
 include_path = [
-	new_path ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include'),
-	new_path ('$EIFFEL_LOOP/C_library/include')
+	path.expanded ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include'),
+	path.expanded ('$EIFFEL_LOOP/C_library/include')
 ]
 
-is_windows = platform.system () == "Windows"
-
-if is_windows:
+if os.name == "nt":
 	include_path.append (new_path ('$ISE_EIFFEL/library/cURL/spec/include'))
 	compiler_flags = ['-Ox', '-Zi', '-MT', '-w', '-nologo', '-DEIF_THREADS', '-DEIF_WINDOWS']
 	
 else:
 	compiler_flags = ['-g', '-O2', '-Wno-write-strings', '-DEIF_THREADS', '-DEIF_LINUXTHREADS']
 
-env = Environment(CCFLAGS = compiler_flags, CPPPATH = include_path, ENV = os.environ)
+env = Environment (CCFLAGS = compiler_flags, CPPPATH = include_path, ENV = os.environ)
+
+# Abbreviate long paths in compiler output
+c.COMMAND_STRINGS ('C_LIB_CURL EIFFEL_LOOP').configure (env)
 
 build_dir =  ise.spec_build_dir ()
 
@@ -40,4 +40,3 @@ sources = Glob (path.join (build_dir, '*.c'))
 lib = env.StaticLibrary (path.join (build_dir, 'elcurl'), sources)
 	
 env.NoClean (lib)
-#Return ('lib')

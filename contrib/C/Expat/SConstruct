@@ -4,25 +4,32 @@
 #	copyright: "Copyright (c) 2001-2009 Finnian Reilly"
 #	contact: "finnian at eiffel hyphen loop dot com"
 #	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-#	date: "6 Jan 2010"
-#	revision: "0.1"
+#	date: "19 May 2026"
+#	revision: "0.2"
 
-import os, platform
+import os
 from os import path
 from eiffel_loop.os import path as el_path
 from eiffel_loop.eiffel import ise_environ
+from eiffel_loop.C_util import C_dev as C
+from eiffel_loop.scons import c
 
 global ise
 ise = ise_environ.shared
 
-if platform.system () == "Windows":
-	compiler_flags = ['-nologo', '-W1', '-c', '-MT', '-Ox', '-DCOMPILED_FROM_DSP', '-DNDEBUG', '-D_LIB', '-DXML_STATIC'	]
+if os.name == "nt":
+	defines = C.define_list ("_LIB COMPILED_FROM_DSP NDEBUG XML_STATIC")
+	compiler_flags = ['-nologo', '-W1', '-c', '-MT', '-Ox'] + defines
 else:
-	compiler_flags = ['-c', '-O3', '-w', '-Wno-write-strings', '-DHAVE_EXPAT_CONFIG_H', '-DNDEBUG', '-D_LIB', '-DXML_STATIC', '-std=gnu99']
+	defines = C.define_list ("_LIB HAVE_EXPAT_CONFIG_H NDEBUG XML_STATIC")
+	compiler_flags = ['-c', '-O3', '-w', '-Wno-write-strings', '-std=gnu99'] + defines
 
 env = Environment (CCFLAGS = compiler_flags, CPPPATH = ['include'], ENV = os.environ)
 
-build_dir =  ise.spec_build_dir ()
+# Abbreviate long paths in compiler output
+c.COMMAND_STRINGS ('C_EXPAT').configure (env)
+
+build_dir = ise.spec_build_dir ()
 
 VariantDir (build_dir, 'source', duplicate=0)
 
@@ -31,5 +38,3 @@ source_list = [path.join (build_dir, name) for name in ['xmlparse.c', 'xmlrole.c
 lib = env.StaticLibrary (path.join (build_dir, 'expat'), source_list)
 
 env.NoClean (lib)
-
-#Return ('lib')

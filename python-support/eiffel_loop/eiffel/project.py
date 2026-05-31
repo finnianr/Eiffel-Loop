@@ -5,7 +5,7 @@
 #	date: "11 Jan 2010"
 #	revision: "0.1"
 
-import ctypes, os, string, sys, imp, platform, stat
+import ctypes, os, sys, importlib.util, platform, stat
 
 from string import Template
 from eiffel_loop.os import path
@@ -14,7 +14,7 @@ from glob import glob
 from eiffel_loop.eiffel.ecf import SYSTEM_INFO
 
 from eiffel_loop.C_util import C_dev
-from eiffel_loop.os import environ
+from eiffel_loop.os import env as os_env
 
 from eiffel_loop.eiffel import ise_environ
 from eiffel_loop.xml.xpath import XPATH_ROOT_CONTEXT
@@ -38,20 +38,25 @@ def additional_search_paths (new_path):
 	result.discard ('')
 	return list (result)
 
-def read_project_py ():
+def read_project_py (ecf_path = None):
 	# read project configuration from `project.py'
-	py_file, file_path, description = imp.find_module ('project', [path.abspath (os.curdir)])
-	if py_file:
+	# if `ecf_path' specified, set value of `ecf' in evaluated project.py
+	
+	project_path = path.join (path.abspath (os.curdir), 'project.py')
+	spec = importlib.util.spec_from_file_location ('project', project_path)
+	if spec:
 		try:
-			result = imp.load_module ('project', py_file, file_path, description)
-			print 'Read project.py'
-		except (ImportError), e:
-			print 'Import_module exception:', e
+			result = importlib.util.module_from_spec (spec)
+			spec.loader.exec_module (result)
+			if ecf_path:
+				result.ecf = path.basename (ecf_path)
+				
+			print ('Read project.py for ' + result.ecf)
+		except ImportError as e:
+			print('Import_module exception:', e)
 			result = None
-		finally:
-			py_file.close ()
 	else:
-		print 'ERROR: find_module'
+		print('ERROR: find_module')
 		result = None
 
 	return result
@@ -59,7 +64,7 @@ def read_project_py ():
 def create_gzipped_classic_f_code_tar (ise_platform):
 	create_classic_f_code_tar (ise_platform)
 	tar_path = path.join ('build', ('F_code-%s.tar') % ise_platform)
-	print 'Compressing:', tar_path
+	print('Compressing:', tar_path)
 	call (['gzip', tar_path])
 
 def create_classic_f_code_tar (ise_platform):
@@ -71,7 +76,7 @@ def create_classic_f_code_tar (ise_platform):
 	exclude_list = tar.wildcard_list (['exe', 'lib', 'o', 'obj'])
 	exclude_list.extend (['*/finished'])
 
-	print	'Creating:', result
+	print('Creating:', result)
 	f_code_tar.append ('EIFGENs/classic/F_code', exclude_list)
 
 	return path.normpath (result)
@@ -82,7 +87,7 @@ def restore_classic_f_code_tar (f_code_tar_path, ise_platform):
 	if path.exists (windows_eifgens):
 		dir_util.remove_tree (windows_eifgens)
 	
-	print	'Extracting:', f_code_tar_path, ' to', build_dir
+	print('Extracting:', f_code_tar_path, ' to', build_dir)
 	call (['tar', '-xf', f_code_tar_path, '-C', build_dir])
 
 def new_eiffel_project (use_ecf = False):
@@ -96,22 +101,22 @@ def convert_pecf_to_xml (pecf_path):
 	# Generate new ecf XML file
 	result = call (['el_eiffel', '-pecf_to_xml', '-no_highlighting', '-in', pecf_path])
 	if result > 0:
-		print "Error converting %s to XML" % (pecf_path)
+		print("Error converting %s to XML" % (pecf_path))
 	return result
 
 def set_build_environment (config, set_MSC = True):
 	# set build environment from `project.py' config
 
 	if sys.platform == 'win32' and set_MSC and config.MSC_options:
-		print 'Configuring environment for MSC_options: ' + config.MSC_options.as_switch_string ()
-		print "ise.msvc_version", ise.msvc_version
+		print('Configuring environment for MSC_options: ' + config.MSC_options.as_switch_string ())
+		print("ise.msvc_version", ise.msvc_version)
 
 		sdk = C_dev.MICROSOFT_SDK (config.MSC_options)
 		
 		compiler_environ = sdk.compiler_environ ()
 		for name, value in compiler_environ.items ():
 			if not (type (name) is str or type (value) is str):
-				print type (name), type (value)
+				print(type (name), type (value))
 				exit (1)
 
 		ms_sdk_search_paths = additional_search_paths (compiler_environ [Path_key])
@@ -129,12 +134,12 @@ def set_build_environment (config, set_MSC = True):
 	for key, value in config.environ_extra.items ():
 		os.environ [key] = path.expandvars (value)
 
-	path_parts = [environ.system_path ()]
+	path_parts = [os_env.system_path ()]
 	if ms_sdk_search_paths:
 		path_parts.extend (ms_sdk_search_paths)
 	
 	path_parts.extend (config.path_extra)
-	path_parts.append (environ.user_path ())
+	path_parts.append (os_env.user_path ())
 	os.environ [Path_key] = path.expandvars (os.pathsep.join (path_parts))
 	
 def update_ecf (ecf_path):
@@ -267,7 +272,7 @@ class EIFFEL_PROJECT (object):
 		if path.exists (exe_path):
 			result = call ([exe_path, '-autotest'])
 		else:
-			print 'EXE not found', exe_path
+			print('EXE not found', exe_path)
 			result = 1
 		return result
 
@@ -336,36 +341,36 @@ class EIFFEL_PROJECT (object):
 		if not path.exists (install_dir):
 			dir_util.sudo_mkpath (install_dir)
 
-		print 'install_dir', install_dir, self.versioned_exe_name ()
+		print('install_dir', install_dir, self.versioned_exe_name ())
 
 		exe_dest_path = path.join (install_dir, self.versioned_exe_name ())
 
 		self.copy (exe_path, exe_dest_path)
-		print "Copied " + exe_path + " to", install_dir
+		print("Copied " + exe_path + " to", install_dir)
 
 		if self.link (exe_dest_path, path.join (install_dir, self.exe_name), 'sudo') == 0:
-			print 'Linked', self.exe_name, '->', exe_dest_path
+			print('Linked', self.exe_name, '->', exe_dest_path)
 		else:
-			print "Link error"
+			print("Link error")
 
 		script_path = path.join (path.dirname (self.package_exe_path ()), self.exe_name + '.sh')
 		if path.exists (script_path):
 			self.copy (script_path, path.join (install_dir, path.basename (script_path)))
-			print "Copied " + script_path + " to", install_dir
+			print("Copied " + script_path + " to", install_dir)
 
 		for so_path in self.shared_object_list (path.dirname (exe_path)):
 			dest_so_path = path.join (install_dir, path.basename (so_path))
 			if not path.exists (dest_so_path):
 				self.copy (so_path, dest_so_path)
-				print 'Copied', so_path
+				print('Copied', so_path)
 
 	def increment_build_number (self, use_ecf = False):
-		print 'version:', self.version
+		print('version:', self.version)
 		if path.exists (self.pecf_name) and not use_ecf:
-			print "Using Pyxis ECF:", self.ecf_name
+			print("Using Pyxis ECF:", self.ecf_name)
 			project = PYXIS_FORMAT_PROJECT_FILE (self.pecf_name)
 		else:
-			print "Using ECF:", self.ecf_name
+			print("Using ECF:", self.ecf_name)
 			project = ECF_PROJECT_FILE (self.ecf_name)
 		
 		project.increment_build ()

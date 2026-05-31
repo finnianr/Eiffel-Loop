@@ -15,6 +15,13 @@ system:
 		"""
 	target:
 		name = EL_eiffel2python
+		description:
+			"""
+				export:
+					PYTHON_HOME = os_env.python3_home ()
+					PYTHON_INCLUDE = os_env.python3_include ()
+					PYTHON_LIB_NAME = os_env.python3_lib_name ()
+			"""
 		option:
 			namespace = "Eiffel-Loop.Library.Eiffel2Python"
 			syntax = standard; full_class_checking = false; void_safety = none
@@ -26,13 +33,13 @@ system:
 		
 		windows_externals:
 			external_include: 
-				location = "$(PYTHON_HOME)/include"
+				location = "$(PYTHON_INCLUDE)"
 			external_object:
 				location = "$(PYTHON_HOME)/libs/$(PYTHON_LIB_NAME).lib"
 		
 		unix_externals:
 			external_include: 
-				location = "/usr/include/$(PYTHON_LIB_NAME)"
+				location = "$(PYTHON_INCLUDE)"
 			external_object:
 				location = "-l$(PYTHON_LIB_NAME)"
 

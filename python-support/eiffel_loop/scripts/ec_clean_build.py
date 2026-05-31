@@ -9,9 +9,11 @@
 
 from eiffel_loop.eiffel import project as ecf_project
 
-project = ecf_project.new_eiffel_project ()
+def main():
+	project = ecf_project.new_eiffel_project ()
+	project.clean_build ()
+	input ('<return> to exit')
 
-project.clean_build ()
-
-s = raw_input ('<return> to exit')
+if __name__ == '__main__':
+	main()
 

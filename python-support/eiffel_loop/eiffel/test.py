@@ -5,7 +5,7 @@
 #	date: "9 June 2010"
 #	revision: "0.1"
 
-import os, subprocess
+import os, subprocess, sys
 
 from os import path
 		

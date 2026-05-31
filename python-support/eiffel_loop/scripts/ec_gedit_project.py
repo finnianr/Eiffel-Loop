@@ -11,29 +11,31 @@ import sys, os, platform
 
 from eiffel_loop.eiffel.project import new_eiffel_project
 from eiffel_loop.os import path
-from eiffel_loop.os import system
+from eiffel_loop.os import file_system as _file
 
-if len (sys.argv) == 2:
-	extension = sys.argv [1]
-else:
-	extension = 'ecf'
-
-if extension in ['ecf', 'pecf']:
-
-	# Find project ECF file
-	project = new_eiffel_project ()
-	if extension == 'ecf':
-		file_path = path.join (path.curdir (), project.ecf_name)
+def main():
+	if len (sys.argv) == 2:
+		extension = sys.argv [1]
 	else:
-		file_path = path.join (path.curdir (), project.pecf_name)
+		extension = 'ecf'
 
-	system.edit_file (file_path)
-	print "DONE"; exit (0)
+	if extension in ['ecf', 'pecf']:
+		project = new_eiffel_project ()
+		if extension == 'ecf':
+			file_path = path.join (path.curdir (), project.ecf_name)
+		else:
+			file_path = path.join (path.curdir (), project.pecf_name)
+		
+		_file.edit (file_path)
+		print("DONE"); exit (0)
 
-elif extension == 'txt':
-	system.edit_file (path.join (path.curdir (), 'doc', 'versions.txt'))
-	print "DONE"; exit (0)
+	elif extension == 'txt':
+		_file.edit (path.join (path.curdir (), 'doc', 'versions.txt'))
+		print("DONE"); exit (0)
 
-else:
-	print "USAGE: ec_gedit_project.py [ecf | pecf | versions]"
+	else:
+		print("USAGE: ec_gedit_project [ecf | pecf | versions]")
+
+if __name__ == '__main__':
+	main()
 

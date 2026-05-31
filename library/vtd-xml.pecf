@@ -26,6 +26,12 @@ system:
 		"""
 	target:
 		name = EL_vtd_xml
+		description:
+			"""
+				export:
+					C_VTD2EIFFEL = $EIFFEL_LOOP/C_library/vtd2eiffel
+					C_VTD_XML = $EIFFEL_LOOP/contrib/C/VTD-XML*
+			"""
 		root:
 			all_classes = true
 		option:
@@ -36,28 +42,22 @@ system:
 				precondition = true; postcondition = true; check = true; invariant = true
 
 		external_include: 
-			location = "$(EL_C_LIB)/include"
+			location = "$(EIFFEL_LOOP)/C_library/include"
 			description:
 				"""
 					C implementation of EL_C_CALLABLE_PROCEDURE
 				"""
 		external_include: 
-			location = "$(EL_C_LIB)/vtd2eiffel/source"
+			location = "$(C_VTD2EIFFEL)/source"
 
 		windows_externals:
 			external_object:
-				location = "$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM)/vtd-xml.lib"
+				location = "$(C_VTD2EIFFEL)/spec/$(ISE_PLATFORM)/vtd-xml.lib"
 		
 		unix_externals:
 			external_object:
-				location = "-L$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM) -lvtd-xml"
-			external_linker_flag:
-				value = "-L$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM) -lvtd-xml"
+				location = "-L$(C_VTD2EIFFEL)/spec/$(ISE_PLATFORM) -lvtd-xml"
 		
-		# Experiment to see if calling scons with pre-compile action is practical
-		#pre_compile_action:
-		#	working_directory = "$EL_C_LIB/vtd2eiffel"; command = "cmd /c scons && pause"
-
 		# ISE libraries
 		libraries:
 			location = "$ISE_LIBRARY/library"

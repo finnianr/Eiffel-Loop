@@ -7,7 +7,6 @@
 
 import os, sys
 
-from string import Template
 from glob import glob
 from subprocess import call
 
@@ -15,15 +14,19 @@ from eiffel_loop import platform
 from eiffel_loop import osprocess
 from eiffel_loop.distutils import dir_util, file_util
 from eiffel_loop.eiffel import ise_environ
-from eiffel_loop.os.system import new_file_system
 from eiffel_loop.os import path
+from eiffel_loop.os import util
+
+#classes
+from string import Template
+from eiffel_loop.os.system import FILE_SYSTEM
 from eiffel_loop.tar import ARCHIVE
 
 global Build_info_class_template, Launch_script_template, ise
 
 ise = ise_environ.shared
 
-class FREEZE_BUILD (object):
+class FREEZE_BUILD:
 	
 	Build_dir = 'build'
 	C_compile = '-c_compile'
@@ -36,13 +39,14 @@ class FREEZE_BUILD (object):
 	def __init__ (self, ecf, project_py):
 
 		self.app_compat_flags = project_py.MSC_options.app_compat_flags
+		self.msc_compatibility = project_py.MSC_options.compatibility
 		self.ecf = ecf
 		self.system = ecf.system
 		self.ecf_path = ecf.location
 		self.pecf_path = None
 		self.build_info_path = project_py.build_info_path
 		self.preserve_resources = project_py.preserve_resources
-		self.file_system = new_file_system (True)
+		self.file_system = util.os_imp (FILE_SYSTEM, True)
 
 		ecf_path_parts = path.splitext (self.ecf_path)
 		if ecf_path_parts [1] == '.pecf':
@@ -62,8 +66,8 @@ class FREEZE_BUILD (object):
 		self.system_type = self.ecf.system_type
 		self.library_names = []
 
-		print 'Precompile: '
-		print '  ', self.precompile_path
+		print('Precompile: ')
+		print('  ', self.precompile_path)
 
 		# Collate C libraries into lists for explict libs (absolute path), implicit libs (in libary path)
 		# and those that have a SConscript.
@@ -71,9 +75,9 @@ class FREEZE_BUILD (object):
 		for ecf in self.ecf.libraries:
 			self.library_names.append (ecf.name)
 			if ecf.external_libs:
-				print 'For %s:' % path.basename (ecf.location)
+				print('For %s:' % path.basename (ecf.location))
 				for lib in ecf.external_libs:
-					print '  ', lib
+					print('  ', lib)
 					if lib.startswith ('-l'):
 						self.__put_unique (self.implicit_C_libs, lib [2:])
 
@@ -88,7 +92,7 @@ class FREEZE_BUILD (object):
 						self.__put_unique (self.explicit_C_libs, lib)
 
 			for object_path in ecf.c_shared_objects:
-				print '   Dynamically loaded:', object_path
+				print('   Dynamically loaded:', object_path)
 				if not path.basename (object_path).startswith ('*.'):
 					if self.__has_SConscript (object_path):
 						if not object_path in self.scons_buildable_libs:
@@ -159,7 +163,7 @@ class FREEZE_BUILD (object):
 			temp_dir = path.join (installation_dir, 'temporary')
 			self.file_system.make_path (temp_dir)
 			for resource_path_abs in preserve_list:
-				print 'Preserving:', resource_path_abs
+				print('Preserving:', resource_path_abs)
 				self.file_system.move_tree (resource_path_abs, temp_dir)
 			
 			self.install_resources_to (installation_dir)
@@ -168,7 +172,7 @@ class FREEZE_BUILD (object):
 			for resource_path_abs in preserve_list:
 				name = path.basename (resource_path_abs)
 				temp_path = path.join (temp_dir, name)
-				print 'Restoring:', resource_path_abs
+				print('Restoring:', resource_path_abs)
 				self.file_system.move_tree (temp_path, path.dirname (resource_path_abs))
 
 			self.file_system.remove_tree (temp_dir)
@@ -508,7 +512,7 @@ class FINALIZED_BUILD_FROM_TAR (FINALIZED_BUILD):
 # Manifest constants
 
 Build_info_class_template = Template (
-'''note
+r'''note
 	description: "Build specification"
 
 	notes: "GENERATED FILE. Do not edit"

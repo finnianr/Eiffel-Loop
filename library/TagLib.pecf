@@ -33,6 +33,11 @@ system:
 		"""
 	target:
 		name = EL_taglib
+		description:
+			"""
+				export:
+					CPP_TAGLIB = $EIFFEL/external/C++/taglib*
+			"""
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
@@ -43,24 +48,24 @@ system:
 
 		windows_externals:
 			external_include:
-				location = "$(EXT_CPP_TAGLIB)\\taglib"
+				location = "$(CPP_TAGLIB)\\taglib"
 			external_include:
-				location = "$(EXT_CPP_TAGLIB)\\taglib\\mpeg\\id3v2"
+				location = "$(CPP_TAGLIB)\\taglib\\mpeg\\id3v2"
 			external_include: 
-				location = "$(EXT_CPP_TAGLIB)\\taglib\\toolkit"
+				location = "$(CPP_TAGLIB)\\taglib\\toolkit"
 			external_object:
-				location = "$(EL_CPP_TAGLIB)\\taglib\\spec\\$(ISE_PLATFORM)\\tag.lib"
+				location = "$(CPP_TAGLIB)\\taglib\\spec\\$(ISE_PLATFORM)\\tag.lib"
 
 		# For Unix
 		unix_externals:
 			external_include:
-				location = "$(EXT_CPP_TAGLIB)/taglib"
+				location = "$(CPP_TAGLIB)/taglib"
 			external_include:
-				location = "$(EXT_CPP_TAGLIB)/taglib/mpeg/id3v2"
+				location = "$(CPP_TAGLIB)/taglib/mpeg/id3v2"
 			external_include:
-				location = "$(EXT_CPP_TAGLIB)/taglib/toolkit"
+				location = "$(CPP_TAGLIB)/taglib/toolkit"
 			external_object:
-				location = "-L$(EL_CPP_TAGLIB)/spec/$(ISE_PLATFORM) -ltag"
+				location = "-L$(CPP_TAGLIB)/spec/$(ISE_PLATFORM) -ltag"
 			external_object:
 				location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
 

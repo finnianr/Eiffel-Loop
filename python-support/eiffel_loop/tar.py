@@ -26,7 +26,7 @@ def prefixed_list (prefix, path_list):
 		result.append (prefix + '/' + p)
 	return result
 
-# creates TAR object using tar command and Unix style paths  
+# creates TAR object using tar command and Unix style paths
 # Windows tar.exe command found in mingw also uses Unix style paths
 
 class ARCHIVE (object):
@@ -62,7 +62,7 @@ class ARCHIVE (object):
 			cmd.extend (['-C', self.chdir])
 
 		cmd.append (dir_path)
-		print cmd
+		print(cmd)
 		call (cmd)
 
 		if exclusion_list:
@@ -76,7 +76,7 @@ class ARCHIVE (object):
 
 		if self.chdir:
 			cmd.extend (['-C', self.chdir])
-		print cmd
+		print(cmd)
 		call (cmd)
 		
 

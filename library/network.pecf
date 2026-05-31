@@ -17,6 +17,11 @@ system:
 		"""
 	target:
 		name = EL_network
+		description:
+			"""
+				export:
+					C_NET_ADAPTOR = $EIFFEL_LOOP/C_library/network-adapter
+			"""
 		root:
 			all_classes = true
 		option:
@@ -28,11 +33,11 @@ system:
 
 		# C externals
 		external_include: 
-			location = "$(EL_C_LIB)/network-adapter/source"
+			location = "$(C_NET_ADAPTOR)/source"
 
 		windows_externals:
 			external_object:
-				location = "$(EL_C_LIB)/network-adapter/spec/$(ISE_PLATFORM)/network-adapter.lib"
+				location = "$(C_NET_ADAPTOR)/spec/$(ISE_PLATFORM)/network-adapter.lib"
 			external_object:
 				location = "IPHlpApi.lib"
 		

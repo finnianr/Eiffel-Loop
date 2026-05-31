@@ -1,40 +1,10 @@
 #	author: "Finnian Reilly"
-#	copyright: "Copyright (c) 2001-2010 Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2026 Finnian Reilly"
 #	contact: "finnian at eiffel hyphen loop dot com"
 #	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-#	date: "5 Sep 2014"
-#	revision: "0.1"
+#	date: "21 May 2026"
+#	revision: "1.0"
 
-import os, sys, platform
-
-from os import path
-from eiffel_loop.eiffel import ise_environ
-
-global ise
-ise = ise_environ.shared
-
-if platform.system () == "Windows":
-	compiler_flags = ['-Ox', '-Zi', '-MT', '-w', '-nologo', '-DEIF_THREADS', 
-		'-D_WIN32_WINNT=0x0500', '-DWINVER=0x0500', '-D_CRT_SECURE_NO_DEPRECATE', '-D_UNICODE', '-DUNICODE'
-]
-	
-else:
-	compiler_flags =  ['-g', '-O2', '-Wno-write-strings']
-
-include_path = [
-	path.expandvars ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include'), 'source']
-	
-env = Environment(CCFLAGS = compiler_flags, CPPPATH = include_path, ENV = os.environ)
-
-build_dir = ise.spec_build_dir ()
-
-VariantDir (build_dir, 'source', duplicate=0)
-
-library_path = path.join (build_dir, 'network-adapter')
-
-source_list = Glob (path.join (build_dir, '*.c'))
-
-lib = env.StaticLibrary (library_path, source_list)
-
-env.NoClean (lib)
+exec (open (File ('SConstruct').abspath).read ())
 Return ('lib')
+

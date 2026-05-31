@@ -10,11 +10,17 @@ This library allows you to call Python objects from Eiffel. Here is one example 
 in an MP3 file: ${EL_EYED3_TAG}.
 	</description>
 	<target name = "EL_eiffel2python">
+		<description>
+export:
+	PYTHON_HOME = os_env.python3_home ()
+	PYTHON_INCLUDE = os_env.python3_include ()
+	PYTHON_LIB_NAME = os_env.python3_lib_name ()
+		</description>
 		<option namespace = "Eiffel-Loop.Library.Eiffel2Python" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "true" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
 		<root all_classes = "true"/>
-		<external_include location = "$(PYTHON_HOME)/include">
+		<external_include location = "$(PYTHON_INCLUDE)">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
@@ -24,7 +30,7 @@ in an MP3 file: ${EL_EYED3_TAG}.
 				<platform value = "windows"/>
 			</condition>
 		</external_object>
-		<external_include location = "/usr/include/$(PYTHON_LIB_NAME)">
+		<external_include location = "$(PYTHON_INCLUDE)">
 			<condition>
 				<platform value = "unix"/>
 			</condition>

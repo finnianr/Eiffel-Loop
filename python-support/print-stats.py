@@ -20,6 +20,6 @@ for py in file_util.find_files ('eiffel_loop', '*.py'):
 		mod_count += 1
 		# print py
 
-print "\nModules:", mod_count
-print "Classes:", class_count
-print "Definitions:", def_count
+print("\nModules:", mod_count)
+print("Classes:", class_count)
+print("Definitions:", def_count)

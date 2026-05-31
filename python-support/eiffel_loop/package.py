@@ -7,13 +7,12 @@
 
 from __future__ import absolute_import
 
-import os, subprocess, tarfile, zipfile, urllib, platform, xml
-from eiffel_loop.distutils import file_util
+import os, subprocess, tarfile, zipfile, platform, xml
+from eiffel_loop.distutils import file_util, dir_util
 
-from distutils import dir_util
 from os import path
 from string import Template
-from urllib import FancyURLopener
+from urllib.request import FancyURLopener, urlretrieve
 
 if os.name == 'posix':
 	from debian import debfile
@@ -23,17 +22,53 @@ from xml.parsers import expat
 global default_download_dir
 default_download_dir = path.normpath (path.expanduser ("~/Downloads/SCons-packages"))
 
-def display_progress (a, b, c): 
-    # ',' at the end of the line is important!
-    print "% 3.1f%% of %d bytes\r" % (min(100, float(a * b) / c * 100), c),
+def display_progress (a, b, c):
+	print("% 3.1f%% of %d bytes\r" % (min(100, float(a * b) / c * 100), c), end='')
     #you can also use sys.stdout.write
     #sys.stdout.write("\r% 3.1f%% of %d bytes" 
     #                 % (min(100, float(a * b) / c * 100), c)
     #sys.stdout.flush()
 
+def is_version_string (a_str):
+	if a_str [-1].isalpha ():
+		# Eg. 0.15.1b -> 0.15.1
+		parts = a_str [0:-1].split ('.')
+	else:	
+		parts = a_str.split ('.')
+
+	result = all (s.isdigit () for s in parts)
+	return result
+
 # CLASSES
 
-class LIBRARY_INFO (object):
+class LIBRARY_NAME:
+	# parse basename of path to coding library for base name and version
+
+# Constants
+
+	Empty_string = ''
+
+# Initialization
+	def __init__ (self, lib_path):
+		self.full = path.basename (lib_path)
+		hypen_pos = self.full.rfind ('-')
+		if hypen_pos > 0:
+			if is_version_string (self.full [hypen_pos + 1:]):
+				self.base = self.full [: hypen_pos]
+				self.version = self.full [hypen_pos + 1:]
+			else:
+				self.base = self.full
+				self.version = self.Empty_string
+		else:
+			self.base = self.full
+			self.version = self.Empty_string
+
+# Status query
+
+	def has_version (self):
+		return not self.version is self.Empty_string
+
+class LIBRARY_INFO:
 # information from .getlib source file	
 
 # Initialization
@@ -51,7 +86,7 @@ class LIBRARY_INFO (object):
 		if self.c_dev:
 			self.c_dev = path.expandvars (self.c_dev)
 
-class SOFTWARE_PACKAGE (object):
+class SOFTWARE_PACKAGE:
 
 # Initialization
 	def __init__ (self, url, dest_dir = default_download_dir, rel_unpacked = None, makefile = 'Makefile'):
@@ -107,8 +142,8 @@ class SOFTWARE_PACKAGE (object):
 	def download (self):
 		if not self.exists ():
 			dir_util.mkpath (self.dest_dir)
-			print 'Downloading:', self.basename, ' to:', self.dest_dir
-			urllib.urlretrieve (self.url, self.file_path, display_progress)
+			print('Downloading:', self.basename, ' to:', self.dest_dir)
+			urlretrieve (self.url, self.file_path, display_progress)
 		
 	def extract (self):
 		# extract member names as target names
@@ -153,7 +188,7 @@ class ZIP_SOFTWARE_PACKAGE (SOFTWARE_PACKAGE):
 # Basic operations
 	def extract (self):
 		# extract member names as target names
-		print "Reading zip file:", self.file_path
+		print("Reading zip file:", self.file_path)
 		zip_file = zipfile.ZipFile (self.file_path, 'r')
 		for fpath in zip_file.namelist ():
 			member_name = path.basename (fpath)

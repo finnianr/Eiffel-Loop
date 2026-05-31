@@ -26,7 +26,7 @@ def get (target, source, env):
 	# Scons builder action to extract targets from sources
 	packages = {}
 	for i in range (0, len (source)):
-		print 'source [%s]' % i, source [i]
+		print('source [%s]' % i, source [i])
 		url, member_name = source_url_and_member_name (str (source [i]), subst_variables)
 		if url in packages:
 			package = packages [url]
@@ -39,7 +39,7 @@ def get (target, source, env):
 			elif extension == ".deb":
 				package = DEBIAN_SOFTWARE_PACKAGE (url)
 			else:
-				print 'ERROR invalid extension "%s"' % extension
+				print('ERROR invalid extension "%s"' % extension)
 			packages [url] = package
 		
 		package.append (str (target [i]), member_name)

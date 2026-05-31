@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2026-05-21 8:20:41 GMT (Thursday 21st May 2026)"
-	revision: "18"
+	date: "2024-12-10 11:30:51 GMT (Tuesday 10th December 2024)"
+	revision: "17"
 
 class
 	EL_IMAGE_PATH_LOCATIONS

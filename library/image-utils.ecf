@@ -10,29 +10,34 @@ Image utilities providing:
 2. Miscellaneous routines from the [https://cairographics.org/ Cairo graphics C library]
 	</description>
 	<target name = "EL_image_utils">
+		<description>
+export:
+	C_IMAGE_UTILS = $EIFFEL_LOOP/C_library/image-utils
+	CAIRO_LIB = $EIFFEL_LOOP/contrib/C/Cairo*
+		</description>
 		<root all_classes = "true"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
 		<!--Common includes-->
-		<external_include location = "$(EL_C_LIB)/include"/>
-		<external_include location = "$(EL_C_LIB)/image-utils/source"/>
-		<external_include location = "$(EL_C_CAIRO)/include/cairo">
+		<external_include location = "$(EIFFEL_LOOP)/C_library/include"/>
+		<external_include location = "$(C_IMAGE_UTILS)/source"/>
+		<external_include location = "$(CAIRO_LIB)/include/cairo">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_C_CAIRO)/include/librsvg-2.0/librsvg">
+		<external_include location = "$(CAIRO_LIB)/include/librsvg-2.0/librsvg">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_C_CAIRO)/include/glib-2.0">
+		<external_include location = "$(CAIRO_LIB)/include/glib-2.0">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_include location = "$(EL_C_CAIRO)/lib/glib-2.0/include">
+		<external_include location = "$(CAIRO_LIB)/lib/glib-2.0/include">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
@@ -64,7 +69,7 @@ Image utilities providing:
 			The following objects are excluded from being linked because they are intended for dynamic linking at runtime.
 			They are included to trigger SCons build scripts.
 		-->
-		<external_object location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/elimageutils.dll">
+		<external_object location = "$(C_IMAGE_UTILS)/spec/$(ISE_PLATFORM)/elimageutils.dll">
 			<description>Windows implementation of C interface &lt;image-utils.h&gt;</description>
 			<condition>
 				<custom name = "shared" value = "true"/>
@@ -72,16 +77,16 @@ Image utilities providing:
 				<custom name = "copy" value = "$location"/>
 			</condition>
 		</external_object>
-		<external_object location = "$(EL_C_CAIRO)/spec/$(ISE_PLATFORM)/libcairo-2.dll">
+		<external_object location = "$(CAIRO_LIB)/spec/$(ISE_PLATFORM)/libcairo-2.dll">
 			<description>Cairo DLL&apos;s for Windows</description>
 			<condition>
 				<custom name = "shared" value = "true"/>
 				<platform value = "windows"/>
-				<custom name = "copy" value = "$EL_C_CAIRO/spec/$ISE_PLATFORM/*.dll"/>
+				<custom name = "copy" value = "$CAIRO_LIB/spec/$ISE_PLATFORM/*.dll"/>
 			</condition>
 		</external_object>
 		<!--For Unix-->
-		<external_object location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/libelimageutils.so">
+		<external_object location = "$(C_IMAGE_UTILS)/spec/$(ISE_PLATFORM)/libelimageutils.so">
 			<description>Unix implementation of C interface &lt;image-utils.h&gt;</description>
 			<condition>
 				<custom name = "shared" value = "true"/>

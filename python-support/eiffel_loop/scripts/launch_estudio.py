@@ -9,29 +9,37 @@
 
 import subprocess, sys, os
 
-from distutils import dir_util
+from eiffel_loop.distutils import dir_util
 from eiffel_loop.os import path
 
 from eiffel_loop.eiffel import project
 
-config = project.read_project_py ()
+def main():
 
-if len (sys.argv) == 2:
-	ecf_path = path.as_ecf (sys.argv [1])
-else:
-	print "USAGE: launch_estudio <project name>.(pecf|ecf)"
-	sys.exit (1)
-
-project.set_build_environment (config)
-config.print_environ ()
-
-project.update_ecf (ecf_path)
+	if len (sys.argv) == 2:
+		ecf_path = path.as_ecf (sys.argv [1])
 		
-eifgen_path = path.join ('build', config.ise.platform)	
-if not path.exists (eifgen_path):
-	dir_util.mkpath (eifgen_path)
+		project_py = project.read_project_py (ecf_path)
 
-cmd = ['estudio', '-ecf_path', eifgen_path, '-config', ecf_path]
-print cmd
-ret_code = subprocess.call (cmd)
+		project.set_build_environment (project_py)
+		project_py.print_environ ()
+		project.update_ecf (ecf_path)
+
+		config = EIFFEL_CONFIG_FILE (project_py.ecf)
+		config.set_export_paths ()
+
+		eifgen_path = path.join ('build', project_py.ise.platform)
+		if not path.exists (eifgen_path):
+			dir_util.mkpath (eifgen_path)
+
+		cmd = ['estudio', '-ecf_path', eifgen_path, '-config', ecf_path]
+		print(cmd)
+
+	else:
+		print("USAGE: launch_estudio <project name>.(pecf|ecf)")
+
+	subprocess.call (cmd)
+
+if __name__ == '__main__':
+	main()
 

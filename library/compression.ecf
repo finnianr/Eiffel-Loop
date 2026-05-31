@@ -12,12 +12,16 @@ An Eiffel interface to the [https://www.zlib.net/ zlib C library].
 The main class is ${EL_COMPRESSED_ARCHIVE_FILE} with a few helper classes.
 	</description>
 	<target name = "EL_compression">
+		<description>
+export:
+	C_ZLIB = $ISE_LIBRARY/C_library/zlib
+		</description>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
 		<root all_classes = "true"/>
-		<external_include location = "$(ISE_LIBRARY)/C_library/zlib"/>
-		<external_object location = "-L$(ISE_LIBRARY)/C_library/zlib -lz">
+		<external_include location = "$(C_ZLIB)"/>
+		<external_object location = "-L$(C_ZLIB) -lz">
 			<condition>
 				<platform value = "unix"/>
 			</condition>

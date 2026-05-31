@@ -8,25 +8,26 @@
 #	revision: "0.2"
 
 import sys, os, platform
+from eiffel_loop.os import file_system as _file
 
-from eiffel_loop.os import system
+def main():
+	if len (sys.argv) >= 2:
+		dir_path = sys.argv [1]
+	else:
+		dir_path = None
 
-if len (sys.argv) >= 2:
-	dir_path = sys.argv [1]
-else:
-	dir_path = None
+	delete_count = int (sys.argv [2]) if len (sys.argv) == 3 else 0
+	
+	if delete_count in range (0, 4) and dir_path:
+		
+		steps = dir_path.split (os.sep) [:-delete_count]
+		print ("Opening", dir_path)
+		_file.open_directory (dir_path)
+		print("DONE")
+	else:
+		print("USAGE: ec_open_directory <dir-path> <tail-delete-count>")
 
-if len (sys.argv) == 3:
-	delete_count = int (sys.argv [2])
-else:
-	delete_count = 0
-
-if delete_count in range (0, 4) and dir_path:
-	steps = dir_path.split (os.sep) [:-delete_count]
-	print "Opening", steps [-1]
-	system.open_directory (os.sep.join (steps))
-	print "DONE"; exit (0)
-else:
-	print "USAGE: ec_open_directory <dir-path> <tail-delete-count>"
+if __name__ == '__main__':
+	main()
 
 

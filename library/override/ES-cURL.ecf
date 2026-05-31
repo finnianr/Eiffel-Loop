@@ -1,40 +1,44 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
 <system name = "curl" library_target = "curl" uuid = "D51EF190-6157-4B47-8E73-FA93DCBB7A71" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd">
-	<target name = "curl">
-		<description>
+	<description>
 cURL: libcURL wrapper library for Eiffel.
 Copyright (c) 1984-2006, Eiffel Software and others.
 Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt).
+	</description>
+	<target name = "curl">
+		<description>
+export:
+	LIB_CURL = $ISE_LIBRARY/library/cURL
 		</description>
 		<root all_classes = "true"/>
 		<option warning = "true" is_attached_by_default = "false" syntax = "transitional" namespace = "EiffelSoftware.Library"/>
 		<setting name = "dotnet_naming_convention" value = "true"/>
-		<external_include location = "$(ISE_LIBRARY)\library\cURL\spec\include">
+		<external_include location = "$(LIB_CURL)\spec\include">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_object location = "$(ISE_LIBRARY)/library/cURL/spec/$(ISE_PLATFORM)/lib/eiffel_curl.o">
+		<external_object location = "$(LIB_CURL)/spec/$(ISE_PLATFORM)/lib/eiffel_curl.o">
 			<condition>
 				<platform excluded_value = "windows"/>
 				<concurrency value = "none"/>
 			</condition>
 		</external_object>
-		<external_object location = "$(ISE_LIBRARY)/library/cURL/spec/$(ISE_PLATFORM)/lib/MTeiffel_curl.o">
+		<external_object location = "$(LIB_CURL)/spec/$(ISE_PLATFORM)/lib/MTeiffel_curl.o">
 			<condition>
 				<platform excluded_value = "windows"/>
 				<concurrency excluded_value = "none"/>
 			</condition>
 		</external_object>
-		<external_object location = "$(ISE_LIBRARY)\library\cURL\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\eiffel_curl.lib">
+		<external_object location = "$(LIB_CURL)\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\eiffel_curl.lib">
 			<condition>
 				<platform value = "windows"/>
 				<concurrency value = "none"/>
 				<dotnet value = "false"/>
 			</condition>
 		</external_object>
-		<external_object location = "$(ISE_LIBRARY)\library\cURL\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\mteiffel_curl.lib">
+		<external_object location = "$(LIB_CURL)\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\mteiffel_curl.lib">
 			<condition>
 				<platform value = "windows"/>
 				<concurrency excluded_value = "none"/>

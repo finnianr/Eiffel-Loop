@@ -13,6 +13,11 @@ system:
 		"""
 	target:
 		name = EL_wel_x_audio
+		description:
+			"""
+				export:
+					C_AUDIO_LIB = $EIFFEL_LOOP/C_library/audio
+			"""
 		root:
 			all_classes = true
 		option:
@@ -39,9 +44,9 @@ system:
 
 		windows_externals:
 			external_include:
-				location = "$(EL_C_LIB)/audio/source"
+				location = "$(C_AUDIO_LIB)/source"
 			external_object:
-				location = "$(EL_C_LIB)/audio/spec/$(ISE_PLATFORM)/el_audio.lib"
+				location = "$(C_AUDIO_LIB)/spec/$(ISE_PLATFORM)/el_audio.lib"
 			external_object:
 				location = 'WinMM.lib'
 

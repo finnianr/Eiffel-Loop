@@ -7,7 +7,7 @@
 
 # cmake required to make taglib.ecf
 
-for name in automake autoconf cmake lftp libtool libxrandr-dev librsvg2-dev patch python2.7-dev python-lxml scons; do
+for name in automake autoconf cmake lftp libcurl4-gnutls-dev libtool libxrandr-dev librsvg2-dev patch python-lxml scons; do
 	install_status="$(dpkg -s $name 2>/dev/null | grep -c "install ok")"
 	if [[ $install_status -eq "0" ]]; then
 		sudo apt-get install $name
@@ -33,7 +33,8 @@ then
 		sudo cp $curl_lib/MTeiffel_curl.o $ISE_LIBRARY/library/$curl_lib
 		rm -r cURL
 	fi
-	sudo python setup.py build -b build/$ISE_PLATFORM install --install-scripts=/usr/local/bin
+	# /usr put scripts into /usr/local/bin
+	sudo pip install . --prefix=/usr
 	python -m eiffel_loop.scripts.setup
 else
 	echo

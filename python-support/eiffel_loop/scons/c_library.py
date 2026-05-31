@@ -32,7 +32,7 @@ def build (target, source, env):
 
 		src_path = path.join (pkg.unpacked_dir, info.clib)
 		if pkg.is_configured ():
-			print "Configured '%s' exists" % (info.makefile)
+			print("Configured '%s' exists" % (info.makefile))
 		else:
 			pkg.configure (info.configure)
 

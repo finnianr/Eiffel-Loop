@@ -22,15 +22,6 @@ Clusters:
 		<mapping old_name = "DTC" new_name = "DATE_TIME_CODE"/>
 		<mapping old_name = "DIR_PATH" new_name = "EL_DIR_PATH"/>
 		<mapping old_name = "FILE_PATH" new_name = "EL_FILE_PATH"/>
-		<!--Needed for Windows XP-->
-		<external_object location = "$EL_C_MSC_RUNTIME/spec/$ISE_PLATFORM/msvcr71.dll">
-			<description>MS VC++ Runtime (for Windows XP)</description>
-			<condition>
-				<custom name = "shared" value = "true"/>
-				<platform value = "windows"/>
-				<custom name = "copy" value = "$location"/>
-			</condition>
-		</external_object>
 		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>

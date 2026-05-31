@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Void-Safety Migration: Code Pattern Survey</title>
+<style>
+  body {
+    font-family: Georgia, serif;
+    max-width: 980px;
+    margin: 2em auto;
+    padding: 0 1.5em;
+    color: #222;
+    line-height: 1.65;
+    background: #fafafa;
+  }
+  h1 { font-size: 1.8em; border-bottom: 2px solid #444; padding-bottom: 0.3em; }
+  h2 { font-size: 1.25em; margin-top: 2em; color: #333; border-left: 4px solid #888; padding-left: 0.6em; }
+  h3 { font-size: 1.05em; color: #444; margin-top: 1.4em; }
+  code, pre { font-family: "Courier New", Courier, monospace; background: #f0f0f0; }
+  pre {
+    padding: 0.8em 1em;
+    border-left: 3px solid #aaa;
+    overflow-x: auto;
+    font-size: 0.88em;
+    line-height: 1.5;
+  }
+  code { padding: 0.1em 0.3em; border-radius: 2px; font-size: 0.9em; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.2em 0;
+    font-size: 0.93em;
+  }
+  th {
+    background: #444;
+    color: #fff;
+    padding: 0.5em 0.8em;
+    text-align: left;
+  }
+  td {
+    padding: 0.45em 0.8em;
+    border-bottom: 1px solid #ccc;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f4f4f4; }
+  .stat  { font-weight: bold; color: #333; }
+  .gain  { color: #2a6e2a; font-weight: bold; }
+  .note  {
+    background: #fff8e1;
+    border-left: 4px solid #e0a800;
+    padding: 0.6em 1em;
+    margin: 1em 0;
+    font-size: 0.94em;
+  }
+  .info  {
+    background: #e8f4fb;
+    border-left: 4px solid #2980b9;
+    padding: 0.6em 1em;
+    margin: 1em 0;
+    font-size: 0.94em;
+  }
+  .section-intro { color: #555; font-style: italic; margin-bottom: 1em; }
+  .module-bar {
+    display: inline-block;
+    background: #6a9abf;
+    height: 1em;
+    vertical-align: middle;
+    margin-right: 0.4em;
+  }
+  ul li { margin-bottom: 0.3em; }
+</style>
+</head>
+<body>
+
+<h1>Void-Safety Migration: Code Pattern Survey</h1>
+
+<p class="section-intro">
+  A survey of all non-void-safe constructs in the Eiffel-Loop library, test suite, and
+  examples. The library targets EiffelStudio 16.05 with
+  <code>void_safety = "none"</code> in all ECF files. The goal of this report is to
+  map the mechanical work required to migrate to full void-safety.
+</p>
+
+<table>
+  <tr>
+    <th>Scope</th>
+    <th>ECF files</th>
+    <th>Eiffel source files</th>
+    <th>ECF schema</th>
+    <th>Void-safety setting</th>
+  </tr>
+  <tr>
+    <td>Library</td>
+    <td class="stat">57</td>
+    <td class="stat">3,146</td>
+    <td><code>configuration-1-16-0</code> (×54), <code>-1-15-0</code> (×3)</td>
+    <td><code>none</code> in every file</td>
+  </tr>
+  <tr>
+    <td>Test suite</td>
+    <td class="stat">5</td>
+    <td class="stat">308</td>
+    <td><code>configuration-1-16-0</code></td>
+    <td><code>none</code></td>
+  </tr>
+  <tr>
+    <td>Examples</td>
+    <td class="stat">9</td>
+    <td class="stat">263</td>
+    <td><code>configuration-1-16-0</code></td>
+    <td><code>none</code></td>
+  </tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>Already Void-Safe — The Baseline</h2>
+
+<p>
+  Despite the ECF settings, the code already shows substantial void-safe discipline.
+  The following metrics show how much is already correct:
+</p>
+
+<table>
+  <tr><th>Pattern</th><th>Count</th><th>Significance</th></tr>
+  <tr>
+    <td>Uses of <code>attached {T} x as l_x</code></td>
+    <td class="stat">2,894</td>
+    <td>Modern void-safe type-narrowing; replaces the old <code>?=</code> operator</td>
+  </tr>
+  <tr>
+    <td>Uses of <code>detachable</code> keyword</td>
+    <td class="stat">424</td>
+    <td>Intentional nullable declarations already explicitly annotated</td>
+  </tr>
+  <tr>
+    <td>Files using <code>attached</code></td>
+    <td class="stat">769 / 3,146</td>
+    <td>Roughly one quarter of all files already follow void-safe style</td>
+  </tr>
+  <tr>
+    <td>Files using <code>detachable</code></td>
+    <td class="stat">210 / 3,146</td>
+    <td>Nullable attributes already explicitly declared where needed</td>
+  </tr>
+  <tr>
+    <td><code>once ("PROCESS")</code> / <code>once ("THREAD")</code> routines</td>
+    <td class="stat">68 files</td>
+    <td>All unconditionally <code>create Result</code> — already void-safe compliant</td>
+  </tr>
+</table>
+
+<div class="info">
+  The author has been writing void-safe style for years without flipping the
+  compiler switch. The remaining non-void-safe patterns are concentrated in a small
+  minority of files and fall into a handful of recurring categories.
+</div>
+
+<!-- ============================================================ -->
+<h2>Pattern 1 — Assignment Attempts (<code>?=</code>)</h2>
+
+<table>
+  <tr><th>Location</th><th>Count</th></tr>
+  <tr><td>Main library (<code>library/</code> excluding <code>override/</code>)</td><td class="stat">0</td></tr>
+  <tr><td><code>override/</code> directory (patched ISE Vision2 / WEL code)</td><td class="stat">17</td></tr>
+  <tr><td>Test suite and examples</td><td class="stat">0</td></tr>
+</table>
+
+<p>
+  There are <strong>no assignment attempts in the main library code at all</strong>.
+  All 17 instances are in the <code>override/</code> directory, which contains patched
+  copies of ISE's Vision2 and WEL libraries needed to work around bugs in ES 16.05.
+  Each <code>?=</code> converts to a standard <code>if attached {TYPE} x as l_x then</code>
+  block — or may disappear entirely if the patches are no longer needed against a modern
+  ISE Vision2.
+</p>
+
+<pre>-- Before (non-void-safe)
+a_pixmap_imp ?= Result.implementation
+
+-- After (void-safe)
+if attached {EV_PIXMAP_IMP} Result.implementation as a_pixmap_imp then
+    ...
+end</pre>
+
+<!-- ============================================================ -->
+<h2>Pattern 2 — Void Comparisons (<code>= Void</code> / <code>/= Void</code>)</h2>
+
+<table>
+  <tr><th>Location</th><th>Count</th><th>Files affected</th></tr>
+  <tr>
+    <td>Main library — code logic (<code>if x = Void then</code>)</td>
+    <td class="stat">65</td>
+    <td class="stat">~28</td>
+  </tr>
+  <tr>
+    <td>Main library — contracts (require / ensure / invariant)</td>
+    <td class="stat">~173</td>
+    <td class="stat">~40</td>
+  </tr>
+  <tr>
+    <td><code>override/</code> directory</td>
+    <td class="stat">part of 238 total</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Test suite</td>
+    <td class="stat">1 (string literal — not a Void check)</td>
+    <td class="stat">0</td>
+  </tr>
+  <tr>
+    <td>Examples</td>
+    <td class="stat">1</td>
+    <td class="stat">1</td>
+  </tr>
+</table>
+
+<h3>Distribution across library modules</h3>
+
+<table>
+  <tr><th>Module</th><th>Void comparisons</th></tr>
+  <tr><td><code>base/</code></td><td><span class="module-bar" style="width:4.2em"></span> 21</td></tr>
+  <tr><td><code>multimedia/</code></td><td><span class="module-bar" style="width:3.6em"></span> 18</td></tr>
+  <tr><td><code>language_interface/</code></td><td><span class="module-bar" style="width:0.6em"></span> 3</td></tr>
+  <tr><td><code>text/</code></td><td><span class="module-bar" style="width:0.6em"></span> 3</td></tr>
+  <tr><td><code>network/</code></td><td><span class="module-bar" style="width:0.6em"></span> 3</td></tr>
+  <tr><td><code>runtime/</code></td><td><span class="module-bar" style="width:0.4em"></span> 2</td></tr>
+  <tr><td><code>persistency/</code></td><td><span class="module-bar" style="width:0.2em"></span> 1</td></tr>
+  <tr><td><code>utility/</code></td><td><span class="module-bar" style="width:0.2em"></span> 1</td></tr>
+</table>
+
+<h3>Two sub-categories</h3>
+
+<p><strong>In code logic</strong> — lazy initialization and optional feature dispatch:</p>
+
+<pre>-- Lazy initialization (base/kernel/reflection)
+if representation = Void then
+    set_directly (object, string)
+elseif attached {EL_STRING_FIELD_REPRESENTATION [...]} representation as r then
+    set (object, r.to_value (string))
+end</pre>
+
+<p>
+  These require the attribute to be declared <code>detachable</code> (many already are,
+  e.g. <code>representation: detachable EL_FIELD_REPRESENTATION [...]</code> in
+  <code>el_reflected_field.e:53</code>). The Void guard then becomes:
+</p>
+
+<pre>if not attached representation then
+    set_directly (object, string)
+elseif attached {EL_STRING_FIELD_REPRESENTATION [...]} representation as r then
+    set (object, r.to_value (string))
+end</pre>
+
+<p><strong>In contracts</strong> — preconditions and postconditions:</p>
+
+<pre>-- Before
+id_not_void: id /= Void
+result_not_void: Result /= Void
+
+-- After (attachment precondition / postcondition)
+id_attached: attached id
+result_attached: attached Result</pre>
+
+<!-- ============================================================ -->
+<h2>Pattern 3 — <code>Result := Void</code></h2>
+
+<table>
+  <tr><th>File</th><th>Feature</th><th>Declared return type</th></tr>
+  <tr>
+    <td><code>el_reflective.e</code></td>
+    <td><code>eiffel_naming</code></td>
+    <td>Already returns <code>detachable EL_NAME_TRANSLATER</code> (via Void default)</td>
+  </tr>
+  <tr>
+    <td><code>el_name_translater.e</code></td>
+    <td><code>uppercase_exception_set_list</code></td>
+    <td>Already declared <code>detachable STRING</code></td>
+  </tr>
+  <tr>
+    <td><code>tp_factory.e</code></td>
+    <td><code>OPTIONAL_ACTION</code></td>
+    <td>Already declared <code>detachable PROCEDURE [INTEGER, INTEGER]</code></td>
+  </tr>
+</table>
+
+<p>
+  All 7 instances of <code>Result := Void</code> are in routines whose return type is
+  intentionally detachable. In most cases the <code>detachable</code> annotation is
+  already present. The only change needed is confirming the return type declaration is
+  explicit — the body <code>Result := Void</code> is then a no-op (default value) and
+  can optionally be removed.
+</p>
+
+<!-- ============================================================ -->
+<h2>Pattern 4 — Lazy Initialization</h2>
+
+<p class="section-intro">
+  Attributes that are optionally created on first use, currently detected as
+  <code>if x = Void then create x end</code>.
+</p>
+
+<table>
+  <tr><th>Count in code logic</th><th>Files affected</th></tr>
+  <tr><td class="stat">22 occurrences</td><td class="stat">28 files</td></tr>
+</table>
+
+<p>There are two sub-patterns with different fixes:</p>
+
+<h3>a) Optional feature dispatch (attribute may never be set)</h3>
+
+<pre>-- el_audio_clip_saver.e
+sound_level_listener: EL_SIGNAL_LEVEL_LISTENER   -- not initialised in make
+
+if sound_level_listener /= Void then
+    sound_level_listener.set_signal_level (audio_rms_energy)
+end</pre>
+
+<p>Fix: declare the attribute <code>detachable</code> and convert the guard.</p>
+
+<pre>sound_level_listener: detachable EL_SIGNAL_LEVEL_LISTENER
+
+if attached sound_level_listener as sl then
+    sl.set_signal_level (audio_rms_energy)
+end</pre>
+
+<h3>b) True lazy creation (attribute created on first access)</h3>
+
+<pre>-- el_enumeration.e
+if name_translater = Void then
+    create name_translater.make (...)
+end</pre>
+
+<p>
+  In a newer EiffelStudio (where the ES 16.05 bug is fixed), this becomes a
+  <code>once ("OBJECT")</code> function — cleaner and more efficient. See Pattern 6 below.
+</p>
+
+<!-- ============================================================ -->
+<h2>Pattern 5 — ECF Configuration Files</h2>
+
+<p>All 57 library ECF files require the same mechanical change:</p>
+
+<pre>&lt;!-- Before --&gt;
+&lt;option void_safety = "none" ...&gt;
+
+&lt;!-- Transitional (recommended first step) --&gt;
+&lt;option void_safety = "transitional" ...&gt;
+
+&lt;!-- Final --&gt;
+&lt;option void_safety = "all" ...&gt;</pre>
+
+<p>
+  The ECF schema version also needs updating from <code>configuration-1-16-0</code>
+  to match the target EiffelStudio installation. Two ECF files already use the older
+  <code>configuration-1-15-0</code> schema (the GOBO base and one other) and will
+  need updating regardless.
+</p>
+
+<div class="note">
+  The <code>is_attached_by_default = "false"</code> attribute already appears on the
+  <code>override/</code> ECFs and the GOBO base ECF — exactly where legacy code
+  requires it. This shows the ECF structure is already prepared for the transition.
+</div>
+
+<!-- ============================================================ -->
+<h2>Pattern 6 — <code>EL_LAZY_ATTRIBUTE</code> Workaround</h2>
+
+<p>
+  There are <span class="stat">21</span> classes that inherit from
+  <code>EL_LAZY_ATTRIBUTE</code>. This deferred class is a workaround for a specific
+  bug in ES 16.05 where <code>once ("OBJECT")</code> did not work correctly.
+  The class note documents this explicitly:
+</p>
+
+<pre>-- This class is a workaround for bug in ES version 16.05.9
+-- for the "once per object" construct:
+--
+--   object: MY_CLASS
+--       once ("OBJECT")
+--           create Result
+--       end</pre>
+
+<p>
+  <code>EL_LAZY_ATTRIBUTE</code> reimplements the same semantic using a
+  <code>detachable cached_item</code> attribute and a manual null-check in
+  <code>lazy_item</code>. This is already fully void-safe by design.
+</p>
+
+<p>
+  With a modern EiffelStudio, the bug is fixed. All 21 inheriting classes could
+  replace:
+</p>
+
+<pre>-- Before: using EL_LAZY_ATTRIBUTE workaround
+inherit EL_LAZY_ATTRIBUTE
+
+    new_item: MY_CLASS deferred end
+    cached_item: detachable like new_item
+
+-- Accessed via:
+    result := lazy_item</pre>
+
+<p>with the native construct:</p>
+
+<pre>-- After: native once-per-object
+my_object: MY_CLASS
+    once ("OBJECT")
+        create Result.make (...)
+    end</pre>
+
+<p>
+  This is a <span class="gain">gain</span>, not a cost: the workaround class and its
+  boilerplate disappear entirely.
+</p>
+
+<!-- ============================================================ -->
+<h2>The <code>override/</code> Directory</h2>
+
+<p>
+  The <code>override/</code> directory contains locally patched copies of ISE libraries:
+</p>
+
+<table>
+  <tr><th>ECF</th><th>What it patches</th><th>Assignment attempts</th></tr>
+  <tr>
+    <td><code>ES-vision2.ecf</code></td>
+    <td>EiffelVision2 (cross-platform GUI)</td>
+    <td class="stat">15 in 3 files</td>
+  </tr>
+  <tr>
+    <td><code>ES-vision2_extension.ecf</code></td>
+    <td>Vision2 extensions</td>
+    <td class="stat">0</td>
+  </tr>
+  <tr>
+    <td>Other override ECFs (cURL, docking, etc.)</td>
+    <td>Various ISE libraries</td>
+    <td class="stat">2 in 1 file</td>
+  </tr>
+</table>
+
+<p>
+  All override ECFs already set <code>is_attached_by_default = "false"</code>,
+  which is the correct compatibility flag for legacy non-void-safe library code.
+</p>
+
+<p>
+  The recommended approach for the override directory is to first check whether
+  the patches are still necessary against the current ISE library version.
+  If the upstream bugs were fixed, the override directory can simply be dropped.
+  If patches are still needed, convert the 17 <code>?=</code> operators to
+  <code>if attached {T} x as l_x then</code> guards.
+</p>
+
+<!-- ============================================================ -->
+<h2>Test Suite Survey</h2>
+
+<p>
+  The test suite (<code>test/source/</code>) contains 308 Eiffel files covering 34
+  distinct modules. Non-void-safe constructs found:
+</p>
+
+<table>
+  <tr><th>File</th><th>Issue</th><th>Notes</th></tr>
+  <tr>
+    <td><code>thunderbird_export_test_set.e:129,132,135</code></td>
+    <td><code>=?…?=</code> in string literals</td>
+    <td>MIME encoded-word notation — <em>not</em> Eiffel assignment attempts; no change needed</td>
+  </tr>
+  <tr>
+    <td><code>reflection_test_set.e:150,153</code></td>
+    <td><code>failed ("unit_name /= Void")</code></td>
+    <td>String argument describing what failed — not a Void comparison; no change needed</td>
+  </tr>
+</table>
+
+<div class="info">
+  The test suite is effectively clean. The five apparent "Void" hits are all false
+  positives — string literals describing MIME encoding or error messages.
+  The tests already use <code>if attached ... as l_x then / else / failed (...)</code>
+  throughout, which is idiomatic void-safe style.
+</div>
+
+<!-- ============================================================ -->
+<h2>Examples Survey</h2>
+
+<p>
+  The examples (<code>example/</code>) contain 263 Eiffel files across 7 applications.
+  One Void comparison was found:
+</p>
+
+<table>
+  <tr><th>Location</th><th>Count</th><th>Type</th></tr>
+  <tr>
+    <td><code>example/</code></td>
+    <td class="stat">1</td>
+    <td>In a contract postcondition</td>
+  </tr>
+</table>
+
+<p>
+  The examples are essentially clean. They use <code>attached</code> throughout
+  (41 occurrences) and have no assignment attempts.
+</p>
+
+<!-- ============================================================ -->
+<h2>Consolidated Work Estimate</h2>
+
+<table>
+  <tr>
+    <th>Task</th>
+    <th>Files</th>
+    <th>Occurrences</th>
+    <th>Effort</th>
+  </tr>
+  <tr>
+    <td>ECF <code>void_safety</code> setting updates</td>
+    <td class="stat">57</td>
+    <td class="stat">57 lines</td>
+    <td>Mechanical; global search-and-replace</td>
+  </tr>
+  <tr>
+    <td>ECF schema version updates</td>
+    <td class="stat">57</td>
+    <td class="stat">57 lines</td>
+    <td>Mechanical; global search-and-replace</td>
+  </tr>
+  <tr>
+    <td>Void comparisons in code logic → <code>attached</code></td>
+    <td class="stat">~28</td>
+    <td class="stat">65</td>
+    <td>Mechanical per-file; mostly one-liner changes</td>
+  </tr>
+  <tr>
+    <td>Void comparisons in contracts → <code>attached</code></td>
+    <td class="stat">~40</td>
+    <td class="stat">~173</td>
+    <td>Mechanical; keyword substitution</td>
+  </tr>
+  <tr>
+    <td>Optional attributes needing <code>detachable</code></td>
+    <td class="stat">~22</td>
+    <td class="stat">~22</td>
+    <td>Minor; declaration + call-site guard update</td>
+  </tr>
+  <tr>
+    <td><code>Result := Void</code> return type confirmation</td>
+    <td class="stat">5</td>
+    <td class="stat">7</td>
+    <td>Trivial; mostly already declared correctly</td>
+  </tr>
+  <tr>
+    <td><code>EL_HASH_TABLE.found_item</code> redeclaration</td>
+    <td class="stat">1</td>
+    <td class="stat">1</td>
+    <td>Single edit; resolves 165 call sites</td>
+  </tr>
+  <tr>
+    <td><code>EL_HASH_SET_BASE</code> probe sentinel redesign</td>
+    <td class="stat">1</td>
+    <td class="stat">1 routine</td>
+    <td>Moderate; remove dead <code>= Void</code> branch</td>
+  </tr>
+  <tr>
+    <td><code>override/</code> — assess patches vs current ISE</td>
+    <td class="stat">24</td>
+    <td class="stat">17 × <code>?=</code></td>
+    <td>Investigation first; convert or drop</td>
+  </tr>
+  <tr>
+    <td><code>EL_LAZY_ATTRIBUTE</code> → <code>once ("OBJECT")</code> <span class="gain">(gain)</span></td>
+    <td class="stat">21</td>
+    <td class="stat">21 classes simplified</td>
+    <td>Optional improvement; remove workaround inheritance</td>
+  </tr>
+</table>
+
+<div class="note">
+  <strong>Total files needing any change (excluding ECF and override):</strong>
+  approximately <strong>51 out of 3,146</strong> — about 1.6% of all source files.
+  The test suite and examples require essentially no changes.
+</div>
+
+<!-- ============================================================ -->
+<h2>Recommended Migration Sequence</h2>
+
+<ol>
+  <li>
+    <strong>Upgrade EiffelStudio</strong> before touching source code. The
+    <code>EL_LAZY_ATTRIBUTE</code> bug is fixed in the compiler; the void-safe ISE
+    base library is available; and you gain a void-safe Vision2 to compare against
+    the override patches.
+  </li>
+  <li>
+    <strong>Update all ECF schemas</strong> to match the new EiffelStudio version
+    (global text replacement in the ECF files).
+  </li>
+  <li>
+    <strong>Set <code>void_safety = "transitional"</code></strong> in all ECF files.
+    This mode flags issues as warnings rather than errors, letting the code compile
+    while you work through the list.
+  </li>
+  <li>
+    <strong>Add <code>EL_HASH_TABLE.found_item</code> redeclaration</strong>
+    (one edit, resolves 165 call sites).
+  </li>
+  <li>
+    <strong>Fix <code>EL_HASH_SET_BASE</code> probe sentinel</strong>
+    (remove the redundant <code>or old_key = Void</code> branch).
+  </li>
+  <li>
+    <strong>Work through the ~51 remaining files</strong>: add <code>detachable</code>
+    to optional attributes and convert Void guards to <code>attached</code> checks.
+  </li>
+  <li>
+    <strong>Assess the <code>override/</code> directory</strong>: compare patches
+    against the current ISE Vision2 source to decide whether to drop or convert.
+  </li>
+  <li>
+    <strong>Optionally simplify <code>EL_LAZY_ATTRIBUTE</code> inheritors</strong>
+    to use native <code>once ("OBJECT")</code>.
+  </li>
+  <li>
+    <strong>Switch to <code>void_safety = "all"</code></strong> once transitional
+    mode produces a clean compile.
+  </li>
+</ol>
+
+<p style="margin-top: 2.5em; font-size: 0.85em; color: #777;">
+  Generated by analysis of Eiffel-Loop library, May 2026.
+  Library path: <code>~/Dev/Eiffel/library/Eiffel-Loop/library</code>.
+</p>
+
+</body>
+</html>

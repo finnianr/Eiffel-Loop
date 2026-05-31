@@ -16,6 +16,12 @@ system:
 		"""
 	target:
 		name = EL_image_utils
+		description:
+			"""
+				export:
+					C_IMAGE_UTILS = $EIFFEL_LOOP/C_library/image-utils
+					CAIRO_LIB = $EIFFEL_LOOP/contrib/C/Cairo*
+			"""
 		root:
 			all_classes = true
 		option:
@@ -26,19 +32,19 @@ system:
 
 		# Common includes
 		external_include:
-			location = "$(EL_C_LIB)/include"
+			location = "$(EIFFEL_LOOP)/C_library/include"
 		external_include:
-			location = "$(EL_C_LIB)/image-utils/source"
+			location = "$(C_IMAGE_UTILS)/source"
 
 		windows_externals:
 			external_include:
-				location = "$(EL_C_CAIRO)/include/cairo"
+				location = "$(CAIRO_LIB)/include/cairo"
 			external_include:
-				location = "$(EL_C_CAIRO)/include/librsvg-2.0/librsvg"
+				location = "$(CAIRO_LIB)/include/librsvg-2.0/librsvg"
 			external_include: 
-				location = "$(EL_C_CAIRO)/include/glib-2.0"
+				location = "$(CAIRO_LIB)/include/glib-2.0"
 			external_include: 
-				location = "$(EL_C_CAIRO)/lib/glib-2.0/include"
+				location = "$(CAIRO_LIB)/lib/glib-2.0/include"
 
 		# Unix includes
 		unix_externals:
@@ -56,22 +62,22 @@ system:
 		# The following objects are excluded from being linked because they are intended for dynamic linking at runtime. 
 		# They are included to trigger SCons build scripts.
 		external_object:
-			location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/elimageutils.dll"
+			location = "$(C_IMAGE_UTILS)/spec/$(ISE_PLATFORM)/elimageutils.dll"
 			description:
 				"Windows implementation of C interface <image-utils.h>"
 			condition:
 				shared = true; platform = windows; copy = "$location"
 
 		external_object:
-			location = "$(EL_C_CAIRO)/spec/$(ISE_PLATFORM)/libcairo-2.dll"
+			location = "$(CAIRO_LIB)/spec/$(ISE_PLATFORM)/libcairo-2.dll"
 			description:
 				"Cairo DLL's for Windows"
 			condition:
-				shared = true; platform = windows; copy = "$EL_C_CAIRO/spec/$ISE_PLATFORM/*.dll"
+				shared = true; platform = windows; copy = "$CAIRO_LIB/spec/$ISE_PLATFORM/*.dll"
 
 		# For Unix
 		external_object:
-			location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/libelimageutils.so"
+			location = "$(C_IMAGE_UTILS)/spec/$(ISE_PLATFORM)/libelimageutils.so"
 			description:
 				"Unix implementation of C interface <image-utils.h>"
 			condition:

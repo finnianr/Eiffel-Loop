@@ -35,7 +35,7 @@ goto endscons
 setlocal
 @REM ensure the script will be executed with the Python it was installed for
 
-python "$python_home_dir\Scripts\scons.py" %*
+python "$PYTHON_HOME_DIR\Scripts\scons.py" %*
 
 endlocal & set SCONS_ERRORLEVEL=%ERRORLEVEL%
 

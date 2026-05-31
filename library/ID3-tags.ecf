@@ -21,6 +21,14 @@ favor of the [./library/TagLib.html TagLib library] which is still maintained an
 many more meta-data types besides ID3.
 	</description>
 	<target name = "EL_id3_tag">
+		<description>
+export:
+	EXT_CPP_ID3LIB = $EIFFEL/external/C++/id3lib*
+	EL_CPP_ID3LIB $EIFFEL_LOOP/contrib/C++/id3lib
+	EXT_C_ID3TAG = $EIFFEL/external/C/libid3tag*
+	EL_C_ID3TAG = $EIFFEL_LOOP/contrib/C/libid3tag
+	OS_SPEC = spec/$ISE_PLATFORM
+		</description>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
@@ -39,17 +47,17 @@ many more meta-data types besides ID3.
 				<platform value = "windows"/>
 			</condition>
 		</external_cflag>
-		<external_object location = "$(EL_CPP_ID3LIB)/spec/$(ISE_PLATFORM)/id3.lib">
+		<external_object location = "$(EL_CPP_ID3LIB)/$(OS_SPEC)/id3.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_object>
-		<external_include location = "$(EXT_C_LIBID3TAG)">
+		<external_include location = "$(EXT_C_ID3TAG)">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_object location = "$(EL_C_LIBID3TAG)/spec/$(ISE_PLATFORM)/id3tag.lib">
+		<external_object location = "$(EL_C_ID3TAG)/$(OS_SPEC)/id3tag.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
@@ -60,17 +68,17 @@ many more meta-data types besides ID3.
 				<platform value = "unix"/>
 			</condition>
 		</external_include>
-		<external_object location = "-L$(EL_CPP_ID3LIB)/spec/$(ISE_PLATFORM) -lid3">
+		<external_object location = "-L$(EL_CPP_ID3LIB)/$(OS_SPEC) -lid3">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</external_object>
-		<external_include location = "$(EXT_C_LIBID3TAG)">
+		<external_include location = "$(EXT_C_ID3TAG)">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</external_include>
-		<external_object location = "-L$(EL_C_LIBID3TAG)/spec/$(ISE_PLATFORM) -lid3tag">
+		<external_object location = "-L$(EL_C_ID3TAG)/$(OS_SPEC) -lid3tag">
 			<condition>
 				<platform value = "unix"/>
 			</condition>

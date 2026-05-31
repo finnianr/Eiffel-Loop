@@ -2,29 +2,36 @@
 #	copyright: "Copyright (c) 2001-2010 Finnian Reilly"
 #	contact: "finnian at eiffel hyphen loop dot com"
 #	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-#	date: "5 Sep 2014"
-#	revision: "0.1"
+#	date: "21 May 2026"
+#	revision: "0.2"
 
-import os, sys, platform
+import os
 
-from os import path
+from eiffel_loop.os import path
 from eiffel_loop.eiffel import ise_environ
+from eiffel_loop.C_util import C_dev as C
+from eiffel_loop.scons import c
 
 global ise
 ise = ise_environ.shared
 
-if platform.system () == "Windows":
-	compiler_flags = ['-Ox', '-Zi', '-MT', '-w', '-nologo', '-DEIF_THREADS', 
-		'-D_WIN32_WINNT=0x0500', '-DWINVER=0x0500', '-D_CRT_SECURE_NO_DEPRECATE', '-D_UNICODE', '-DUNICODE'
-]
-	
-else:
-	compiler_flags =  ['-g', '-O2']
+if os.name == "posix":
+	raise NotImplementedError (
+		"network-adapter.lib needed only for Windows implementation of\nEL_NETWORK_DEVICE_IMP and EL_NETWORK_DEVICE_LIST_IMP"
+	)
+
+# Note UNICODE also has underscore variant
+defines = C.define_list ("_CRT_SECURE_NO_DEPRECATE _UNICODE _WIN32_WINNT=0x0500 EIF_THREADS UNICODE WINVER=0x0500 ")
+compiler_flags = ['-Ox', '-Zi', '-MT', '-w', '-nologo'] + defines
 
 include_path = [
-	path.expandvars ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include'), 'source']
+	path.expanded ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include'), 'source'
+]
 	
-env = Environment(CCFLAGS = compiler_flags, CPPPATH = include_path, ENV = os.environ)
+env = Environment (CCFLAGS = compiler_flags, CPPPATH = include_path, ENV = os.environ)
+
+# Abbreviate long paths in compiler output
+c.COMMAND_STRINGS ('C_NET_ADAPTOR').configure (env)
 
 build_dir = ise.spec_build_dir ()
 
@@ -37,4 +44,3 @@ source_list = Glob (path.join (build_dir, '*.c'))
 lib = env.StaticLibrary (library_path, source_list)
 
 env.NoClean (lib)
-#Return ('lib')
