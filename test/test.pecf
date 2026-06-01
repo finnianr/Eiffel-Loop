@@ -140,6 +140,9 @@ system:
 					exclude:
 						"/tl_musicbrainz_enum.e$"
 
+		cluster:
+			name = xpact; location = "$EIFFEL_LOOP/benchmark/source/xpact"
+
 		cluster_tree:
 			root = "source/root"
 			platform_list:

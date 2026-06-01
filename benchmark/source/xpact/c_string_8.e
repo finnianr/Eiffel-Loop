@@ -2,14 +2,17 @@ note
 	description: "[
 		An immutable string that uses a C allocated character array instead of ${SPECIAL [CHARACTER_8]}
 	]"
+	notes: "[
+		WARNING: this is a fixed length string and not null terminated.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2026-05-30 12:41:02 GMT (Saturday 30th May 2026)"
-	revision: "2"
+	date: "2026-06-01 11:39:19 GMT (Monday 1st June 2026)"
+	revision: "3"
 
 class
 	C_STRING_8
@@ -22,7 +25,14 @@ inherit
 		export
 			{NONE} all
 			{C_STRING_8} area
-			{ANY} count, is_equal
+			{ANY} count
+		undefine
+			is_equal
+		end
+
+	COMPARABLE
+		undefine
+			copy
 		end
 
 	STRING_HANDLER
@@ -54,6 +64,14 @@ feature {NONE} -- Initialization
 			make_from_pointer (s.area.base_address, s.count)
 		ensure
 			count_set: count = s.count
+		end
+
+feature -- Comparison
+
+	is_less alias "<" (other: like Current): BOOLEAN
+			-- Is current string lexicographically less than `other'?
+		do
+			Result := c_strcmp_n (area, count, other.area, other.count) < 0
 		end
 
 feature -- Access
@@ -143,7 +161,7 @@ feature -- Conversion
 				end
 			end
 		ensure then
-			round_trip: is_equal (Result)
+			round_trip: is_equal (new_string (Result))
 		end
 
 feature -- Duplication
@@ -166,7 +184,26 @@ feature -- Duplication
 			recurse: Result.count > 0 implies Result.substring (2, Result.count) ~ substring (start_index + 1, end_index)
 		end
 
+	new_string (str: STRING_8): like Current
+		do
+			Result := str
+		end
+
 feature {NONE} -- Implementation
+
+	frozen c_strcmp_n (p1: POINTER; n1: INTEGER; p2: POINTER; n2: INTEGER): INTEGER
+			-- Lexicographic comparison of `n1' bytes at `p1' with `n2' bytes at `p2'.
+			-- Returns negative if p1 < p2, zero if equal, positive if p1 > p2.
+		external
+			"C inline use <string.h>"
+		alias
+			"[
+				int n = ($n1 < $n2) ? $n1 : $n2;
+				int cmp = memcmp($p1, $p2, n);
+				if (cmp != 0) return cmp;
+				return ($n1 < $n2) ? -1 : ($n1 > $n2) ? 1 : 0;
+			]"
+		end
 
 	frozen memory_compare (p1, p2: POINTER; n: INTEGER): BOOLEAN
 		-- True if first `n' bytes at `p1' and `p2' are identical.

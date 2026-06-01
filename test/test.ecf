@@ -115,6 +115,7 @@
 				</file_rule>
 			</cluster>
 		</cluster>
+		<cluster name = "xpact" location = "$EIFFEL_LOOP/benchmark/source/xpact"/>
 		<cluster name = "root" location = "source/root" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>

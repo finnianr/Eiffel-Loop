@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"; uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" 
+	configuration_ns = "1-22-0"; uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" 
 	name = EL_base; library_target = EL_base
 	
 	target:
@@ -20,11 +20,14 @@ system:
 				* Text Processing
 				* Utility
 			"""
+		capability:
+			concurrency:
+				support = thread; use = thread
 		root:
 			all_classes = true
 
 		option:
-			namespace = "Eiffel-Loop.Library"; trace = false; debug = false; warning = true
+			namespace = "Eiffel-Loop.Library"; trace = false; debug = false; warning = warning
 			syntax = standard; full_class_checking = false; void_safety = none
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = false

@@ -1,7 +1,9 @@
 **/__pycache__/
+**/.claude/
 **/.sconf_temp/
 **/doc/descendant/*.txt
 **/descendant/*.txt
+**/EIFGENs/
 **/build/
 **/workarea/
 **/exception*.log

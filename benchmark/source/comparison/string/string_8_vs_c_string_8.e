@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2026-05-30 12:39:10 GMT (Saturday 30th May 2026)"
-	revision: "2"
+	date: "2026-06-01 10:28:47 GMT (Monday 1st June 2026)"
+	revision: "3"
 
 class
 	STRING_8_VS_C_STRING_8
@@ -49,6 +49,8 @@ feature -- Access
 feature -- Basic operations
 
 	execute
+		local
+			cache: PINNED_XML_NAME_CACHE
 		do
 			if attached new_string_list as string_list and then attached new_c_string_list as c_string_list then
 				compare ("starts_with", <<

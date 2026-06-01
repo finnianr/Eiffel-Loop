@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system name = "EL_base" library_target = "EL_base" uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
+<system name = "EL_base" library_target = "EL_base" uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-22-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-22-0 http://www.eiffel.com/developers/xml/configuration-1-22-0.xsd">
 	<target name = "EL_base">
 		<description>
 Base classes for Eiffel-Loop
@@ -14,8 +14,11 @@ Clusters:
 * Text Processing
 * Utility
 		</description>
+		<capability>
+			<concurrency support="thread" use="thread"/>
+		</capability>		
 		<root all_classes = "true"/>
-		<option namespace = "Eiffel-Loop.Library" trace = "false" debug = "false" warning = "true" syntax = "standard" full_class_checking = "false" void_safety = "none">
+		<option namespace = "Eiffel-Loop.Library" trace = "false" debug = "false" warning = "warning" syntax = "standard" full_class_checking = "false" void_safety = "none">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>
 		</option>
 		<mapping old_name = "ZSTRING" new_name = "EL_ZSTRING"/>

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-05-04 17:32:01 GMT (Sunday 4th May 2025)"
-	revision: "61"
+	date: "2026-06-01 13:03:46 GMT (Monday 1st June 2026)"
+	revision: "62"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -35,31 +35,32 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["arrayed_result_list",			agent test_arrayed_result_list],
-				["derived_list",					agent test_derived_list],
-				["find_linear_position",		agent test_find_linear_position],
-				["integer_functions",			agent test_integer_functions],
-				["order_by_color_name",			agent test_order_by_color_name],
-				["order_by_descending_width",	agent test_order_by_descending_width],
-				["query_and_summation",			agent test_query_and_summation],
-				["string_8_list",					agent test_string_8_list],
-				["arrayed_map_group_sort",		agent test_arrayed_map_group_sort],
-				["arrayed_map_list",				agent test_arrayed_map_list],
-				["arrayed_map_sort",				agent test_arrayed_map_sort],
-				["circular_indexing",			agent test_circular_indexing],
-				["container_sum",					agent test_container_sum],
-				["file_line_source",				agent test_file_line_source],
-				["make_filtered_array",			agent test_make_filtered_array],
-				["result_list_character",		agent test_result_list_character],
-				["result_list_string",			agent test_result_list_string],
-				["structure_slicing",			agent test_structure_slicing]
+				["arrayed_result_list",				agent test_arrayed_result_list],
+				["derived_list",						agent test_derived_list],
+				["find_linear_position",			agent test_find_linear_position],
+				["integer_functions",				agent test_integer_functions],
+				["order_by_color_name",				agent test_order_by_color_name],
+				["order_by_descending_width",		agent test_order_by_descending_width],
+				["query_and_summation",				agent test_query_and_summation],
+				["string_8_list",						agent test_string_8_list],
+				["arrayed_map_group_sort",			agent test_arrayed_map_group_sort],
+				["arrayed_map_list",					agent test_arrayed_map_list],
+				["arrayed_map_sort",					agent test_arrayed_map_sort],
+				["circular_indexing",				agent test_circular_indexing],
+				["container_sum",						agent test_container_sum],
+				["file_line_source",					agent test_file_line_source],
+				["key_indexed_arrayed_map_list",	agent test_key_indexed_arrayed_map_list],
+				["make_filtered_array",				agent test_make_filtered_array],
+				["result_list_character",			agent test_result_list_character],
+				["result_list_string",				agent test_result_list_string],
+				["structure_slicing",				agent test_structure_slicing]
 			>>)
 		end
 
 feature -- WIDGET Tests
 
 	test_arrayed_result_list
-		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_result_list
+		-- CONTAINER_STRUCTURE_TEST_SET.arrayed_result_list
 		note
 			testing: "[
 				covers/{EL_CONTAINER_STRUCTURE}.to_special,
@@ -84,7 +85,7 @@ feature -- WIDGET Tests
 		end
 
 	test_derived_list
-		-- CONTAINER_STRUCTURE_TEST_SET.test_derived_list
+		-- CONTAINER_STRUCTURE_TEST_SET.derived_list
 		note
 			testing: "[
 				covers/{EL_CONTAINER_STRUCTURE}.new_special,
@@ -120,6 +121,7 @@ feature -- WIDGET Tests
 		end
 
 	test_find_linear_position
+		-- CONTAINER_STRUCTURE_TEST_SET.find_linear_position
 		note
 			testing: "[
 				covers/{EL_LINEAR}.index_of,
@@ -143,7 +145,7 @@ feature -- WIDGET Tests
 		end
 
 	test_integer_functions
-		-- CONTAINER_STRUCTURE_TEST_SET.test_integer_functions
+		-- CONTAINER_STRUCTURE_TEST_SET.integer_functions
 		note
 			testing: "[
 				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.max_integer,
@@ -160,7 +162,7 @@ feature -- WIDGET Tests
 		end
 
 	test_order_by_color_name
-		-- CONTAINER_STRUCTURE_TEST_SET.test_order_by_color_name
+		-- CONTAINER_STRUCTURE_TEST_SET.order_by_color_name
 		note
 			testing: "[
 				covers/{EL_IMMUTABLE_NAME_TABLE}.make,
@@ -193,6 +195,7 @@ feature -- WIDGET Tests
 		end
 
 	test_order_by_descending_width
+		-- CONTAINER_STRUCTURE_TEST_SET.order_by_descending_width
 		local
 			previous: INTEGER
 		do
@@ -204,7 +207,7 @@ feature -- WIDGET Tests
 		end
 
 	test_query_and_summation
-		-- CONTAINER_STRUCTURE_TEST_SET.test_query_and_summation
+		-- CONTAINER_STRUCTURE_TEST_SET.query_and_summation
 		note
 			testing: "[
 				covers/{EL_CONTAINER_ARITHMETIC}.sum_meeting,
@@ -248,6 +251,7 @@ feature -- WIDGET Tests
 		end
 
 	test_string_8_list
+		-- CONTAINER_STRUCTURE_TEST_SET.string_8_list
 		note
 			testing: "[
 				covers/{EL_CONTAINER_STRUCTURE}.string_8_list
@@ -265,7 +269,7 @@ feature -- WIDGET Tests
 feature -- Test
 
 	test_arrayed_map_group_sort
-		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_map_group_sort
+		-- CONTAINER_STRUCTURE_TEST_SET.arrayed_map_group_sort
 		note
 			testing: "[
 				covers/{EL_ARRAYED_MAP_LIST}.sort_by_key_then_value,
@@ -316,7 +320,7 @@ feature -- Test
 		end
 
 	test_arrayed_map_list
-		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_map_list
+		-- CONTAINER_STRUCTURE_TEST_SET.arrayed_map_list
 		note
 			testing: "[
 				covers/{EL_CONTAINER_STRUCTURE}.to_special,
@@ -353,7 +357,7 @@ feature -- Test
 		end
 
 	test_arrayed_map_sort
-		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_map_sort
+		-- CONTAINER_STRUCTURE_TEST_SET.arrayed_map_sort
 		local
 			name_list: EL_ARRAYED_MAP_LIST [IMMUTABLE_STRING_32, IMMUTABLE_STRING_32]
 			sorted_names: SORTABLE_ARRAY [IMMUTABLE_STRING_32]; names: HEXAGRAM_NAMES
@@ -396,6 +400,7 @@ feature -- Test
 		end
 
 	test_circular_indexing
+		-- CONTAINER_STRUCTURE_TEST_SET.circular_indexing
 		local
 			list: EL_ARRAYED_LIST [INTEGER]
 			sum, one, i: INTEGER
@@ -420,7 +425,7 @@ feature -- Test
 		end
 
 	test_container_sum
-		-- CONTAINER_STRUCTURE_TEST_SET.test_container_sum
+		-- CONTAINER_STRUCTURE_TEST_SET.container_sum
 		note
 			testing: "[
 				covers/{EL_CONTAINER_ARITHMETIC}.sum_meeting,
@@ -441,6 +446,7 @@ feature -- Test
 		end
 
 	test_file_line_source
+		-- CONTAINER_STRUCTURE_TEST_SET.file_line_source
 		note
 			testing: "[
 				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.sum_integer_meeting,
@@ -480,7 +486,35 @@ feature -- Test
 			assert ("step count is ", counter.item = 12)
 		end
 
+	test_key_indexed_arrayed_map_list
+		-- CONTAINER_STRUCTURE_TEST_SET.key_indexed_arrayed_map_list
+		note
+			testing: "[
+				covers/{EL_KEY_INDEXED_ARRAYED_MAP_LIST}.binary_search,
+				covers/{C_NULLED_STRING_8_NAME_CACHE}.item
+			]"
+		local
+			cache: C_NULLED_STRING_8_NAME_CACHE
+			name: C_STRING_8; name_null_1, name_null_2: C_NULLED_STRING_8
+			name_str, dozen_a_words: STRING_8
+		do
+			create cache.make
+			dozen_a_words := "able,archery,android,anchor,average,ant,ancestor,anca,all,attached,artery,arc"
+			assert ("one dozen", dozen_a_words.occurrences (',') + 1 = 12)
+			across (dozen_a_words + ",Zig,zag,zebra").split (',') as word loop
+				name := word.item
+				name_null_1 := cache.item (name)
+				name_null_2 := cache.item (name)
+				assert ("same reference", name_null_1 = name_null_2)
+
+				create name_str.make_from_c (name_null_1.area) -- calls C function strlen
+				assert ("same name", name_str ~ word.item)
+			end
+			assert ("3 buckets have items", cache.used_count = 3)
+		end
+
 	test_make_filtered_array
+		-- CONTAINER_STRUCTURE_TEST_SET.make_filtered_array
 		note
 			testing: "covers/{EL_ARRAYED_LIST}.make_from_for"
 		local
@@ -498,7 +532,7 @@ feature -- Test
 		end
 
 	test_result_list_character
-		-- CONTAINER_STRUCTURE_TEST_SET.test_result_list_character
+		-- CONTAINER_STRUCTURE_TEST_SET.result_list_character
 		note
 			testing: "[
 				covers/{EL_ARRAYED_RESULT_LIST}.make_from_for,
@@ -524,7 +558,7 @@ feature -- Test
 		end
 
 	test_result_list_string
-		-- CONTAINER_STRUCTURE_TEST_SET.test_result_list_string
+		-- CONTAINER_STRUCTURE_TEST_SET.result_list_string
 		note
 			testing: "[
 				covers/{EL_ARRAYED_RESULT_LIST}.make,
@@ -544,6 +578,7 @@ feature -- Test
 		end
 
 	test_structure_slicing
+		-- CONTAINER_STRUCTURE_TEST_SET.structure_slicing
 		note
 			testing: "[
 				covers/{EL_ARRAYED_LIST}.make_from,
