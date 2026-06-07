@@ -179,7 +179,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (12)
 			across 1 |..| 12 as month_of_year loop
-				Result.extend (month_name (month_of_year.item, short))
+				Result.extend (month_name (month_of_year, short))
 			end
 		end
 
@@ -238,7 +238,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (7)
 			across 1 |..| 7 as n loop
-				Result.extend (week_day_name (n.item, short))
+				Result.extend (week_day_name (n, short))
 			end
 		end
 

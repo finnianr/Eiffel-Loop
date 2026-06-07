@@ -75,7 +75,7 @@ feature -- List joining
 					if Result.count > 0 then
 						Result.append_code (code)
 					end
-					append_to (Result, area.item)
+					append_to (Result, area)
 				end
 			else
 				Result := new (0)
@@ -92,7 +92,7 @@ feature -- List joining
 					if Result.count > 0 then
 						append_to (Result, separator)
 					end
-					append_to (Result, area.item)
+					append_to (Result, area)
 				end
 			else
 				Result := new (0)

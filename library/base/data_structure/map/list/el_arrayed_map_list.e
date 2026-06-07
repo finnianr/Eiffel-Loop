@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 		do
 			make (array.count)
 			across array as list loop
-				extend (list.item.key, list.item.value)
+				extend (list.key, list.value)
 			end
 		end
 
@@ -82,7 +82,7 @@ feature {NONE} -- Initialization
 		do
 			make (Iterable.count (table))
 			across table as value loop
-				extend (value.key, value.item)
+				extend (@ value.key, value)
 			end
 		end
 

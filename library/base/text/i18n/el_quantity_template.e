@@ -50,9 +50,9 @@ feature -- Access
 				template := item (1)
 			end
 			across substitutions as list loop
-				name := list.item.name
+				name := list.name
 				if template.has (name) then
-					template.put_general (name, list.item.value)
+					template.put_general (name, list.value)
 				end
 			end
 			if template.has (Var_quantity) then

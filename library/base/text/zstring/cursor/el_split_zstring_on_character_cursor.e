@@ -17,8 +17,8 @@ class
 inherit
 	EL_SPLIT_ON_CHARACTER_CURSOR [ZSTRING, CHARACTER_32]
 		redefine
-			append_item_to, is_i_th_white_space, item, initialize, internal_item,
-			set_separator, set_separator_start
+			append_item_to, item, initialize, internal_item,
+			set_separator
 		end
 
 	EL_SHARED_ZSTRING_CODEC

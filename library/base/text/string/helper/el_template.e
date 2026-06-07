@@ -51,10 +51,10 @@ feature {NONE} -- Initialization
 			create place_holder_table.make (variable_count)
 			make_list (variable_count * 2)
 			across iterable.new_split_on_character (template, '$') as list loop
-				offset := list.item_lower
-				if attached {S} list.item as item then
+				offset := @ list.item_lower
+				if attached {S} list as item then
 					item_count := item.count
-					if list.cursor_index = 1 or else previous_end_character = '%%' then
+					if @ list.cursor_index = 1 or else previous_end_character = '%%' then
 						if previous_end_character = '%%' then
 							last.put_code ({EL_ASCII}.Dollar, last.count)
 						end

@@ -54,7 +54,7 @@ feature -- Basic operations
 		do
 			create line_length
 			across displayable_fields as field loop
-				print_field_value (a_object, field.item, escape_table, line_length, a_lio)
+				print_field_value (a_object, field, escape_table, line_length, a_lio)
 			end
 			a_lio.put_new_line
 		end

@@ -20,7 +20,7 @@ inherit
 		undefine
 			bit_count, same_i_th_character
 		redefine
-			default_target, is_equal, target
+			default_target, target
 		end
 
 	EL_STRING_8_OCCURRENCE_INTERVALS

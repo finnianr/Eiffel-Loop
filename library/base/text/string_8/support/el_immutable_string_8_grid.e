@@ -23,7 +23,7 @@ inherit
 			bit_count
 		end
 
-	EL_STRING_8_BIT_COUNTABLE [STRING_8]
+	EL_STRING_8_BIT_COUNTABLE [IMMUTABLE_STRING_8]
 
 create
 	make

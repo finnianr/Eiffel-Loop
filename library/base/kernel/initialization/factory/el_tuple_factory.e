@@ -32,15 +32,16 @@ feature -- Factory
 			same_number: array.count = (create {T}).count
 			tuple_uniformly_conforms_to_function_result: tuple_type_array.all_conform_to (new_item_info.result_type)
 		local
-			type_is_reference: BOOLEAN
+			type_is_reference: BOOLEAN; i: INTEGER
 		do
 			create Result
 			type_is_reference := not ({TUPLE_TYPE}).is_expanded
 			across array as list loop
+				i := @ list.cursor_index
 				if type_is_reference then
-					Result.put_reference (new_item (array [list.cursor_index]), list.cursor_index)
+					Result.put_reference (new_item (array [i]), i)
 				else
-					Result.put (new_item (array [list.cursor_index]), list.cursor_index)
+					Result.put (new_item (array [i]), i)
 				end
 			end
 		end

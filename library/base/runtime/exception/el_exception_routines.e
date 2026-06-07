@@ -109,7 +109,7 @@ feature -- Basic operations
 	put_last_trace (log: EL_LOGGABLE)
 		do
 			across last_trace_splitter as line loop
-				log.put_line (line.item)
+				log.put_line (line)
 			end
 		end
 

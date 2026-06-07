@@ -156,7 +156,7 @@ feature -- Contract Support
 		local
 			range: STRING_8
 		do
-			range := a_range
+			range := a_range.to_string_8
 			range.prune (' ')
 			if range.occurrences ('.') = 2 then
 				if attached range.split ('.') as parts
@@ -173,7 +173,7 @@ feature -- Contract Support
 	valid_mask_table_keys (object: EL_COMPACTABLE_REFLECTIVE; mask_table_manifest: STRING): BOOLEAN
 		do
 			Result := across new_mask_table (mask_table_manifest) as table all
-				object.field_table.has_immutable (table.key) and then valid_interval (table.item)
+				object.field_table.has_immutable (@ table.key) and then valid_interval (table)
 			end
 		end
 
@@ -188,10 +188,10 @@ feature {NONE} -- Factory
 				i := i + 1
 				inspect i
 					when 1 then
-						lower := Convert_string.to_integer (list.item)
+						lower := Convert_string.to_integer (list)
 						upper := lower
 					when 3 then
-						upper := Convert_string.to_integer (list.item)
+						upper := Convert_string.to_integer (list)
 				else
 				end
 			end

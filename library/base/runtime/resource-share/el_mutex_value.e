@@ -13,7 +13,7 @@ class
 	EL_MUTEX_VALUE [expanded G]
 
 inherit
-	MUTEX
+	EL_MUTEX
 		export
 			{NONE} all
 		end

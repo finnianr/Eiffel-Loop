@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 
 	make (general_list: ITERABLE [READABLE_STRING_GENERAL])
 		require
-			no_commas: across general_list as list all not list.item.has (',') end
+			no_commas: across general_list as list all not list.has (',') end
 		local
 			utf_8_csv_list: STRING_8
 		do
@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 				if utf_8_csv_list.count > 0 then
 					utf_8_csv_list.append_character (',')
 				end
-				super_readable_general (list.item).append_to_utf_8 (utf_8_csv_list)
+				super_readable_general (list).append_to_utf_8 (utf_8_csv_list)
 			end
 			make_split (utf_8_csv_list, ',')
 		end

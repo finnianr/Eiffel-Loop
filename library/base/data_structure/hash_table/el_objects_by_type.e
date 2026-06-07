@@ -31,7 +31,7 @@ feature -- Element change
 	extend_from_array (objects: ARRAY [ANY])
 		do
 			across objects as obj loop
-				put (obj.item, obj.item.generating_type.type_id)
+				put (obj, obj.generating_type.type_id)
 			end
 		end
 end

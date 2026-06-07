@@ -157,7 +157,7 @@ feature -- String output
 
 	put_indented_lines (indent: STRING; lines: ITERABLE [READABLE_STRING_GENERAL])
 		require
-			valid_indent: across indent as c all c.item = '%T' or else c.item = ' ' end
+			valid_indent: across indent as c all c = '%T' or else c = ' ' end
 		local
 			not_first: BOOLEAN
 		do
@@ -173,7 +173,7 @@ feature -- String output
 				if not indent.is_empty then -- Necessary for Network stream
 					put_encoded_string_8 (indent)
 				end
-				put_string_general (line.item)
+				put_string_general (line)
 			end
 		end
 
@@ -188,7 +188,7 @@ feature -- String output
 			put_indented_lines (Empty_string_8, lines)
 		end
 
-	put_encoded_string_8 (str: STRING_8)
+	put_encoded_string_8 (str: READABLE_STRING_8)
 		-- write encoded string (usually UTF-8)
 		deferred
 		end

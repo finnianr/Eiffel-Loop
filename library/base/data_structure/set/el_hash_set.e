@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Hash set implementing ${EL_SET [H]}"
 	descendants: "[
 			EL_HASH_SET [H -> ${HASHABLE}]
@@ -42,6 +42,7 @@ inherit
 
 	TRAVERSABLE [H]
 		rename
+			has as has alias "∋",
 			item as iteration_item
 		undefine
 			copy, changeable_comparison_criterion, compare_objects, compare_references,
@@ -49,6 +50,8 @@ inherit
 		end
 
 	EL_SET [H]
+		rename
+			has as has alias "∋"
 		undefine
 			copy, is_equal
 		end
@@ -225,7 +228,7 @@ feature -- Comparison
 			end
 		end
 
-	is_subset (other: TRAVERSABLE_SUBSET [H]): BOOLEAN
+	is_subset alias "⊆" (other: TRAVERSABLE_SUBSET [H]): BOOLEAN
 		-- Is `Current' set a subset of `other' ?
 		local
 			index, last_index: INTEGER; break: BOOLEAN

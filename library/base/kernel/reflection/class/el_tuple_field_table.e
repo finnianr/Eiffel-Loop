@@ -74,7 +74,7 @@ feature -- Contract Support
 
 	valid_converters (fields_table: EL_OBJECT_FIELDS_TABLE): BOOLEAN
 		do
-			Result := across converters_table as table all fields_table.has_tuple_field (table.key) end
+			Result := across converters_table as table all fields_table.has_tuple_field (@ table.key) end
 		end
 
 feature {NONE} -- Internal attributes

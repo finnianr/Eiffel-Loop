@@ -17,7 +17,7 @@ inherit
 		rename
 			READABLE_X as READABLE_8
 		redefine
-			convertible_to_char, latin_1_count, target
+			convertible_to_char, target
 		end
 
 	EL_STRING_8_BIT_COUNTABLE [READABLE_STRING_8]
@@ -39,6 +39,12 @@ feature -- Status query
 		-- `True' if `target' has `c'
 		do
 			Result := target.has (c)
+		end
+
+	has_upper: BOOLEAN
+		-- `True' if at least one character in `str' is uppercase
+		do
+			Result := has_member (create {EL_UPPER_CASE_CHARACTER_8_SET}.make)
 		end
 
 	is_alpha_numeric: BOOLEAN

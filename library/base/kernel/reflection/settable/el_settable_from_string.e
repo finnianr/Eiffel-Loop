@@ -179,7 +179,7 @@ feature -- Element change
 		do
 			if attached {ITERABLE [like new_string]} lines as iterable_lines then
 				across iterable_lines as line loop
-					set_field_from_line (line.item, delimiter)
+					set_field_from_line (line, delimiter)
 				end
 
 			elseif attached {LINEAR [like new_string]} lines.linear_representation as list then

@@ -19,7 +19,7 @@ inherit
 			abstract_type as Reference_type,
 			reference_value as value
 		redefine
-			initialize, post_make, value, is_initialized, set_from_memory, write_to_memory
+			initialize, post_make, is_initialized, set_from_memory, write_to_memory
 		end
 
 	EL_OBJECT_PROPERTY_I

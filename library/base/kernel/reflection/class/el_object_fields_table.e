@@ -150,7 +150,7 @@ feature -- Status query
 
 	valid_field_names (field_list: ITERABLE [READABLE_STRING_8]): BOOLEAN
 		do
-			Result := across field_list as list all has (list.item) end
+			Result := across field_list as list all has (list) end
 		end
 
 	valid_tuple_name_list (field_name, name_list: IMMUTABLE_STRING_8): BOOLEAN

@@ -103,6 +103,7 @@ inherit
 			ends_with as ends_with_general,
 			has_code as has_unicode,
 			is_case_insensitive_equal as is_case_insensitive_equal_general,
+			plus as plus_general,
 			prepend as prepend_string_general,
 			prepend_substring as prepend_substring_general,
 			put_code as put_z_code,
@@ -181,7 +182,14 @@ feature {NONE} -- Initialization
 
 feature -- Duplication
 
-	plus alias "+" (s: READABLE_STRING_GENERAL): like Current
+	plus alias "+" (s: READABLE_STRING_32): like Current
+		do
+			Result := new_string (count + s.count)
+			Result.append (Current)
+			Result.append_string_32 (s)
+		end
+
+	plus_general (s: READABLE_STRING_GENERAL): like Current
 		do
 			Result := new_string (count + s.count)
 			Result.append (Current)
@@ -194,7 +202,7 @@ feature -- Basic operations
 		-- apply `action' for all delimited substrings
 		do
 			across split_on_string (a_separator) as str loop
-				action (str.item_copy)
+				action (@ str.item_copy)
 			end
 		end
 
@@ -205,13 +213,13 @@ feature -- Status query
 	for_all_split (a_separator: READABLE_STRING_GENERAL; is_true: PREDICATE [like Current]): BOOLEAN
 		-- `True' if all split substrings match `is_true'
 		do
-			Result := across split_on_string (a_separator) as str all is_true (str.item) end
+			Result := across split_on_string (a_separator) as str all is_true (str) end
 		end
 
 	there_exists_split (a_separator: READABLE_STRING_GENERAL; is_true: PREDICATE [like Current]): BOOLEAN
 		-- `True' if one split substring matches `is_true'
 		do
-			Result := across split_on_string (a_separator) as str some is_true (str.item) end
+			Result := across split_on_string (a_separator) as str some is_true (str) end
 		end
 
 feature -- Element change
@@ -484,7 +492,7 @@ feature -- Removal
 		do
 			String_8.remove_substring (Current, start_index, end_index)
 			remove_unencoded_substring (start_index, end_index)
-		ensure
+		ensure then
 			valid_unencoded: is_valid
 			removed: elks_checking implies Current ~ (old substring (1, start_index - 1) + old substring (end_index + 1, count))
 		end

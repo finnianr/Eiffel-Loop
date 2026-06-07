@@ -44,7 +44,7 @@ feature -- Element change
 	append (a_words: ITERABLE [ZSTRING])
 		do
 			across a_words as word loop
-				put (word.item)
+				put (word)
 			end
 		end
 
@@ -80,7 +80,7 @@ feature -- Access
 			create Result.make (list.count + 1) -- Allow extra for {EL_PATH}.base
 			if attached {ITERABLE [READABLE_STRING_GENERAL]} list as iterable_list then
 				across iterable_list as string loop
-					Result.extend (token (as_zstring (string.item)))
+					Result.extend (token (as_zstring (string)))
 				end
 			end
 		end
@@ -133,9 +133,9 @@ feature -- Access
 			create split_list.make (string, separator)
 			create Result.make (string.occurrences (separator) + 2) -- Allow extra for {EL_PATH}.base
 			across split_list as list loop
-				search (list.item)
+				search (list)
 				if not found then
-					new_word := list.item_copy
+					new_word := @ list.item_copy
 					extend (count + 1, new_word)
 					word_list.extend (new_word)
 					last_code := count

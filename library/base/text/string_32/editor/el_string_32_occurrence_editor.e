@@ -39,7 +39,7 @@ inherit
 			is_equal
 		end
 
-	EL_STRING_32_BIT_COUNTABLE [READABLE_STRING_32]
+	EL_STRING_32_BIT_COUNTABLE [STRING_32]
 
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string

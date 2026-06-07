@@ -40,7 +40,7 @@ feature -- Status query
 
 	has_item (str: RSTRING): BOOLEAN
 		do
-			Result := across Current as list some list.item_same_as (str) end
+			Result := across Current as list some @ list.item_same_as (str) end
 		end
 
 end

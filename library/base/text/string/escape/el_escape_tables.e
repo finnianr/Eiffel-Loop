@@ -88,9 +88,9 @@ feature {NONE} -- Implementation
 			create list.make (special_letters.count)
 			across special_letters as c loop
 				create item.make (4)
-				item.append_character (escape_sequence [c.cursor_index])
+				item.append_character (escape_sequence [@ c.cursor_index])
 				item.append (":=")
-				item.append_character (c.item)
+				item.append_character (c)
 				list.extend (item)
 			end
 			Result := list.joined (',')

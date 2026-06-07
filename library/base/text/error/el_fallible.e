@@ -63,9 +63,9 @@ feature -- Basic operations
 
 	print_errors (log: EL_LOGGABLE)
 		do
-			across error_list as list loop
+			across error_list as error loop
 				log.put_new_line
-				list.item.print_to (log)
+				error.print_to (log)
 			end
 		end
 

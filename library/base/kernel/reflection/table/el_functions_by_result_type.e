@@ -37,7 +37,7 @@ feature -- Element change
 		do
 			accommodate (count + Iterable.count (functions))
 			across functions as f loop
-				put (f.item, f.item.generating_type.generic_parameter_type (2).type_id)
+				put (f, f.generating_type.generic_parameter_type (2).type_id)
 			end
 		end
 

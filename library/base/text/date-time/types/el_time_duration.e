@@ -43,12 +43,12 @@ feature -- Conversion
 		do
 			create Result.make (20)
 			across part_list as part loop
-				if part.cursor_index > 1 then
+				if @ part.cursor_index > 1 then
 					Result.append_character (' ')
 				end
-				Result.append_integer (part.item.n)
+				Result.append_integer (part.n)
 				Result.append_character (' ')
-				Result.append_string (part.item.units)
+				Result.append_string (part.units)
 			end
 		end
 

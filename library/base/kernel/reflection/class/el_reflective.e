@@ -64,7 +64,7 @@ feature -- Measurement
 		do
 			Result := o.property (Current).physical_size
 			across field_table as table loop
-				if attached {EL_REFLECTED_REFERENCE [ANY]} table.item as field then
+				if attached {EL_REFLECTED_REFERENCE [ANY]} table as field then
 					Result := Result + field.size_of (Current)
 				end
 			end
@@ -193,7 +193,7 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 				create type_list.make_from_tuple (extra_types)
 				create Result.make (type_list.count)
 				across type_list as list loop
-					if attached {EL_READER_WRITER_INTERFACE [ANY]} Eiffel.new_object (list.item) as new then
+					if attached {EL_READER_WRITER_INTERFACE [ANY]} Eiffel.new_object (list) as new then
 						Result.extend (new, new.item_type.type_id)
 					end
 				end
@@ -209,7 +209,7 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			valid_field_names: valid_field_names (Result.hidden_fields)
 			valid_value_append_fields:
 				across Result.escape_fields as name all
-					field_info_table.has (name.item)
+					field_info_table.has (name)
 				end
 		end
 
@@ -270,7 +270,7 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 		ensure
 			valid_tuple_field_names:
 				across Result as table all
-					field_info_table.valid_tuple_name_list (table.key, table.item)
+					field_info_table.valid_tuple_name_list (@ table.key, table)
 				end
 			valid_converters: Result.valid_converters (field_info_table)
 		end

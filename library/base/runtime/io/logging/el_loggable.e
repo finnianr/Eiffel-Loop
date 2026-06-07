@@ -194,8 +194,8 @@ feature -- String output
 				if word_list.first.count > 0 then
 					first_character := word_list.first [1]
 					across word_list as list loop
-						if attached list.item as str then
-							if list.cursor_index > 1 then
+						if attached list as str then
+							if @ list.cursor_index > 1 then
 								if str.count > 0 and then first_character /= str [1] then
 									put_new_line
 									first_character := str [1]

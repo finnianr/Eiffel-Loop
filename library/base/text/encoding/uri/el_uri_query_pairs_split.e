@@ -49,7 +49,7 @@ feature -- Basic operations
 		do
 			name := name_string; value := value_string
 			across Current as list loop
-				name_value_pair := list.item
+				name_value_pair := list
 				pos_equals := name_value_pair.index_of ('=', 1)
 				if pos_equals > 1 then
 					name.set_encoded (name_value_pair, 1, pos_equals - 1)
@@ -72,8 +72,8 @@ feature {NONE} -- Implementation
 			query.append_code ({EL_ASCII}.Equals_sign)
 			if attached value.decoded_32 (False) as decoded then
 				across Reserved_table as table loop
-					if decoded.has (table.key [1]) then
-						decoded.replace_substring_all (table.key, table.item)
+					if decoded.has (@ table.key [1]) then
+						decoded.replace_substring_all (@ table.key, table)
 					end
 				end
 				append_unencoded (query, decoded)

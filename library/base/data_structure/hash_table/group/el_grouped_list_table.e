@@ -138,7 +138,7 @@ feature -- Basic operations
 					create sorted_table.make (count)
 				end
 				across sorted_keys as list loop
-					sorted_table.extend_area (item_area (list.item), list.item)
+					sorted_table.extend_area (item_area (list), list)
 				end
 				standard_copy (sorted_table)
 			end
@@ -148,7 +148,7 @@ feature -- Basic operations
 		-- wipe out list items
 		do
 			across item_area_list as list loop
-				list.item.wipe_out
+				list.wipe_out
 			end
 		end
 

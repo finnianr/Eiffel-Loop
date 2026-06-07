@@ -73,8 +73,8 @@ feature -- Access
 			else
 				create Result.make (12)
 				across Class_table as table until Result.count > 0 loop
-					if table.item = type then
-						Result.append (table.key)
+					if table = type then
+						Result.append (@ table.key)
 					end
 				end
 				if Result.count > 0 then
@@ -242,8 +242,8 @@ feature -- Conversion
 		do
 			create hypen_split.make (a_name.to_string_8, '-')
 			across hypen_split as split until mismatch loop
-				part := split.item; part.to_upper
-				inspect split.cursor_index
+				part := split; part.to_upper
+				inspect @ split.cursor_index
 					when 1 then
 						if Class_table.has_key (part) then
 							l_type := Class_table.found_item

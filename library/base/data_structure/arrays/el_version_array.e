@@ -70,7 +70,7 @@ feature -- Initialization
 		require
 			valid_counts: Digit_range.has (parts.count * a_digit_count)
 			valid_part_size: across parts as n all
-				n.item < (10 ^ a_digit_count).rounded.to_natural_32
+				n < (10 ^ a_digit_count).rounded.to_natural_32
 			end
 		do
 			make_from_natural_array (parts)
@@ -79,9 +79,9 @@ feature -- Initialization
 
 	make_from_string (a_digit_count: INTEGER; version: STRING)
 		require
-			valid_format: across version.split ('.') as n all n.item.is_natural_32 end
+			valid_format: across version.split ('.') as n all n.is_natural_32 end
 			valid_part_size: across version.split ('.') as n all
-				n.item.to_natural_32 < (10 ^ a_digit_count).rounded.to_natural_32
+				n.to_natural_32 < (10 ^ a_digit_count).rounded.to_natural_32
 			end
 			valid_parts: Digit_range.has ((version.occurrences ('.') + 1) * a_digit_count)
 		local
@@ -91,7 +91,7 @@ feature -- Initialization
 			digit_count := a_digit_count
 			create splitter.make (version, '.')
 			across splitter as split loop
-				put (split.item.to_natural_32, split.cursor_index)
+				put (split.to_natural_32, @ split.cursor_index)
 			end
 		ensure
 			reversible: out ~ version

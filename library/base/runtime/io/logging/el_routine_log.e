@@ -159,7 +159,7 @@ feature -- Output
 			real_string: detachable STRING; quoted_string: detachable READABLE_STRING_GENERAL
 		do
 			across list as list_tuple loop
-				field := list_tuple.item; quoted_string := Void; real_string := Void
+				field := list_tuple; quoted_string := Void; real_string := Void
 
 				if attached new_real_string (field) as str then
 					value_count := str.count
@@ -327,7 +327,7 @@ feature -- String output
 					else
 						not_first := True
 					end
-					op.put_string_general (list.item)
+					op.put_string_general (list)
 				end
 				op.tab_left
 				op.put_new_line

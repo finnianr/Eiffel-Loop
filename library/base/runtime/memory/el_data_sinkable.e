@@ -263,7 +263,7 @@ feature -- String sinks
 				else
 					not_first := True
 				end
-				sink_string_general (str.item)
+				sink_string_general (str)
 			end
 		end
 

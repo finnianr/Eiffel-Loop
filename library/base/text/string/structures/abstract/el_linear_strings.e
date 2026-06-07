@@ -162,8 +162,8 @@ feature -- Access
 				word_list.sort (True)
 				first_character := word_list.first [1]
 				across word_list as list loop
-					if attached list.item as str then
-						if list.cursor_index > 1 then
+					if attached list as str then
+						if @ list.cursor_index > 1 then
 							if str.count > 0 and then first_character /= str [1] then
 								Result.append_code ({EL_ASCII}.Newline)
 								first_character := str [1]

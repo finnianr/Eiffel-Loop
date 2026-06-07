@@ -20,7 +20,7 @@ feature -- Status query
 		do
 			if time_str.count >= 4 then
 				parts := time_str.split (':')
-				if parts.count = 2 and then across parts as part all part.item.is_integer end then
+				if parts.count = 2 and then across parts as part all part.is_integer end then
 					Result := True
 				end
 			end

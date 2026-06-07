@@ -209,7 +209,7 @@ feature -- Substring query
 		require
 			valid_bounds: valid_bounds (start_index, end_index)
 			valid_character_set: is_latin_1_encoded
-				or else across start_index |..| end_index as index all item_8 (index.item) <= Max_ascii end
+				or else across start_index |..| end_index as index all item_8 (index) <= Max_ascii end
 		local
 			i, upper_i: INTEGER; c_i: CHARACTER_8
 		do

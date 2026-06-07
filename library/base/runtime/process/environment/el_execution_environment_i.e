@@ -16,10 +16,11 @@ inherit
 	EXECUTION_ENVIRONMENT
 		rename
 			item as item_32,
+			launch as os_launch,
 			sleep as sleep_nanosecs,
 			current_working_directory as current_working_directory_obselete
 		redefine
-			item_32, launch, put, system
+			item_32, put, system
 		end
 
 	EL_OS_DEPENDENT
@@ -92,7 +93,7 @@ feature -- Access
 		-- Example: "en" is English
 		do
 			Result := new_language_code
-			if not (Result.count = 2 and across Result as letter all letter.item.is_lower end) then
+			if not (Result.count = 2 and across Result as letter all letter.is_lower end) then
 				Result := "en"
 			end
 		end
@@ -111,8 +112,8 @@ feature -- Access
 			template: EL_TEMPLATE [ZSTRING]
 		do
 			create template.make (as_zstring (template_string))
-			across template.name_list as list loop
-				if attached list.item as name and then attached item (name) as value then
+			across template.name_list as name loop
+				if attached item (name) as value then
 					template.put (name, value)
 				end
 			end

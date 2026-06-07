@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			if attached new_field_list as field_list then
 				create attribute_list.make (field_list.count)
 				across field_list as list loop
-					if attached list.item as field then
+					if attached list as field then
 						if not field.is_expanded then
 							field.initialize (Current)
 						end

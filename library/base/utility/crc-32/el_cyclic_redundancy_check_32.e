@@ -285,12 +285,9 @@ feature -- Add strings
 		end
 
 	add_string_list (list: ITERABLE [READABLE_STRING_GENERAL])
-		local
-			l_str: READABLE_STRING_GENERAL
 		do
 			across list as str loop
-				l_str := str.item
-				add_string_general (l_str)
+				add_string_general (str)
 			end
 		end
 

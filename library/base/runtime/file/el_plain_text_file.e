@@ -18,18 +18,20 @@ class
 inherit
 	PLAIN_TEXT_FILE
 		rename
+			encoding as file_encoding,
 			put_string as put_encoded_string_8,
 			put_character as put_encoded_character_8,
-			path as ise_path
+			path as ise_path,
+			set_encoding as set_file_encoding
+		undefine
+			put_string_32, put_string_general
 		redefine
 			make_with_name, make_with_path, open_read
 		end
 
-	ITERABLE [STRING]
-
 	EL_OUTPUT_MEDIUM
 		rename
-			encoding as file_encoding
+			encoding as compact_encoding
 		redefine
 			make_default
 		end
@@ -161,10 +163,15 @@ feature -- Access
 				if encoding_type = Other_class and then attached encoding_other as l_encoding then
 					Result.append_encoded_any (raw_line, l_encoding)
 				else
-					Result.append_encoded (raw_line, file_encoding)
+					Result.append_encoded (raw_line, compact_encoding)
 				end
 			end
+		end
 
+	lines: EL_ITERABLE_TEXT_FILE
+		-- iterable line source conforming to `ITERABLE [STRING_8]'
+		do
+			create Result.make (Current)
 		end
 
 	path: EL_FILE_PATH
@@ -244,11 +251,6 @@ feature -- Basic operations
 
 feature -- Factory
 
-	new_cursor: EL_TEXT_FILE_LINE_CURSOR
-		do
-			create Result.make (Current)
-		end
-
 	new_line_list: EL_ZSTRING_LIST
 		-- list of lines decoded according to `encoding'
 		require
@@ -268,7 +270,7 @@ feature -- Factory
 		end
 
 	new_lines: EL_PLAIN_TEXT_LINE_SOURCE
-		-- iterable line source
+		-- iterable line source conforming to `ITERABLE [ZSTRING]'
 		require
 			closed: is_closed and then exists
 		do
@@ -313,7 +315,7 @@ feature {NONE} -- Implementation
 
 			utf_16_le: EL_UTF_16_LE_CONVERTER; utf_8_converter: EL_UTF_8_CONVERTER
 		do
-			inspect file_encoding
+			inspect compact_encoding
 				when Utf_8 then
 					Result := utf_8_converter.unicode_count (utf_lines)
 				when Utf_16 then

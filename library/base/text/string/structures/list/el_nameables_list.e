@@ -45,14 +45,14 @@ feature {NONE} -- Initialization
 			across index_array as name loop
 				l_found := False
 				across array as named until found loop
-					if named.item.name ~ name.item then
-						extend (named.item)
+					if named.name ~ name then
+						extend (named)
 						l_found := True
 					end
 				end
 			end
 		ensure then
-			indexed: across index_array as name all i_th (name.cursor_index).name ~ name.item end
+			indexed: across index_array as name all i_th (@ name.cursor_index).name ~ name end
 		end
 
 feature -- Status query

@@ -174,7 +174,7 @@ feature {NONE} -- Initialization
 				other.forth
 			end
 		ensure
-			definition: across Current as table all table.key ~ other.item (table.item) end
+			definition: across Current as table all @ table.key ~ other.item (table) end
 		end
 
 	make_subset (other: like Current; excluded_set: EL_HASH_SET [IMMUTABLE])
@@ -347,8 +347,8 @@ feature -- Contract Support
 				create line_list.make (a_manifest, '%N')
 				Result := True
 				across line_list as list until not Result loop
-					str := list.item
-					if list.is_last then
+					str := list
+					if @ list.is_last then
 						Result := str.occurrences (',') = 1
 
 					else

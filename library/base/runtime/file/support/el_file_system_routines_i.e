@@ -62,7 +62,7 @@ feature -- Access
 		-- assume average of 20 files per directory
 			create dir_set.make_equal ((iterable.count (path_list) // 20).min (10))
 			across path_list as path loop
-				parent := path.item.parent
+				parent := path.parent
 				if not parent.is_empty then
 					dir_set.put (parent)
 				end
@@ -152,8 +152,8 @@ feature -- Basic operations
 	make_parents (path_list: ITERABLE [FILE_PATH])
 		-- create directory structure to create files in `path_list'
 		do
-			across parent_set (path_list, True) as set loop
-				make_directory (set.item)
+			across parent_set (path_list, True) as parent loop
+				make_directory (parent)
 			end
 		end
 

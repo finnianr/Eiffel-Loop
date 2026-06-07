@@ -123,7 +123,7 @@ feature -- Contract Support
 		do
 			Result := True
 			across a_manifest.split ('%N') as list until not Result loop
-				if attached list.item as line then
+				if attached list as line then
 					l_start_index := start_plus_end_assignment_indices (line, $l_end_index)
 					Result := l_end_index >= 1 and l_start_index <= line.count
 				end

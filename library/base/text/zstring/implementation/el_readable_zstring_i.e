@@ -216,7 +216,7 @@ feature {NONE} -- Implementation
 		-- shared list of indices of unescaped template substitution markers '%S' AKA '#'
 		deferred
 		ensure
-			valid_result: across Result as index all item_8 (index.item) = '%S' end
+			valid_result: across Result as index all item_8 (index) = '%S' end
 		end
 
 	substring (start_index, end_index: INTEGER): EL_READABLE_ZSTRING

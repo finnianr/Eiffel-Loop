@@ -40,7 +40,7 @@ feature -- Element change
 				else
 					not_first := True
 				end
-				pair := list.item
+				pair := list
 				index_equal := pair.index_of ('=', 1)
 				if index_equal > 0 then
 					append_substring_general (pair, 1, index_equal - 1)

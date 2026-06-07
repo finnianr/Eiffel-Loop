@@ -65,7 +65,7 @@ feature -- Access
 			end
 			if not found_type then
 				across type_mapping_array as array until attached Result loop
-					if attached array.item as map then
+					if attached array as map then
 						if {ISE_RUNTIME}.type_conforms_to (type_id, map.parent_type.type_id) then
 							Result := map.instance
 							extend (type_id, Result)

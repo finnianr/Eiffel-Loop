@@ -32,8 +32,8 @@ feature {NONE} -- Initialization
 		do
 			make_sized (table.count + 1)
 			across table as char loop
-				key_code := character_to_code (char.key)
-				code := character_to_code (char.item)
+				key_code := character_to_code (@ char.key)
+				code := character_to_code (char)
 				extend (code, key_code)
 			end
 			escape_code := character_to_code (table.escape_character)

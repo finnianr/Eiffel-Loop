@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 			count := field_list.count
 			interval_table := new_interval_table (new_interval_hash_table (field_list))
 			across interval_table.key_list as list loop
-				field_list [list.cursor_index].set_from_integer (Current, as_integer (list.item))
+				field_list [@ list.cursor_index].set_from_integer (Current, as_integer (list))
 			end
 			initialize
 		ensure
@@ -129,9 +129,9 @@ feature {NONE} -- Implementation
 		do
 			if attached utf_8_text as text then
 				across interval_table as table until Result loop
-					if field_name_for_interval (table.item, text) ~ a_name then
+					if field_name_for_interval (table, text) ~ a_name then
 						if set_found_value then
-							internal_found_value := as_integer (table.key)
+							internal_found_value := as_integer (@ table.key)
 						end
 						Result := True
 					end

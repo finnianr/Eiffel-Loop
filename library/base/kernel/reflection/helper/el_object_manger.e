@@ -47,7 +47,7 @@ feature {NONE} -- Implementation
 	zero_value_count (array: SPECIAL [INTEGER]): INTEGER
 		do
 			across array as n loop
-				if n.item = 0 then
+				if n = 0 then
 					Result := Result + 1
 				end
 			end

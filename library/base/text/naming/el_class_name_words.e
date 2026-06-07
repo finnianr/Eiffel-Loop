@@ -84,7 +84,7 @@ feature -- Removal
 		do
 			push_cursor
 			from start until after loop
-				if across word_list as list some list.item.same_string (item) end then
+				if across word_list as list some list.same_string (item) end then
 					remove
 				else
 					forth
@@ -108,7 +108,7 @@ feature -- Removal
 	remove_suffix (suffix_list: ARRAY [STRING])
 		do
 			across suffix_list as list loop
-				if count > 0 and then last_item.same_string (list.item) then
+				if count > 0 and then last_item.same_string (list) then
 					remove_tail (1)
 				end
 			end

@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 			set_default_alias ({DEFAULT})
 
 			across new_type_list (type_set) as type loop
-				extend (type.item)
+				extend (type)
 			end
 		end
 
@@ -124,7 +124,7 @@ feature -- Contract support
 			type_set: TYPE_SET
 		do
 			create type_set
-			Result := across new_type_list (type_set) as type all a_type_alias (type.item).count > 0 end
+			Result := across new_type_list (type_set) as type all a_type_alias (type).count > 0 end
 		end
 
 feature {NONE} -- Implementation

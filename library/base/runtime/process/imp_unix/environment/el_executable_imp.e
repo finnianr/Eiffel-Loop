@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 		do
 			create name_path.make (a_name)
 			across search_path_list as l_path until Result loop
-				name_path.set_parent (l_path.item)
+				name_path.set_parent (l_path)
 				Result := name_path.exists
 			end
 		end

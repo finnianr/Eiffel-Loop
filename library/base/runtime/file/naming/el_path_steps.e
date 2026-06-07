@@ -192,10 +192,10 @@ feature -- Conversion
 			if attached filled_list as filled then
 				create Result.make ((count - 1).max (0) + filled.character_count)
 				across filled as list loop
-					if not list.is_first then
+					if not @ list.is_first then
 						Result.append_character (Separator)
 					end
-					list.item.append_to_string_32 (Result)
+					list.append_to_string_32 (Result)
 				end
 			end
 		end
@@ -233,7 +233,7 @@ feature -- Measurement
 	index_of (step: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		do
 			if attached token_list as list then
-				Result := list.sequential_index_of (Step_table.to_token (as_zstring (step)), start_index)
+				Result := list.index_of (Step_table.to_token (as_zstring (step)), start_index)
 			end
 		end
 
@@ -241,8 +241,8 @@ feature -- Measurement
 		-- returns first index from `start_index' where `is_step (item (index))' is `True'
 		do
 			across filled_list as list until Result > 0 loop
-				if list.cursor_index >= start_index and then is_step (list.item) then
-					Result := list.cursor_index
+				if @ list.cursor_index >= start_index and then is_step (list) then
+					Result := @ list.cursor_index
 				end
 			end
 		end
@@ -341,10 +341,10 @@ feature -- Basic operations
 			if attached filled_list as filled then
 				str.grow (str.count + filled.joined_character_count)
 				across filled as step loop
-					if step.cursor_index > 1 then
+					if @ step.cursor_index > 1 then
 						str.append_character (Separator)
 					end
-					str.append (step.item)
+					str.append (step)
 				end
 			end
 		end
@@ -355,10 +355,10 @@ feature -- Basic operations
 			if attached filled_list as filled then
 				str.grow (str.count + filled.joined_character_count)
 				across filled as step loop
-					if step.cursor_index > 1 then
+					if @ step.cursor_index > 1 then
 						str.append_character (Separator)
 					end
-					step.item.append_to_string_32 (str)
+					step.append_to_string_32 (str)
 				end
 			end
 		end
@@ -376,10 +376,10 @@ feature -- Basic operations
 			if attached filled_list as filled then
 				uri.grow (uri.count + filled.joined_character_count)
 				across filled as step loop
-					if step.cursor_index > 1 then
+					if @ step.cursor_index > 1 then
 						uri.append_character (Unix_separator.to_character_8)
 					end
-					uri.append_general (step.item)
+					uri.append_general (step)
 				end
 			end
 		end
@@ -394,7 +394,7 @@ feature -- Basic operations
 				else
 					not_first := True
 				end
-				a_output.write_string (step.item)
+				a_output.write_string (step)
 			end
 		end
 
@@ -447,13 +447,13 @@ feature -- Element change
 			if attached filled_list as filled and then filled.there_exists (agent has_expansion_variable) then
 				create new_tokens.make (count)
 				across filled as list loop
-					if has_expansion_variable (list.item)
-						and then attached Execution_environment.item (variable_name (list.item)) as value
+					if has_expansion_variable (list)
+						and then attached Execution_environment.item (variable_name (list)) as value
 					then
 						new_tokens.grow (new_tokens.count + value.occurrences (Separator) + 1)
 						Step_table.put_tokens (value.split (Separator), new_tokens.area)
 					else
-						new_tokens.extend (i_th_token (list.cursor_index))
+						new_tokens.extend (i_th_token (@ list.cursor_index))
 					end
 				end
 				area := new_tokens.area

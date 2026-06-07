@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 		do
 			make_equal (array.count)
 			across array as a loop
-				if attached a.item as pair then
+				if attached a as pair then
 					extend (pair.value, Immutable_8.as_shared (pair.name))
 				end
 			end
@@ -56,7 +56,7 @@ feature -- Element change
 				accommodate (new_count)
 			end
 			across array as a loop
-				if attached a.item as pair then
+				if attached a as pair then
 					force (pair.value, Immutable_8.as_shared (pair.name))
 				end
 			end

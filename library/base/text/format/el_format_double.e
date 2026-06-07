@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 		do
 			parser.reset_count_removed
 			across ".," as c until parser.was_removed loop
-				decimal_point.set_item (c.item)
+				decimal_point.set_item (c)
 				parser.try_remove_right_until (decimal_point.item)
 				if parser.was_removed then
 					Result := parser.count_removed - 1

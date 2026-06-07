@@ -49,6 +49,12 @@ feature -- Status query
 			Result := target.has (uc)
 		end
 
+	has_upper: BOOLEAN
+		-- `True' if at least one character in `str' is uppercase
+		do
+			Result := has_member (create {EL_UPPER_CASE_CHARACTER_32_SET}.make)
+		end
+
 	is_alpha_numeric: BOOLEAN
 		-- `True' if all characters in `target' are alphabetical or numerical
 		local

@@ -92,7 +92,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		ensure
 			same_count: count = old count
 			valid_string: is_valid
-			reversed: across 1 |..| count as n all item (n.item) = (old twin) [count - n.item + 1] end
+			reversed: across 1 |..| count as n all item (n) = (old twin) [count - n + 1] end
 		end
 
 	multiply (n: INTEGER)
@@ -658,7 +658,7 @@ feature -- Contract Support
 			i: INTEGER
 		do
 			across to_string_32 as uc loop
-				i := old_set.index_of (uc.item, 1)
+				i := old_set.index_of (uc, 1)
 				if i > 0 and then new_set [i] = '%U' then
 					Result := Result + 1
 				end

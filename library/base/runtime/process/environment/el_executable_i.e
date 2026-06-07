@@ -72,17 +72,17 @@ feature -- Access
 			create Result
 			extension_list := file_extensions
 			across search_path.split (search_path_separator) as l_path until found loop
-				Result.set_path (l_path.item)
+				Result.set_path (l_path)
 				Result.append_step (a_name)
 				if extension_list.is_empty then
 					found := Result.exists -- Empty on Unix
 				else
 					-- Try all extention permutations on Windows
 					across extension_list as extension until found loop
-						if extension.is_first then
-							Result.add_extension (extension.item)
+						if @ extension.is_first then
+							Result.add_extension (extension)
 						else
-							Result.replace_extension (extension.item)
+							Result.replace_extension (extension)
 						end
 						found := Result.exists
 					end
@@ -131,8 +131,8 @@ feature -- Access
 					path_check_sum := crc.checksum
 					Result.wipe_out
 					across l_search_path.split (search_path_separator) as split loop
-						if split.item_count > 0 then
-							Result.extend (split.item)
+						if @ split.item_count > 0 then
+							Result.extend (split)
 						end
 					end
 				end

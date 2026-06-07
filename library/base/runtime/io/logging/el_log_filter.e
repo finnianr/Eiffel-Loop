@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			make (a_class_type, Show_selected)
 			create split_list.make_comma_split (routine_list)
 			across split_list as list loop
-				routine_set.put (list.item)
+				routine_set.put (list)
 			end
 		ensure
 			valid_selected: routine_set.count > 0
@@ -72,7 +72,7 @@ feature -- Basic operations
 						log.put_string ("(None)")
 				else
 					across routine_set as set loop
-						name := set.item
+						name := set
 						if sg.super_8 (name).starts_with_character ('-') then
 							log.put_string (name.substring (2, name.count))
 							log.put_string (" (Disabled)")

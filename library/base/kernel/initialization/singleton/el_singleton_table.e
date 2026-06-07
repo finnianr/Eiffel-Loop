@@ -90,7 +90,7 @@ feature -- Status query
 					Result := True
 				else
 					Result := across key_list as type_id some
-						{ISE_RUNTIME}.type_conforms_to (type_id.item, type.type_id)
+						{ISE_RUNTIME}.type_conforms_to (type_id, type.type_id)
 					end
 				end
 			end_restriction
@@ -105,7 +105,7 @@ feature {NONE} -- Implementation
 			Result := has_key (a_type_id)
 			if not Result and conforming then
 				across key_list as type_id until Result loop
-					if {ISE_RUNTIME}.type_conforms_to (type_id.item, a_type_id) and then has_key (type_id.item) then
+					if {ISE_RUNTIME}.type_conforms_to (type_id, a_type_id) and then has_key (type_id) then
 						Result := True
 					end
 				end

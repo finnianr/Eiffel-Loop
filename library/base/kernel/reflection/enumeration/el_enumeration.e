@@ -47,6 +47,8 @@ deferred class EL_ENUMERATION [N -> HASHABLE] inherit ANY
 
 	EL_BIT_COUNTABLE
 
+	EL_SHARED_ZSTRING_BUFFER_POOL
+
 feature {NONE} -- Initialization
 
 	initialize
@@ -58,18 +60,18 @@ feature {NONE} -- Initialization
 		do
 			if values_in_text and attached field_list.table as l_field_table then
 				across interval_table as table loop
-					if attached field_name_for_interval (table.item, utf_8_text) as l_name then
+					if attached field_name_for_interval (table, utf_8_text) as l_name then
 						if l_field_table.has_immutable_key (l_name)
 							and then attached l_field_table.found_item as field
 						then
-							field.set_from_integer (Current, as_integer (table.key))
+							field.set_from_integer (Current, as_integer (@ table.key))
 							text_value_count := text_value_count + 1
 						end
 					end
 				end
 			else
-				across field_list as list loop
-					list.item.set_from_integer (Current, list.cursor_index)
+				across field_list as field loop
+					field.set_from_integer (Current, @ field.cursor_index)
 				end
 			end
 		ensure then
@@ -95,9 +97,9 @@ feature {NONE} -- Initialization
 			 	count := field_list.count
 				initialize_fields (field_list)
 				create l_name_table.make (field_list.count)
-				across field_list as list loop
-					if attached {EL_REFLECTED_INTEGER_FIELD [NUMERIC]} list.item as field then
-						l_name_table.put (field.name, as_enum (field.to_natural_64 (Current).to_integer_32))
+				across field_list as field loop
+					if attached {EL_REFLECTED_INTEGER_FIELD [NUMERIC]} field as integer_field then
+						l_name_table.put (field.name, as_enum (integer_field.to_natural_64 (Current).to_integer_32))
 					end
 				end
 		 	end
@@ -159,7 +161,7 @@ feature -- Access
 		do
 			create Result.make (field_name_table.count)
 			across field_name_table as table loop
-				Result.extend (name (table.key))
+				Result.extend (name (@ table.key))
 			end
 		end
 
@@ -261,8 +263,8 @@ feature -- Basic operations
 			-- Otherwise for example, `PP_ADDRESS.Status_enum' will have an invalid CRC
 				map_list.sort_by_value (True)
 				across map_list as map loop
-					crc.add_string_8 (map.value)
-					write_value (crc, map.key)
+					crc.add_string_8 (@ map.value)
+					write_value (crc, @ map.key)
 				end
 			end
 		end
@@ -270,8 +272,15 @@ feature -- Basic operations
 	write_meta_data (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		do
 			output.put_indented_line (tab_count, "class " + generator)
-			across new_field_list as list loop
-				output.put_indented_line (tab_count + 1, list.item.name + " = " + list.item.to_string (Current))
+			if attached String_pool.item as borrowed and then attached borrowed.empty as line then
+				across new_field_list as field loop
+					line.wipe_out
+					line.append_string_8 (field.name)
+					line.append_string_8 (" = ")
+					field.append_to_string (Current, line)
+					output.put_indented_line (tab_count + 1, line)
+				end
+				borrowed.return
 			end
 			output.put_indented_line (tab_count, "end")
 		end
@@ -287,11 +296,11 @@ feature -- Contract Support
 		do
 			if attached name_translater as translater then
 				Result := across field_name_table as table all
-					table.key = value (translater.exported (table.item))
+					@ table.key = value (translater.exported (table))
 				end
 			else
 				Result := across field_name_table as table all
-					table.key = value (table.item)
+					@ table.key = value (table)
 				end
 			end
 		end
@@ -336,7 +345,7 @@ feature {NONE} -- Implementation
 			elseif attached name_translater as translater then
 				create l_name_table.make (field_name_table.count)
 				across field_name_table as table loop
-					l_name_table.extend (translater.exported (table.item), table.key)
+					l_name_table.extend (translater.exported (table), @ table.key)
 				end
 				Result := new_field_name_table (l_name_table)
 				internal_name_table := Result
@@ -359,13 +368,13 @@ feature {NONE} -- Implementation
 				if attached name_translater as translater then
 					create exported_names.make (field_name_table.count * 20)
 					across field_name_table as table loop
-						exported_names.extend (translater.exported (table.item))
+						exported_names.extend (translater.exported (table))
 					end
 					create Result.make (field_name_table.count)
 					if attached exported_names.to_immutable_list as l_name_list then
 						across field_name_table as table loop
 							i := i + 1
-							Result.extend (table.key, l_name_list.i_th (i))
+							Result.extend (@ table.key, l_name_list.i_th (i))
 						end
 					end
 				else
@@ -382,7 +391,7 @@ feature {NONE} -- Implementation
 			else
 				create Result.make (field_name_table.count)
 				across field_name_table as table loop
-					Result.extend (table.key, table.item)
+					Result.extend (@ table.key, table)
 				end
 				internal_value_table := Result
 			end

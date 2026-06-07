@@ -40,7 +40,7 @@ feature -- Access
 			if attached non_abstract_types as type_list then
 				create Result.make (type_list.count)
 				across type_list as list loop
-					Result.extend (list.item.generating_type, list.item.value_type.type_id)
+					Result.extend (list.generating_type, list.value_type.type_id)
 				end
 			else
 				create Result.make (0)
@@ -56,8 +56,8 @@ feature -- Access
 		do
 			create Result.make (10)
 			across Current as list loop
-				if attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} list.item then
-					Result.extend (list.item.value_type.type_id)
+				if attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} list then
+					Result.extend (list.value_type.type_id)
 				end
 			end
 		end
@@ -66,8 +66,8 @@ feature -- Access
 		do
 			create Result.make (0)
 			across Current as list loop
-				if list.item.is_storable_type then
-					Result.extend (list.item.value_type.type_id)
+				if list.is_storable_type then
+					Result.extend (list.value_type.type_id)
 				end
 			end
 		end
@@ -77,7 +77,7 @@ feature -- Status query
 	has_conforming (type_id: INTEGER): BOOLEAN
 		do
 			Result := across Current as list some
-				{ISE_RUNTIME}.type_conforms_to (type_id, list.item.value_type.type_id)
+				{ISE_RUNTIME}.type_conforms_to (type_id, list.value_type.type_id)
 			end
 		end
 
@@ -91,7 +91,7 @@ feature -- Basic operations
 			grow (count + type_list.count)
 			across type_list as list loop
 				if attached {EL_REFLECTED_REFERENCE [ANY]}
-					Default_factory.new_item_from_type_id (list.item.type_id) as new
+					Default_factory.new_item_from_type_id (list.type_id) as new
 				then
 					extend (new)
 				end

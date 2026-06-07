@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!---->
-<system name = "EL_base" library_target = "EL_base" uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-22-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-22-0 http://www.eiffel.com/developers/xml/configuration-1-22-0.xsd">
-	<target name = "EL_base">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-23-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-23-0 http://www.eiffel.com/developers/xml/configuration-1-23-0.xsd" name="el_base" uuid="229B789E-09AA-11DF-87C7-1BF8AFD2BBAD" library_target="el_base">
+	<target name="el_base">
 		<description>
 Base classes for Eiffel-Loop
 
@@ -14,32 +13,29 @@ Clusters:
 * Text Processing
 * Utility
 		</description>
+		<root all_classes="true"/>
+		<option trace="false" debug="false" warning="warning" full_class_checking="false" syntax="standard" namespace="Eiffel-Loop.Library"/>
 		<capability>
-			<concurrency support="thread" use="thread"/>
-		</capability>		
-		<root all_classes = "true"/>
-		<option namespace = "Eiffel-Loop.Library" trace = "false" debug = "false" warning = "warning" syntax = "standard" full_class_checking = "false" void_safety = "none">
-			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>
-		</option>
-		<mapping old_name = "ZSTRING" new_name = "EL_ZSTRING"/>
-		<mapping old_name = "DTC" new_name = "DATE_TIME_CODE"/>
-		<mapping old_name = "DIR_PATH" new_name = "EL_DIR_PATH"/>
-		<mapping old_name = "FILE_PATH" new_name = "EL_FILE_PATH"/>
-		<!--ISE libraries-->
-		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
-		<library name = "base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
-		<library name = "encoding" location = "$ISE_LIBRARY/library/encoding/encoding.ecf"/>
-		<library name = "ise_i18n" location = "$ISE_LIBRARY/library/i18n/i18n.ecf">
+			<concurrency support="thread"/>
+			<void_safety support="none"/>
+		</capability>
+		<mapping old_name="ZSTRING" new_name="EL_ZSTRING"/>
+		<mapping old_name="DTC" new_name="DATE_TIME_CODE"/>
+		<mapping old_name="DIR_PATH" new_name="EL_DIR_PATH"/>
+		<mapping old_name="FILE_PATH" new_name="EL_FILE_PATH"/>
+		<library name="base" location="..\override\ISE-base.ecf"/>
+		<library name="base_ext" location="$ISE_LIBRARY\library\base_extension\base_extension.ecf"/>
+		<library name="encoding" location="$ISE_LIBRARY\library\encoding\encoding.ecf"/>
+		<library name="ise_i18n" location="$ISE_LIBRARY\library\i18n\i18n.ecf">
 			<condition>
-				<platform value = "windows"/>
+				<platform value="windows"/>
 			</condition>
 		</library>
-		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
-		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
-		<library name = "thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
-		<library name = "uuid" location = "$ISE_LIBRARY/library/uuid/uuid.ecf"/>
-		<!--CLUSTERS-->
-		<cluster name = "data_structure" location = "data_structure" recursive = "true">
+		<library name="net" location="$ISE_LIBRARY\library\net\net.ecf"/>
+		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
+		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf"/>
+		<library name="uuid" location="$ISE_LIBRARY\library\uuid\uuid.ecf"/>
+		<cluster name="data_structure" location="data_structure\" recursive="true">
 			<description>
 Data Structure
 
@@ -48,25 +44,14 @@ Various hash-table, array, list, chain and linear types
 See doc/base.data_structure.txt for details
 			</description>
 		</cluster>
-		<cluster name = "date_time" location = "text/date-time" recursive = "true">
+		<cluster name="date_time" location="text\date-time\" recursive="true">
 			<description>
 Date and Time
 
 Classes for parsing and formatting date and time strings.
 			</description>
 		</cluster>
-		<cluster name = "math" location = "math" recursive = "true">
-			<description>
-Math
-
-Some basic math classes for the following:
-
-* 2D geometry
-* Calculating integrals of arbitrary functions
-* Representing column vectors
-			</description>
-		</cluster>
-		<cluster name = "file" location = "runtime/file" recursive = "true">
+		<cluster name="file" location="runtime\file\" recursive="true">
 			<description>
 Files and Directories
 
@@ -81,17 +66,31 @@ Classes for the following:
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
-					<platform value = "unix"/>
+					<platform value="unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
 				<exclude>/imp_unix$</exclude>
 				<condition>
-					<platform value = "windows"/>
+					<platform value="windows"/>
 				</condition>
 			</file_rule>
 		</cluster>
-		<cluster name = "io" location = "runtime/io" recursive = "true">
+		<cluster name="initialization" location="kernel\initialization\" recursive="true">
+			<description>
+Class Creation and Initialization
+
+Classes for the following:
+
+* Creating and initializing instances of a class.
+* Factory indirection, i.e. factories for creating factories.
+* Managing cross-platform bridge initialization
+* Managing `Precursor' calls to avoid repeats
+* Managing creation and initialization of singleton objects
+* Managing creation of "lazy attributes"
+			</description>
+		</cluster>
+		<cluster name="io" location="runtime\io\" recursive="true">
 			<description>
 Input/Output
 
@@ -103,17 +102,17 @@ Classes for the following:
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
-					<platform value = "unix"/>
+					<platform value="unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
 				<exclude>/imp_unix$</exclude>
 				<condition>
-					<platform value = "windows"/>
+					<platform value="windows"/>
 				</condition>
 			</file_rule>
 		</cluster>
-		<cluster name = "kernel" location = "kernel" recursive = "true">
+		<cluster name="kernel" location="kernel\" recursive="true">
 			<description>
 Kernel
 
@@ -122,35 +121,44 @@ Fundamental base classes
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
-					<platform value = "unix"/>
+					<platform value="unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
 				<exclude>/imp_unix$</exclude>
 				<condition>
-					<platform value = "windows"/>
+					<platform value="windows"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>/reflection$</exclude>
 				<exclude>/initialization$</exclude>
+				<exclude>/reflection$</exclude>
 			</file_rule>
 		</cluster>
-		<cluster name = "initialization" location = "kernel/initialization" recursive = "true">
+		<cluster name="math" location="math\" recursive="true">
 			<description>
-Class Creation and Initialization
+Math
 
-Classes for the following:
+Some basic math classes for the following:
 
-* Creating and initializing instances of a class.
-* Factory indirection, i.e. factories for creating factories.
-* Managing cross-platform bridge initialization
-* Managing `Precursor&apos; calls to avoid repeats
-* Managing creation and initialization of singleton objects
-* Managing creation of &quot;lazy attributes&quot;
+* 2D geometry
+* Calculating integrals of arbitrary functions
+* Representing column vectors
 			</description>
 		</cluster>
-		<cluster name = "reflection" location = "kernel/reflection" recursive = "true">
+		<cluster name="persistency" location="persistency\" recursive="true">
+			<description>
+Data Persistence
+
+Classes providing the following facilities:
+
+* Reading and writing arrays of floating-point type ${REAL_64}.
+* Files that notify a listener of byte-count written and read.
+* A file conforming to ${PLAIN_TEXT_FILE} that implements ${EL_OUTPUT_MEDIUM}
+* File line source and other abstractions
+			</description>
+		</cluster>
+		<cluster name="reflection" location="kernel\reflection\" recursive="true">
 			<description>
 Class Reflection
 
@@ -161,7 +169,7 @@ memory block conforming to ${EL_MEMORY_READER_WRITER} (inherits ${SED_MEMORY_REA
 See doc/base.reflection.txt for details
 			</description>
 		</cluster>
-		<cluster name = "runtime" location = "runtime" recursive = "true">
+		<cluster name="runtime" location="runtime\" recursive="true">
 			<description>
 Runtime Operations
 
@@ -176,13 +184,13 @@ Classes for the following:
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
-					<platform value = "unix"/>
+					<platform value="unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
 				<exclude>/imp_unix$</exclude>
 				<condition>
-					<platform value = "windows"/>
+					<platform value="windows"/>
 				</condition>
 			</file_rule>
 			<file_rule>
@@ -190,19 +198,7 @@ Classes for the following:
 				<exclude>/io$</exclude>
 			</file_rule>
 		</cluster>
-		<cluster name = "persistency" location = "persistency" recursive = "true">
-			<description>
-Data Persistence
-
-Classes providing the following facilities:
-
-* Reading and writing arrays of floating-point type ${REAL_64}.
-* Files that notify a listener of byte-count written and read.
-* A file conforming to ${PLAIN_TEXT_FILE} that implements ${EL_OUTPUT_MEDIUM}
-* File line source and other abstractions
-			</description>
-		</cluster>
-		<cluster name = "string" location = "text/string" recursive = "true">
+		<cluster name="string" location="text\string\" recursive="true">
 			<description>
 Strings (Abstract)
 
@@ -228,21 +224,21 @@ to provide the following:
 				<exclude>/structures$</exclude>
 			</file_rule>
 		</cluster>
-		<cluster name = "string_8" location = "text/string_8" recursive = "true">
-			<description>
-Strings (Latin-1/UTF-8)
-
-Classes to process Latin-1 or UTF-8 encoded strings of type ${STRING_8} or ${IMMUTABLE_STRING_8}
-			</description>
-		</cluster>
-		<cluster name = "string_32" location = "text/string_32" recursive = "true">
+		<cluster name="string_32" location="text\string_32\" recursive="true">
 			<description>
 Strings (Unicode)
 
 Classes to process unicode strings of type ${STRING_32} or ${IMMUTABLE_STRING_32}
 			</description>
 		</cluster>
-		<cluster name = "string_structures" location = "text/string/structures" recursive = "true">
+		<cluster name="string_8" location="text\string_8\" recursive="true">
+			<description>
+Strings (Latin-1/UTF-8)
+
+Classes to process Latin-1 or UTF-8 encoded strings of type ${STRING_8} or ${IMMUTABLE_STRING_8}
+			</description>
+		</cluster>
+		<cluster name="string_structures" location="text\string\structures\" recursive="true">
 			<description>
 Substring Data Structures
 
@@ -255,7 +251,44 @@ Container classes for substrings
 * Tables of substrings
 			</description>
 		</cluster>
-		<cluster name = "zstring" location = "text/zstring" recursive = "true">
+		<cluster name="text" location="text\" recursive="true">
+			<description>
+Text Processing
+
+Classes providing the following:
+
+* Character and character sequence conversion
+* Character encoding
+* Class and routine naming-convention translation
+* Converting string data to other basic types
+* Deferred internationalization
+* Text line processing
+* Parsing and manipulating name-value pairs
+* Classes for reading and mapping command line arguments
+* Associating formatting styles with strings
+* URI encoding/decoding
+* UTF encoding/decoding
+			</description>
+			<file_rule>
+				<exclude>/buffer$</exclude>
+				<exclude>/date-time$</exclude>
+				<exclude>/string$</exclude>
+				<exclude>/string_32$</exclude>
+				<exclude>/string_8$</exclude>
+				<exclude>/zstring$</exclude>
+			</file_rule>
+		</cluster>
+		<cluster name="utility" location="utility\" recursive="true">
+			<description>
+Software Versioning and CRC digest
+
+Classes providing the following facilities:
+
+* Software version formatting and storing application build information
+* Cyclic redundancy checksum generation
+			</description>
+		</cluster>
+		<cluster name="zstring" location="text\zstring\" recursive="true">
 			<description>
 Strings (Compact Unicode)
 
@@ -281,43 +314,6 @@ Python like tuple substitution, or substrings up until a specified character (an
 
 * [./benchmark/ZSTRING-benchmarks-latin-1.html Base character-set Latin-1]
 * [./benchmark/ZSTRING-benchmarks-latin-15.html Base character-set Latin-15]
-			</description>
-		</cluster>
-		<cluster name = "text" location = "text" recursive = "true">
-			<description>
-Text Processing
-
-Classes providing the following:
-
-* Character and character sequence conversion
-* Character encoding
-* Class and routine naming-convention translation
-* Converting string data to other basic types
-* Deferred internationalization
-* Text line processing
-* Parsing and manipulating name-value pairs
-* Classes for reading and mapping command line arguments
-* Associating formatting styles with strings
-* URI encoding/decoding
-* UTF encoding/decoding
-			</description>
-			<file_rule>
-				<exclude>/buffer$</exclude>
-				<exclude>/date-time$</exclude>
-				<exclude>/string$</exclude>
-				<exclude>/string_8$</exclude>
-				<exclude>/string_32$</exclude>
-				<exclude>/zstring$</exclude>
-			</file_rule>
-		</cluster>
-		<cluster name = "utility" location = "utility" recursive = "true">
-			<description>
-Software Versioning and CRC digest
-
-Classes providing the following facilities:
-
-* Software version formatting and storing application build information
-* Cyclic redundancy checksum generation
 			</description>
 		</cluster>
 	</target>

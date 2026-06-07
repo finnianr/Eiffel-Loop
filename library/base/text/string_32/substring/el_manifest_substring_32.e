@@ -36,7 +36,7 @@ feature {NONE} -- Implementation
 				if str_32.count > 0 then
 					str_32.append_character ('%N')
 				end
-				list.append_item_to_string_32 (str_32)
+				@ list.append_item_to_string_32 (str_32)
 			end
 		end
 

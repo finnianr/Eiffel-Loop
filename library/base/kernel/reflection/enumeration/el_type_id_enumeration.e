@@ -92,16 +92,16 @@ feature {NONE} -- Implementation
 			create Result.make (type_name.count + 1)
 			create part_list.make_by_string (type_name, Double_underscore)
 			across part_list as list loop
-				if list.cursor_index = 2 then
+				if @ list.cursor_index = 2 then
 					Result.append_character (' ')
 					Result.append_character ('[')
 
-				elseif list.cursor_index > 2 then
+				elseif @ list.cursor_index > 2 then
 					Result.append_character (',')
 					Result.append_character (' ')
 				end
-				Result.append (list.item)
-				if list.is_last then
+				Result.append (list)
+				if @ list.is_last then
 					Result.append_character (']')
 				end
 			end

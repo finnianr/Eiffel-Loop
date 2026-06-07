@@ -40,11 +40,11 @@ feature {NONE} -- Initialization
 		do
 			make (a_group_key, (Iterable.count (a_list) // 2).min (11))
 			across a_list as list loop
-				extend (a_group_key (list.item), list.item)
+				extend (a_group_key (list), list)
 			end
 		ensure
 			each_item_in_group: across a_list as l_list all
-				item_list (a_group_key (l_list.item)).has (l_list.item)
+				item_list (a_group_key (l_list)).has (l_list)
 			end
 		end
 

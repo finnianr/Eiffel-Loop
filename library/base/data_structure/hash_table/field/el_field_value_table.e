@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 			if attached type_query.reference_fields as field_list then
 				make_equal (field_list.count)
 				across field_list as list loop
-					if attached list.item as field and then attached {G} field.value (object) as value then
+					if attached list as field and then attached {G} field.value (object) as value then
 						extend (value, type_query.field_name (field, exported_name))
 					end
 				end
@@ -59,7 +59,7 @@ feature {NONE} -- Initialization
 			elseif attached type_query.expanded_fields as field_list then
 				make_equal (field_list.count)
 				across field_list as list loop
-					if attached list.item as field then
+					if attached list as field then
 						extend (field.value (object), type_query.field_name (field, exported_name))
 					end
 				end

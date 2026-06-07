@@ -20,6 +20,8 @@ inherit
 
 	EL_MODULE_DATE_TIME
 
+	EL_SHARED_IMMUTABLE_8_MANAGER
+
 	EL_STRING_HANDLER
 
 create
@@ -79,15 +81,17 @@ feature {NONE} -- Implementation
 
 	parse
 		local
-			i, offset_hh_mm, sign_index, sign_one, leading_count, old_count: INTEGER
+			i, offset_hh_mm, sign_index, sign_one, leading_count: INTEGER
 			zone_string, zone_dezignator: STRING; c: CHARACTER; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			leading_count := sg.super_8 (source_string).last_word_end_index (zone_designator_count)
 			zone_string := source_string.substring (leading_count + 1, source_string.count)
-			old_count := source_string.count
-			source_string.set_count (leading_count)
-			Precursor
-			source_string.set_count (old_count)
+
+			if attached source_string as original then
+				source_string := Immutable_8.as_shared (original).substring (1, leading_count)
+				Precursor
+				source_string := original
+			end
 
 			create zone_dezignator.make (3)
 			zone_offset := 0
@@ -104,12 +108,12 @@ feature {NONE} -- Implementation
 			end
 			-- We might have an adjuster without any zone designator
 			across Arithmetic_signs as l_sign until sign_index > 0 loop
-				if l_sign.item = '+' then
+				if l_sign = '+' then
 					sign_one := -1
 				else
 					sign_one := 1
 				end
-				sign_index := zone_string.index_of (l_sign.item, 1)
+				sign_index := zone_string.index_of (l_sign, 1)
 			end
 			if sign_index.abs.to_boolean and attached new_offset_time (zone_string, sign_index) as time then
 				add_zone_offset (sign_one * time.hour, sign_one * time.minute)

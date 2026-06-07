@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 		do
 			make_equal (assignment_array.count)
 			across assignment_array as array loop
-				if attached array.item as tuple then
+				if attached array as tuple then
 					extend (tuple.value, Immutable_8.as_shared (tuple.key))
 				end
 			end

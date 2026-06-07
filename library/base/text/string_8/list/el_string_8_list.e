@@ -44,15 +44,15 @@ feature {NONE} -- Initialization
 		do
 			create line_list.make_shared_adjusted (str, '%N', 0)
 			across line_list as list loop
-				word_count := word_count + list.item.occurrences (word_separator) + 1
+				word_count := word_count + list.occurrences (word_separator) + 1
 			end
 			make (word_count)
 			create word_list.make_empty
 			across line_list as line loop
 				word_list.wipe_out
-				word_list.fill (line.item, word_separator, a_adjustments)
+				word_list.fill (line, word_separator, a_adjustments)
 				across word_list as list loop
-					extend (list.item)
+					extend (list)
 				end
 			end
 		end

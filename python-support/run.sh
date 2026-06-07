@@ -4,3 +4,4 @@ export PYTHONPATH=$EIFFEL/library/Eiffel-Loop/python-support
 # export JDK_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 
 python3 $*
+

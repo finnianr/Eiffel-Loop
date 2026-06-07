@@ -28,11 +28,11 @@ feature -- Basic operations
 		do
 			line_number := 0; l_final := final; state := initial
 			across splitter as split until state = l_final loop
-				line_number := split.cursor_index
+				line_number := @ split.cursor_index
 				if keep_ref then
-					call (split.item_copy)
+					call (@ split.item_copy)
 				else
-					call (split.item)
+					call (split)
 				end
 			end
 		end

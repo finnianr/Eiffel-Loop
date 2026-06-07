@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 				make_list (field_names.count)
 				create exported_csv_string.make (field_names.count * 20)
 				across field_names as list loop
-					if attached list.item as name then
+					if attached list as name then
 						if info_table.has_immutable_key (name)
 							and then attached info_table.found_type_info as type_info
 							and then target.field_included (type_info)
@@ -77,7 +77,7 @@ feature {NONE} -- Initialization
 					and then attached exported_csv_string.to_immutable_list as immutable_list
 				then
 					across immutable_list as list loop
-						i_th (list.cursor_index).set_export_name (list.item)
+						i_th (@ list.cursor_index).set_export_name (list)
 					end
 				end
 				set_order (target.new_field_sorter, info_table)
@@ -97,9 +97,9 @@ feature {NONE} -- Initialization
 			then
 				make_list (field_type_set.count)
 				across field_type_set.new_name_list (reflected_object) as name loop
-					field_index := field_type_set [name.cursor_index - 1]
+					field_index := field_type_set [@ name.cursor_index - 1]
 					if exclude_transient implies not reflected_object.is_field_transient (field_index) then
-						extend_for_type (object, field_index, a_abstract_type, name.item)
+						extend_for_type (object, field_index, a_abstract_type, name)
 					end
 				end
 			else
@@ -498,7 +498,7 @@ feature {NONE} -- Implementation
 		-- apply field order shifts if not default
 			if order.field_shifts.count > 0 then
 				across order.field_shifts as list loop
-					i := list.item.index; offset := list.item.offset
+					i := list.index; offset := list.offset
 					if valid_shift (i, offset) then
 						shift_i_th (i, offset)
 					end

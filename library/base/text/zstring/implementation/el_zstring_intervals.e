@@ -156,7 +156,7 @@ feature -- Status query
 			end
 		ensure
 			same_intervals: Result implies count = other.count
-					and then across 1 |..| count as n all i_th_count (n.item) = other.i_th_count (n.item) end
+					and then across 1 |..| count as n all i_th_count (n) = other.i_th_count (n) end
 		end
 
 feature -- Duplication

@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 	make (name: STRING)
 		require else
-			valid_name: enumeration.valid_name (name)
+			valid_name: valid_name (name)
 		do
 			value := enumeration.value (name)
 		end
@@ -64,6 +64,11 @@ feature -- Comparison
 		end
 
 feature -- Contract Support
+
+	valid_name (name: STRING): BOOLEAN
+		do
+			Result := enumeration.valid_name (name)
+		end
 
 	valid_value (a_value: like value): BOOLEAN
 		do

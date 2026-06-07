@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 	default_create
 		do
 			across field_table as table loop
-				table.item.set_from_string (Current, table.item.export_name)
+				table.set_from_string (Current, table.export_name)
 			end
 		end
 

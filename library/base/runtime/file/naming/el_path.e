@@ -69,7 +69,7 @@ feature {NONE} -- Initialization
 				else
 					not_first := True
 				end
-				l_path.append_string_general (step.item)
+				l_path.append_string_general (step)
 			end
 			set_path (l_path)
 		end

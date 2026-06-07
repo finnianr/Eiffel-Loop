@@ -65,8 +65,8 @@ feature -- Contract Support
 		-- `True' if all arguments conform to `HASHABLE' and are attached
 		do
 			Result := across arguments as list all
-				arguments.is_reference_item (list.cursor_index)
-					implies attached {HASHABLE} arguments.reference_item (list.cursor_index)
+				arguments.is_reference_item (@ list.cursor_index)
+					implies attached {HASHABLE} arguments.reference_item (@ list.cursor_index)
 			end
 		end
 

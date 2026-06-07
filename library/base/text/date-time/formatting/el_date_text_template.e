@@ -38,8 +38,8 @@ feature -- Access
 			--
 		do
 			across place_holder_table as name loop
-				if function_table.has_key (name.key) then
-					name.item.share (function_table.found_item (date))
+				if function_table.has_key (@ name.key) then
+					name.share (function_table.found_item (date))
 				end
 			end
 			Result := substituted_template

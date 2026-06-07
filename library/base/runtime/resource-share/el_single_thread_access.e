@@ -27,7 +27,7 @@ feature -- Status query
 
 	is_restricted: BOOLEAN
 		do
-			Result := mutex.owner /= default_pointer
+			Result := mutex.is_owned
 		end
 
 feature -- Status change
@@ -60,6 +60,6 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	mutex: MUTEX
+	mutex: EL_MUTEX
 
 end

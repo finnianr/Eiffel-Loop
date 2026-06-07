@@ -31,7 +31,7 @@ feature -- Status query
 		-- True if `item' meets at least one of the `conditions'
 		do
 			Result := across conditions as condition some
-				condition.item.met (item)
+				condition.met (item)
 			end
 		end
 

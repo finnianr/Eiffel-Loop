@@ -140,7 +140,7 @@ feature {NONE} -- Measurement
 				if Result > 0 then
 					Result := Result + separator_count
 				end
-				if attached super_readable_general (list.item) as str then
+				if attached super_readable_general (list) as str then
 					Result := Result + str.utf_8_byte_count
 				end
 			end

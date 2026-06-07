@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_REFLECTED_EXPANDED_FIELD [N]
 		redefine
-			is_numeric_type, post_make, set_from_string
+			is_numeric_type, post_make
 		end
 
 	EL_MODULE_CONVERT_STRING

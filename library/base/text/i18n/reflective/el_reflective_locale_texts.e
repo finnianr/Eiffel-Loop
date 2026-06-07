@@ -76,7 +76,7 @@ feature {NONE} -- Initialization
 			paragraph := paragraph_texts
 			if attached new_english_table as eng_table then
 				across field_table as field loop
-					if attached {EL_REFLECTED_REFERENCE [ANY]} field.item as ref_field then
+					if attached {EL_REFLECTED_REFERENCE [ANY]} field as ref_field then
 						value := ref_field.value (current_reflective)
 						if value_in_set (value, lower_case) then
 							text_case := {EL_CASE}.Lower
@@ -96,7 +96,7 @@ feature {NONE} -- Initialization
 							set_as_paragraph (zstr.value (Current))
 						end
 					else
-						set_field (field.item, {EL_CASE}.Lower, eng_table)
+						set_field (field, {EL_CASE}.Lower, eng_table)
 					end
 				end
 			end
@@ -119,7 +119,7 @@ feature -- Access
 		do
 			create Result.make (field_table.count)
 			across field_table as field loop
-				if attached {EL_REFLECTED_ZSTRING} field.item as l_field then
+				if attached {EL_REFLECTED_ZSTRING} field as l_field then
 					Result.extend (l_field.value (current_reflective))
 				end
 			end
@@ -168,7 +168,7 @@ feature {NONE} -- Case group sets
 		do
 			Result := None
 		ensure
-			zstring_types: across Result as str all attached {ZSTRING} str.item end
+			zstring_types: across Result as str all attached {ZSTRING} str end
 		end
 
 	title_case_texts: like None
@@ -191,12 +191,12 @@ feature {NONE} -- Factory
 		do
 			text_table := english_table
 			if text_table.has ('%%') and then
-				across Substitution_table as table some text_table.has_substring (table.item) end
+				across Substitution_table as table some text_table.has_substring (table) end
 			then
 				create substituted_text.make (text_table.count + text_table.occurrences ('%%') * 2)
 				substituted_text.append_string_general (text_table)
 				across Substitution_table as table loop
-					substituted_text.replace_substring_all (table.key, table.item)
+					substituted_text.replace_substring_all (@ table.key, table)
 				end
 				create Result.make_indented_eiffel (substituted_text)
 			else
@@ -208,7 +208,7 @@ feature {NONE} -- Factory
 		do
 			Result := text
 		ensure
-			valid_keys: across Result as name all Quantifier_names.has (name.key) end
+			valid_keys: across Result as name all Quantifier_names.has (@ name.key) end
 		end
 
 feature {NONE} -- Implementation
@@ -240,8 +240,8 @@ feature {NONE} -- Implementation
 				quantity_table := new_quantity_table (eng_table.found_item)
 				partial_key := translation_key (field.name, {EL_CASE}.Lower, True)
 				across Quantifier_names as name loop
-					if quantity_table.has_key (name.item) then
-						quantity := name.cursor_index - 1
+					if quantity_table.has_key (name) then
+						quantity := @ name.cursor_index - 1
 						if locale.english_only then
 							template.put_template (quantity_table.found_item, quantity)
 
@@ -269,13 +269,13 @@ feature {NONE} -- Implementation
 			if attached str.lines as lines then
 				str.wipe_out
 				across lines as line loop
-					if line.item.is_empty then
+					if line.is_empty then
 						str.append_character ('%N')
 					else
 						if str.count > 0 then
 							str.append_character (' ')
 						end
-						str.append (line.item)
+						str.append (line)
 					end
 				end
 			end

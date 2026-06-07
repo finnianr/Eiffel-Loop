@@ -39,7 +39,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make_equal (5, agent new_encoding)
 			across Encodings.standard as encoding loop
-				Result.extend (encoding.item, encoding.item.code_page)
+				Result.extend (encoding, encoding.code_page)
 			end
 		end
 end

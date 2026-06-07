@@ -107,7 +107,7 @@ feature {NONE} -- Implementation
 			if attached new_utf_8_table as table then
 				create Result.make (table.count)
 				across field_list as list loop
-					if attached list.item as field and then table.has_key (field.name) then
+					if attached list as field and then table.has_key (field.name) then
 						interval := table.found_interval
 						start_index := to_lower (interval)
 						space_index := utf_8_text.index_of (' ', start_index)
@@ -117,7 +117,7 @@ feature {NONE} -- Implementation
 							value := integer_32.substring_as_type (utf_8_text, start_index + 1, space_index - 1)
 							Result.put (interval, as_enum (value))
 						else
-							Result.put (interval, as_enum (list.cursor_index))
+							Result.put (interval, as_enum (@ list.cursor_index))
 						end
 					end
 				end

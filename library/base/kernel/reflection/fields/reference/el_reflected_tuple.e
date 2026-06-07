@@ -59,7 +59,7 @@ feature -- Status query
 		-- `True' when possible to create an initialized instance of the field
 		do
 			Result := across member_types as l_type all
-				not l_type.item.is_expanded implies New_instance_table.has (l_type.item.type_id)
+				not l_type.is_expanded implies New_instance_table.has (l_type.type_id)
 			end
 		end
 
@@ -140,7 +140,7 @@ feature -- Basic operations
 			Precursor (crc)
 			if attached field_name_list as name_list then
 				across name_list as list loop
-					crc.add_string_8 (list.item)
+					crc.add_string_8 (list)
 				end
 			end
 		end
@@ -185,7 +185,7 @@ feature {NONE} -- Implementation
 			Result := list_1.count = list_2.count
 			if Result then
 				across list_1 as list until not Result loop
-					item_1 := list.item; item_2 := list_2 [list.cursor_index]
+					item_1 := list; item_2 := list_2 [@ list.cursor_index]
 					if item_1.count = item_2.count then
 						Result := item_1.same_string (item_2)
 

@@ -33,7 +33,7 @@ feature -- Status query
 	met (item: G): BOOLEAN
 		-- True if `item' meets all of the `conditions'
 		do
-			Result := across conditions as condition all condition.item.met (item) end
+			Result := across conditions as condition all condition.met (item) end
 		end
 
 feature {NONE} -- Implementation

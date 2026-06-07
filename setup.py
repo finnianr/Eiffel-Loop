@@ -20,7 +20,8 @@ script_names = [
 	'ec_install_resources',
 	'ec_open_directory',
 	'ec_write_set_environ',
-	'ec_write_software_version'
+	'ec_write_software_version',
+	'toggle_display_settings'
 ]
 
 setup (

@@ -42,13 +42,13 @@ feature -- Access
 				create help_table.make_indented_eiffel (descriptions)
 				create Result.make_equal (help_table.count)
 				across help_table as table loop
-					if field_table.has_immutable_key (table.key) then
-						Result.extend ([table.item, field_table.found_item.value (l_current)], table.key)
+					if field_table.has_immutable_key (@ table.key) then
+						Result.extend ([table, field_table.found_item.value (l_current)], @ table.key)
 					end
 				end
 			end
 		ensure
-			complete: across field_table as entry all Result.has_key (entry.key) end
+			complete: across field_table as entry all Result.has_key (@ entry.key) end
 		end
 
 feature {NONE} -- Contract Support
@@ -57,7 +57,7 @@ feature {NONE} -- Contract Support
 		-- `True' if `description_table' is complete
 		do
 			if attached description_table as table then
-				Result := not table.is_empty implies across field_table as entry all table.has_key (entry.key) end
+				Result := not table.is_empty implies across field_table as entry all table.has_key (@ entry.key) end
 			end
 		end
 

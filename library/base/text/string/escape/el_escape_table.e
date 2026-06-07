@@ -33,18 +33,18 @@ feature {NONE} -- Initialization
 		require
 			contains_assignment:
 				across adjusted_list (character_map) as str all
-					str.item.substring_index (":=", 1) = 2
+					str.substring_index (":=", 1) = 2
 				end
-			size_is_4: across adjusted_list (character_map) as str all str.item.count = 4 end
+			size_is_4: across adjusted_list (character_map) as str all str.count = 4 end
 		local
 			index: INTEGER
 		do
 			escape_character := escape
 			make_sized (character_map.count)
 			across adjusted_list (character_map) as str loop
-				index := str.item.substring_index (":=", 1)
-				if index = 2 and then str.item.count = 4 then
-					extend (str.item [4], str.item [1])
+				index := str.substring_index (":=", 1)
+				if index = 2 and then str.count = 4 then
+					extend (str [4], str [1])
 				end
 			end
 			put (escape, escape)
@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 			escape_character := other.escape_character
 			make_sized (other.count)
 			across other as table loop
-				extend (table.key, table.item)
+				extend (@ table.key, table)
 			end
 		end
 
@@ -75,7 +75,7 @@ feature {NONE} -- Initialization
 				i := i + 1
 			end
 		ensure
-			same_keys_and_items: across key_list as key all item (key.item) = key.item end
+			same_keys_and_items: across key_list as key all item (key) = key end
 			has_escape: has (escape_character)
 		end
 
@@ -87,7 +87,7 @@ feature -- Access
 		do
 			Result := str.split (',')
 			across Result as list loop
-				map := list.item
+				map := list
 				from until map.count = 0 or else map [1] /= ' ' loop
 					map.remove (1)
 				end

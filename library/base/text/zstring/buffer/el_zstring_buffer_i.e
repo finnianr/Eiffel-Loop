@@ -16,8 +16,6 @@ inherit
 	EL_STRING_BUFFER [ZSTRING, EL_READABLE_ZSTRING]
 		undefine
 			bit_count
-		redefine
-			copied_substring_general
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [EL_READABLE_ZSTRING]

@@ -113,7 +113,7 @@ feature {NONE} -- Implementation
 			else
 				if attached {ITERABLE [G]} container as current_iterable then
 					across current_iterable as list until break loop
-						Result := list.item; break := True
+						Result := list; break := True
 					end
 				end
 			end

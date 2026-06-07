@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 				-- populate with all upper and lower case volume designations
 				across ('A').code |..| ('Z').code as code loop
 					drive.wipe_out
-					drive.append_unicode (code.item.to_natural_32)
+					drive.append_unicode (code.to_natural_32)
 					drive.append_character_8 (':')
 					extend (drive)
 					drive.to_lower
@@ -149,11 +149,11 @@ feature -- Basic operations
 			restrict_access
 				if attached {EL_SPLIT_ZSTRING_ON_CHARACTER} list as splitter then
 					across splitter as split loop
-						extend_tokens (split.item, tokens)
+						extend_tokens (split, tokens)
 					end
 				else
 					across list as str loop
-						extend_tokens (as_zstring (str.item), tokens)
+						extend_tokens (as_zstring (str), tokens)
 					end
 				end
 			end_restriction

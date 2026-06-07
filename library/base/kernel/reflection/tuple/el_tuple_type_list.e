@@ -32,13 +32,13 @@ feature {NONE} -- Initialization
 			make_list (type_array.count)
 			across type_array as type loop
 				-- skip non-conforming types
-				if attached {like item} type.item as l_type then
+				if attached {like item} type as l_type then
 					extend (l_type)
 				elseif not all_conform then
-					non_conforming_list.extend (type.item)
+					non_conforming_list.extend (type)
 				else
 					create non_conforming_list.make (1)
-					non_conforming_list.extend (type.item)
+					non_conforming_list.extend (type)
 				end
 			end
 		end
@@ -75,7 +75,7 @@ feature -- Status query
 
 	has_conforming (type_id: INTEGER): BOOLEAN
 		do
-			Result := across Current as list some {ISE_RUNTIME}.type_conforms_to (type_id, list.item.type_id)  end
+			Result := across Current as list some {ISE_RUNTIME}.type_conforms_to (type_id, list.type_id)  end
 		end
 
 feature -- Basic operations
@@ -87,7 +87,7 @@ feature -- Basic operations
 			lio.put_line (message)
 			text := "does not conform to type " + ({T}).name
 			across non_conforming_list as non_conforming loop
-				lio.put_labeled_substitution (non_conforming.item.name, text)
+				lio.put_labeled_substitution (non_conforming.name, text)
 				lio.put_new_line
 			end
 		end

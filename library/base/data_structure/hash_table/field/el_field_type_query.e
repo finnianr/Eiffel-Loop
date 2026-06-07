@@ -86,14 +86,14 @@ feature -- Basic operations
 		do
 			if attached reference_fields as field_list then
 				across field_list as list loop
-					if attached list.item as field then
+					if attached list as field then
 						field.set (object, new_value (field_name (field, exported_name)))
 					end
 				end
 
 			elseif attached expanded_fields as field_list then
 				across field_list as list loop
-					if attached list.item as field then
+					if attached list as field then
 						field.set (object, new_value (field_name (field, exported_name)))
 					end
 				end

@@ -114,7 +114,7 @@ feature -- Access
 			if attached value_list (name) as string_list then
 				create Result.make (string_list.count)
 				across string_list as list loop
-					Result.extend (list.item)
+					Result.extend (list)
 				end
 			end
 		end
@@ -213,14 +213,14 @@ feature -- Basic operations
 		-- set attribute in object that match command command options
 		do
 			across object.field_table as table loop
-				if values_table.has_key (z_key (table.key)) and attached values_table.found_area as area then
+				if values_table.has_key (z_key (@ table.key)) and attached values_table.found_area as area then
 					if area.count > 0 then
-						table.item.set_from_string (object, area [0])
+						table.set_from_string (object, area [0])
 
-					elseif attached {EL_REFLECTED_BOOLEAN} table.item as boolean then
+					elseif attached {EL_REFLECTED_BOOLEAN} table as boolean then
 						boolean.set (object, True)
 
-					elseif attached {EL_REFLECTED_BOOLEAN_REF} table.item as boolean then
+					elseif attached {EL_REFLECTED_BOOLEAN_REF} table as boolean then
 						boolean.set_from_integer (object, 1)
 					end
 				end

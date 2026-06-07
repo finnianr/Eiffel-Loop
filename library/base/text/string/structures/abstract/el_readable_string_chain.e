@@ -104,7 +104,7 @@ feature -- Status query
 		-- `True' if all non-empty lines start with a tab character
 		 do
 		 	Result := across Current as str all
-		 		str.item.count > 0 implies str.item.starts_with (tabulation)
+		 		str.count > 0 implies str.starts_with (tabulation)
 		 	end
 		 end
 

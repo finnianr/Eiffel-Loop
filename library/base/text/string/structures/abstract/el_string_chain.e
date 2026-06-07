@@ -198,7 +198,7 @@ feature -- Element change
 				intervals.wipe_out
 				start_index := a_start_index
 				across count_list as n loop
-					end_index := start_index + n.item - 1
+					end_index := start_index + n - 1
 					if a_string.valid_index (end_index) then
 						intervals.extend (start_index, end_index)
 					end
@@ -232,10 +232,10 @@ feature -- Element change
 		do
 			grow (count + Iterable.count (list))
 			across list as general loop
-				if attached {S} general.item as str then
+				if attached {S} general as str then
 					extend (str)
 				else
-					extend (new_string (general.item))
+					extend (new_string (general))
 				end
 			end
 		end

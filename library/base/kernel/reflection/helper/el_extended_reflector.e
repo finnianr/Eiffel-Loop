@@ -338,8 +338,8 @@ feature -- Type status
 						create tuple_types.make_from_static (type_id)
 					-- TUPLE items must be expanded or strings
 						Result := across tuple_types as type all
-							type.item.is_expanded
-								or else String_reference_types.there_exists (agent type_conforms_to (type.item.type_id, ?))
+							type.is_expanded
+								or else String_reference_types.there_exists (agent type_conforms_to (type.type_id, ?))
 						end
 					else
 						Result := Storable_reference_types.there_exists (agent type_conforms_to (type_id, ?))

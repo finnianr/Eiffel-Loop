@@ -309,7 +309,7 @@ feature -- Basic operations
 					when Type_iterable then
 						if attached {ITERABLE [G]} container as iterable_list then
 							across iterable_list as list loop
-								action.do_if (list.item, condition)
+								action.do_if (list, condition)
 							end
 						end
 					when Type_tree then

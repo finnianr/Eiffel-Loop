@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Implementation of ${EL_HASH_SET [HASHABLE]}"
 
 	author: "Finnian Reilly"
@@ -21,6 +21,8 @@ inherit
 		end
 
 	FINITE [H]
+		rename
+			has as has alias "∋"
 		undefine
 			changeable_comparison_criterion, is_empty
 		end
@@ -128,7 +130,7 @@ feature -- Status query
 
 	full: BOOLEAN = False
 
-	has (key: H): BOOLEAN
+	has alias "∋" (key: H): BOOLEAN
 		-- Is `access_key' currently used?
 		-- (Shallow equality)
 		do

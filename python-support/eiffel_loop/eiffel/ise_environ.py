@@ -50,6 +50,12 @@ class ISE_ENVIRON (object):
 		result = 'x86' if self.is_32_bit_platform () else 'amd64'
 		return result
 
+
+	def ise_integer_version (self):
+		# integer version number easy comparison
+		major, minor = tuple(map(int, os.environ[self.Key_version].split('.')))
+		return major * 100 + minor
+
 	# Status query
 
 	def compiling_x86_on_x64 (self):

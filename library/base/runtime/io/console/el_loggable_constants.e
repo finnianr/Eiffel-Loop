@@ -29,7 +29,7 @@ feature -- Contract Support
 		do
 			type_id := {ISE_RUNTIME}.dynamic_type (object)
 			Result := across Indexable_types as type some
-				{ISE_RUNTIME}.type_conforms_to (type_id, type.item.type_id)
+				{ISE_RUNTIME}.type_conforms_to (type_id, type.type_id)
 			end
 		end
 

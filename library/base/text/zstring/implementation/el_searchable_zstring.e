@@ -456,7 +456,7 @@ feature {NONE} -- Implementation
 			create zstr.make_from_general (general)
 			create zstr_2.make (z_code_string.count)
 			across z_code_string as l_code loop
-				zstr_2.append_z_code (l_code.item.natural_32_code)
+				zstr_2.append_z_code (l_code.natural_32_code)
 			end
 			Result := zstr ~ zstr_2
 		end

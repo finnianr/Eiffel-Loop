@@ -277,11 +277,11 @@ feature -- Export names
 		do
 			Underscore_split.set_target (name_in)
 			across Underscore_split as list loop
-				word := list.item
+				word := list
 				if upper_case_words.has (word) then
 					word.to_upper
 				end
-				if list.cursor_index = 1 then
+				if @ list.cursor_index = 1 then
 					if word.count > 0 then
 						super_8 (word).put_upper (1)
 					end
@@ -338,8 +338,8 @@ feature -- Export names
 		do
 			Underscore_split.set_target (name_in)
 			across Underscore_split as list loop
-				word := list.item
-				if list.cursor_index > 1 then
+				word := list
+				if @ list.cursor_index > 1 then
 					title_out.append_character (separator_out)
 				end
 				if word.count > 0 then
@@ -350,8 +350,8 @@ feature -- Export names
 							i := i + 1
 						end
 					else
-						list.append_item_to (title_out)
-						super_8 (title_out).put_upper (list.item_lower)
+						@ list.append_item_to (title_out)
+						super_8 (title_out).put_upper (@ list.item_lower)
 					end
 				end
 			end

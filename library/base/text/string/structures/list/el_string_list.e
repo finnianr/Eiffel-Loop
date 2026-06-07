@@ -37,7 +37,7 @@ inherit
 		-- reorder
 			order_by, swap
 		redefine
-			checksum, hash_code, is_equal
+			checksum, hash_code
 		end
 
 	EL_ARRAYED_LIST [S]
@@ -78,7 +78,7 @@ feature {NONE} -- Initialization
 		do
 			make (Iterable.count (iterable_list))
 			across iterable_list as list loop
-				if attached list.item as str then
+				if attached list as str then
 					if filter_empty implies str.count > 0 then
 						extend (str)
 					end

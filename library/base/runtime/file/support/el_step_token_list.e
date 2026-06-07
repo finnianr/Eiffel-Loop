@@ -15,7 +15,7 @@ class
 inherit
 	ARRAYED_LIST [INTEGER]
 		export
-			{EL_PATH_STEPS_BASE} set_area, sequential_index_of
+			{EL_PATH_STEPS_BASE} set_area
 		end
 
 create

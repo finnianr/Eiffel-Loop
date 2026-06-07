@@ -38,16 +38,16 @@ feature {NONE} -- Implementation
 			create name_path.make (a_name)
 			if name_path.has_dot_extension and then File_extensions.has (name_path.extension) then
 				across search_path_list as l_path until Result loop
-					name_path.set_parent (l_path.item)
+					name_path.set_parent (l_path)
 					Result := name_path.exists
 				end
 			else
 				name_path.add_extension (File_extensions.first)
 				across search_path_list as l_path until Result loop
-					name_path.set_parent (l_path.item)
+					name_path.set_parent (l_path)
 					-- Test existence for all extensions
 					across File_extensions as extension until Result loop
-						name_path.replace_extension (extension.item)
+						name_path.replace_extension (extension)
 						Result := name_path.exists
 					end
 				end

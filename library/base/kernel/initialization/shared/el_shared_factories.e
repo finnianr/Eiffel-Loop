@@ -25,8 +25,8 @@ feature {NONE} -- Implementation
 			found: BOOLEAN
 		do
 			across Factory_list as list until found loop
-				if list.item.is_valid_type (type_id) then
-					Result := list.item
+				if list.is_valid_type (type_id) then
+					Result := list
 					found := True
 				end
 			end

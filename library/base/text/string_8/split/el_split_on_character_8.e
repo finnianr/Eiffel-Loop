@@ -17,9 +17,6 @@ class
 
 inherit
 	EL_SPLIT_ON_CHARACTER [S, CHARACTER_8]
-		redefine
-			new_cursor
-		end
 
 create
 	make, make_adjusted

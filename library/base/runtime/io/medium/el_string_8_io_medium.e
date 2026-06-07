@@ -15,7 +15,7 @@ class
 inherit
 	EL_STRING_IO_MEDIUM
 		redefine
-			text, put_encoded_string_8
+			text
 		end
 
 create
@@ -41,7 +41,7 @@ feature -- Output
 			text.append_character (c)
 		end
 
-	put_encoded_string_8 (a_encoded: STRING_8)
+	put_encoded_string_8 (a_encoded: READABLE_STRING_8)
 		-- put encoded string
 		do
 			text.append (a_encoded)

@@ -65,10 +65,10 @@ feature {NONE} -- Initialization
 
 			if attached new_expanded_table as expanded_table then
 				across type_array as type loop
-					if expanded_table.has_key (type.item) and then attached expanded_table.found_item as converter then
+					if expanded_table.has_key (type) and then attached expanded_table.found_item as converter then
 						extend (converter, converter.type_id)
 
-					elseif attached Makeable_factory.new_item_factory (type.item.type_id) as factory
+					elseif attached Makeable_factory.new_item_factory (type.type_id) as factory
 						and then attached {like item} factory.new_item as converter
 					then
 						extend (converter, converter.type_id)
@@ -112,7 +112,7 @@ feature -- Access
 		do
 			create Result.make (count)
 			across key_list as key loop
-				if has_type (key.item) then
+				if has_type (key) then
 					Result.extend (found_item.type)
 				end
 			end

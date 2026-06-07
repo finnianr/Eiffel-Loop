@@ -85,9 +85,9 @@ feature -- Access
 		do
 			template := translation_template (partial_key, quantity)
 			across substitutions as list loop
-				name := list.item.name
+				name := list.name
 				if template.has (name) then
-					template.put_general (name, list.item.value)
+					template.put_general (name, list.value)
 				end
 			end
 			if template.has (Var_quantity) then
@@ -119,8 +119,8 @@ feature -- Basic operations
 			comma_split: EL_SPLIT_ZSTRING_ON_CHARACTER
 		do
 			create comma_split.make_adjusted (as_zstring (key_list), ',', {EL_SIDE}.Left)
-			across comma_split as list until list.cursor_index > a_tuple.count loop
-				a_tuple.put_reference (translation_item (list.item), list.cursor_index)
+			across comma_split as list until @ list.cursor_index > a_tuple.count loop
+				a_tuple.put_reference (translation_item (list), @ list.cursor_index)
 			end
 		end
 
@@ -151,7 +151,7 @@ feature -- Status query
 			split_list: EL_ZSTRING_LIST
 		do
 			create split_list.make_comma_split (key_list)
-			Result := across split_list as list all has_item_key (list.item) end
+			Result := across split_list as list all has_item_key (list) end
 		end
 
 	english_only: BOOLEAN

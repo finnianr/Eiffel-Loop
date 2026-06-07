@@ -64,7 +64,7 @@ feature -- Measurement
 	sum_byte_count: INTEGER
 		do
 			across Current as l_path loop
-				Result := Result + File.byte_count (l_path.item)
+				Result := Result + File.byte_count (l_path)
 			end
 		end
 
@@ -74,7 +74,7 @@ feature -- Conversion
 		do
 			create Result.make (count)
 			across Current as l_path loop
-				Result.extend (l_path.item.escaped)
+				Result.extend (l_path.escaped)
 			end
 		end
 
@@ -82,7 +82,7 @@ feature -- Conversion
 		do
 			create Result.make (count)
 			across Current as l_path loop
-				Result.extend (l_path.item.to_string)
+				Result.extend (l_path.to_string)
 			end
 		end
 

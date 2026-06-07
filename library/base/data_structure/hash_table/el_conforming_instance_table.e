@@ -58,7 +58,7 @@ feature -- Status query
 				Result := True
 			else
 				across type_mapping_array as array until type_conforms loop
-					if attached array.item as map then
+					if attached array as map then
 						if {ISE_RUNTIME}.type_conforms_to (type_id, map.parent_type.type_id) then
 							put (map.instance, type_id) -- `found_item' now `True'
 							type_conforms := True

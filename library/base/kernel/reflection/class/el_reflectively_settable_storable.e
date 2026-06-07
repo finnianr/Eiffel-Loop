@@ -53,15 +53,14 @@ feature -- Basic operations
 		local
 			collection_item_list: ARRAYED_LIST [EL_REFLECTIVELY_SETTABLE_STORABLE]
 			enumeration_list: ARRAYED_LIST [EL_ENUMERATION [HASHABLE]]
-			field_definition: STRING; field: EL_REFLECTED_FIELD
+			field_definition: STRING
 		do
 			create enumeration_list.make (5)
 			create collection_item_list.make (0)
 			output.put_indented_line (tab_count, "class " + generator)
-			across field_list as list loop
-				field := list.item
+			across field_list as field loop
 				-- Number
-				output.put_indented_line (tab_count, "-- " + list.cursor_index.out)
+				output.put_indented_line (tab_count, "-- " + @ field.cursor_index.out)
 
 				field_definition := new_field_definition (field)
 				if attached {EL_STRING_FIELD_REPRESENTATION [ANY, ANY]} field.representation as representation then
@@ -88,11 +87,11 @@ feature -- Basic operations
 
 			across collection_item_list as list loop
 				output.put_new_line
-				list.item.write_meta_data (output, tab_count)
+				list.write_meta_data (output, tab_count)
 			end
 			across enumeration_list as enum loop
 				output.put_new_line
-				enum.item.write_meta_data (output, tab_count)
+				enum.write_meta_data (output, tab_count)
 			end
 		end
 
@@ -125,7 +124,7 @@ feature {NONE} -- Implementation
 		do
 			Result := True
 			across field_table as table until not Result loop
-				if attached {EL_REFLECTED_REFERENCE [ANY]} table.item as ref_item then
+				if attached {EL_REFLECTED_REFERENCE [ANY]} table as ref_item then
 					Result := is_storable_field (ref_item.type_info)
 				end
 			end

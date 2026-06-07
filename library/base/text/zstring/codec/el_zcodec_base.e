@@ -50,7 +50,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_empty (array.count)
 			across array as c loop
-				Result.extend (c.item.to_character_8)
+				Result.extend (c.to_character_8)
 			end
 		end
 

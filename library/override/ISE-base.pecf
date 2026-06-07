@@ -1,0 +1,284 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+system:
+	configuration_ns = "1-23-0"
+	name = base; uuid = "6D7FF712-BBA5-4AC0-AABF-2D9880493A01"
+	library_target = base
+	description:
+		"Override of Eiffel Base excluding FORMAT_DOUBLE in favour of base-support/format_double.e"
+	target:
+		name = base
+		description:
+			"""
+				FreeELKS: Library of reusable components for Eiffel.
+				Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt).
+			"""
+		root:
+			all_classes = true
+		file_rule:
+			exclude:
+				"/\\.svn$"
+		option:
+			warning = error; namespace = "EiffelSoftware.Library"
+			warning:
+				name = obsolete_feature; value = all
+		setting:
+			name = dotnet_naming_convention; value = true
+		mapping:
+			old_name = REAL; new_name = REAL_32
+		mapping:
+			old_name = IMMUTABLE_STRING; new_name = IMMUTABLE_STRING_8
+		mapping:
+			old_name = READABLE_STRING; new_name = READABLE_STRING_8
+		mapping:
+			old_name = STRING; new_name = STRING_8
+		mapping:
+			old_name = REAL_REF; new_name = REAL_32_REF
+		mapping:
+			old_name = INTEGER_REF; new_name = INTEGER_32_REF
+		mapping:
+			old_name = INTEGER; new_name = INTEGER_32
+		mapping:
+			old_name = WIDE_CHARACTER; new_name = CHARACTER_32
+		mapping:
+			old_name = WIDE_CHARACTER_REF; new_name = CHARACTER_32_REF
+		mapping:
+			old_name = NATURAL; new_name = NATURAL_32
+		mapping:
+			old_name = DOUBLE_REF; new_name = REAL_64_REF
+		mapping:
+			old_name = CHARACTER; new_name = CHARACTER_8
+		mapping:
+			old_name = CHARACTER_REF; new_name = CHARACTER_8_REF
+		mapping:
+			old_name = DOUBLE; new_name = REAL_64
+		namespace:
+			name = Internal
+			renaming:
+				old_name = CONSOLE; new_name = INTERNAL_CONSOLE
+		namespace:
+			name = System
+		namespace:
+			name = "System.Diagnostics"
+			renaming:
+				old_name = PROCESS; new_name = SYSTEM_DLL_PROCESS
+			renaming:
+				old_name = PROCESS_START_INFO; new_name = SYSTEM_DLL_PROCESS_START_INFO
+		namespace:
+			name = "System.Runtime"; prefix = SYSTEM_DLL_
+		namespace:
+			name = "System.Threading"
+			renaming:
+				old_name = SEMAPHORE; new_name = SYSTEM_DLL_SEMAPHORE
+		namespace:
+			name = "System.Threading.Thread"
+			renaming:
+				old_name = THREAD_STATE; new_name = SYSTEM_THREAD_STATE
+		namespace:
+			name = "System.Text"
+			renaming:
+				old_name = ENCODING; new_name = SYSTEM_ENCODING
+		namespace:
+			name = "System.XML"; prefix = XML_
+		external_include:
+			location = "$(ISE_LIBRARY)/library/base/elks/encoding/implementation/include"
+			condition:
+				platform:
+					excluded_value = windows
+		external_cflag:
+			value = "`$ISE_LIBRARY/library/base/elks/encoding/implementation/unix/Clib/iconv-config --include_path`"
+			condition:
+				platform:
+					excluded_value = windows
+		external_linker_flag:
+			value = "`$(ISE_LIBRARY)/library/base/elks/encoding/implementation/unix/Clib/iconv-config --library`"
+			condition:
+				platform:
+					excluded_value = windows
+		assembly:
+			name = eiffelsoftware_runtime
+			location = "$ISE_EIFFEL\\studio\\spec\\$ISE_PLATFORM\\lib\\$ISE_DOTNET_PLATFORM\\EiffelSoftware.Runtime.dll"
+		assembly:
+			name = mscorlib; location = "$ISE_DOTNET_FRAMEWORK\\mscorlib.dll"
+		assembly:
+			name = system; location = "$ISE_DOTNET_FRAMEWORK\\System.dll"
+		assembly:
+			name = system_runtime; location = "$ISE_DOTNET_FRAMEWORK\\System.Runtime.dll"
+		assembly:
+			name = system_console; location = "$ISE_DOTNET_FRAMEWORK\\System.Console.dll"
+		assembly:
+			name = system_runtime_interop_services
+			location = "$ISE_DOTNET_FRAMEWORK\\System.Runtime.InteropServices.dll"
+		assembly:
+			name = system_runtime_serialization_formatters
+			location = "$ISE_DOTNET_FRAMEWORK\\System.Runtime.Serialization.Formatters.dll"
+		assembly:
+			name = system_diagnostics_stack_trace
+			location = "$ISE_DOTNET_FRAMEWORK\\System.Diagnostics.StackTrace.dll"
+		assembly:
+			name = system_diagnostics_process
+			location = "$ISE_DOTNET_FRAMEWORK\\System.Diagnostics.Process.dll"
+		assembly:
+			name = system_threading; location = "$ISE_DOTNET_FRAMEWORK\\System.Threading.dll"
+		assembly:
+			name = system_threading_thread
+			location = "$ISE_DOTNET_FRAMEWORK\\System.Threading.Thread.dll"
+		cluster:
+			name = elks; location = "$ISE_LIBRARY\\library\\base\\elks\\"; recursive = true
+			option:
+				namespace = Base
+			file_rule:
+				exclude:
+					"/structures/cursor_tree/compact_cursor_tree.e$"
+					"/structures/cursor_tree/linked_cursor_tree.e$"
+					"/structures/cursor_tree/two_way_cursor_tree.e$"
+					"/structures/cursors/compact_tree_cursor.e$"
+					"/structures/cursors/linked_cursor_tree_cursor.e$"
+					"/structures/cursors/two_way_cursor_tree_cursor.e$"
+			file_rule:
+				exclude:
+					"/kernel/console.e$"
+					"/kernel/directory.e$"
+					"/kernel/directory_name.e$"
+					"/kernel/disposable.e$"
+					"/kernel/exceptions.e$"
+					"/kernel/exceptions/exception.e$"
+					"/kernel/exceptions/operating_system_failure.e$"
+					"/kernel/exceptions/operating_system_signal_failure.e$"
+					"/kernel/exceptions/void_target.e$"
+					"/kernel/file.e$"
+					"/kernel/file_info.e$"
+					"/kernel/file_iteration_cursor.e$"
+					"/kernel/file_name.e$"
+					"/kernel/function.e$"
+					"/kernel/gc_info.e$"
+					"/kernel/ise_runtime.e$"
+					"/kernel/mem_info.e$"
+					"/kernel/memory.e$"
+					"/kernel/native_array.e$"
+					"/kernel/path_name.e$"
+					"/kernel/plain_text_file.e$"
+					"/kernel/pointer.e$"
+					"/kernel/pointer_ref.e$"
+					"/kernel/procedure.e$"
+					"/kernel/raw_file.e$"
+					"/kernel/real_32_ref.e$"
+					"/kernel/real_64_ref.e$"
+					"/kernel/routine.e$"
+					"/kernel/special.e$"
+					"/kernel/storable.e$"
+					"/kernel/stream.e$"
+					"/kernel/string/system_string.e$"
+					"/kernel/string/system_string_factory.e$"
+					"/kernel/tuple.e$"
+					"/kernel/type.e$"
+					"/kernel/unix_signals.e$"
+					"/support/class_name_translations.e$"
+					"/support/double_math.e$"
+					"/support/execution_environment.e$"
+					"/support/managed_pointer.e$"
+					"/support/mismatch_information.e$"
+					"/support/object_graph_marker.e$"
+					"/support/operating_environment.e$"
+					"/support/reflected_copy_semantics_object.e$"
+					"/support/reflected_object.e$"
+					"/support/reflected_reference_object.e$"
+					"/support/reflector.e$"
+					"/support/single_math.e$"
+				condition:
+					dotnet:
+						value = true
+			file_rule:
+				exclude:
+					"/encoding$"
+					"/support/format_double.e$"
+			cluster:
+				name = encoding; location = "$|encoding\\"
+				option:
+					namespace = Encoding
+				cluster:
+					name = implementation; location = "$|implementation\\"; hidden = true
+					option:
+						namespace = Implementation
+					cluster:
+						name = windows; location = "$|windows\\"; hidden = true
+						condition:
+							platform = windows
+						option:
+							namespace = Windows
+					cluster:
+						name = unix; location = "$|unix\\"; hidden = true
+						condition:
+							platform:
+								excluded_value = windows
+		cluster:
+			name = ise; location = "$ISE_LIBRARY\\library\\base\\ise\\"; recursive = true
+			option:
+				namespace = Base
+			file_rule:
+				exclude:
+					"/dotnet$"
+				condition:
+					dotnet:
+						value = false
+			file_rule:
+				exclude:
+					"/classic$"
+					"/kernel/exceptions/io_failure.e$"
+					"/kernel/exceptions/ise_exception_manager.e$"
+					"/kernel/execution_environment_32.e$"
+				condition:
+					dotnet:
+						value = true
+			file_rule:
+				exclude:
+					"/runtime$"
+			cluster:
+				name = debug
+				location = "$ISE_LIBRARY\\library\\base\\ise\\runtime\\debug\\api\\"
+				recursive = true
+				file_rule:
+					exclude:
+						"/dotnet$"
+					condition:
+						dotnet:
+							value = false
+				file_rule:
+					exclude:
+						"/classic$"
+					condition:
+						dotnet:
+							value = true
+			cluster:
+				name = debug_implementation
+				location = "$ISE_LIBRARY\\library\\base\\ise\\runtime\\debug\\implementation\\"
+				recursive = true; hidden = true
+				condition:
+					build:
+						value = workbench
+				file_rule:
+					exclude:
+						"/dotnet$"
+					condition:
+						dotnet:
+							value = false
+				file_rule:
+					exclude:
+						"/classic$"
+					condition:
+						dotnet:
+							value = true
+		# Eiffel-Loop overrides
+		cluster:
+			name = base_support; location = "base-support\\"
+			description:
+				"Override of FORMAT_DOUBLE from $ISE_LIBRARY/library/base/elks/support"
+	target:
+		name = base_dotnet; extends = base
+		setting:
+			name = msil_clr_version; value = net6.0
+		setting:
+			name = msil_generation; value = true
+		capability:
+			concurrency:
+				use = thread

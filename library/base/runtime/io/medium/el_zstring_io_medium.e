@@ -18,7 +18,7 @@ inherit
 			last_string as last_string_8
 		redefine
 			text, make_default,
-			put_string_general, put_string, put_string_8, put_string_32, put_encoded_string_8, put_character_32
+			put_string_general, put_string, put_string_8, put_string_32, put_character_32
 		end
 
 	EL_MAKEABLE_TO_SIZE
@@ -63,7 +63,7 @@ feature -- Character output
 
 feature -- String output
 
-	put_encoded_string_8 (str: STRING)
+	put_encoded_string_8 (str: READABLE_STRING)
 		do
 			text.append_encodeable (str, Current)
 		end

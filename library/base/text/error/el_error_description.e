@@ -109,7 +109,7 @@ feature -- Basic operations
 				log.put_new_line
 			end
 			across Current as list loop
-				log.put_line (list.item)
+				log.put_line (list)
 			end
 		end
 

@@ -34,7 +34,7 @@ create
 	make, make_default, make_now, make_now_utc,
 	make_month_day_year, make_day_month_year, make_by_days,
 	make_with_format, make_with_format_and_base, make_from_string, make_from_string_with_base,
-	make_by_compact_date, make_by_ordered_compact_date
+	make_by_ordered_compact_date
 
 feature {NONE} -- Initialization
 

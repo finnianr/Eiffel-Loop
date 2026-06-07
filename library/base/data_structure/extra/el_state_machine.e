@@ -44,7 +44,7 @@ feature -- Basic operations
 			state := initial
 			across sequence as seq until state = l_final loop
 				item_number := item_number + 1
-				call (seq.item)
+				call (seq)
 			end
 		end
 

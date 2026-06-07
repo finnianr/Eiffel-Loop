@@ -23,7 +23,7 @@ class
 	EL_MUTEX_REFERENCE [G]
 
 inherit
-	MUTEX
+	EL_MUTEX
 		rename
 			make as make_mutex
 		end
@@ -97,7 +97,7 @@ feature -- Status query
 	is_monitor_aquired: BOOLEAN
 			-- Does the current thread own the monitor
 		do
-			Result := owner = current_thread_id
+			Result := owner_thread_id = current_thread_id
 		end
 
 	is_monitor_relinquished: BOOLEAN
@@ -106,7 +106,7 @@ feature -- Status query
 			-- Useful later when porting to Linux/Unix which does not support recursive mutexes
 			-- (Use to strengthen pre/post conditions on lock and unlock)
 		do
-			Result := owner = default_pointer
+			Result := owner_thread_id = default_pointer
 		end
 
 feature {NONE} -- Implementation

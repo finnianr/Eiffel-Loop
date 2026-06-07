@@ -80,7 +80,7 @@ feature -- Access
 			if attached new_type_array ({ISE_RUNTIME}.dynamic_type (tuple)) as array then
 				create Result.make_empty (array.count)
 				across array as a loop
-					Result.extend (a.item.type_id)
+					Result.extend (a.type_id)
 				end
 			else
 				create Result.make_empty (0)
@@ -280,8 +280,8 @@ feature -- Basic operations
 		do
 			if attached Convert_string as cs and then attached type_array (tuple) as type then
 				across split_adjusted (value_list, separator, adjustments) as list loop
-					i := list.cursor_index
-					put_i_th (tuple, i, value_list, list.item_lower, list.item_upper, type [i].type_id, cs)
+					i := @ list.cursor_index
+					put_i_th (tuple, i, value_list, @ list.item_lower, @ list.item_upper, type [i].type_id, cs)
 				end
 			end
 		ensure
@@ -317,9 +317,9 @@ feature -- Basic operations
 		do
 			tuple_types := type_array (tuple)
 			create comma_splitter.make_shared_adjusted (csv_list, ',', {EL_SIDE}.Left)
-			across comma_splitter as list until list.cursor_index > tuple.count loop
-				if tuple_types [list.cursor_index].type_id = class_id.IMMUTABLE_STRING_8 then
-					tuple.put_reference (list.item, list.cursor_index)
+			across comma_splitter as list until @ list.cursor_index > tuple.count loop
+				if tuple_types [@ list.cursor_index].type_id = class_id.IMMUTABLE_STRING_8 then
+					tuple.put_reference (list, @ list.cursor_index)
 				end
 			end
 		ensure
@@ -341,11 +341,11 @@ feature -- Basic operations
 			tuple_types := type_array (tuple)
 			create comma_splitter.make_adjusted (csv_field_list, ',', {EL_SIDE}.Left)
 
-			across comma_splitter as list until (start_index + list.cursor_index - 1) > tuple.count loop
-				index := start_index + list.cursor_index - 1
+			across comma_splitter as list until (start_index + @ list.cursor_index - 1) > tuple.count loop
+				index := start_index + @ list.cursor_index - 1
 				if tuple.item_code (index) = {TUPLE}.Reference_code and then
 					field_conforms_to (result_type_id, tuple_types [index].type_id)
-					and then attached a_new_item (list.item_copy) as new
+					and then attached a_new_item (@ list.item_copy) as new
 				then
 					tuple.put_reference (new, index)
 				end
@@ -841,7 +841,7 @@ feature -- Contract Support
 	is_filled (tuple: TUPLE; start_index, end_index: INTEGER): BOOLEAN
 		do
 			Result := across start_index |..| end_index as i_th all
-				tuple.is_reference_item (i_th.item) implies attached tuple.reference_item (i_th.item)
+				tuple.is_reference_item (i_th) implies attached tuple.reference_item (i_th)
 			end
 		end
 

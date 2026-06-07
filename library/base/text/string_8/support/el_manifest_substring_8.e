@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 				if str_8.count > 0 then
 					str_8.append_character ('%N')
 				end
-				list.append_item_to_string_8 (str_8)
+				@ list.append_item_to_string_8 (str_8)
 			end
 		end
 

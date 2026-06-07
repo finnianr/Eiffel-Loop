@@ -75,11 +75,11 @@ feature -- Factory
 			create Result.make (Iterable.character_count (parts, 2) + 1)
 
 			across parts as p loop
-				if p.cursor_index > 1 then
+				if @ p.cursor_index > 1 then
 					Result.append_character (' ')
 				end
 				Result.append_character ('$')
-				Result.append (p.item)
+				Result.append (p)
 			end
 		end
 end

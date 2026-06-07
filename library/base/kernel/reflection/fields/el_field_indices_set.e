@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 				end
 				make_empty_area (field_list.count)
 				across field_list as list loop
-					if field_info_table.has_immutable_key (list.item) then
+					if field_info_table.has_immutable_key (list) then
 						area.extend (field_info_table.found_index)
 					end
 				end
@@ -162,7 +162,7 @@ feature -- Contract Support
 	valid_indices (reflected_object: EL_REFLECTED_REFERENCE_OBJECT): BOOLEAN
 		-- `True' if all indices in set are valid for `reflected_object'
 		do
-			Result := across area as index all index.item <= reflected_object.field_count end
+			Result := across area as index all index <= reflected_object.field_count end
 		end
 
 feature {NONE} -- Constants

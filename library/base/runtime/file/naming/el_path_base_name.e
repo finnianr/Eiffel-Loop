@@ -127,7 +127,7 @@ feature -- Status Query
 	has_some_extension (extension_list: ITERABLE [READABLE_STRING_GENERAL]; case_insensitive: BOOLEAN): BOOLEAN
 		do
 			Result := across extension_list as l_extension some
-				same_extension (l_extension.item, case_insensitive)
+				same_extension (l_extension, case_insensitive)
 			end
 		end
 

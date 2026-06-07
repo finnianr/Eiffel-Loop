@@ -92,11 +92,11 @@ feature -- Basic operations
 			lio.put_new_line
 			across row_interval as row loop
 				across column_interval as column loop
-					index := option_index (column.item, row.item)
+					index := option_index (column, row)
 					if options.valid_index (index) then
 						lio.put_labeled_string (option_number.formatted (index), options [index])
-						if column_interval.has (column.item) then
-							padding_width := max_column_widths [column.item] - options [index].count + 1 - option_number.width - 1
+						if column_interval.has (column) then
+							padding_width := max_column_widths [column] - options [index].count + 1 - option_number.width - 1
 							lio.put_string (Space * padding_width)
 						end
 					end
@@ -114,11 +114,11 @@ feature {NONE} -- Implementation
 		do
 			across column_interval as column loop
 				across row_interval as row loop
-					index := option_index (column.item, row.item)
+					index := option_index (column, row)
 					if options.valid_index (index) then
 						width := options [index].count + option_number.width + 2 -- ": "
-						if width > max_column_widths [column.item] then
-							max_column_widths [column.item] := width
+						if width > max_column_widths [column] then
+							max_column_widths [column] := width
 						end
 					end
 				end

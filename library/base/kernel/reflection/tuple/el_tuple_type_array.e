@@ -67,7 +67,7 @@ feature -- Status query
 			type_id: INTEGER
 		do
 			type_id := a_type.type_id
-			Result := across Current as type all {ISE_RUNTIME}.type_conforms_to (type.item.type_id, type_id) end
+			Result := across Current as type all {ISE_RUNTIME}.type_conforms_to (type.type_id, type_id) end
 		end
 
 	i_th_is_character_data (i: INTEGER): BOOLEAN
@@ -91,7 +91,7 @@ feature -- Conversion
 		do
 			create Result.make_empty (count)
 			across Current as array loop
-				Result.extend (array.item.type_id)
+				Result.extend (array.type_id)
 			end
 		end
 

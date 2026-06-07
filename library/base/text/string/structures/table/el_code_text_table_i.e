@@ -90,7 +90,7 @@ feature -- Contract Support
 	valid_manifest (a_manifest: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := across a_manifest.split ('%N') as line all
-				valid_line (line.item)
+				valid_line (line)
 			end
 		end
 
@@ -107,7 +107,7 @@ feature {NONE} -- Implementation
 		do
 			found_item := default_item
 			across line_list as list until done loop
-				if attached list.item as line and then attached super_readable_8 (line) as super_line then
+				if attached list as line and then attached super_readable_8 (line) as super_line then
 					if code_found then
 						if super_line.starts_with_character ('%T') then
 							if found_item.count > 0 then

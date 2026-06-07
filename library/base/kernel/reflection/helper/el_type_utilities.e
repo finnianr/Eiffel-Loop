@@ -238,7 +238,7 @@ feature {NONE} -- Constants
 			map_list.sort_by_key (True)
 			create Result.make_filled ({REFLECTOR_CONSTANTS}.None_type, map_list.first_key, map_list.last_key)
 			across map_list as map loop
-				Result [map.key] := map.value
+				Result [@ map.key] := @ map.value
 			end
 		end
 

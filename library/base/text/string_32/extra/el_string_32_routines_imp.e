@@ -16,7 +16,7 @@ class EL_STRING_32_ROUTINES_IMP inherit ANY
 			bit_count
 		end
 
-	EL_STRING_32_BIT_COUNTABLE [STRING_32]
+	EL_STRING_32_BIT_COUNTABLE [READABLE_STRING_32]
 
 feature -- Basic operations
 

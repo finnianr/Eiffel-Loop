@@ -42,18 +42,18 @@ feature {NONE} -- Initialization
 				if attached new_expansion_table as expansion_table then
 					has_expansions := expansion_table.count > 0
 					across table as command loop
-						description := command.key
+						description := @ command.key
 					-- Expand variables in description
 						if has_expansions and then description.has ('$') then
 							create template.make (description)
 							across expansion_table as variable loop
-								if template.has (variable.key) then
-									template.put (variable.key, variable.item)
+								if template.has (@ variable.key) then
+									template.put (@ variable.key, variable)
 								end
 							end
 							description := template.substituted
 						end
-						command_table [description] := command.item
+						command_table [description] := command
 					end
 				end
 			end

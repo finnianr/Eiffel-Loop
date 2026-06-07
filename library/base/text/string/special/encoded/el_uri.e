@@ -406,9 +406,9 @@ feature {NONE} -- Implementation
 					if l_query.count > 0 then
 						l_query.append_character ('&')
 					end
-					l_query.append_general (table.key)
+					l_query.append_general (@ table.key)
 					l_query.append_character ('=')
-					l_query.append_general (table.item)
+					l_query.append_general (table)
 				end
 				set_encoded_query (l_query)
 			end

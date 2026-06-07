@@ -90,10 +90,10 @@ feature {NONE} -- Implementation
 	matched_field_type (type_id: INTEGER): detachable TYPE [EL_REFLECTED_REFERENCE [ANY]]
 		do
 			across Reference_group_table as table until attached Result loop
-				if {ISE_RUNTIME}.type_conforms_to (type_id, table.key.type_id) then
-					across table.item as group until attached Result loop
-						if {ISE_RUNTIME}.type_conforms_to (type_id, group.item.value_type.type_id) then
-							Result := group.item.generating_type
+				if {ISE_RUNTIME}.type_conforms_to (type_id, @ table.key.type_id) then
+					across table as group until attached Result loop
+						if {ISE_RUNTIME}.type_conforms_to (type_id, group.value_type.type_id) then
+							Result := group.generating_type
 						end
 					end
 				end

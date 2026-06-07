@@ -24,8 +24,11 @@ feature -- Measurement
 				Result := indexable.upper - indexable.lower + 1
 
 			else
-				across iterable as it loop
+				across iterable as it until Result > Max_iterable_count loop
 					Result := Result + 1
+				end
+				check
+					not_infinite: Result <= Max_iterable_count
 				end
 			end
 		end
@@ -36,7 +39,7 @@ feature -- Measurement
 				if Result > 0 then
 					Result := Result + separator_count
 				end
-				Result := Result + ln.item.count
+				Result := Result + ln.count
 			end
 		end
 
@@ -44,8 +47,8 @@ feature -- Measurement
 		-- maximum character count of `strings'
 		do
 			across strings as str loop
-				if str.item.count > Result then
-					Result := str.item.count
+				if str.count > Result then
+					Result := str.count
 				end
 			end
 		end
@@ -57,8 +60,12 @@ feature -- Access
 			done: BOOLEAN
 		do
 			across iterable as it until done loop
-				Result := it.item
+				Result := it
 				done := True
 			end
 		end
+
+feature {NONE} -- Constants
+
+	Max_iterable_count: INTEGER = 1_000_000
 end

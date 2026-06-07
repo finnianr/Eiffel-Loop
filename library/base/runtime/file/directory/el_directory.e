@@ -204,21 +204,21 @@ feature -- Status query
 		-- `True' if at least one directory exists with extension `extension'
 		do
 			Result := across Current as entry some
-				entry.existing_item_matches_type_and_extension (Type_directory, extension)
+				@ entry.existing_item_matches_type_and_extension (Type_directory, extension)
 			end
 		end
 
 	has_executable (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := across Current as entry some
-				entry.existing_item_matches_name_and_type (a_name, Type_executable_file)
+				@ entry.existing_item_matches_name_and_type (a_name, Type_executable_file)
 			end
 		end
 
 	has_file_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := across Current as entry some
-				entry.existing_item_matches_name_and_type (a_name, Type_file)
+				@ entry.existing_item_matches_name_and_type (a_name, Type_file)
 			end
 		end
 
@@ -226,7 +226,7 @@ feature -- Status query
 		-- `True' if at least one file exists with extension `extension'
 		do
 			Result := across Current as entry some
-				entry.existing_item_matches_type_and_extension (Type_file, extension)
+				@ entry.existing_item_matches_type_and_extension (Type_file, extension)
 			end
 		end
 
@@ -267,7 +267,7 @@ feature -- Removal
 	delete_files (extension: STRING)
 		do
 			across files_with_extension (extension) as l_path loop
-				File_system.remove_file (l_path.item)
+				File_system.remove_file (l_path)
 			end
 		end
 
@@ -327,13 +327,13 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 				create sub_directory.make_default
 			end
 			across Current as entry loop
-				if not entry.is_current_or_parent then
-					if entry.is_directory then
+				if not @ entry.is_current_or_parent then
+					if @ entry.is_directory then
 						if entry_type = Type_directory then
 							Result := Result + 1
 						end
 						if attached sub_directory as sub_dir then
-							sub_dir.set_path_name (entry.item_path (False))
+							sub_dir.set_path_name (@ entry.item_path (False))
 							Result := Result + sub_dir.entry_type_count (True, entry_type)
 						end
 
@@ -353,12 +353,12 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 			is_following_symlinks := False
 			create sub_dir.make_default
 			across Current as entry until manager.is_cancel_requested loop
-				if not entry.is_current_or_parent and then entry.exists then
-					if not entry.is_symlink and then entry.is_directory then
-						sub_dir.set_path_name (entry.item_path (False))
+				if not @ entry.is_current_or_parent and then @ entry.exists then
+					if not @ entry.is_symlink and then @ entry.is_directory then
+						sub_dir.set_path_name (@ entry.item_path (False))
 						sub_dir.internal_delete_with_action (manager, False)
-					elseif entry.is_writable then
-						file_path := entry.item_file_path
+					elseif @ entry.is_writable then
+						file_path := @ entry.item_file_path
 						File_system.remove_file (file_path)
 						manager.on_delete (file_path)
 					end
@@ -403,16 +403,16 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 		-- check for read permission
 			if is_readable then
 				across Current as entry loop
-					if not entry.is_current_or_parent and then entry.exists
-						and then (extension.count > 0 implies entry.item_has_extension (extension))
-						and then entry.item_matches_type (type)
+					if not @ entry.is_current_or_parent and then @ entry.exists
+						and then (extension.count > 0 implies @ entry.item_has_extension (extension))
+						and then @ entry.item_matches_type (type)
 					then
-						if entry.is_directory then
+						if @ entry.is_directory then
 							if (type = Type_any or type = Type_directory) then
-								list.extend (entry.item_dir_path)
+								list.extend (@ entry.item_dir_path)
 							end
 						elseif (type = Type_any or type = Type_file) then
-							list.extend (entry.item_file_path)
+							list.extend (@ entry.item_file_path)
 						end
 					end
 				end
@@ -438,7 +438,7 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 				directory_list := directories
 			end
 			across directory_list as dir loop
-				set_path (dir.item)
+				set_path (dir)
 				read_recursive_entries (list, type, extension)
 			end
 			set_path_name (saved_path)

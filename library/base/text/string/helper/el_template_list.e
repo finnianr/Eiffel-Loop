@@ -49,7 +49,7 @@ feature -- Measurement
 	variables_set_count: INTEGER
 		do
 			across place_holder_table as table loop
-				if table.item.count > 0 then
+				if table.count > 0 then
 					Result := Result + 1
 				end
 			end
@@ -103,10 +103,10 @@ feature -- Set variable values
 	put_array (nvp_list: ARRAY [TUPLE [name: KEY; value: ANY]])
 			--
 		require
-			valid_variables: is_strict implies across nvp_list as tuple all has (tuple.item.name) end
+			valid_variables: is_strict implies across nvp_list as tuple all has (tuple.name) end
 		do
 			across nvp_list as tuple loop
-				put_any (tuple.item.name, tuple.item.value)
+				put_any (tuple.name, tuple.value)
 			end
 		end
 
@@ -117,8 +117,8 @@ feature -- Set variable values
 		do
 			if attached {EL_REFLECTIVE} object as reflective and then attached reflective.field_table as field_table then
 				across place_holder_table as table loop
-					if field_table.has_key_general (table.key) then
-						put_general (table.key, field_table.found_item.to_string (reflective))
+					if field_table.has_key_general (@ table.key) then
+						put_general (@ table.key, field_table.found_item.to_string (reflective))
 					end
 				end
 			elseif attached new_current_object (object) as meta_object then
@@ -155,7 +155,7 @@ feature -- Set variable values
 		-- reset variable place holders to empty
 		do
 			across place_holder_table as table loop
-				table.item.keep_head (0)
+				table.keep_head (0)
 			end
 		ensure
 			no_variables_set: variables_set_count = 0

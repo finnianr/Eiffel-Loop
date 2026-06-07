@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 			if attached extended_buffer_last (12) as sequence then
 				across Clear_codes as code loop
 					sequence.append (Escape_start) -- 2 x 2
-					sequence.append (code.item) -- 4 x 2
+					sequence.append (code) -- 4 x 2
 				end
 			end
 		end

@@ -52,11 +52,11 @@ feature {NONE} -- Initialization
 			default_create
 			types_indexed_by_name.accommodate (mapping_table.count)
 			across mapping_table as map loop
-				key := as_zstring (map.item.name)
-				if map.cursor_index = 1 then
+				key := as_zstring (map.name)
+				if @ map.cursor_index = 1 then
 					default_alias := key
 				end
-				types_indexed_by_name [key] := map.item.type
+				types_indexed_by_name [key] := map.type
 			end
 		end
 

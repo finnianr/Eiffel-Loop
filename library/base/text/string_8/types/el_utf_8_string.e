@@ -141,7 +141,7 @@ feature -- String setting
 	append_lines_to (list: CHAIN [ZSTRING])
 		do
 			across adjusted (False).split ('%N') as line loop
-				list.extend (line.item_copy)
+				list.extend (@ line.item_copy)
 			end
 		end
 

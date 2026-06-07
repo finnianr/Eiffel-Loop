@@ -166,12 +166,12 @@ feature -- Conversion
 		do
 			uri := factory.new_uri_string (is_url)
 			across Current as table loop
-				if not table.is_first then
+				if not @ table.is_first then
 					uri.append_character ('&')
 				end
-				uri.append_general (table.key)
+				uri.append_general (@ table.key)
 				uri.append_character ('=')
-				uri.append_general (table.item)
+				uri.append_general (table)
 			end
 			if keep_ref then
 				create Result.make_from_string (uri)
@@ -184,7 +184,7 @@ feature -- Conversion
 		do
 			create Result.make_equal (count)
 			across Current as table loop
-				Result.extend (table.item.to_string_32, table.key.to_string_32)
+				Result.extend (table.to_string_32, @ table.key.to_string_32)
 			end
 		end
 

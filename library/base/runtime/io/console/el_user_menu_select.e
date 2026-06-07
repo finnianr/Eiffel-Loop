@@ -60,7 +60,7 @@ feature {NONE} -- Implementation
 			lio.put_line (User_input.Esc_to_quit)
 			lio.put_new_line
 			across option_list as list loop
-				lio.put_labeled_string (Format.padded_integer (list.cursor_index, 2), list.item)
+				lio.put_labeled_string (Format.padded_integer (@ list.cursor_index, 2), list)
 				lio.put_new_line
 			end
 			lio.put_new_line

@@ -13,6 +13,7 @@ from eiffel_loop.distutils import dir_util
 from eiffel_loop.os import path
 
 from eiffel_loop.eiffel import project
+from eiffel_loop.eiffel.ecf import EIFFEL_CONFIG_FILE
 
 def main():
 
@@ -34,11 +35,11 @@ def main():
 
 		cmd = ['estudio', '-ecf_path', eifgen_path, '-config', ecf_path]
 		print(cmd)
+		subprocess.call (cmd)
 
 	else:
 		print("USAGE: launch_estudio <project name>.(pecf|ecf)")
 
-	subprocess.call (cmd)
 
 if __name__ == '__main__':
 	main()

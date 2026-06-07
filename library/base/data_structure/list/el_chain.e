@@ -152,7 +152,7 @@ feature -- Element change
 		do
 			accommodate (count + Iterable.count (list))
 			across list as any loop
-				extend (any.item)
+				extend (any)
 			end
 		end
 
@@ -171,9 +171,9 @@ feature -- Element change
 				l_item := item
 			end
 			across ordered_by (sort_value, in_ascending_order) as v loop
-				put_i_th (v.item, v.cursor_index)
-				if v.item = l_item then
-					new_index := v.cursor_index
+				put_i_th (v, @ v.cursor_index)
+				if v = l_item then
+					new_index := @ v.cursor_index
 				end
 			end
 			if new_index > 0 then

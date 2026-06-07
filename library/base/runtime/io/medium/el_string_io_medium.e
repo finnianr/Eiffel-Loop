@@ -15,13 +15,15 @@ deferred class
 inherit
 	PLAIN_TEXT_FILE
 		rename
+			encoding as file_encoding,
 			has as has_8,
 			item as item_8,
 			make as make_with_name_8,
 			make_open_write as make_file_open_write,
 			put_string as put_encoded_string_8,
 			put_character as put_encoded_character_8,
-			putchar as put_encoded_character_8
+			putchar as put_encoded_character_8,
+			set_encoding as set_file_encoding
 
 		export
 			{NONE} all
@@ -30,7 +32,7 @@ inherit
 			put_encoded_character_8, put_encoded_string_8,
 			put_integer, putint, put_integer_8, put_integer_16, put_integer_32, put_integer_64,
 			put_natural, put_natural_8, put_natural_16, put_natural_32, put_natural_64,
-			put_real, putreal, put_double, putdouble,
+			put_real, putreal, put_string_32, put_string_general, put_double, putdouble,
 			put_boolean, putbool
 		redefine
 			position, count,

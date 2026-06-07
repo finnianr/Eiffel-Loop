@@ -16,10 +16,8 @@ inherit
 	EL_INTERVAL_POSITION [REAL]
 		undefine
 			is_equal, out
-		redefine
-			item
 		end
-		
+
 	REAL_REF
 
 create
@@ -28,9 +26,9 @@ create
 feature -- Status report
 
 	is_A_less_than_or_equal_to_B (a, b: like item): BOOLEAN
-			-- 
+			--
 		do
-			Result := a <= b			
+			Result := a <= b
 		end
 
 end

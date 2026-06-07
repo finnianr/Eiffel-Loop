@@ -103,7 +103,7 @@ feature {NONE} -- Initialization
 			make (line_split.count)
 			object_comparison := a_object_comparison
 			across line_split as split loop
-				line := split.item
+				line := split
 				start_index := Manifest_item.start_plus_end_assignment_indices (line, $end_index)
 				if end_index > 0 and start_index > 0 then
 					key_string := line.shared_substring (1, end_index)
@@ -129,7 +129,7 @@ feature {NONE} -- Initialization
 			object_comparison := a_object_comparison
 
 			across line_split as split loop
-				line := split.item
+				line := split
 				start_index := Manifest_item.start_plus_end_assignment_indices (line, $end_index)
 				if end_index > 0 and start_index > 0 then
 					key_string := line.shared_substring (1, end_index)

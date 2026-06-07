@@ -168,8 +168,8 @@ feature -- Output
 		local
 			line: ZSTRING; tab_count: INTEGER
 		do
-			across Current as ln until ln.cursor_index > n loop
-				create line.make_from_general (ln.shared_item)
+			across Current as ln until @ ln.cursor_index > n loop
+				create line.make_from_general (@ ln.shared_item)
 				tab_count := line.leading_occurrences ('%T')
 				if tab_count > 0 then
 					line.replace_substring (space * (tab_count * 3), 1, tab_count)

@@ -41,7 +41,7 @@ feature -- Element change
 			across list as any loop
 				i := i + 1
 				if i > discard_count then
-					extend (any.item)
+					extend (any)
 				end
 			end
 		end

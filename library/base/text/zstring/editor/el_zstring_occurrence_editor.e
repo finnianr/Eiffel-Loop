@@ -17,7 +17,7 @@ inherit
 		rename
 			extended_string as super_z
 		redefine
-			default_target, is_equal, target
+			default_target, target
 		end
 
 	EL_ZSTRING_OCCURRENCE_INTERVALS

@@ -17,7 +17,7 @@ class
 inherit
 	EL_SPLIT_ON_STRING_CURSOR [ZSTRING, CHARACTER_32]
 		redefine
-			is_i_th_white_space, item, initialize, internal_item
+			item, initialize, internal_item
 		end
 
 create

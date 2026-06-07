@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 	post_make
 		-- initialization after types have been set
 		require else
-			is_string_convertible: Convert_string.has (({G}).type_id)
+			is_string_convertible: is_item_string_convertible
 		do
 			item_type_id := ({G}).type_id
 			Precursor
@@ -110,6 +110,11 @@ feature -- Status query
 			Result := {ISE_RUNTIME}.type_conforms_to (item_type_id, Class_id.EL_REFLECTIVE)
 		end
 
+    is_item_string_convertible: BOOLEAN
+        do
+            Result := Convert_string.has (({G}).type_id)
+        end
+
 feature -- Basic operations
 
 	append_to_string (object: ANY; str: ZSTRING)
@@ -123,7 +128,7 @@ feature -- Basic operations
 						str.append_string_general (Comma_space)
 					end
 					if attached reader_writer as writer then
-						writer.write (list.item, str)
+						writer.write (list, str)
 					end
 				end
 			end
@@ -168,7 +173,7 @@ feature -- Basic operations
 					a_lio.put_labeled_substitution (name, "[%S]", [i])
 					a_lio.tab_right
 					a_lio.put_new_line
-					list.item.print_fields (a_lio)
+					list.print_fields (a_lio)
 					a_lio.tab_left
 					a_lio.put_new_line
 				end
@@ -324,7 +329,7 @@ feature {NONE} -- Constants
 			create type_list.make_from_tuple (reader_writer_types)
 			create Result.make (type_list.count)
 			across type_list as list loop
-				if attached {EL_READER_WRITER_INTERFACE [ANY]} Eiffel.new_object (list.item) as new then
+				if attached {EL_READER_WRITER_INTERFACE [ANY]} Eiffel.new_object (list) as new then
 					Result.extend (new, new.item_type.type_id)
 				end
 			end

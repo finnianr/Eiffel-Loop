@@ -15,7 +15,7 @@ class
 inherit
 	EL_EVENT_LISTENER
 		redefine
-			notify, listener_count
+			listener_count
 		end
 
 create

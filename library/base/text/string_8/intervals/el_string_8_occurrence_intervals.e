@@ -20,7 +20,7 @@ inherit
 			make_by_string
 		end
 
-	EL_STRING_8_BIT_COUNTABLE [READABLE_STRING_8]
+	EL_STRING_8_BIT_COUNTABLE [STRING_8]
 
 create
 	make, make_empty, make_by_string, make_sized, make_from_special

@@ -135,7 +135,7 @@ feature -- Access
 					if attached area as l_area then
 						across split_list as list until found loop
 							if i = index then
-								start_index := list.item_lower; end_index := list.item_upper
+								start_index := @ list.item_lower; end_index := @ list.item_upper
 								found := True
 							else
 								i := i + 1
@@ -455,6 +455,11 @@ feature -- Character query
 		end
 
 feature -- Status query
+
+	has_upper: BOOLEAN
+		-- `True' if at least one character in `str' is uppercase
+		deferred
+		end
 
 	is_canonically_spaced: BOOLEAN
 		-- `True' if the longest substring of whitespace consists of one space character (ASCII 32)

@@ -44,8 +44,6 @@ inherit
 			count, copy, character_count, do_for_all, do_meeting,
 			first, has, is_equal, off, out, occurrences,
 			push_cursor, pop_cursor
-		redefine
-			character_count
 		select
 			do_all, do_if, for_all, there_exists
 		end

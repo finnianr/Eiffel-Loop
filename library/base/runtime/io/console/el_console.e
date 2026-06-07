@@ -34,10 +34,4 @@ feature {NONE} -- Initialization
 			mode := console.mode
 		end
 
-feature -- Basic operations
-
-	put_string_general (str: READABLE_STRING_GENERAL)
-		do
-		end
-
 end

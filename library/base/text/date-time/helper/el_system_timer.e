@@ -7,7 +7,7 @@ note
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	revision: "7"
 
 class
 	EL_SYSTEM_TIMER
@@ -15,8 +15,7 @@ class
 inherit
 	EL_SYSTEM_TIME
 		rename
-			make_utc as make,
-			internal_millisecond_now as last_milliseconds
+			make_utc as make
 		redefine
 			update
 		end
@@ -35,7 +34,7 @@ feature -- Update
 feature -- Measurement
 
 	elapsed_millisecs: INTEGER
-		-- milliseconds since object creation or previous call to `elapsed_millisecs'
+			-- milliseconds since object creation or previous call to `elapsed_millisecs'
 		local
 			last, now: INTEGER
 		do
@@ -47,5 +46,9 @@ feature -- Measurement
 			end
 			Result := now - last
 		end
+
+feature {NONE} -- Internal attributes
+
+	last_milliseconds: INTEGER
 
 end

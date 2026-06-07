@@ -39,8 +39,6 @@ inherit
 			{NONE} all
 		end
 
-	EL_STRING_HANDLER
-
 	EL_MODULE_DATE_TIME; EL_MODULE_FORMAT
 
 	EL_STRING_8_CONSTANTS
@@ -52,7 +50,8 @@ feature {NONE} -- Initialization
 
 	make (a_format: STRING)
 		local
-			str: STRING; case: NATURAL_8; code: DATE_TIME_CODE; i, index_1, index_2: INTEGER
+			str: STRING; case: NATURAL_8; code: DATE_TIME_CODE; i, index_1, index_2, tuple_index: INTEGER
+			s: EL_STRING_GENERAL_ROUTINES
 		do
 			str := adjusted_format (a_format)
 			create code_table.make (20)
@@ -62,25 +61,24 @@ feature {NONE} -- Initialization
 			from i := 1 until index_1 >= str.count loop
 				index_2 := find_separator (str, index_1)
 				if attached extracted_substrings (str, index_1, index_2) as extracted then
-					index_2 := abs (index_2)
+					index_2 := index_2.abs
 					case := case_type (extracted.substrg) -- before `to_lower' called
-					across << extracted.substrg, extracted.substrg2 >> as array loop
-						if attached array.item as substring then
-							if array.is_first then
-								substring.to_lower
-							end
-							if substring.count > 0 then
-								create code.make (substring)
-								code_table.put (code, i)
-								if array.is_first then
-									if case_table.valid_index (code.type) then
-										case_table [code.type] := case
-									end
-								else
-									separators_used := True
+					across << extracted.substrg, extracted.substrg2 >> as substring loop
+						tuple_index := @ substring.cursor_index
+						if tuple_index = 1 and then s.super_readable_8 (substring).has_upper then
+							extracted.put_reference (substring.as_lower, tuple_index)
+						end
+						if substring.count > 0 then
+							create code.make (substring)
+							code_table.put (code, i)
+							if tuple_index = 1 then
+								if case_table.valid_index (code.type) then
+									case_table [code.type] := case
 								end
-								i := i + 1
+							else
+								separators_used := True
 							end
+							i := i + 1
 						end
 					end
 				end
@@ -197,7 +195,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	append_array_text (str: STRING; code_type, index: INTEGER; array: ARRAY [STRING])
+	append_array_text (str: STRING; code_type, index: INTEGER; array: ARRAY [READABLE_STRING])
 		require
 			valid_index: array.valid_index (index)
 		local

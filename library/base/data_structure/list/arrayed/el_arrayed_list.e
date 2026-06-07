@@ -25,13 +25,14 @@ inherit
 	ARRAYED_LIST [G]
 		rename
 			make_filled as make_default_filled,
+			make_from_iterable as make_from_list,
 			append as append_sequence
 		export
 			{EL_CONTAINER_HANDLER} set_area
 		undefine
 			index_of
 		redefine
-			make, make_from_array, make_default_filled
+			make, make_from_array, make_from_list, make_default_filled
 		end
 
 	EL_CHAIN [G]
@@ -137,7 +138,7 @@ feature {NONE} -- Initialization
 			else
 				make (Iterable.count (list))
 				across list as l_path loop
-					extend (l_path.item)
+					extend (l_path)
 				end
 			end
 		end

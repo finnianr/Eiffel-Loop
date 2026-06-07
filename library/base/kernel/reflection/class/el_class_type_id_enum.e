@@ -221,7 +221,7 @@ feature {NONE} -- Implementation
 		require
 			all_expanded:
 				across expanded_types as type all
-					type_of_type (type.item).is_expanded
+					type_of_type (type).is_expanded
 				end
 		local
 			list: EL_ARRAYED_LIST [INTEGER]
@@ -229,7 +229,7 @@ feature {NONE} -- Implementation
 			create list.make_from_array (expanded_types)
 			list.grow (list.count * 2)
 			across expanded_types as type loop
-				list.extend (reference_type_of (type.item))
+				list.extend (reference_type_of (type))
 			end
 			Result := list.area
 		end

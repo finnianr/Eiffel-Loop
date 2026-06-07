@@ -53,14 +53,14 @@ feature {NONE} -- Initialization
 			index_upper := value.Min_value
 			index_lower := value.Max_value
 			across a_table as table loop
-				value := as_integer (table.key)
+				value := as_integer (@ table.key)
 				index_lower := value.min (index_lower)
 				index_upper := value.max (index_upper)
 			end
 			across <<
 				a_table.deleted_marks, a_table.indexes_map, a_table.keys, a_table.content
 			>> as structure loop
-				table_size := table_size + property (structure.item).physical_size
+				table_size := table_size + property (structure).physical_size
 			end
 			create array.make_filled (computed_default_value, index_upper - index_lower + 1)
 			if table_size < property (array).physical_size then
@@ -68,8 +68,8 @@ feature {NONE} -- Initialization
 			else
 				is_array_indexed := True; count := a_table.count
 				across a_table as table loop
-					i := as_integer (table.key) - index_lower
-					array [i] := table.item
+					i := as_integer (@ table.key) - index_lower
+					array [i] := table
 					if is_value_expanded and then array [i] = computed_default_value then
 						default_value_index := i
 					end

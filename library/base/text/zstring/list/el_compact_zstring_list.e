@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 
 	make_general (general_list: ITERABLE [READABLE_STRING_GENERAL])
 		require
-			no_commas: not across general_list as list some list.item.has (',') end
+			no_commas: not across general_list as list some list.has (',') end
 		do
 			make (create {EL_SPLIT_IMMUTABLE_UTF_8_LIST}.make (general_list))
 		end

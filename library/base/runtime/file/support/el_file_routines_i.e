@@ -186,13 +186,17 @@ feature -- File content
 		local
 			utf: EL_UTF_CONVERTER
 		do
-			Result := plain_text (file_path)
-			if utf.is_utf_8_file (Result) then
-				Result := utf.bomless_utf_8 (Result)
+			if attached plain_text (file_path) as str_8 then
+				Result := str_8
+				if utf.is_utf_8_file (str_8) then
+					Result := utf.bomless_utf_8 (str_8)
 
-			elseif utf.is_utf_16_le_file (Result) then
-				Result := utf.bomless_utf_16_le (Result)
+				elseif utf.is_utf_16_le_file (str_8) then
+					Result := utf.bomless_utf_16_le (str_8)
 
+				end
+			else
+				Result := Empty_string_8
 			end
 		end
 
@@ -470,12 +474,12 @@ feature -- Contract Support
 
 	valid_what (what: STRING): BOOLEAN
 		do
-			Result := across what as c all ("rwxs").has (c.item) end
+			Result := across what as c all ("rwxs").has (c) end
 		end
 
 	valid_who (who: STRING): BOOLEAN
 		do
-			Result := across who as c all ("uog").has (c.item) end
+			Result := across who as c all ("uog").has (c) end
 		end
 
 feature {NONE} -- Implementation
@@ -491,7 +495,7 @@ feature {NONE} -- Implementation
 			create l_who.make (1)
 			across who as c loop
 				l_who.wipe_out
-				l_who.append_character (c.item)
+				l_who.append_character (c)
 				change (file, l_who, what)
 			end
 		end

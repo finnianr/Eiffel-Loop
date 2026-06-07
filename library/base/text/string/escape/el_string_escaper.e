@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 
 			make_sized (escape_table.count)
 			across escape_table as table loop
-				extend (implementation.to_code (table.item), implementation.to_code (table.key))
+				extend (implementation.to_code (table), implementation.to_code (@ table.key))
 			end
 		end
 

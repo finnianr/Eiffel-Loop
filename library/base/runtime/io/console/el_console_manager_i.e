@@ -101,7 +101,7 @@ feature -- Status change
 		do
 			restrict_access
 				across type_list as type loop
-					visible_types.put (type.item.type_id)
+					visible_types.put (type.type_id)
 				end
 			end_restriction
 		end
