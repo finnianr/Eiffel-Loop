@@ -126,18 +126,18 @@ feature -- Status query
 
 feature -- Basic operations
 
-	append_file_list (list: ITERABLE [FILE_PATH])
+	append_file_list (path_list: ITERABLE [FILE_PATH])
 		require
 			open_append: is_open_write
-			files_exists: across list as l all l.item.exists end
+			files_exists: across path_list as l_path all l_path.exists end
 			valid_expected_compression_ratio: expected_compression_ratio > 0.0
 			valid_level: level > 0
 		do
-			across list as l_path loop
-				progress_listener.increase_file_data_estimate (l_path.item)
+			across path_list as l_path loop
+				progress_listener.increase_file_data_estimate (l_path)
 			end
-			across list as l_path loop
-				append_file (l_path.item)
+			across path_list as l_path loop
+				append_file (l_path)
 			end
 			progress_listener.finish
 		end

@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	to_string (a_value: like to_value): STRING
+	to_string (a_value: like to_value): IMMUTABLE_STRING_8
 		do
 			Result := enumeration.name (a_value)
 		end

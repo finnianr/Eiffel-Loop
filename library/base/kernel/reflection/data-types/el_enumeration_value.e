@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	to_string: STRING
+	to_string: STRING_8
 		do
 			Result := enumeration.name (value)
 		end

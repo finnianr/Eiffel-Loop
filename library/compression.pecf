@@ -6,7 +6,7 @@ pyxis-doc:
 # cosmetics, trinkets or jewellery. 
 
 system:
-	configuration_ns = "1-16-0"; uuid = "229b6f84-09aa-11df-87b0-ab7c62abf4b2" 
+	configuration_ns = "1-23-0"; uuid = "229b6f84-09aa-11df-87b0-ab7c62abf4b2" 
 	name = EL_compression; library_target = EL_compression
 	description:
 		"""
@@ -23,10 +23,13 @@ system:
 					C_ZLIB = $ISE_LIBRARY/C_library/zlib
 			"""
 		option:
-			syntax = standard; full_class_checking = false; void_safety = none
-			trace = false; debug = false; warning = true
+			debug = false; full_class_checking = false; void_safety = none; syntax = standard
+			trace = false; warning = warning
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
+		capability:
+			concurrency:
+				support = thread; use = thread
 		root:
 			all_classes = true
 				

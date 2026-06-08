@@ -33,7 +33,7 @@ feature -- Access
 			same_parameter_count: parameter_count (base_type) = parameter_types.count
 		local
 			base_type_template, substituted_type_list: STRING_8; start_index, end_index, i: INTEGER
-			interval_list: EL_SPLIT_INTERVALS
+			interval_list: EL_STRING_8_SPLIT_INTERVALS
 		do
 			if attached type_parameters (base_type) as type_list and then type_list.count > 0 then
 				substituted_type_list := type_list

@@ -30,7 +30,7 @@ setup (
 	description = 'Project launch and scons build utilities for EiffelStudio',
 	author = 'Finnian Reilly',
 	author_email = 'finnian at eiffel hyphen loop dot com',
-	url = 'https://www.eiffel-loop.com/python/eiffel_loop/',
+	url = 'https://www.eiffel-loop.com/python-support',
 
 	packages = [
 		'eiffel_loop',
@@ -40,6 +40,7 @@ setup (
 		'eiffel_loop.os',
 		'eiffel_loop.scons',
 		'eiffel_loop.scripts',
+		'eiffel_loop.x11',
 		'eiffel_loop.xml'
 	],
 	package_dir = {'' : 'python-support'},

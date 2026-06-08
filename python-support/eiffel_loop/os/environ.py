@@ -37,6 +37,30 @@ def print_path ():
 	for part in os.environ [key].split (os.pathsep):
 		print('  ', part)
 	print()
+	
+# CLASSES
+
+class G_SETTINGS:
+
+	def __init__ (self, key: str) -> None:
+		self.key = key
+
+	def get (self, setting: str) -> str:
+		result = subprocess.run (
+			["gsettings", "get", self.key, setting], capture_output=True, text=True, check=True,
+		)
+		return result.stdout.strip ()
+
+	def set (self, setting: str, value: str) -> None:
+		subprocess.run (
+			["gsettings", "set", self.key, setting, value], check=True,
+		)
+	print (f"Setting {setting} to {value}")
+
+	def set_font_size (self, setting: str, size: int) -> None:
+		font_name = self.get (setting)
+		resized = font_name [:font_name.rfind (' ')] + f' {size}'
+		self.set (setting, resized)
 
 class ENVIRONMENT:
 

@@ -1,11 +1,16 @@
-**/__pycache__/
-**/.claude/
-**/.sconf_temp/
+.claude/
+.sconf_temp/
+__pycache__/
+build/
+benchmark/doc/benchmark/
+doc/images/
+doc/zstring-benchmarks/
+python-support/Eiffel_Loop.egg-info/
+test/data/XML.archive
+spec/
+workarea/
 **/doc/descendant/*.txt
 **/descendant/*.txt
-**/EIFGENs/
-**/build/
-**/workarea/
 **/exception*.log
 **/config.log
 **~
@@ -32,16 +37,5 @@
 **.tar
 **.tar.gz
 **.zip
-.claude/
-.git/
-benchmark/doc/benchmark/
-build/
-contrib/C++/**/spec/
-contrib/C/**/spec/
-doc/images/
-doc/zstring-benchmarks/
-python-support/Eiffel_Loop.egg-info/
-test/data/XML.archive
-C_library/**/spec/
 
 
