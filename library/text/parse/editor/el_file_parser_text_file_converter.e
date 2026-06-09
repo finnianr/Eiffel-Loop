@@ -27,7 +27,7 @@ inherit
 		undefine
 			edit, Default_file_path
 		redefine
-			make_default, input_file_path
+			make_default
 		end
 
 feature {NONE} -- Initialization

@@ -36,8 +36,8 @@ feature {NONE} -- Parsing events
 		do
 			add_string_8 (node.raw_name)
 			across attribute_list as l_attribute loop
-				add_string_8 (l_attribute.item.raw_name)
-				add_string_8 (l_attribute.item)
+				add_string_8 (l_attribute.raw_name)
+				add_string_8 (l_attribute)
 			end
 		end
 

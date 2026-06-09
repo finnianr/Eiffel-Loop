@@ -138,11 +138,11 @@ feature {NONE} -- Implementation
 	reset
 		do
 			last_node_xpath.wipe_out
-			across action_table as table loop
-				table.item.wipe_out
+			across action_table as action loop
+				action.wipe_out
 			end
-			across wildcard_xpath_search_term_list as list loop
-				list.item.wipe_out
+			across wildcard_xpath_search_term_list as xpath loop
+				xpath.wipe_out
 			end
 		end
 
@@ -167,18 +167,16 @@ feature {NONE} -- Xpath matching operations
 		local
 			i: INTEGER; xpath: EL_TOKENIZED_XPATH
 		do
-			across agent_map_list as list loop
-				if attached list.item as map then
-					if map.is_applied_to_open_element then
-						i := Node_START
-					else
-						i := Node_END
-					end
-					create xpath.make
-					xpath.append_xpath (map.xpath)
-
-					action_table [i].add_node_action (xpath, wildcard_xpath_search_term_list [i], map)
+			across agent_map_list as map loop
+				if map.is_applied_to_open_element then
+					i := Node_START
+				else
+					i := Node_END
 				end
+				create xpath.make
+				xpath.append_xpath (map.xpath)
+
+				action_table [i].add_node_action (xpath, wildcard_xpath_search_term_list [i], map)
 			end
 		end
 end

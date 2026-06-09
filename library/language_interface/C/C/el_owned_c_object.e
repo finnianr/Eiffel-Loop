@@ -18,8 +18,6 @@ inherit
 	EL_DISPOSEABLE
 		export
 			{NONE} all
-		redefine
-			dispose
 		end
 
 feature {EL_CPP_ITERATOR} -- Implementation

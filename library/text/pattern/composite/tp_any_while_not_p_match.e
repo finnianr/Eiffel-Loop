@@ -15,7 +15,7 @@ class
 inherit
 	TP_PATTERN
 		redefine
-			internal_call_actions, name_inserts, meets_definition, Name_template
+			internal_call_actions
 		end
 
 create

@@ -15,7 +15,7 @@ class
 inherit
 	TP_PATTERN
 		redefine
-			first_searchable, match_count
+			first_searchable
 		end
 
 	TP_SEARCHABLE

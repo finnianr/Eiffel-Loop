@@ -17,7 +17,7 @@ inherit
 		rename
 			i_th_matches as i_th_is_newline
 		redefine
-			match_count, meets_definition, name_inserts, Name_template
+			match_count, meets_definition
 		end
 
 feature {NONE} -- Implementation

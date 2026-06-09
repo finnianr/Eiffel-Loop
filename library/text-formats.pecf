@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"; uuid = "1D285226-C16E-11E8-B786-73F53AB0E560" 
+	configuration_ns = "1-23-0"; uuid = "1D285226-C16E-11E8-B786-73F53AB0E560" 
 	name = EL_formats; library_target = EL_formats
 	description:
 		"""
@@ -20,9 +20,12 @@ system:
 		option:
 			namespace = "Eiffel-Loop.Library.Text.Formats"
 			syntax = standard; full_class_checking = false; void_safety = none
-			trace = false; debug=false; warning=true
+			trace = false; debug = false; warning = warning
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
+		capability:
+			concurrency:
+				support = thread; use = thread
 
 		# ISE libraries
 		libraries:

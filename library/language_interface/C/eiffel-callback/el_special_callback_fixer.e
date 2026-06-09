@@ -19,7 +19,7 @@ class
 inherit
 	EL_CALLBACK_FIXER_I
 		redefine
-			make, release
+			release
 		end
 
 create

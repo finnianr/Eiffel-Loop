@@ -33,7 +33,7 @@ if sys.platform == "win32":
 
 ise = ise_environ.shared
 
-python_home_dir = os_env.python_home_dir()
+python_home_dir = os_env.python3_home ()
 eiffel_loop_home_dir = path.abspath (os.curdir)
 
 def el_download_url (package_basename):
@@ -288,14 +288,16 @@ class POSIX_INSTALLER (INSTALLER):
 	def install_gedit_pecf_support (self):
 		os.chdir (path.join (eiffel_loop_home_dir, 'tool/eiffel'))
 
-		# Install language specs for both gedit 2.3 and gedit 3.2
+		# Install language specs for gedit versions >= 30.0
 		language_specs_dir = 'language-specs'
+		
 		user_share_dir = path.expanduser ('~/.local/share')
-		for version in range (2, 4): # 2 to 3
-			gtksourceview_dir = path.join (user_share_dir, 'gtksourceview-%s.0' % version, language_specs_dir)
-			if path.exists (gtksourceview_dir):
-				for copied_path in dir_util.copy_tree (language_specs_dir, gtksourceview_dir):
-					print(copied_path)
+
+		gtksourceview_dir = path.join (user_share_dir, 'libgedit-gtksourceview-300', 'language-specs')
+		
+		dir_util.mkpath (gtksourceview_dir)
+		for copied_path in dir_util.copy_tree (language_specs_dir, gtksourceview_dir):
+			print(copied_path)
 
 		mime_packages_dir = 'mime/packages'
 		for copied_path in dir_util.copy_tree (mime_packages_dir, path.join (user_share_dir, mime_packages_dir)):

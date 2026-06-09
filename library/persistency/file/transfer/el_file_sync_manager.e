@@ -90,7 +90,7 @@ feature -- Status query
 				Result := True
 			else
 				Result := across current_set as set some
-					set.item.is_modified or else not previous_set.has (set.item)
+					set.is_modified or else not previous_set.has (set)
 				end
 			end
 		end
@@ -141,22 +141,22 @@ feature {NONE} -- Implementation
 			dir_list.order_by (agent {DIR_PATH}.step_count, True)
 
 			across dir_list as dir loop
-				if dir_group_table.has_key (dir.item) then
-					medium.make_directory (dir.item)
-					across dir_group_table.found_set as list loop
+				if dir_group_table.has_key (dir) then
+					medium.make_directory (dir)
+					across dir_group_table.found_set as group loop
 						if is_lio_enabled then
-							lio.put_path_field ("Uploading", list.item.source_path)
+							lio.put_path_field ("Uploading", group.source_path)
 							lio.put_new_line
-							lio.put_path_field ("       to", list.item.file_path)
+							lio.put_path_field ("       to", group.file_path)
 							lio.put_new_line
 						end
-						medium.copy_item (list.item)
+						medium.copy_item (group)
 						if medium.has_error then
 							if is_lio_enabled then
 								medium.log_error (lio)
 							end
 						else
-							list.item.store
+							group.store
 						end
 						progress_listener.notify_tick
 					end
@@ -174,24 +174,24 @@ feature {NONE} -- Implementation
 		-- remove files for deletion
 			across deleted_set as set loop
 				if is_lio_enabled then
-					lio.put_path_field ("Removing %S", set.item.file_path)
+					lio.put_path_field ("Removing %S", set.file_path)
 					lio.put_new_line
 				end
-				medium.remove_item (set.item)
-				set.item.remove
+				medium.remove_item (set)
+				set.remove
 			end
 		-- remove empty directories
 			checksum_dir := new_crc_sync_dir (local_home_dir, destination_name)
-			across File_system.parent_set (new_file_list (deleted_set), False) as list loop
+			across File_system.parent_set (new_file_list (deleted_set), False) as parent loop
 				-- order of descending step count
-				local_dir := local_home_dir.plus_dir (list.item)
+				local_dir := local_home_dir.plus_dir (parent)
 				if Directory.named (local_dir).is_empty then
-					medium.remove_directory (list.item)
+					medium.remove_directory (parent)
 					File_system.remove_directory (local_dir)
 					progress_listener.notify_tick
 				end
 			-- Remove empty checksums directory
-				local_dir := checksum_dir.plus_dir (list.item)
+				local_dir := checksum_dir.plus_dir (parent)
 				if Directory.named (local_dir).is_empty then
 					File_system.remove_directory (local_dir)
 				end
@@ -204,7 +204,7 @@ feature {NONE} -- Factory
 		do
 			create Result.make (item_set.count)
 			across item_set as set loop
-				Result.extend (set.item.file_path)
+				Result.extend (set.file_path)
 			end
 		end
 
@@ -215,7 +215,7 @@ feature {NONE} -- Factory
 		do
 			create current_table.make_equal (current_set.count)
 			across current_set as set loop
-				current_table.extend (set.item, set.item.digest_path)
+				current_table.extend (set, set.digest_path)
 			end
 
 			if attached new_crc_sync_dir (local_home_dir, destination_name) as checksum_dir then
@@ -224,10 +224,10 @@ feature {NONE} -- Factory
 				then
 					create Result.make_equal (crc_path_list.count)
 					across crc_path_list as path loop
-						if current_table.has_key (path.item) then
+						if current_table.has_key (path) then
 							Result.put (current_table.found_item)
 						else
-							file_path := path.item.relative_path (checksum_dir)
+							file_path := path.relative_path (checksum_dir)
 							file_path.replace_extension (extension)
 							create sync_item.make (local_home_dir, destination_name, file_path, crc_block_size)
 							Result.put (sync_item)

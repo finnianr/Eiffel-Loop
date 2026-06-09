@@ -14,9 +14,6 @@ deferred class
 
 inherit
 	TP_PATTERN
-		redefine
-			match_count
-		end
 
 feature -- Status change
 

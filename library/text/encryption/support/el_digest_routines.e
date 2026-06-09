@@ -65,11 +65,19 @@ feature -- Access
 
 	new_random_salt: SPECIAL [NATURAL_8]
 		local
-			i: INTEGER
+			i, j: INTEGER; bucket: like segments
 		do
+			create bucket.make_filled (0, 1, 1)
 			create Result.make_empty (Salt_count)
 			from i := 0 until i = Result.capacity loop
-				Result.extend (rand_byte)
+				j := i \\ 16
+				if j = 0 then
+					bucket := segments (rand_count, rand)
+					check
+						size_is_16: bucket.count = 16
+					end
+				end
+				Result.extend (bucket [j + 1])
 				i := i + 1
 			end
 		end

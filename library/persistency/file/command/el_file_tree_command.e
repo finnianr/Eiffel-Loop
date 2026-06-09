@@ -36,7 +36,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (0)
 			across new_extensions_split as extension loop
-				Result.append (File_system.files_with_extension (tree_dir, extension.item, True))
+				Result.append (File_system.files_with_extension (tree_dir, extension, True))
 			end
 		end
 

@@ -16,9 +16,6 @@ class
 
 inherit
 	TP_ZSTRING_QUOTED_STRING
-		redefine
-			unescaped_code
-		end
 
 	TP_OPTIMIZED_FOR_ZSTRING
 

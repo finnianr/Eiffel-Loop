@@ -35,8 +35,8 @@ feature {NONE} -- Initialization
 			create phrase.make
 			if attached phrase.text_list as text_list then
 				make_sized (text_list.count)
-				across text_list as list loop
-					extend (False, list.item)
+				across text_list as text loop
+					extend (False, text)
 				end
 			end
 		end
@@ -55,7 +55,7 @@ feature -- Element change
 	reset
 		do
 			across key_list as key loop
-				force (False, key.item)
+				force (False, key)
 			end
 		end
 

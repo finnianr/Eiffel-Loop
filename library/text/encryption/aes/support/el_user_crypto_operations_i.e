@@ -87,7 +87,7 @@ feature {NONE} -- Basic operations
 						encrypter.base_64_encrypted (uri), credential.salt_base_64, credential.target_base_64
 					]
 					across pyxis_text.split ('%N') as line loop
-						lio.put_line (line.item)
+						lio.put_line (line)
 					end
 					lio.put_new_line
 				else
@@ -178,7 +178,7 @@ feature {NONE} -- Implementation
 	display_plain_text (encrypted_lines: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE)
 		do
 			across encrypted_lines as line loop
-				lio.put_line (line.shared_item)
+				lio.put_line (@ line.shared_item)
 			end
 		end
 
@@ -235,7 +235,7 @@ feature {NONE} -- Implementation
 			list: EL_STRING_8_LIST
 		do
 			list := csv_list
-			Result := across list as str all str.item.count <= 16 end
+			Result := across list as str all str.count <= 16 end
 		end
 
 	valid_ftp_uri (line: ZSTRING): BOOLEAN
@@ -261,7 +261,7 @@ feature {NONE} -- Implementation
 		do
 			create out_file.make_open_write (encrypted_lines.file_path.without_extension)
 			across encrypted_lines as line loop
-				out_file.put_string (line.shared_item)
+				out_file.put_string (@ line.shared_item)
 				out_file.put_new_line
 			end
 			out_file.close
@@ -282,7 +282,7 @@ feature {NONE} -- Factory
 		do
 			prompt := "Drag and drop %S file"
 			if attached valid_extension as ext then
-				create Result.make_valid (prompt #$ [name], "Extension must be: *." + ext, agent has_extension (?, ext))
+				create Result.make_valid (prompt #$ [name], ("Extension must be: *.").plus_general (ext), agent has_extension (?, ext))
 			else
 				create Result.make (prompt #$ [name])
 			end

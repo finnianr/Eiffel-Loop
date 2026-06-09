@@ -37,6 +37,13 @@ feature -- Element change
 			getter_functions [variable_name] := agent get_context_item (object)
 		end
 
+feature -- Contract support
+
+	valid_function_args (variable_ref: EVC_VARIABLE_REFERENCE; index: INTEGER): BOOLEAN
+		do
+			Result := getter_functions.valid_function_args (variable_ref, index)
+		end
+
 feature {NONE} -- Implementation
 
 	get_context_item (a_item: ANY): ANY
@@ -53,7 +60,7 @@ feature {EVC_EIFFEL_CONTEXT} -- Factory
 			Result := getter_function_table
 			Result.compare_objects
 		ensure
-			all_targets_are_current: across Result as function all function.item.target = Current end
+			all_targets_are_current: across Result as function all function.target = Current end
 				-- if this post-condition is not met then the call `getter_action.set_target (Current)'
 				-- in `context_item' for the `function.item' will cause a segmentation fault
 		end
@@ -63,7 +70,7 @@ feature {NONE} -- Implementation
 	context_item (variable_ref: EVC_VARIABLE_REFERENCE; index: INTEGER): ANY
 			--
 		require else
-			valid_function_args: getter_functions.valid_function_args (variable_ref, index)
+			valid_function_args: valid_function_args (variable_ref, index)
 		do
 			if attached variable_ref [index] as key then
 				if getter_functions.has_key (key) then

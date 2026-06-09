@@ -21,8 +21,6 @@ inherit
 	EL_CREATEABLE_FROM_NODE_SCAN
 		rename
 			node_source as node_match_source
-		redefine
-			new_node_source
 		end
 
 	EL_NODE_CONSTANTS

@@ -81,10 +81,10 @@ feature {NONE} -- Event handling
 				result_stack.put (target)
 				target.set_node (node)
 				across target.pi_building_actions as action loop
-					if action.key ~ PI_create then
-						call_target_pi_action (action.item) -- incase target document has defined <?create <args>?>
+					if @ action.key ~ PI_create then
+						call_target_pi_action (action) -- incase target document has defined <?create <args>?>
 					else
-						building_actions [Pi_template #$ [action.key]] := agent call_target_pi_action (action.item)
+						building_actions [Pi_template #$ [@ action.key]] := agent call_target_pi_action (action)
 					end
 				end
 			end

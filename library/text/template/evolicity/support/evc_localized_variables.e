@@ -35,7 +35,7 @@ feature {NONE} -- Evolicity fields
 			translation_key_table := Evolicity_templates.new_translation_key_table
 			create Result.make_equal (translation_key_table.count)
 			across translation_key_table as variable loop
-				Result [variable.key] := agent translation (variable.item)
+				Result [@ variable.key] := agent translation (variable)
 			end
 		end
 

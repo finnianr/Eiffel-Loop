@@ -70,11 +70,18 @@ feature -- Element change
 			Result := local_scope_variable_names.count = 3
 		end
 
+feature -- Contract support
+
+	valid_iterable (a_context: EVC_CONTEXT): BOOLEAN
+		do
+			Result := attached iterable_container (a_context) as iterable and then a_context.is_valid_iterable (iterable)
+		end
+
 feature {NONE} -- Implementation
 
 	execute (a_context: EVC_CONTEXT; output: EL_OUTPUT_MEDIUM)
 		require else
-			valid_iterable: attached iterable_container (a_context) as iterable and then a_context.is_valid_iterable (iterable)
+			valid_iterable: valid_iterable (a_context)
 		local
 			loop_index: INTEGER_REF; name_space: like outer_loop_variables; cursor_index: INTEGER
 			is_valid_type, is_valid_key_type: BOOLEAN; table_cursor: detachable HASH_TABLE_ITERATION_CURSOR [ANY, HASHABLE]
@@ -85,17 +92,17 @@ feature {NONE} -- Implementation
 				create loop_index
 				put_loop_index (a_context, loop_index)
 
-				across iterable as list loop
+				across iterable as object loop
 					cursor_index := cursor_index + 1
 					if cursor_index = 1 then
-						is_valid_type := a_context.is_valid_type (list.item)
-						if attached {HASH_TABLE_ITERATION_CURSOR [ANY, HASHABLE]} list as l_cursor then
+						is_valid_type := a_context.is_valid_type (object)
+						if attached {HASH_TABLE_ITERATION_CURSOR [ANY, HASHABLE]} @ object as l_cursor then
 							table_cursor := l_cursor
 							is_valid_key_type := a_context.is_valid_type (l_cursor.key)
 						end
 					end
 					loop_index.set_item (cursor_index)
-					if attached list.item as cursor_item then
+					if attached object as cursor_item then
 						if is_valid_type then
 							put_iteration_object (a_context, cursor_item)
 						else

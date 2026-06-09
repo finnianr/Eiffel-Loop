@@ -55,7 +55,7 @@ class G_SETTINGS:
 		subprocess.run (
 			["gsettings", "set", self.key, setting, value], check=True,
 		)
-	print (f"Setting {setting} to {value}")
+		print (f"Setting {setting} to {value}")
 
 	def set_font_size (self, setting: str, size: int) -> None:
 		font_name = self.get (setting)

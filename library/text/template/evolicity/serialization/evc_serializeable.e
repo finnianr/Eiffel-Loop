@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		require else
-			template_attached: attached template
+			is_template_set: is_template_set
 		do
 			Precursor {EL_ENCODEABLE_AS_TEXT}
 			Precursor {EVC_EIFFEL_CONTEXT}
@@ -121,6 +121,11 @@ feature -- Status query
 	is_bom_enabled: BOOLEAN
 		do
 			Result := False
+		end
+
+	is_template_set: BOOLEAN
+		do
+			Result := attached template
 		end
 
 feature {NONE} -- Factory

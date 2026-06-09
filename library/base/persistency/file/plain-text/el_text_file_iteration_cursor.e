@@ -18,12 +18,15 @@ deferred class
 	EL_TEXT_FILE_ITERATION_CURSOR [S -> STRING_GENERAL]
 
 inherit
-	ITERATION_CURSOR [S]
+	EL_TARGETED_ITERATION_CURSOR [S, EL_PLAIN_TEXT_FILE]
+		rename
+			target as file
+		end
 
 feature {NONE} -- Initialization
 
-	make (a_file: EL_PLAIN_TEXT_FILE)
-		require
+	make (a_file: like file)
+		require else
 			exists: a_file.exists
 			valid_state: a_file.is_open_read or a_file.is_closed
 		do
@@ -60,7 +63,4 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Internal attributes
-
-	file: EL_PLAIN_TEXT_FILE
 end

@@ -397,11 +397,11 @@ feature {NONE} -- Implementation
 		do
 			create line_split.make_adjusted (adjusted (False), '%N', {EL_SIDE}.Both)
 			create Result.make (line_split.target.count)
-			across line_split as list loop
-				if list.cursor_index > 1 then
+			across line_split as part loop
+				if @ part.cursor_index > 1 then
 					Result.append_character (separator)
 				end
-				list.append_item_to (Result)
+				@ part.append_item_to (Result)
 			end
 		end
 

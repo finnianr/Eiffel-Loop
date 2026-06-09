@@ -57,9 +57,9 @@ feature -- Access
 					str.append (open)
 					if attached actual_attribute_list as l_attribute_list and then l_attribute_list.count > 0 then
 						str.remove_tail (1)
-						across l_attribute_list as list loop
+						across l_attribute_list as l_attribute loop
 							str.append_character (' ')
-							str.append (list.item.to_string (False))
+							str.append (l_attribute.to_string (False))
 						end
 						str.append_character ('>')
 					end

@@ -48,12 +48,10 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: bix
 		local
-			type: EL_ATTRIBUTE_TYPE_ROUTINES; item_type_id: INTEGER
-			l_xpath: STRING; field: EL_REFLECTED_FIELD
+			type: EL_ATTRIBUTE_TYPE_ROUTINES; item_type_id: INTEGER; l_xpath: STRING
 		do
 			create Result.make (object.field_table.count)
-			across object.field_table as table loop
-				field := table.item
+			across object.field_table as field loop
 				if type.attribute_id (object, field) > 0 then
 					l_xpath := Shared_super_8.character_string ('@') + field.name
 					if field.has_representation then
@@ -64,10 +62,10 @@ feature {NONE} -- Build from XML
 				elseif attached {EL_REFLECTED_TUPLE} field as tuple_field
 						and then attached tuple_field.field_name_list as name_list
 				then
-					across name_list as list loop
-						l_xpath := field.name + Attribute_path + list.item
-						item_type_id := tuple_field.member_types [list.cursor_index].type_id
-						Result [l_xpath] := agent set_tuple_item_from_node (tuple_field, list.cursor_index, item_type_id)
+					across name_list as name loop
+						l_xpath := field.name + Attribute_path + name
+						item_type_id := tuple_field.member_types [@ name.cursor_index].type_id
+						Result [l_xpath] := agent set_tuple_item_from_node (tuple_field, @ name.cursor_index, item_type_id)
 					end
 				elseif attached {EL_REFLECTED_REFERENCE [ANY]} field as ref_field
 					and then attached new_build_action (ref_field, field.name) as action

@@ -14,9 +14,6 @@ class
 
 inherit
 	TP_PATTERN
-		redefine
-			match_count
-		end
 
 create
 	make

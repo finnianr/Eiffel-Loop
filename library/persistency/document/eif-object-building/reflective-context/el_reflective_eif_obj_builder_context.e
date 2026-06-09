@@ -148,7 +148,7 @@ feature {NONE} -- Build from XML
 		-- by default xpaths select an element attribute except for field in `element_set' which
 		-- select the text within an element.
 		local
-			import_list: like importable_list; node_type, item_type_id: INTEGER; field: EL_REFLECTED_FIELD
+			import_list: like importable_list; node_type, item_type_id: INTEGER
 			l_xpath: STRING; s: EL_STRING_8_ROUTINES
 		do
 			import_list := importable_list
@@ -156,8 +156,7 @@ feature {NONE} -- Build from XML
 				import_list := import_list.query_if (agent {EL_REFLECTED_FIELD}.is_type (type.type_id))
 			end
 			create Result.make (import_list.count)
-			across import_list as list loop
-				field := list.item
+			across import_list as field loop
 				if element_set.has (field.index) then
 					node_type := Text_element_node
 				else
@@ -167,9 +166,9 @@ feature {NONE} -- Build from XML
 						and then attached tuple_field.field_name_list as name_list
 				then
 					across name_list as name loop
-						l_xpath := s.joined (tuple_field.export_name, Attribute_path) +  name.item
-						item_type_id := tuple_field.member_types [name.cursor_index].type_id
-						Result [l_xpath] := agent set_tuple_item_from_node (tuple_field, name.cursor_index, item_type_id)
+						l_xpath := s.joined (tuple_field.export_name, Attribute_path) + name
+						item_type_id := tuple_field.member_types [@ name.cursor_index].type_id
+						Result [l_xpath] := agent set_tuple_item_from_node (tuple_field, @ name.cursor_index, item_type_id)
 					end
 				elseif attached {EL_REFLECTED_REFERENCE [ANY]} field as ref_field
 					and then attached new_build_action (ref_field, node_type) as action

@@ -211,10 +211,8 @@ feature -- Factory
 		-- table of translation keys of the form "{evol.<variable-name>}" by Evolicity variable name
 		do
 			create Result.make_sized (20)
-			across Locale.translation_keys as keys loop
-				if attached keys.item as key and then key.enclosed_with (Brace_pair)
-					and then key.starts_with (Translation_key_prefix)
-				then
+			across Locale.translation_keys as key loop
+				if key.enclosed_with (Brace_pair) and then key.starts_with (Translation_key_prefix) then
 					if attached key.substring (Translation_key_prefix.count + 1, key.count - 1) as var_name then
 						Result.extend (key, var_name.to_shared_immutable_8)
 					end

@@ -15,8 +15,7 @@ class
 inherit
 	EL_DOCUMENT_NODE_SCANNER
 		redefine
-			make_default, on_meta_data, on_start_document, on_end_document,
-			on_start_tag, on_end_tag, on_content, on_comment, on_processing_instruction
+			make_default, on_meta_data
 		end
 
 create

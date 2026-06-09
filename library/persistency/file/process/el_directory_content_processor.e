@@ -79,11 +79,11 @@ feature -- Basic operations
 		do
 			count := path_list.count; remaining_count := count
 
-			across path_list as list loop
-				output_file_path := output_dir.plus_file (list.item)
+			across path_list as path loop
+				output_file_path := output_dir.plus_file (path)
 				File_system.make_directory (output_file_path.parent)
 
-				do_with_file (input_dir + list.item, output_file_path)
+				do_with_file (input_dir + path, output_file_path)
 				remaining_count := remaining_count - 1
 			end
 		end
@@ -95,8 +95,8 @@ feature {NONE} -- Implementation
 		do
 			if attached implementation.new_file_list (input_dir, wild_card) as path_list then
 				create Result.make (path_list.count)
-				across path_list as list loop
-					Result.extend (list.item.relative_path (input_dir))
+				across path_list as path loop
+					Result.extend (path.relative_path (input_dir))
 				end
 			end
 		end

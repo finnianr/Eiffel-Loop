@@ -15,7 +15,7 @@ class
 inherit
 	XML_ELEMENT
 		redefine
-			write, copy, is_equal
+			copy, is_equal
 		end
 
 	EL_LAZY_ATTRIBUTE
@@ -104,13 +104,13 @@ feature -- Element change
 
 	set_attributes_from_pairs (nvp_list: ITERABLE [READABLE_STRING_GENERAL])
 		require
-			valid_attributes: across nvp_list as attrib all attrib.item.has ('=') end
+			valid_attributes: across nvp_list as attrib all attrib.has ('=') end
 		local
 			new_list: like new_attribute_list
 		do
 			create new_list.make (Iterable.count (nvp_list))
 			across nvp_list as nvp loop
-				new_list.extend (create {XML_ELEMENT_ATTRIBUTE}.make_from_string (nvp.item))
+				new_list.extend (create {XML_ELEMENT_ATTRIBUTE}.make_from_string (nvp))
 			end
 			actual_attribute_list := new_list
 		end
@@ -154,7 +154,7 @@ feature {NONE} -- Implementation
 						if attached actual_attribute_list as l_attribute_list then
 							across l_attribute_list as attrib loop
 								str.append_character (' ')
-								str.append (attrib.item.escaped (escaper, False))
+								str.append (attrib.escaped (escaper, False))
 							end
 						end
 						str.append_substring (open, name_end_index + 1, open.count)

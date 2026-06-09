@@ -13,7 +13,7 @@ class
 	JSON_ZNAME_VALUE_LIST_ITERATION_CURSOR
 
 inherit
-	ITERATION_CURSOR [TUPLE [name, value: ZSTRING]]
+	EL_TARGETED_ITERATION_CURSOR [TUPLE [name, value: ZSTRING], JSON_ZNAME_VALUE_LIST]
 
 create
 	make
@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 
 	make (a_target: like target)
 		do
-			target:= a_target
+			target := a_target
 			if target.count > 0 then
 				cursor_index := 1
 			end
@@ -59,9 +59,5 @@ feature -- Cursor movement
 		do
 			cursor_index := cursor_index + 1
 		end
-
-feature {TYPED_INDEXABLE_ITERATION_CURSOR} -- Access
-
-	target: JSON_ZNAME_VALUE_LIST
 
 end

@@ -32,7 +32,7 @@ Text_scaling_factor = 'text-scaling-factor'
 cinnamon_windows = G_SETTINGS ( "org.cinnamon.desktop.wm.preferences")
 Window_title_font  = 'titlebar-font'
 
-setting_list = [SETTING ('2560x1440', 1.3, 14), SETTING ('1920x1080', 1.0, 12)]
+setting_list = [SETTING ('2560x1440', 1.4, 12), SETTING ('1920x1080', 1.0, 8)]
 
 def logout () -> None:
 	print("Logging out to apply changes …")
@@ -56,7 +56,7 @@ def main () -> None:
 	else:
 		target = setting_list [(i + 1) % 2]
 
-		print (f"Current resolution {setting_list [i].resolution}")
+		print (f"Current resolution on display '{screen.name}' is {setting_list [i].resolution}")
 		print (f"Switching to {target.resolution}")
 		screen.set_resolution (target.resolution)
 		

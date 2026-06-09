@@ -18,8 +18,6 @@ inherit
 	EL_APPLICATION_COMMAND_SHELL
 		export
 			{ANY} make
-		redefine
-			description
 		end
 
 	EL_USER_CRYPTO_OPERATIONS_I

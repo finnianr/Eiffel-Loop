@@ -65,7 +65,7 @@ feature {NONE} -- Initialization
 			make_default
 			create names_with_upper.make_equal (11)
 			across function_names_with_upper as upper_name loop
-				names_with_upper [upper_name.item.as_lower] := upper_name.item
+				names_with_upper [upper_name.as_lower] := upper_name
 			end
 			if attached field_table as table then
 				from table.start until table.after loop

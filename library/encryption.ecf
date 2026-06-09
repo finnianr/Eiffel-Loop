@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system name = "EL_encryption" library_target = "EL_encryption" uuid = "229b74ac-09aa-11df-87bd-ff346cce6bd1" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
+<system name = "EL_encryption" library_target = "EL_encryption" uuid = "229b74ac-09aa-11df-87bd-ff346cce6bd1" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-23-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-23-0 http://www.eiffel.com/developers/xml/configuration-1-23-0.xsd">
 	<description>
 Encryption and Hashing
 
@@ -30,9 +30,13 @@ AES FOR DUMMIES
 Extensions to Colin Le Mahieu&apos;s encryption library.
 		</description>
 		<root all_classes = "true"/>
-		<option namespace = "Eiffel-Loop.Library.Encryption" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
+		<option namespace = "Eiffel-Loop.Library.Encryption" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "warning">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
+		<capability>
+			<concurrency support="thread"/>
+			<void_safety support="none"/>
+		</capability>
 		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "uuid" location = "$ISE_LIBRARY/library/uuid/uuid.ecf"/>

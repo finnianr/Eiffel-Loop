@@ -35,8 +35,8 @@ feature -- Digests
 		do
 			crc := crc_generator
 			across Current as list loop
-				if attached {EL_STORABLE} list.item as item implies not item.is_deleted then
-					list.item.write_to (crc)
+				if attached {EL_STORABLE} list as item implies not item.is_deleted then
+					list.write_to (crc)
 				end
 			end
 			Result := crc.checksum
@@ -73,8 +73,8 @@ feature {NONE} -- Implementation
 			Result := Md5_128
 			Result.reset
 			across Current as list loop
-				if attached {EL_STORABLE} list.item as item implies not item.is_deleted then
-					list.item.write_to (Result)
+				if attached {EL_STORABLE} list as item implies not item.is_deleted then
+					list.write_to (Result)
 				end
 			end
 		end

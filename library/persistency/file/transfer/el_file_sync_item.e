@@ -132,8 +132,8 @@ feature -- Basic operations
 	remove
 		do
 			across << source_path, digest_path >> as path loop
-				if path.item.exists then
-					File_system.remove_file (path.item)
+				if path.exists then
+					File_system.remove_file (path)
 				end
 			end
 		end

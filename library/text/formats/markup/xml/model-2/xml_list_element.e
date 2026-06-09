@@ -60,12 +60,12 @@ feature {XML_LIST_ELEMENT} -- Implementation
 			if not list.is_empty then
 				indent.append_character ('%T')
 				medium.put_new_line
-				across list as l loop
-					if attached {XML_LIST_ELEMENT} l.item as list_elem then
+				across list as element loop
+					if attached {XML_LIST_ELEMENT} element as list_elem then
 						list_elem.write_indented (medium, indent)
 					else
 						medium.put_string_8 (indent)
-						l.item.write (medium)
+						element.write (medium)
 					end
 				end
 				indent.remove_tail (1)

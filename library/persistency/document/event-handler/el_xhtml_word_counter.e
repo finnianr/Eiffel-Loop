@@ -63,9 +63,9 @@ feature {NONE} -- Event handlers
 			name: EL_UTF_8_STRING
 		do
 			across attribute_list as l_attribute loop
-				name := l_attribute.item.raw_name
+				name := l_attribute.raw_name
 				if Text_attributes.has (name)  then
-					count := count + word_count (l_attribute.item.adjusted (False), True)
+					count := count + word_count (l_attribute.adjusted (False), True)
 				end
 			end
 		end

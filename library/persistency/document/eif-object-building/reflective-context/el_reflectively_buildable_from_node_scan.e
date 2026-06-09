@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_BUILDABLE_FROM_NODE_SCAN
 		undefine
-			is_equal, make_default, new_building_actions
+			is_equal, new_building_actions
 		redefine
 			make_default
 		end

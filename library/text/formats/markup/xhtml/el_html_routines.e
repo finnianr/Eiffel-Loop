@@ -108,12 +108,12 @@ feature -- Access
 	text_element_class (name, class_name: READABLE_STRING_GENERAL): XML_TEXT_ELEMENT
 		do
 			create Result.make_empty (name)
-			Result.set_attributes_from_pairs (<< "class=" + class_name >>)
+			Result.set_attributes_from_pairs (<< ("class=").plus_general (class_name) >>)
 		end
 
 	unescape_character_entities (line: ZSTRING)
 		local
-			entity_name, entity, section: ZSTRING; pos_semicolon: INTEGER
+			entity_name, entity: ZSTRING; pos_semicolon: INTEGER
 		do
 			if line.has ('&') and then line.has (';')
 				and then attached Utf_8_character_entity_table as table
@@ -121,13 +121,12 @@ feature -- Access
 			then
 				entity_name := borrowed [0].empty; entity := borrowed [1].empty
 
-				across borrowed [2].copied (line).split ('&') as split loop
-					if split.cursor_index = 1 then
+				across borrowed [2].copied (line).split ('&') as section loop
+					if @ section.cursor_index = 1 then
 						line.wipe_out
 					else
 						line.append_character ('&')
 					end
-					section := split.item
 					pos_semicolon := section.index_of (';', 1)
 					if pos_semicolon > 0 then
 						entity_name.wipe_out
@@ -173,8 +172,8 @@ feature -- Query
 		do
 			create entity.make_empty
 			across Utf_8_character_entity_table as table loop
-				set_character_entity (entity, table.utf_8_item)
-				log.put_substitution ("%S := %S", [table.key, entity])
+				set_character_entity (entity, @ table.utf_8_item)
+				log.put_substitution ("%S := %S", [@ table.key, entity])
 				log.put_new_line
 			end
 		end

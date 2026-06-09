@@ -127,13 +127,11 @@ feature -- Element change
 		require
 			valid_tuples:
 				across name_value_pair_list as tuple all
-					tuple.item.count = 2 and then attached {READABLE_STRING_GENERAL} tuple.item.reference_item (1)
+					tuple.count = 2 and then attached {READABLE_STRING_GENERAL} tuple.reference_item (1)
 				end
 		do
-			across name_value_pair_list as list loop
-				if attached list.item as pair
-					and then attached {READABLE_STRING_8} pair.reference_item (1) as variable_name
-				then
+			across name_value_pair_list as pair loop
+				if attached {READABLE_STRING_8} pair.reference_item (1) as variable_name then
 					inspect pair.item_code (2)
 						when {TUPLE}.Character_8_code then
 							put_any (variable_name, pair.character_8_item (2).out)
@@ -251,13 +249,13 @@ feature {EVC_COMPOUND_DIRECTIVE} -- Implementation
 			inspected: BOOLEAN
 		do
 			if attached {TABLE_ITERABLE [ANY, HASHABLE]} iterable as table_iterable  then
-				across table_iterable as table until inspected loop
-					Result := is_valid_type (table.item) and is_valid_type (table.key)
+				across table_iterable as object until inspected loop
+					Result := is_valid_type (object) and is_valid_type (@ object.key)
 					inspected := True
 				end
 			else
-				across iterable as list until inspected loop
-					Result := is_valid_type (list.item)
+				across iterable as object until inspected loop
+					Result := is_valid_type (object)
 					inspected := True
 				end
 			end

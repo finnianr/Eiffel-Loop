@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 			building_actions.wipe_out
 			building_actions.extend (agent set_top_level_context, root_node_xpath)
 			across target.pi_building_actions as action loop
-				building_actions.put (agent call_target_pi_action (action.item), PI_template #$ [action.key])
+				building_actions.put (agent call_target_pi_action (action), PI_template #$ [@ action.key])
 			end
 		end
 

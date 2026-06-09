@@ -50,20 +50,19 @@ feature -- Basic operations
 		-- apply file transformation `command' on each file in `input_dir' with extension in `extension_list'
 		-- placing output in `output_dir'
 		local
-			input_path, output_path: FILE_PATH
+			output_path: FILE_PATH
 			file_list: LIST [FILE_PATH]; file_updated: BOOLEAN
 		do
 			across extension_list as extension loop
-				file_list := File_system.files_with_extension (input_dir, extension.item, True)
+				file_list := File_system.files_with_extension (input_dir, extension, True)
 				if file_list.is_empty then
 					if is_lio_enabled then
-						lio.put_path_field ("No files *." + extension.item + " in %S", input_dir)
+						lio.put_path_field ("No files *." + extension + " in %S", input_dir)
 						lio.put_new_line
 					end
 				else
 					file_updated := False
-					across file_list as path loop
-						input_path := path.item
+					across file_list as input_path loop
 						output_path := output_dir + input_path.relative_path (input_dir)
 						if not output_extension.is_empty then
 							output_path.replace_extension (output_extension)
@@ -80,7 +79,7 @@ feature -- Basic operations
 						end
 					end
 					if not file_updated then
-						lio.put_substitution ("No change in any of %S %S source files", [file_list.count, extension.item])
+						lio.put_substitution ("No change in any of %S %S source files", [file_list.count, extension])
 						lio.put_new_line
 					end
 				end

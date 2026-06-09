@@ -41,7 +41,7 @@ feature -- Access
 			create list.make_comma_split (string_list)
 			create Result.make (list.count)
 			across list as name loop
-				Result.extend (tag (name.item))
+				Result.extend (tag (name))
 			end
 		end
 

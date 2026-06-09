@@ -15,15 +15,7 @@ class
 inherit
 	JSON_NAME_VALUE_LIST
 		rename
-			item_name as item_name_utf_8,
-			new_cursor as new_intervals_cursor
-		end
-
-	ITERABLE [TUPLE [name, value: ZSTRING]]
-		undefine
-			copy, is_equal, out
-		select
-			new_cursor
+			item_name as item_name_utf_8
 		end
 
 create
@@ -43,7 +35,8 @@ feature -- Access
 			end
 		end
 
-	new_cursor: JSON_ZNAME_VALUE_LIST_ITERATION_CURSOR
+	pairs: EL_ITERATION_CURSOR_FACTORY [TUPLE [name, value: ZSTRING], like Current, JSON_ZNAME_VALUE_LIST_ITERATION_CURSOR]
+		-- iterable name-value pairs
 		do
 			create Result.make (Current)
 		end

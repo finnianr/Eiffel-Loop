@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 	iterate_files (file_list: ITERABLE [FILE_PATH])
 		do
 			across file_list as file_path loop
-				do_with_file (file_path.item)
+				do_with_file (file_path)
 				Track.progress_listener.notify_tick
 			end
 		end

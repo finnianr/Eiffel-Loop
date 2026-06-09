@@ -93,7 +93,7 @@ feature -- Element change
 	set_empty_variables
 		do
 			across place_holder_table as place loop
-				place.item.keep_head (0)
+				place.keep_head (0)
 			end
 		end
 

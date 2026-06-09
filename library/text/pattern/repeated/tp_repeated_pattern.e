@@ -20,7 +20,7 @@ inherit
 		undefine
 			copy, is_equal, out
 		redefine
-			action_count, internal_call_actions, is_equal, set_debug_to_depth
+			action_count, internal_call_actions, set_debug_to_depth
 		end
 
 	EL_ARRAYED_INTERVAL_LIST

@@ -60,11 +60,11 @@ feature -- Access
 			create lines.make (3 + enclosing_elements.count * 2)
 			lines.extend (header (1.0, encoding_name))
 			across enclosing_elements as element loop
-				lines.extend (open_tag (element.item))
+				lines.extend (open_tag (element))
 			end
 			lines.extend (text)
 			across enclosing_elements.new_cursor.reversed as element loop
-				lines.extend (closed_tag (element.item))
+				lines.extend (closed_tag (element))
 			end
 			Result := lines.joined_lines
 		end
@@ -133,14 +133,12 @@ feature -- Document status
 			done: BOOLEAN
 		do
 			create tag_splitter.make (a_xml, '%N')
-			across tag_splitter as split until done or Result loop
-				if attached split.item as line then
-					if has_xmlns_attribute (line) then
-						Result := True
+			across tag_splitter as line until done or Result loop
+				if has_xmlns_attribute (line) then
+					Result := True
 
-					elseif has_element_ending (line) then
-						done := True
-					end
+				elseif has_element_ending (line) then
+					done := True
 				end
 			end
 		end

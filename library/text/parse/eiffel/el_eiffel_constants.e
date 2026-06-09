@@ -43,8 +43,8 @@ feature {NONE} -- Constants
 			manifest_text := Reserved_words
 			create Result.make (Reserved_words.occurrences (' ') + Reserved_words.occurrences ('%N') + 10)
 			across manifest_text.split ('%N') as line loop
-				across line.item.split (' ') as split loop
-					word := split.item
+				across line.split (' ') as split loop
+					word := split
 					Result.extend (word)
 					if word.item (1).is_upper then
 						Result.extend (word.as_lower)

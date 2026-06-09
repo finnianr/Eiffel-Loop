@@ -36,12 +36,12 @@ create
 
 feature {NONE} -- Initialization
 
-	make_separated (patterns: ARRAY [TP_PATTERN]; white_space: TP_WHITE_SPACE)
+	make_separated (pattern_array: ARRAY [TP_PATTERN]; white_space: TP_WHITE_SPACE)
 		-- make list of patterns separated by specified `white_space' pattern
 		do
-			make_list (patterns.count * 2 - 1)
+			make_list (pattern_array.count * 2 - 1)
 			compare_objects
-			across patterns as list loop
+			across pattern_array as pattern loop
 --				Make sure a new `white_space' instance is inserted between each pattern.
 --				This ensures that the `meets_definition' post condition for `match' will not fail unexpectedly
 				inspect list_count
@@ -52,10 +52,10 @@ feature {NONE} -- Initialization
 				else
 					extend (white_space.twin)
 				end
-				extend (list.item)
+				extend (pattern)
 			end
 		ensure
-			correct_number_inserted: list_count = patterns.count * 2 - 1
+			correct_number_inserted: list_count = pattern_array.count * 2 - 1
 		end
 
 	make (patterns: ARRAY [TP_PATTERN])
@@ -194,12 +194,10 @@ feature {NONE} -- Implementation
 	meets_definition (a_offset: INTEGER; text: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if matched pattern meets defintion of `Current' pattern
 		local
-			offset: INTEGER; sub_pattern: TP_PATTERN
-			failed: BOOLEAN
+			offset: INTEGER; failed: BOOLEAN
 		do
 			offset := a_offset
-			across Current as list until failed loop
-				sub_pattern := list.item
+			across Current as sub_pattern until failed loop
 				if sub_pattern.is_matched then
 					offset := offset + sub_pattern.count
 				else
@@ -221,13 +219,13 @@ feature {NONE} -- Implementation
 			create Result.make (list_count)
 			across Current as list until done loop
 				if curtailed then
-					Result.extend (list.item.curtailed_name)
+					Result.extend (list.curtailed_name)
 				else
-					Result.extend (list.item.name)
+					Result.extend (list.name)
 				end
 				if curtailed and then Result.character_count > 200 then
 					done := True
-					if not list.is_last then
+					if not @ list.is_last then
 						Result.extend (dot * 2)
 					end
 				end

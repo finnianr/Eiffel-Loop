@@ -53,8 +53,8 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_empty
 			across code_line.split (' ') as word until not Result.is_empty loop
-				if word.item.count > 0 and then not Class_declaration_keywords.has (word.item) then
-					Result.append (word.item)
+				if word.count > 0 and then not Class_declaration_keywords.has (word) then
+					Result.append (word)
 					if Result.has ('[') then
 						Result.keep_head (Result.index_of ('[', 1))
 						Result.right_adjust

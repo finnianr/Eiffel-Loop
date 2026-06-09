@@ -171,8 +171,8 @@ feature {NONE} -- Implementation
 	call (line: ZSTRING)
 		-- call state procedure with item
 		do
-			across substitution_list as list loop
-				line.replace_substring_all (list.key, list.value)
+			across substitution_list as substitution loop
+				line.replace_substring_all (@ substitution.key, @ substitution.value)
 			end
 			Precursor (line)
 		end

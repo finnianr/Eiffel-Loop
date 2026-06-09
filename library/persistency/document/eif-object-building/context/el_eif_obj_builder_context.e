@@ -126,17 +126,15 @@ feature {NONE} -- Implementation
 		-- /AAA/BBB[@name='x']/@name
 		do
 			if attached XPath_parser as parser then
-				across a_building_actions.key_list as key_list loop
-					parser.set_source_text (key_list.item)
+				across a_building_actions.key_list as key loop
+					parser.set_source_text (key)
 					parser.parse
 
 					if parser.path_contains_attribute_value_predicate and then
 						attached xpaths_ending_with_attribute_value_predicate (parser.step_list) as xpath_list
 					then
-						across xpath_list as list loop
-							if attached list.item as l_xpath then
-								a_building_actions.put (agent modify_xpath_to_select_element_by_attribute_value, l_xpath)
-							end
+						across xpath_list as l_xpath loop
+							a_building_actions.put (agent modify_xpath_to_select_element_by_attribute_value, l_xpath)
 						end
 					end
 				end

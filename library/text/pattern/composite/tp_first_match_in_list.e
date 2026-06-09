@@ -78,7 +78,7 @@ feature {NONE} -- Implementation
 			l_count: INTEGER
 		do
 			across Current as pattern loop
-				l_count := pattern.item.action_count
+				l_count := pattern.action_count
 				if l_count > Result then
 					Result := l_count
 				end

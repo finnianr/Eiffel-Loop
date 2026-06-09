@@ -251,11 +251,11 @@ feature {NONE} -- Implementation
 			end
 
 			Line_splitter.set_target (escaped_text)
-			across Line_splitter as list loop
+			across Line_splitter as str loop
 				if tabbed then
 					output.put_string (tab * (output_stack.count + 1))
 				end
-				put_output_string (list.item, True)
+				put_output_string (str, True)
 				output.put_new_line
 			end
 		end
@@ -274,7 +274,7 @@ feature {NONE} -- Implementation
 				if a_encoding.encoded_as_utf (8) then
 					output.put_string ({UTF_CONVERTER}.Utf_8_bom_to_string_8)
 				end
-				output.put_string (xml.header (version, a_encoding.name))
+				output.put_string (xml.header (version, a_encoding.name).to_shared_immutable_8)
 			end
 			output.put_new_line
 		end

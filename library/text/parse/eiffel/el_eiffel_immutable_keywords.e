@@ -111,7 +111,7 @@ feature {NONE} -- Keyword types
 		ensure
 			same_type:
 				across ("inspect,from,across").split (',') as word all
-					Keyword_type_table.has_key (word.item) implies Keyword_type_table.found_interval = Result
+					Keyword_type_table.has_key (word) implies Keyword_type_table.found_interval = Result
 				end
 		end
 
@@ -154,7 +154,7 @@ feature {NONE} -- Keyword types
 		ensure
 			same_type:
 				across ("indexing,feature,obsolete").split (',') as word all
-					Keyword_type_table.has_key (word.item) implies Keyword_type_table.found_interval = Result
+					Keyword_type_table.has_key (word) implies Keyword_type_table.found_interval = Result
 				end
 		end
 
@@ -167,7 +167,7 @@ feature {NONE} -- Keyword types
 		ensure
 			same_type:
 				across ("and,old,implies,not,xor").split (',') as word all
-					Keyword_type_table.has_key (word.item) implies Keyword_type_table.found_interval = Result
+					Keyword_type_table.has_key (word) implies Keyword_type_table.found_interval = Result
 				end
 		end
 

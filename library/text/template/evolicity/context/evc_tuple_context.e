@@ -37,35 +37,33 @@ feature {NONE} -- Initialization
 
 			Name_list_cache.set_new_item_target (Current)
 
-			across Name_list_cache.item (hash_code) as list loop
-				index := list.cursor_index
-				if attached list.item as name then
-					inspect tuple.item_code (index)
-						when {TUPLE}.Boolean_code then
-							put_boolean (name, tuple.boolean_item (index))
+			across Name_list_cache.item (hash_code) as name loop
+				index := @ name.cursor_index
+				inspect tuple.item_code (index)
+					when {TUPLE}.Boolean_code then
+						put_boolean (name, tuple.boolean_item (index))
 
-						when {TUPLE}.Real_64_code then
-							put_double (name, tuple.real_64_item (index))
+					when {TUPLE}.Real_64_code then
+						put_double (name, tuple.real_64_item (index))
 
-						when {TUPLE}.Integer_32_code then
-							put_integer (name, tuple.integer_32_item (index))
+					when {TUPLE}.Integer_32_code then
+						put_integer (name, tuple.integer_32_item (index))
 
-						when {TUPLE}.Natural_32_code then
-							put_natural (name, tuple.natural_32_item (index))
+					when {TUPLE}.Natural_32_code then
+						put_natural (name, tuple.natural_32_item (index))
 
-						when {TUPLE}.Real_32_code then
-							put_real (name, tuple.real_32_item (index))
+					when {TUPLE}.Real_32_code then
+						put_real (name, tuple.real_32_item (index))
 
-						when {TUPLE}.Reference_code then
-							if attached tuple.reference_item (index) as ref then
-								if attached {READABLE_STRING_GENERAL} ref as general then
-									put_string (name, general)
-								else
-									put_any (name, ref)
-								end
+					when {TUPLE}.Reference_code then
+						if attached tuple.reference_item (index) as ref then
+							if attached {READABLE_STRING_GENERAL} ref as general then
+								put_string (name, general)
+							else
+								put_any (name, ref)
 							end
-					else
-					end
+						end
+				else
 				end
 			end
 		end

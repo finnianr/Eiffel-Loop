@@ -41,14 +41,12 @@ feature {NONE} -- Implementation
 				and then attached borrowed [0].empty as buffer
 				and then attached borrowed [1].empty as field_string
 			then
-				across current_reflective.field_list as list loop
+				across current_reflective.field_list as field loop
 					buffer.wipe_out; field_string.wipe_out
-					if attached list.item as field then
-						XML.append_open_tag (buffer, field.export_name)
-						field.append_to_string (current_reflective, field_string)
-						Xml_escaper.escape_into (field_string, buffer)
-						XML.append_close_tag (buffer, field.export_name)
-					end
+					XML.append_open_tag (buffer, field.export_name)
+					field.append_to_string (current_reflective, field_string)
+					Xml_escaper.escape_into (field_string, buffer)
+					XML.append_close_tag (buffer, field.export_name)
 					Result.extend (buffer.twin)
 				end
 				String_pool.return (borrowed)

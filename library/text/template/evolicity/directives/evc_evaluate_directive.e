@@ -69,7 +69,7 @@ feature -- Basic operations
 							if not tabs.is_empty then
 								output.put_encoded_string_8 (tabs)
 							end
-							output.put_string (line.item)
+							output.put_string (line)
 							output.put_new_line
 						end
 						medium.close

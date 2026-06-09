@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 			header := XML.header (1.0, "UTF-8").to_string_8
 			root_open := XML.open_tag (Root_name); root_closed := XML.closed_tag (Root_name)
 			across << header, root_open, root_closed, a_body  >> as string loop
-				count := count + string.item.count + 1
+				count := count + string.count + 1
 			end
 			create source.make (count + a_body.count // 100)
 			source.append (header)

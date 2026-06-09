@@ -132,7 +132,7 @@ feature {NONE} -- Implementation
 				Result := info.new_tuple_argument
 				if attached info.argument_types as argument_types then
 					across arguments as arg loop
-						type := argument_types [arg.cursor_index]; value := arg.item
+						type := argument_types [@ arg.cursor_index]; value := arg
 						if attached {EVC_VARIABLE_REFERENCE} value as variable
 							and then attached context.referenced_item (variable) as target_value
 						then
@@ -142,13 +142,13 @@ feature {NONE} -- Implementation
 							value_type_id := 0
 						end
 						if value_type_id = type.type_id then
-							Result.put (value, arg.cursor_index)
+							Result.put (value, @ arg.cursor_index)
 
 						elseif type.is_expanded and then same_abstract_types (type.type_id, value_type_id) then
-							Tuple.set_i_th_as_expanded (Result, arg.cursor_index, value)
+							Tuple.set_i_th_as_expanded (Result, @ arg.cursor_index, value)
 
 						elseif attached {READABLE_STRING_GENERAL} value as general then
-							Result.put (Convert_string.to_type (general, type), arg.cursor_index)
+							Result.put (Convert_string.to_type (general, type), @ arg.cursor_index)
 						end
 					end
 				end

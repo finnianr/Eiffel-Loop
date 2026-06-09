@@ -62,21 +62,21 @@ feature -- Access
 			then
 				str := big_borrowed.empty; value := borrowed.empty
 				str.append (JSON.open_bracket)
-				across field_table as table loop
-					if not table.is_first then
+				across field_table as field loop
+					if not @ field.is_first then
 						str.append (JSON.comma_new_line)
 					end
 					str.append (JSON.before_name)
-					str.append_string_general (table.item.export_name)
+					str.append_string_general (field.export_name)
 					str.append (JSON.after_name)
-					if is_field_text (table.item) then
+					if is_field_text (field) then
 						value.wipe_out
-						table.item.append_to_string (current_reflective, value)
+						field.append_to_string (current_reflective, value)
 						value.escape (Escaper)
 
 						str.append_character ('"') ;str.append (value);  str.append_character ('"')
 					else
-						table.item.append_to_string (current_reflective, str)
+						field.append_to_string (current_reflective, str)
 					end
 				end
 				str.append (JSON.close_bracket)
@@ -138,14 +138,14 @@ feature {NONE} -- Implementation
 			create splitter.make (utf_8_json, '%N')
 			across splitter as split loop
 				found := False
-				from i := split.item_lower until found or else i > split.item_upper loop
+				from i := @ split.item_lower until found or else i > @ split.item_upper loop
 					if utf_8_json [i] = '"' then
 						found := True
 					else
 						i := i + 1
 					end
 				end
-				if found and i + 1 <= split.item_upper then
+				if found and i + 1 <= @ split.item_upper then
 					Result.extend (i + 1)
 				end
 			end

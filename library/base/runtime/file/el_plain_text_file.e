@@ -168,7 +168,7 @@ feature -- Access
 			end
 		end
 
-	lines: EL_ITERABLE_TEXT_FILE
+	lines: EL_ITERATION_CURSOR_FACTORY [STRING_8, like Current, EL_TEXT_FILE_LINE_CURSOR]
 		-- iterable line source conforming to `ITERABLE [STRING_8]'
 		do
 			create Result.make (Current)

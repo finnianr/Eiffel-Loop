@@ -107,12 +107,12 @@ feature -- Status query
 
 	is_class_definition_start (line: ZSTRING): BOOLEAN
 		require
-			valid_first_letters: across Class_declaration_keywords as list all
-											is_first_letter_class_declaration (list.item.item_8 (1))
+			valid_first_letters: across Class_declaration_keywords as declaration_keyword all
+											is_first_letter_class_declaration (declaration_keyword.item_8 (1))
 										end
 		do
 			if line.count > 0 and then is_first_letter_class_declaration (line.item_8 (1)) then
-				Result := across Class_declaration_keywords as list some line.starts_with (list.item) end
+				Result := across Class_declaration_keywords as declaration_keyword some line.starts_with (declaration_keyword) end
 			end
 		end
 

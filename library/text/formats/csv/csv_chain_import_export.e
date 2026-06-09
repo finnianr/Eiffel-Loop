@@ -41,14 +41,14 @@ feature -- Basic operations
 			create file.make_open_write (a_file_path)
 			file.set_encoding (a_encoding)
 			create line.make (100)
-			across Current as list loop
-				if attached list.item as item implies not item.is_deleted then
+			across Current as item loop
+				if not item.is_deleted then
 					if file.position = 0 then
-						file.put_string_8 (s.joined_list (list.item.field_list.name_list, ','))
+						file.put_string_8 (s.joined_list (item.field_list.name_list, ','))
 						file.put_new_line
 					end
 					line.wipe_out
-					csv.put_comma_separated_values (list.item, line)
+					csv.put_comma_separated_values (item, line)
 					file.put_line (line)
 				end
 			end

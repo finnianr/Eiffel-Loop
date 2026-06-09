@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"; uuid = "8CF52022-42D4-11EB-9FC4-63D6C0F837E1"
+	configuration_ns = "1-23-0"; uuid = "8CF52022-42D4-11EB-9FC4-63D6C0F837E1"
 	name = EL_doc_scan; library_target = EL_doc_scan
 	description:
 		"""
@@ -32,9 +32,12 @@ system:
 		option:
 			namespace = "Eiffel-Loop.Library.node-tree-scan"
 			syntax = standard; full_class_checking = false; void_safety = none
-			trace = false; debug = false; warning = true
+			trace = false; debug = false; warning = warning
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
+		capability:
+			concurrency:
+				support = thread; use = thread
 
 		# ISE libraries
 		libraries:

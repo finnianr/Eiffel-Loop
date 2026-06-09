@@ -16,9 +16,6 @@ class
 
 inherit
 	TP_RSTRING_QUOTED_STRING
-		redefine
-			unescaped_code
-		end
 
 	TP_EIFFEL_FACTORY
 		rename
