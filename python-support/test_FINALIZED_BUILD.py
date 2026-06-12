@@ -17,23 +17,22 @@ project.set_build_environment (project_py)
 project_py.print_environ ()
 
 config = EIFFEL_CONFIG_FILE (project_py.ecf)
+
 config.set_export_paths ()
 
 build = FINALIZED_BUILD (config, project_py)
 
-# config.print_export_path_dict ('var_names')
+config.print_export_path_dict ('var_names')
 var_names = {
 	'CAIRO_LIB' : 'Cairo-1.12.16',
-	'CPP_TAGLIB' : 'taglib-1.11.1',
 	'C_EXPAT' : 'Expat',
-	'C_GTK_INIT' :  'gtk-init',
+	'C_GTK_INIT' : 'gtk-init',
 	'C_IMAGE_UTILS' : 'image-utils',
 	'C_LIB_CURL' : 'cURL',
 	'C_NET_ADAPTOR' : 'network-adapter',
 	'C_VTD2EIFFEL' : 'vtd2eiffel',
 	'C_VTD_XML' : 'VTD-XML-2.7',
 	'C_ZLIB' : 'zlib',
-	'LIB_CURL' : 'cURL',
 	'LIB_VISION2' : 'vision2',
 	'VISION2_IMP' : 'implementation'
 }

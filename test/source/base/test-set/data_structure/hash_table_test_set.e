@@ -129,30 +129,26 @@ feature -- General tests
 			create word_table.make_equal (500)
 
 			across Hexagram.English_titles as title loop
-				across title.item.split (' ') as split loop
-					if attached split.item as word then
-						word_table.put (word, word)
-					end
+				across title.split (' ') as word loop
+					word_table.put (word, word)
 				end
 			end
-			across word_table.key_list as list loop
-				if attached list.item as word then
-					if word.count <= 4 then
-						word_table.remove (word)
-					end
+			across word_table.key_list as word loop
+				if word.count <= 4 then
+					word_table.remove (word)
 				end
 			end
 			word_list := word_table.key_list
 			word_list.start
-			across word_table as table until word_list.after loop
-				assert ("same index", word_list.index = table.cursor_index)
-				assert_same_string (Void, word_list.item, table.item)
+			across word_table as word until word_list.after loop
+				assert ("same index", word_list.index = @ word.cursor_index)
+				assert_same_string (Void, word_list.item, word)
 				word_list.forth
 			end
 			word_list.finish
-			across word_table.new_cursor.reversed as table until word_list.before loop
-				assert ("same index", word_table.count - word_list.index + 1 = table.cursor_index)
-				assert_same_string (Void, word_list.item, table.item)
+			across word_table.new_cursor.reversed as word until word_list.before loop
+				assert ("same index", word_table.count - word_list.index + 1 = @ word.cursor_index)
+				assert_same_string (Void, word_list.item, word)
 				word_list.back
 			end
 		end
@@ -228,11 +224,11 @@ feature -- General tests
 			name_table.sort_by_key (True)
 			assert ("same iteration item", name_table.item_for_iteration = 8)
 
-			across name_table as table loop
-				number := table.item; i := table.cursor_index
-				hanzi := table.key
-				assert ("same hanzi by table cursor index", hanzi ~ name_list [i])
-				assert ("same hanzi by table key", hanzi ~ names.i_th_hanzi_characters (number))
+			across name_table as name loop
+				number := name; i := @ name.cursor_index
+				hanzi := @ name.key
+				assert ("same hanzi by name cursor index", hanzi ~ name_list [i])
+				assert ("same hanzi by name key", hanzi ~ names.i_th_hanzi_characters (number))
 			end
 
 			from i := 1 until i > 64 loop
@@ -241,8 +237,8 @@ feature -- General tests
 				i := i + 1
 			end
 			name_table.ascending_sort
-			across name_table as table loop
-				assert ("item same as cursor index", table.cursor_index = table.item)
+			across name_table as name loop
+				assert ("item same as cursor index", @ name.cursor_index = name)
 			end
 
 			-- Test with deletions
@@ -261,9 +257,9 @@ feature -- General tests
 			assert ("same iteration item", name_table.item_for_iteration = 8)
 
 			assert ("same count", name_list.count = name_table.count)
-			across name_table as table loop
-				number := table.item; i := table.cursor_index
-				hanzi := table.key
+			across name_table as name loop
+				number := name; i := @ name.cursor_index
+				hanzi := @ name.key
 				assert ("same hanzi by table cursor index", hanzi ~ name_list [i])
 			end
 		end
@@ -286,9 +282,9 @@ feature -- General tests
 			if attached Text.lines_8 as string_8_lines then
 				create word_count_table.make_from_keys (string_8_lines, agent {STRING}.count, False)
 				across string_8_lines as line loop
-					if word_count_table.has_key (line.item) then
-						assert ("same count", word_count_table.found_item = line.item.count)
-						total_count := total_count + line.item.count
+					if word_count_table.has_key (line) then
+						assert ("same count", word_count_table.found_item = line.count)
+						total_count := total_count + line.count
 					else
 						failed ("has line")
 					end
@@ -327,15 +323,15 @@ feature -- General tests
 					source_table.extend (n_64 * n_64, n)
 				end
 				create sparse_table.make (source_table)
-				across -25 |..| 25 as list loop
-					n := list.item.to_integer_16 * multiplier
+				across -25 |..| 25 as int_32 loop
+					n := int_32.to_integer_16 * multiplier
 					n_64 := n.to_integer_64
 					assert ("same square", source_table [n] = sparse_table [n])
-					if list.is_first then
+					if @ int_32.is_first then
 						assert ("valid first key", sparse_table.key_list.first = n)
 						assert ("valid first item", sparse_table.item_list.first = n_64 * n_64)
 					end
-					if list.is_last then
+					if @ int_32.is_last then
 						assert ("valid last key", sparse_table.key_list.last = n)
 						assert ("valid last item", sparse_table.item_list.last = n_64 * n_64)
 					end
@@ -348,12 +344,12 @@ feature -- General tests
 						table.forth
 					end
 				end
-				across sparse_table as table loop
-					assert ("same item", source_table [table.key] = table.item)
+				across sparse_table as int_64 loop
+					assert ("same item", source_table [@ int_64.key] = int_64)
 				end
 				if sparse_table.is_array_indexed and then attached sparse_table.to_sparse_array as array then
-					across source_table as table loop
-						assert ("same item", array [table.key.to_integer_32] = table.item)
+					across source_table as int_64 loop
+						assert ("same item", array [@ int_64.key.to_integer_32] = int_64)
 					end
 				end
 			end
@@ -363,21 +359,18 @@ feature -- General tests
 		-- HASH_TABLE_TEST_SET.test_string_general_table
 		local
 			key_list, search_key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
-			table: EL_STRING_GENERAL_TABLE [INTEGER]; key: READABLE_STRING_GENERAL
+			table: EL_STRING_GENERAL_TABLE [INTEGER]
 		do
 			create table.make (3)
 			across Currency_name_manifest.split ('%N') as line loop
-				across new_string_type_list (line.item) as key_type loop
-					key := key_type.item
+				across new_string_type_list (line) as key loop
 					table.wipe_out
 					table.extend (key.count, key)
-					across new_string_type_list (key) as list loop
-						if attached list.item as search_key then
-							if table.has_key (search_key) then
-								assert ("same count", table.found_item = search_key.count)
-							else
-								failed ("key not found")
-							end
+					across new_string_type_list (key) as search_key loop
+						if table.has_key (search_key) then
+							assert ("same count", table.found_item = search_key.count)
+						else
+							failed ("key not found")
 						end
 					end
 				end
@@ -410,8 +403,8 @@ feature -- General tests
 			standard_object_count, immutable_object_count: INTEGER
 		do
 			create standard_table.make_equal (Feature_expansion_table.count)
-			across Feature_expansion_table as table loop
-				standard_table.extend (table.item, table.key)
+			across Feature_expansion_table as expansion loop
+				standard_table.extend (expansion, @ expansion.key)
 			end
 			item_count := Feature_expansion_table.count
 			table_object_count := 5; objects_per_string := 2; objects_per_immutable := 1
@@ -438,13 +431,13 @@ feature -- General tests
 		do
 			manifest := Currency_manifest
 			currency_table := Currency_manifest
-			across currency_table as table loop
-				if attached table.item.split ('%N') as item_lines then
-					lio.put_labeled_lines (table.key, item_lines)
-					assert ("found in manifest", manifest.has_substring (table.key + char (':').as_string_8 (1)))
+			across currency_table as currency loop
+				if attached currency.split ('%N') as item_lines then
+					lio.put_labeled_lines (@ currency.key, item_lines)
+					assert ("found in manifest", manifest.has_substring (@ currency.key + char (':').as_string_8 (1)))
 					assert ("at least one line", item_lines.count > 0)
 					across item_lines as line loop
-						assert ("found in manifest", manifest.has_substring (Tab + line.item))
+						assert ("found in manifest", manifest.has_substring (Tab + line))
 					end
 				end
 			end
@@ -488,8 +481,8 @@ feature -- Immutable string table tests
 			end
 			create code_table.make (manifest)
 			across error_table.key_list as key loop
-				if error_table.has_immutable_key (key.item) then
-					code := key.item.to_string_8.to_integer_64
+				if error_table.has_immutable_key (key) then
+					code := key.to_string_8.to_integer_64
 					assert_same_string ("same item", error_table.found_item_unindented, code_table [code])
 				else
 					failed ("has key")
@@ -511,21 +504,19 @@ feature -- Immutable string table tests
 			symbol: STRING_32
 		do
 			create currency_name_table.make_assignments (Currency_name_manifest)
-			across Currency_name_manifest.split ('%N') as split loop
-				if attached split.item as line then
-					symbol := line.substring (1, 1)
-					create key_list.make_from_array (<<
-						symbol, create {IMMUTABLE_STRING_32}.make_from_string_32 (symbol), as_zstring (symbol)
-					>>)
-					if symbol.is_valid_as_string_8 then
-						key_list.extend (symbol.to_string_8)
-					end
-					across key_list as key loop
-						if currency_name_table.has_key_general (key.item) then
-							assert ("name matches", line.ends_with (currency_name_table.found_item))
-						else
-							failed (symbol + " name not found")
-						end
+			across Currency_name_manifest.split ('%N') as line loop
+				symbol := line.substring (1, 1)
+				create key_list.make_from_array (<<
+					symbol, create {IMMUTABLE_STRING_32}.make_from_string_32 (symbol), as_zstring (symbol)
+				>>)
+				if symbol.is_valid_as_string_8 then
+					key_list.extend (symbol.to_string_8)
+				end
+				across key_list as key loop
+					if currency_name_table.has_key_general (key) then
+						assert ("name matches", line.ends_with (currency_name_table.found_item))
+					else
+						failed (symbol + " name not found")
 					end
 				end
 			end
@@ -544,18 +535,20 @@ feature -- Immutable string table tests
 			key_array: ARRAY [READABLE_STRING_GENERAL]
 		do
 			create assigment_manifest.make (Feature_expansion_table.count)
-			across Feature_expansion_table as table loop
-				assigment_manifest.extend (table.key + " := " + table.item)
+			across Feature_expansion_table as expansion loop
+				assigment_manifest.extend (@ expansion.key + " := " + expansion)
 			end
 			create feature_expansion_table_2.make_assignments (assigment_manifest.joined_lines)
 			if Feature_expansion_table.count = feature_expansion_table_2.count then
-				across Feature_expansion_table as table loop
-					key_array := << table.key, table.key.to_string_8, table.key.to_string_32, as_zstring (table.key) >>
-					across key_array as key loop
-						if feature_expansion_table_2.has_key_general (key.item) then
-							assert ("same item value", table.item ~ feature_expansion_table_2.found_item)
-						else
-							failed ("missing key " + table.key)
+				across Feature_expansion_table as expansion loop
+					if attached @ expansion.key as expansion_code then
+						key_array := << expansion_code, expansion_code.to_string_8, expansion_code.to_string_32, as_zstring (expansion_code) >>
+						across key_array as key loop
+							if feature_expansion_table_2.has_key_general (key) then
+								assert ("same expansion string", expansion ~ feature_expansion_table_2.found_item)
+							else
+								failed ("missing code " + expansion_code)
+							end
 						end
 					end
 				end
@@ -585,15 +578,14 @@ feature -- Immutable string table tests
 		local
 			table_utf_8, currency_table_utf_8_reversed, currency_table_utf_8: EL_IMMUTABLE_UTF_8_TABLE
 			zstring_table: EL_ZSTRING_TABLE; currency_table: EL_IMMUTABLE_STRING_32_TABLE
-			value, euro_symbol, line: ZSTRING; euro_name: STRING
+			euro_symbol, line: ZSTRING; euro_name: STRING
 			key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
 		do
 			create table_utf_8.make ({EL_TABLE_FORMAT}.Indented_eiffel, Currency_manifest)
 
 			zstring_table := Currency_manifest
-			across zstring_table as table loop
-				if table_utf_8.has_key_general (table.key) then
-					value := table.item
+			across zstring_table as value loop
+				if table_utf_8.has_key_general (@ value.key) then
 					assert ("equal values", value ~ table_utf_8.found_item)
 				else
 					failed ("has immutable key")
@@ -626,7 +618,7 @@ feature -- Immutable string table tests
 							end
 						end
 						across key_list as key loop
-							if currency_table_utf_8_reversed.has_key_general (key.item) then
+							if currency_table_utf_8_reversed.has_key_general (key) then
 								assert_same_string (Void, table.zkey_for_iteration, currency_table_utf_8_reversed.found_item)
 							else
 								failed ("reverse lookup succeeded")

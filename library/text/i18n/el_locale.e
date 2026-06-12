@@ -184,7 +184,7 @@ feature -- Status query
 	has_all_keys (key_list: ITERABLE [READABLE_STRING_GENERAL]): BOOLEAN
 		do
 			restrict_access
-				Result := across key_list as key all translation_table.has_general (key.item) end
+				Result := across key_list as key all translation_table.has_general (key) end
 			end_restriction
 		end
 
@@ -226,7 +226,7 @@ feature -- Status query
 			restrict_access
 				quantity_range := quantity_lower |..| quantity_upper
 				Result := across key_list as key all
-					across quantity_range as n all translation_table.has (z_key_for (key.item, n.item)) end
+					across quantity_range as n all translation_table.has (z_key_for (key, n)) end
 				end
 			end_restriction
 		end

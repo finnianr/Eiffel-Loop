@@ -44,9 +44,9 @@ feature -- Access
 			b: EL_BIT_ROUTINES
 		do
 			create Result.make (50)
-			across Current as table loop
-				if b.ones_count_32 (table.item) > 1 then
-					Result.extend (table.key, new_port_name_list (table.item).joined_with_string (", "))
+			across Current as bitmap loop
+				if b.ones_count_32 (bitmap) > 1 then
+					Result.extend (@ bitmap.key, new_port_name_list (bitmap).joined_with_string (", "))
 				end
 			end
 		end

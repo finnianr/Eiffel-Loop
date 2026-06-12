@@ -68,8 +68,8 @@ feature -- Access
 			if is_html_response then
 				create bracket_split.make (last_string, '>')
 				across bracket_split as split until Result > 0 loop
-					if last_string [split.item_lower].is_digit
-						and then attached sg.super_8 (split.item).substring_to (' ') as code_string
+					if last_string [@ split.item_lower].is_digit
+						and then attached sg.super_8 (split).substring_to (' ') as code_string
 					then
 						Result := code_string.to_integer_16
 					end

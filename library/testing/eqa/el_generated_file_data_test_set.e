@@ -32,7 +32,7 @@ feature {NONE} -- Event handling
 			dir_set := new_dir_set (False)
 			File_system.make_parents (file_set)
 			across file_set as path loop
-				write_file (path.item)
+				write_file (path)
 			end
 		end
 
@@ -50,7 +50,7 @@ feature {NONE} -- Implementation
 			create Result.make_equal ((file_set.count // 2).min (3))
 			Result.put (root_dir)
 			across new_file_set (is_absolute) as path loop
-				from dir_path := path.item.parent until Result.has (dir_path) loop
+				from dir_path := path.parent until Result.has (dir_path) loop
 					Result.put (dir_path)
 					dir_path := dir_path.parent
 				end
@@ -64,11 +64,11 @@ feature {NONE} -- Implementation
 		do
 			create path_list.make_with_lines (file_path_list)
 			create Result.make_equal (path_list.count)
-			across path_list as list loop
+			across path_list as path loop
 				if is_absolute then
-					Result.put (Work_area_absolute_dir + list.item)
+					Result.put (Work_area_absolute_dir + path)
 				else
-					Result.put (Work_area_dir + list.item)
+					Result.put (Work_area_dir + path)
 				end
 			end
 		end
@@ -76,7 +76,7 @@ feature {NONE} -- Implementation
 	total_file_size: INTEGER
 		do
 			across file_set as path loop
-				Result := Result + File.byte_count (path.item)
+				Result := Result + File.byte_count (path)
 			end
 		end
 

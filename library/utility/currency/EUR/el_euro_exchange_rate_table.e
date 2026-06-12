@@ -40,8 +40,8 @@ feature {NONE} -- Implementation
 		-- delete older files leaving 5 newest
 		do
 			across cached_dates as l_date loop
-				if l_date.cursor_index > 5 then
-					File_system.remove_file (rates_file_path (l_date.item))
+				if @ l_date.cursor_index > 5 then
+					File_system.remove_file (rates_file_path (l_date))
 				end
 			end
 		end
@@ -80,9 +80,9 @@ feature {NONE} -- Implementation
 			if xml.has_substring (Closing_tag) then
 				create xdoc.make_from_string (xml)
 				across xdoc.context_list ("//Cube[boolean(@currency)]") as rate loop
-					code_name := rate.node [Name_currency]
+					code_name := @ rate.node [Name_currency]
 					if Currency_enum.has_name (code_name) then
-						extend (rate.node [Name_rate], Currency_enum.found_value)
+						extend (@ rate.node [Name_rate], Currency_enum.found_value)
 					end
 				end
 			end

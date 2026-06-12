@@ -47,7 +47,7 @@ feature -- Tests
 			index, start_index, end_index: INTEGER
 		do
 			across Text.lines_32 as line loop
-				test := new_test (line.item)
+				test := new_test (line)
 				if attached test.word_intervals as list then
 					from list.start until list.is_empty loop
 						start_index := list.item_lower; end_index := list.last_upper
@@ -127,7 +127,7 @@ feature -- Tests
 			index, start_index, end_index: INTEGER
 		do
 			across Text.lines_32 as line loop
-				test := new_test (line.item)
+				test := new_test (line)
 				if attached test.word_intervals as list then
 					from list.start until list.is_empty loop
 						list.start
@@ -154,18 +154,15 @@ feature {NONE} -- Implementation
 		do
 			across Text.lines_32 as line loop
 				if is_case_insenstive then
-					test := new_caseless_test (line.item)
+					test := new_caseless_test (line)
 				else
-					test := new_test (line.item)
+					test := new_test (line)
 				end
-				across test.all_word_interval_permutations as permutation loop
-					if attached permutation.item as list then
-						from list.start until list.after loop
-							start_index := list.item_lower; end_index := list.item_upper
-							test.set_substrings (start_index, end_index)
-							assert (assertion_OK, test.same_characters (start_index))
-							list.forth
-						end
+				across test.all_word_interval_permutations as permutation_list loop
+					across permutation_list as permutation loop
+						start_index := @ permutation.item_lower; end_index := @ permutation.item_upper
+						test.set_substrings (start_index, end_index)
+						assert (assertion_OK, test.same_characters (start_index))
 					end
 				end
 			end

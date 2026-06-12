@@ -39,17 +39,17 @@ feature -- Tests
 		do
 			if {PLATFORM}.is_unix then
 			-- check builtin popcount equal to partially precomputed
-				across << 32, 64 >> as bit_count loop
-					across Bit_count_table as table loop
-						inspect bit_count.item
+				across << 32, 64 >> as integer_bit_size loop
+					across Bit_count_table as bit_count loop
+						inspect integer_bit_size
 							when 32 then
-								n := l_bit.ones_count_32 (table.item) -- on gcc: __builtin_popcount
-								precomputed_n := pop.precomputed_ones_count_32 (table.item)
+								n := l_bit.ones_count_32 (bit_count) -- on gcc: __builtin_popcount
+								precomputed_n := pop.precomputed_ones_count_32 (bit_count)
 							when 64 then
-								n := l_bit.ones_count_64 (table.item.to_natural_64) -- on gcc: __builtin_popcountll
-								precomputed_n := pop.precomputed_ones_count_64 (table.item.to_natural_64)
+								n := l_bit.ones_count_64 (bit_count.to_natural_64) -- on gcc: __builtin_popcountll
+								precomputed_n := pop.precomputed_ones_count_64 (bit_count.to_natural_64)
 						end
-						assert ("ones count is " + table.key.out, n = table.key)
+						assert ("ones count is " + @ bit_count.key.out, n = @ bit_count.key)
 						assert ("same as precomputed", n = precomputed_n)
 					end
 				end
@@ -60,15 +60,15 @@ feature -- Tests
 				assert ("same for > zero", i > 0 implies l_bit.zero_or_one (i) = 1 )
 				i := i + 1
 			end
-			across << 32, 64 >> as bit_count loop
-				lio.put_integer_field ("NATURAL", bit_count.item)
+			across << 32, 64 >> as integer_bit_size loop
+				lio.put_integer_field ("NATURAL", integer_bit_size)
 				lio.put_new_line
-				leading_zeros := bit_count.item - 1
+				leading_zeros := integer_bit_size - 1
 				trailing_zeros := 0
 				from mask := 1 until mask > 0xF loop
 					lio.put_labeled_string ("mask", mask.to_hex_string)
 					lio.put_new_line
-					inspect bit_count.item
+					inspect integer_bit_size
 						when 32 then
 							leading_result := l_bit.leading_zeros_count_32 (mask)
 							trailing_result := l_bit.trailing_zeros_count_32 (mask)

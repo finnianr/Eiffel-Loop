@@ -67,16 +67,14 @@ feature {NONE} -- Implementation
 			create Result.make (benchmark_types.count)
 			create sortable_list.make (benchmark_types.count)
 			across benchmark_types as type loop
-				if attached factory.new_item_from_type (type.item) as benchmark then
+				if attached factory.new_item_from_type (type) as benchmark then
 					benchmark.make (trial_duration)
 					sortable_list.extend (benchmark)
 				end
 			end
 			sortable_list.order_by (agent {EL_BENCHMARK_COMPARISON}.description, True)
-			across sortable_list as list loop
-				if attached list.item as benchmark then
-					Result [as_zstring (benchmark.description)] := agent benchmark.execute
-				end
+			across sortable_list as benchmark loop
+				Result [as_zstring (benchmark.description)] := agent benchmark.execute
 			end
 		end
 

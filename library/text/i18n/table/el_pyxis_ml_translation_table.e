@@ -41,7 +41,7 @@ inherit
 		undefine
 			is_equal, copy, default_create
 		redefine
-			building_action_table, make_default
+			make_default
 		end
 
 	EL_STRING_8_CONSTANTS
@@ -68,7 +68,7 @@ feature {NONE} -- Build from XML
 				[translation_text_xpath (Empty_string_8), agent do put (last_language, node, last_id) end]
 			>>)
 			across Quantifier_names as name loop
-				Result [translation_text_xpath ("/" + name.item)] := agent extend_table_from_quantifier_node
+				Result [translation_text_xpath ("/" + name)] := agent extend_table_from_quantifier_node
 			end
 		end
 

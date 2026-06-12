@@ -112,8 +112,8 @@ feature {NONE} -- Implementation
 				Result.wipe_out
 				create name_split.make (name, ' ')
 				across name_split as split loop
-					if split.item_count > 0 then
-						Agent_word_set.put_copy (split.item)
+					if @ split.item_count > 0 then
+						Agent_word_set.put_copy (split)
 						if attached Agent_word_set.found_item as part
 							and then not part [1].is_digit and then not Excluded_agents_words.has (part)
 						then

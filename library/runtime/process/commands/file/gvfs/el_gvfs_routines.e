@@ -26,8 +26,8 @@ feature {NONE} -- Implementation
 			lio.put_line ("MOUNTED VOLUMES")
 			lio.tab_right
 			lio.put_new_line
-			across new_uri_table as table loop
-				lio.put_labeled_string (table.key, table.item)
+			across new_uri_table as new_uri loop
+				lio.put_labeled_string (@ new_uri.key, new_uri)
 				lio.put_new_line
 			end
 			lio.tab_left

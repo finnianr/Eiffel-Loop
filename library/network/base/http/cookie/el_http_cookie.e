@@ -130,9 +130,9 @@ feature -- Conversion
 				if not string.is_empty then
 					string.append (once "; ")
 				end
-				string.append (term.key)
+				string.append (@ term.key)
 				string.append_character ('=')
-				string.append (term.item)
+				string.append (term)
 			end
 			if secure then
 				string.append ("; secure")

@@ -50,8 +50,8 @@ feature -- Tests
 			Tuple.fill_immutable (name, "one, two, three")
 			create name_list.make_from_tuple (name)
 			assert ("same count", name_list.count = name.count)
-			across name_list as list loop
-				if attached Character_area_8.get_area (list.item) as item_area then
+			across name_list as l_name loop
+				if attached Character_area_8.get_area (l_name) as item_area then
 					if attached shared_area as area then
 						assert ("same area", area = item_area)
 					else
@@ -61,11 +61,11 @@ feature -- Tests
 			end
 
 			create value_table.make (3)
-			across << name.one, name.two, name.three >> as list loop
-				value_table [list.item] := list.cursor_index
+			across << name.one, name.two, name.three >> as l_name loop
+				value_table [l_name] := @ l_name.cursor_index
 			end
-			across ("one,two,three").split (',') as list loop
-				assert ("same number", value_table [list.item] = list.cursor_index)
+			across ("one,two,three").split (',') as str loop
+				assert ("same number", value_table [str] = @ str.cursor_index)
 			end
 		end
 
@@ -83,22 +83,20 @@ feature -- Tests
 			data_lines := {STRING_32} "cat, C, 6.5, 4%NEuro, €"
 
 			across data_lines.split ('%N') as line loop
-				across new_string_type_list (line.item) as string loop
-					if attached string.item as data_str then
-						inspect data_str.occurrences (',')
-							when 3 then
-								create t1
-								Tuple.fill (t1, data_str)
-								assert ("cat", t1.animal.same_string ("cat"))
-								assert ("C", t1.letter = 'C')
-								assert ("6.5 kg", t1.weight = 6.5)
-								assert ("4 years", t1.age = 4)
-						else
-							create t2
-							tuple.fill (t2, data_str)
-							assert ("same currency", t2.currency.same_string ("Euro"))
-							assert ("same symbol", t2.symbol = data_lines [data_lines.count])
-						end
+				across new_string_type_list (line) as data_str loop
+					inspect data_str.occurrences (',')
+						when 3 then
+							create t1
+							Tuple.fill (t1, data_str)
+							assert ("cat", t1.animal.same_string ("cat"))
+							assert ("C", t1.letter = 'C')
+							assert ("6.5 kg", t1.weight = 6.5)
+							assert ("4 years", t1.age = 4)
+					else
+						create t2
+						tuple.fill (t2, data_str)
+						assert ("same currency", t2.currency.same_string ("Euro"))
+						assert ("same symbol", t2.symbol = data_lines [data_lines.count])
 					end
 				end
 			end

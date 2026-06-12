@@ -15,6 +15,7 @@ class
 inherit
 	ARRAY [EL_TEMPLATE [ZSTRING]]
 		rename
+			count as array_count,
 			make as make_array
 		export
 			{NONE} all
@@ -22,6 +23,11 @@ inherit
 		end
 
 	EL_LOCALE_CONSTANTS
+
+	DEBUG_OUTPUT
+		undefine
+			copy, is_equal
+		end
 
 create
 	make
@@ -35,30 +41,96 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	debug_output: STRING_32
+		local
+			template: ZSTRING
+		do
+			if count = 0 then
+				Result := "Empty"
+			else
+				template := "count: %S %"%S%""
+				Result := template #$ [count, first.sorted_name_list.joined (',')]
+			end
+		end
+
+	difference (other: like Current): EL_STRING_8_LIST
+		-- `True' if `Current' and `Other' have same number of inserted templates
+		-- and the sorted placeholder names match
+		local
+			break: BOOLEAN; index: INTEGER
+		do
+			create Result.make_empty
+			if count = other.count then
+				across Current as template until break loop
+					index := @ template.cursor_index - 1
+					if attached template.sorted_name_list as list
+						and then attached other [index].sorted_name_list as other_list
+						and then list /~ other_list
+					then
+						Result.extend ("index = " + index.out)
+						Result.extend (list.as_word_string)
+						Result.extend (other_list.as_word_string)
+						break := True
+					end
+				end
+			end
+		end
+
+	first: like item
+		-- first inserted template
+		do
+			Result := Default_template
+			across Current as template until Result /= Default_template loop
+				Result := template
+			end
+		end
+
 	substituted (quantity: INTEGER): ZSTRING
 		do
 			Result := substituted_extra (quantity, Empty_substitutions)
 		end
 
-	substituted_extra (quantity: INTEGER; substitutions: like Empty_substitutions): ZSTRING
+	substituted_extra (quantity: INTEGER; substitution_list: like Empty_substitutions): ZSTRING
 			-- translation with adjustments according to value of `quantity'
 		local
-			template: like item; name: READABLE_STRING_8
+			template: like item
 		do
 			template := item (quantity.min (upper))
 			if template = Default_template then
 				template := item (1)
 			end
-			across substitutions as list loop
-				name := list.name
-				if template.has (name) then
-					template.put_general (name, list.value)
+			across substitution_list as substitution loop
+				if template.has (substitution.name) then
+					template.put_general (substitution.name, substitution.value)
 				end
 			end
 			if template.has (Var_quantity) then
 				template.put_general (Var_quantity, quantity.out)
 			end
 			Result := template.substituted
+		end
+
+feature -- Measurement
+
+	count: INTEGER
+		-- count of inserted templates
+		do
+			across Current as template loop
+				Result := Result + (template /= Default_template).to_integer
+			end
+		end
+
+feature -- Comparison
+
+	compatible_with (other: like Current): BOOLEAN
+		-- `True' if `Current' and `Other' have same number of inserted templates
+		-- and the sorted placeholder names match
+		do
+			if count = other.count then
+				Result := across Current as template all
+					template.sorted_name_list ~ other [@ template.cursor_index - 1].sorted_name_list
+				end
+			end
 		end
 
 feature -- Element change

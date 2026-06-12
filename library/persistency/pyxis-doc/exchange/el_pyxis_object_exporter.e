@@ -68,19 +68,19 @@ feature -- Basic operations
 			put_attributes (output, tab_count, is_attribute)
 
 			across object.meta_data.alphabetical_list as list loop
-				name := list.item.name
-				if not is_attribute [list.cursor_index - 1] then
-					if attached {EL_REFLECTED_COLLECTION [ANY]} list.item as collection_field then
+				name := list.name
+				if not is_attribute [@ list.cursor_index - 1] then
+					if attached {EL_REFLECTED_COLLECTION [ANY]} list as collection_field then
 						put_collection (output, tab_count, collection_field)
 
-					elseif attached {EL_REFLECTED_TUPLE} list.item as tuple_field
+					elseif attached {EL_REFLECTED_TUPLE} list as tuple_field
 						and then attached tuple_field.value (object) as l_tuple
 						and then attached tuple_field.field_name_list as name_list
 					then
 						put_field (output, name, tab_count)
 						put_tuple (output, tab_count + 1, tuple_field, l_tuple, name_list)
 
-					elseif attached {EL_REFLECTED_REFERENCE [ANY]} list.item as field
+					elseif attached {EL_REFLECTED_REFERENCE [ANY]} list as field
 						and then attached {EL_REFLECTIVE} field.value (object) as reflective
 					then
 						put_field (output, name, tab_count)
@@ -91,7 +91,7 @@ feature -- Basic operations
 						end
 					elseif attached String_pool.borrowed_item as borrowed then
 						if attached borrowed.empty as value then
-							list.item.append_to_string (object, value)
+							list.append_to_string (object, value)
 							if value.has ('%N') then
 								put_field (output, name, tab_count)
 								put_manifest (output, value, tab_count + 1)
@@ -121,13 +121,13 @@ feature {NONE} -- Implementation
 			then
 				across alphabetical_list as list loop
 				-- output numeric as Pyxis element attributes
-					name := list.item.name
-					line_index := type.attribute_id (object, list.item)
+					name := list.name
+					line_index := type.attribute_id (object, list)
 					if line_index > 0 then
-						i := list.cursor_index - 1
+						i := @ list.cursor_index - 1
 						is_attribute [i] := True
 						value := borrowed [i].empty
-						list.item.append_to_string (object, value)
+						list.append_to_string (object, value)
 						if value.count > 0 then
 							attribute_lines.extend (line_index, name, value)
 						end
@@ -181,7 +181,7 @@ feature {NONE} -- Implementation
 		do
 			output.put_indented_line (tab_count, Pyxis_triple_quote)
 			across str.split ('%N') as line loop
-				output.put_indented_line (tab_count + 1, line.item)
+				output.put_indented_line (tab_count + 1, line)
 			end
 			output.put_indented_line (tab_count, Pyxis_triple_quote)
 		end

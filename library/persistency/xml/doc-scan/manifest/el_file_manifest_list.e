@@ -59,9 +59,9 @@ feature -- Access
 		do
 			if output_path.exists then
 				if attached open_lines (output_path, Utf_8) as line_source then
-					across line_source as lines until l_found loop
-						if attached lines.shared_item as line and then line.has_substring (Digest_attribute) then
-							Result := line.substring_between (Digest_attribute, char ('"'), 1).to_natural_32
+					across line_source as line until l_found loop
+						if attached @ line.shared_item as l_line and then l_line.has_substring (Digest_attribute) then
+							Result := l_line.substring_between (Digest_attribute, char ('"'), 1).to_natural_32
 							l_found := True
 						end
 					end
@@ -73,8 +73,8 @@ feature -- Access
 	name_set: EL_HASH_SET [ZSTRING]
 		do
 			create Result.make_equal (count)
-			across Current as file loop
-				Result.put (file.item.name)
+			across Current as path loop
+				Result.put (path.name)
 			end
 		end
 
@@ -85,17 +85,17 @@ feature -- Access
 
 feature -- Element change
 
-	append_files (list: LIST [FILE_PATH])
+	append_files (path_list: LIST [FILE_PATH])
 		local
 			crc: like crc_generator
 		do
 			crc := crc_generator
 			crc.set_checksum (digest)
-			list.do_all (agent crc.add_file)
+			path_list.do_all (agent crc.add_file)
 			digest := crc.checksum
-			grow (list.count + count)
-			across list as path loop
-				extend (create {EL_FILE_MANIFEST_ITEM}.make (path.item))
+			grow (path_list.count + count)
+			across path_list as path loop
+				extend (create {EL_FILE_MANIFEST_ITEM}.make (path))
 			end
 		end
 

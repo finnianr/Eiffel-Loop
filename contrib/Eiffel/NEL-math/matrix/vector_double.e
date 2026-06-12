@@ -179,7 +179,7 @@ feature -- Output
 
 feature -- Basic operations
 
-   dot, infix "#dot"(other: like Current): DOUBLE is
+   dot alias "#dot" (other: like Current): DOUBLE is
       -- dot product of `Current' by `other'
       require
          other_not_void: other /= Void

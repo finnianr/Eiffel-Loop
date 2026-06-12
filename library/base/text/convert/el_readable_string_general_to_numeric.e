@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_READABLE_STRING_GENERAL_TO_TYPE [N]
 		redefine
-			is_convertible, is_substring_convertible, new_type_description
+			is_convertible, is_substring_convertible, type_description
 		end
 
 	NUMERIC_INFORMATION
@@ -24,6 +24,18 @@ inherit
 		end
 
 	EL_STRING_8_CONSTANTS
+
+feature -- Access
+
+	type_description: STRING
+		-- terse English language description of type
+		once ("OBJECT")
+			if is_integer then
+				Result := Precursor
+			else
+				Result := Precursor + once " number"
+			end
+		end
 
 feature -- Status query
 
@@ -67,16 +79,6 @@ feature {NONE} -- Implementation
 		do
 			Result := Convertor
 			super_readable_general (str).parse_substring (Type_no_limitation, start_index, end_index, Result)
-		end
-
-	new_type_description: STRING
-		-- terse English language description of type
-		do
-			if is_integer then
-				Result := Precursor
-			else
-				Result := Precursor + once " number"
-			end
 		end
 
 	numeric_type: INTEGER

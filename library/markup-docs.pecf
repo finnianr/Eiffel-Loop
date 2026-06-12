@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"; uuid = "229B53F0-09AA-11DF-8778-2B7E79DF966A" 
+	configuration_ns = "1-23-0"; uuid = "229B53F0-09AA-11DF-8778-2B7E79DF966A" 
 	name = EL_markup_docs; library_target = EL_markup_docs
 	description:
 		"""
@@ -22,10 +22,14 @@ system:
 			all_classes = true
 
 		option:
-			syntax = standard; full_class_checking = false; void_safety = none
-			trace = false; debug = false; warning = true
+			debug = false; full_class_checking = false; syntax = standard; trace = false; warning = warning
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
+		capability:
+			concurrency:
+				support = thread; use = thread
+			void_safety:
+				support = none
 
 		# ISE libraries
 		libraries:

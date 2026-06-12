@@ -32,7 +32,7 @@ feature -- Access
 		once
 			create Result.make (64)
 			across Name_list as name loop
-				Result.extend (name.item.hanzi)
+				Result.extend (name.hanzi)
 			end
 		end
 
@@ -69,7 +69,7 @@ feature -- Access
 		once
 			create Result.make (64)
 			across english_titles as title loop
-				Result.extend (new_parts_array (title.cursor_index, title.item))
+				Result.extend (new_parts_array (@ title.cursor_index, title))
 			end
 		end
 

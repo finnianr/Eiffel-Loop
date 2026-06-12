@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"; uuid = "229B73E4-09AA-11DF-87BB-93E5E9639079"
+	configuration_ns = "1-23-0"; uuid = "229B73E4-09AA-11DF-87BB-93E5E9639079"
 	name = EL_eco_db; library_target = EL_eco_db
 	description: 
 		"""
@@ -35,8 +35,13 @@ system:
 	target:
 		name = EL_eco_db
 		option: 
-			syntax = standard; full_class_checking = false; void_safety = none
-			trace = false; debug = false; warning = true
+			syntax = standard; full_class_checking = false; trace = false; debug = false; warning = warning
+		capability:
+			concurrency:
+				support = thread; use = thread
+			void_safety:
+				support = none
+
 		root:
 			all_classes = true
 

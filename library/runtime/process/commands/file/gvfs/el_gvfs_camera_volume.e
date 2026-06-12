@@ -74,12 +74,12 @@ feature {NONE} -- Implementation
 		local
 			sorted_dir: DIR_PATH
 		do
-			across file_list as list loop
-				if attached new_year_month (list.item.base) as year_month
+			across file_list as path loop
+				if attached new_year_month (path.base) as year_month
 					and then year_month.character_count = YYYYMM.count
 					and then Months_interval.has (year_month.last.to_integer)
 				then
-					lio.put_index_labeled_string (list, "Transfering %S", list.item.to_string)
+					lio.put_index_labeled_string (@ path, "Transfering %S", path.to_string)
 					lio.put_new_line
 					sorted_dir := destination_dir.joined_dir_tuple (new_directory_tuple (year_month))
 
@@ -87,10 +87,10 @@ feature {NONE} -- Implementation
 					lio.put_new_line
 
 					File_system.make_directory (sorted_dir)
-					copy_file_from (list.item, sorted_dir)
-					try_remove (list.item, sorted_dir + list.item.base)
+					copy_file_from (path, sorted_dir)
+					try_remove (path, sorted_dir + path.base)
 				else
-					lio.put_path_field ("Ignoring file", list.item)
+					lio.put_path_field ("Ignoring file", path)
 					lio.put_new_line
 				end
 			end

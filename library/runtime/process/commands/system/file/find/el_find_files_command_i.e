@@ -36,7 +36,7 @@ feature -- Measurement
 		do
 			execute
 			across path_list as path loop
-				Result := Result + File.byte_count (path.item).to_natural_32
+				Result := Result + File.byte_count (path).to_natural_32
 			end
 		end
 

@@ -29,7 +29,7 @@ inherit
 		undefine
 			copy, is_equal
 		redefine
-			do_with_lines, make, is_valid_platform
+			make, is_valid_platform
 		end
 
 create

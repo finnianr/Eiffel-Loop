@@ -30,11 +30,11 @@ create
 
 feature {NONE} -- Implementation
 
-	do_with_lines (lines: like new_output_lines)
+	do_with_lines (output_lines: like new_output_lines)
 		do
-			across lines as line loop
-				if line.shared_item.count > 0 then
-					user_list.extend (line.item_copy)
+			across output_lines as line loop
+				if @ line.shared_item.count > 0 then
+					user_list.extend (@ line.item_copy)
 				end
 			end
 		end

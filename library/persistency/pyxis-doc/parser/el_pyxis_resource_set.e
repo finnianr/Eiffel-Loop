@@ -38,12 +38,12 @@ feature {NONE} -- Initialization
 			directory_name := a_directory_name
 			pyxis_file_paths := File_system.files_with_extension (pyxis_source_dir, "pyx", True)
 			create xml_file_paths.make (pyxis_file_paths.count)
-			across pyxis_file_paths as pyxis_file_path loop
-				xml_file_path := xml_destination_dir.plus_file (pyxis_file_path.item.base).with_new_extension ("xml")
-				if pyxis_file_path.item.modification_time > xml_file_path.modification_time then
+			across pyxis_file_paths as file_path loop
+				xml_file_path := xml_destination_dir.plus_file (file_path.base).with_new_extension ("xml")
+				if file_path.modification_time > xml_file_path.modification_time then
 					File_system.make_directory (xml_file_path.parent)
 					create xml_out.make_open_write (xml_file_path)
-					Pyxis.convert_to_xml (pyxis_file_path.item, xml_out)
+					Pyxis.convert_to_xml (file_path, xml_out)
 					xml_out.close
 				end
 				xml_file_paths.extend (xml_file_path)
@@ -67,9 +67,9 @@ feature {NONE} -- Initialization
 			pyxis_file_paths := File_system.files_with_extension (pyxis_source_dir, "pyx", True)
 			if pyxis_file_paths.first.modification_time > monolithic_xml_file_path.modification_time then
 				create pyxis_out.make_open_write (monolithic_pyxis_path)
-				across pyxis_file_paths as pyxis_file_path loop
-					create pyxis_lines.make_utf_8 (pyxis_file_path.item)
-					do_with_lines (agent find_root_element (?, pyxis_out, pyxis_file_path.cursor_index = 1), pyxis_lines)
+				across pyxis_file_paths as file_path loop
+					create pyxis_lines.make_utf_8 (file_path)
+					do_with_lines (agent find_root_element (?, pyxis_out, @ file_path.cursor_index = 1), pyxis_lines)
 				end
 				pyxis_out.close
 			end

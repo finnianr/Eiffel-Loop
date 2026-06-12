@@ -179,11 +179,11 @@ feature -- Access
 			pi_name_index: INTEGER
 		do
 			across Current as token until attached Result loop
-				if token.is_processing_instruction_name and then token.item_string_8 ~ a_name then
-					pi_name_index := token.cursor_index
+				if @ token.is_processing_instruction_name and then @ token.item_string_8 ~ a_name then
+					pi_name_index := @ token.cursor_index
 
-				elseif token.is_processing_instruction and then pi_name_index = (token.cursor_index - 1) then
-					Result := token.item_string_8
+				elseif @ token.is_processing_instruction and then pi_name_index = (@ token.cursor_index - 1) then
+					Result := @ token.item_string_8
 				end
 			end
 		end
@@ -216,14 +216,14 @@ feature -- Measurement
 		do
 			create l_result.make_empty
 			across Current as token loop
-				if token.is_character_data_item then
-					Result := Result + sg.word_count (token.item_string, True)
+				if @ token.is_character_data_item then
+					Result := Result + sg.word_count (@ token.item_string, True)
 
-				elseif token.is_attribute_name then
-					l_result := token.item_string_8
+				elseif @ token.is_attribute_name then
+					l_result := @ token.item_string_8
 
-				elseif token.is_attribute and then included_attributes.has (l_result) then
-					Result := Result + sg.word_count (token.item_string, True)
+				elseif @ token.is_attribute and then included_attributes.has (l_result) then
+					Result := Result + sg.word_count (@ token.item_string, True)
 				end
 			end
 		end
@@ -256,11 +256,11 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 			across Current as token until stage = 3 loop
 				inspect stage
 					when 1 then -- start element
-						stage := stage + token.is_element_open.to_integer
+						stage := stage + @ token.is_element_open.to_integer
 
 					when 2 then -- root element attributes
-						if token.is_attribute_name_space then
-							if attached token.item_string_8 as ns_name then
+						if @ token.is_attribute_name_space then
+							if attached @ token.item_string_8 as ns_name then
 								if ns_name ~ XML.xmlns then
 									Result.put (create {STRING}.make_empty, Default_name)
 								else
@@ -268,13 +268,13 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 								end
 							end
 
-						elseif token.is_attribute and last_token = Token_enum.attribute_name_space then
-							Result.found_item.share (token.item_string_8)
+						elseif @ token.is_attribute and last_token = Token_enum.attribute_name_space then
+							Result.found_item.share (@ token.item_string_8)
 						end
-						stage := stage + token.is_element_close.to_integer
+						stage := stage + @ token.is_element_close.to_integer
 				else
 				end
-				last_token := token.item
+				last_token := token
 			end
 		end
 

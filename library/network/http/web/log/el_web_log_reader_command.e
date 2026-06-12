@@ -90,8 +90,8 @@ feature -- Basic operations
 				lio.put_integer_field ("INVALID LOG LINES", invalid_line_list.count)
 				lio.put_new_line
 				lio.put_line ("(Do not contain exactly 6 double quotes)")
-				across invalid_line_list as list loop
-					lio.put_line (list.item)
+				across invalid_line_list as line loop
+					lio.put_line (line)
 				end
 				User_input.press_enter
 				lio.put_new_line

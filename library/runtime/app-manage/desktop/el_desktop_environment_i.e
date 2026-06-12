@@ -104,8 +104,8 @@ feature -- Element change
 		do
 			create option_list.make_from_general (options)
 			across option_list as option loop
-				if not option.item.starts_with_character ('%%') then
-					option.item.prepend_character ('-')
+				if not option.starts_with_character ('%%') then
+					option.prepend_character ('-')
 				end
 			end
 			command_line_options.share (option_list.as_word_string)

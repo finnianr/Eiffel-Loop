@@ -40,10 +40,8 @@ feature {NONE} -- Initialization
 	make_from_xdoc (xdoc: EL_XML_DOC_CONTEXT)
 		do
 			if attached xdoc.find_node (char ('/') + root_element_name) as root_node then
-				across current_reflective.field_list as list loop
-					if attached list.item as field
-						and then attached root_node.find_node (field.export_name) as node
-					then
+				across current_reflective.field_list as field loop
+					if attached root_node.find_node (field.export_name) as node then
 						field.set_from_readable (current_reflective, node)
 					end
 				end

@@ -120,7 +120,6 @@ feature -- Basic operations
 		-- delete user specified range of versions by menu number
 		local
 			input_count: INTEGER; range: INTEGER_INTERVAL; input: EL_USER_INPUT_VALUE [INTEGER]
-			version: EL_SOFTWARE_VERSION
 		do
 			display_versions (name)
 
@@ -128,14 +127,13 @@ feature -- Basic operations
 				range := 0 |..| version_list.count
 				create input.make_valid ("Enter number to delete from earliest", "Invalid number", agent range.has)
 				input_count := input.value
-				across version_list as list until list.cursor_index > input_count loop
-					version := list.item
+				across version_list as version until @ version.cursor_index > input_count loop
 					if attached new_version_path_list (version) as version_path_list then
 						if version_path_list.count = 1 then
 							lio.put_labeled_string ("Delete file", version_path_list.first_path)
 						else
-							across version_path_list as l_list loop
-								lio.put_line (l_list.item.base)
+							across version_path_list as version_path loop
+								lio.put_line (version_path.base)
 							end
 							lio.put_labeled_substitution (
 								"Delete", "%S version %S files", [version_path_list.count, version.string]
@@ -168,7 +166,7 @@ feature -- Basic operations
 
 			if count > 0 then
 				across sorted_version_list as version loop
-					lio.put_index_labeled_string (version, Void, version.item.string)
+					lio.put_index_labeled_string (@ version, Void, version.string)
 					lio.put_new_line
 				end
 			else
@@ -194,17 +192,17 @@ feature -- Element change
 				cmd.execute
 				if attached cmd.path_list as file_list then
 					resize (count + file_list.count)
-					across file_list as list loop
-						if new_path_version (list.item) /= Default_version then
-							extend (list.item)
+					across file_list as file_path loop
+						if new_path_version (file_path) /= Default_version then
+							extend (file_path)
 						end
 					end
 				end
 			end
 		ensure
 			all_versioned_paths:
-				across sub_list (old count + 1, count) as list all
-					new_path_version (list.item) /= Default_version
+				across sub_list (old count + 1, count) as file_path all
+					new_path_version (file_path) /= Default_version
 				end
 		end
 

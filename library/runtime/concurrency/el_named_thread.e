@@ -46,7 +46,7 @@ feature {NONE} -- Factory
 		end
 
 	new_name: READABLE_STRING_GENERAL
-		do
+		once ("OBJECT")
 			Result := new_english_name (generator)
 		end
 end

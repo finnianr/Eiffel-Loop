@@ -70,7 +70,7 @@ feature -- Status report
 		do
 			Result := whitelist_set.has (path_lower)
 			if not Result then
-				Result := across whitelist_stem_list as list some path_lower.starts_with (list.item) end
+				Result := across whitelist_stem_list as stem some path_lower.starts_with (stem) end
 			end
 		end
 
@@ -92,8 +92,8 @@ feature -- Basic operations
 
 		-- Optimize single character comparison by putting them in `excluded_first_characters'			
 			if predicate_key = Predicate.starts_with then
-				across string_set.to_array as list loop
-					if attached list.item as word and then word.count = 1 then
+				across string_set.to_array as word loop
+					if word.count = 1 then
 						excluded_first_characters.extend (word [1])
 						string_set.prune (word)
 					end
@@ -101,8 +101,8 @@ feature -- Basic operations
 			end
 		ensure
 			starts_with_table_has_no_string_count_eq_1: has_key (Predicate.starts_with) implies
-				across found_item as table all
-					table.item.count /= 1
+				across found_item as l_item all
+					l_item.count /= 1
 				end
 		end
 
@@ -133,11 +133,11 @@ feature {NONE} -- Implementation
 						Result := excluded_first_characters.has (path_lower [1])
 					end
 					if not Result then
-						Result := across word_set as set some path_lower.starts_with (set.item) end
+						Result := across word_set as word some path_lower.starts_with (word) end
 					end
 
 				elseif predicate_name = Predicate.ends_with then
-					Result := across word_set as set some path_lower.ends_with (set.item) end
+					Result := across word_set as word some path_lower.ends_with (word) end
 
 				end
 			end

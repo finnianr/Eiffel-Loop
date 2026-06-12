@@ -69,8 +69,8 @@ feature {NONE} -- Implementation
 			benchmark_list: EL_NAMED_BENCHMARK_MAP_LIST
 		do
 			create benchmark_list.make (object_list.count)
-			across object_list as list loop
-				benchmark_list.extend (list.item.generator, size_of (list.item))
+			across object_list as object loop
+				benchmark_list.extend (object.generator, size_of (object))
 			end
 			display_header (label)
 			benchmark_list.print_comparison (lio, "%S bytes (%S)")

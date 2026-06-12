@@ -116,13 +116,12 @@ feature -- Basic operations
 			same_field_count: tuple.count = a_xpath_list.occurrences (',') + 1
 		local
 			xpath_splitter: EL_SPLIT_ON_CHARACTER_8 [STRING]; index, type_id: INTEGER
-			tuple_type: TYPE [TUPLE]; xpath: STRING
+			tuple_type: TYPE [TUPLE]
 		do
 			tuple_type := tuple.generating_type
 			create xpath_splitter.make_adjusted (a_xpath_list, ',', {EL_SIDE}.Left)
-			across xpath_splitter as split loop
-				index := split.cursor_index
-				xpath := split.item
+			across xpath_splitter as xpath loop
+				index := @ xpath.cursor_index
 				inspect tuple.item_code (index)
 					when {TUPLE}.Integer_32_code then
 						tuple.put_integer (query (xpath), index)

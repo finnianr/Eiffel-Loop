@@ -46,7 +46,7 @@ feature -- Basic operations
 		do
 			delegator.launch
 			across all_consumers as consumer loop
-				consumer.item.launch
+				consumer.launch
 			end
 		end
 

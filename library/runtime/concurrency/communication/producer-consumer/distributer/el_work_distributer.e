@@ -23,12 +23,6 @@ inherit
 
 	EL_MODULE_SYSTEM
 
-	EL_LAZY_ATTRIBUTE
-		rename
-			new_item as new_collection_list,
-			cached_item as actual_collection_list
-		end
-
 feature {NONE} -- Initialization
 
 	make (maximum_cpu_percentage: INTEGER)
@@ -183,9 +177,9 @@ feature {EL_WORK_DISTRIBUTION_THREAD} -- Event handling
 
 feature {NONE} -- Implementation
 
-	collection_list: like new_collection_list
-		do
-			Result := lazy_item
+	collection_list: ARRAYED_LIST [G]
+		once ("OBJECT")
+			create Result.make (10)
 		end
 
 	move (routines: like applied; completed_list: LIST [G])
@@ -194,11 +188,6 @@ feature {NONE} -- Implementation
 				completed_list.extend (new_completed (routines.item))
 				routines.remove
 			end
-		end
-
-	new_collection_list: ARRAYED_LIST [G]
-		do
-			create Result.make (10)
 		end
 
 	new_completed (routine: R): G

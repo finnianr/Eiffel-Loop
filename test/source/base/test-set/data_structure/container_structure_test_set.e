@@ -100,8 +100,8 @@ feature -- WIDGET Tests
 			then
 				assert ("same count", width_list.count = Widget_list.count)
 				across Widget_list as widget loop
-					lio.put_line (widget.item.out)
-					assert ("same width", widget.item.width = width_list [widget.cursor_index])
+					lio.put_line (widget.out)
+					assert ("same width", widget.width = width_list [@ widget.cursor_index])
 				end
 			else
 				failed ("create width_list")
@@ -180,15 +180,15 @@ feature -- WIDGET Tests
 
 			across << ordered_1, ordered_2 >> as ordered loop
 				previous := "0"
-				if ordered.item = ordered_1 then
+				if ordered = ordered_1 then
 					lio.put_line ("Widget_list.ordered_by")
 				else
 					lio.put_line ("ordered_2.order_by")
 				end
-				across ordered.item as widget loop
-					lio.put_line (widget.item.color_name)
-					assert ("color_name >= previous", widget.item.color_name >= previous)
-					previous := widget.item.color_name
+				across ordered as widget loop
+					lio.put_line (widget.color_name)
+					assert ("color_name >= previous", widget.color_name >= previous)
+					previous := widget.color_name
 				end
 				lio.put_new_line
 			end
@@ -201,8 +201,8 @@ feature -- WIDGET Tests
 		do
 			previous := previous.Max_value
 			across Widget_list.ordered_by (agent {WIDGET}.width, False) as widget loop
-				assert ("width <= previous", widget.item.width <= previous)
-				previous := widget.item.width
+				assert ("width <= previous", widget.width <= previous)
+				previous := widget.width
 			end
 		end
 
@@ -235,8 +235,8 @@ feature -- WIDGET Tests
 			>>)
 
 			Widget_list.start
-			across condition_sum_map_list as map loop
-				if attached map.key as condition and then attached map.value as sum_value then
+			across condition_sum_map_list as sum loop
+				if attached @ sum.key as condition and then attached @ sum.value as sum_value then
 					sum_2 := Widget_list.sum_integer_meeting (agent {WIDGET}.width, condition)
 					if attached Widget_list.query (condition) as subset then
 						sum_3 := subset.sum_integer (agent {WIDGET}.width)
@@ -281,17 +281,15 @@ feature -- Test
 		do
 			create word_set.make_equal (500)
 			across Hexagram.English_titles as title loop
-				create word_list.make_split (title.item, ' ')
-				across word_list as list loop
-					if attached list.item as word then
-						word.prune_all (',')
-						word_set.put (word)
-					end
+				create word_list.make_split (title, ' ')
+				across word_list as word loop
+					word.prune_all (',')
+					word_set.put (word)
 				end
 			end
 			create length_to_word_map.make (word_set.count)
-			across word_set as set loop
-				length_to_word_map.extend (set.item.count, set.item)
+			across word_set as word loop
+				length_to_word_map.extend (word.count, word)
 			end
 
 			if attached length_to_word_map as map then
@@ -334,24 +332,22 @@ feature -- Test
 			character_set: EL_HASH_SET [CHARACTER]
 		do
 			create character_set.make_from (Character_string, False)
-			across new_character_containers as list loop
-				if attached list.item as container then
-					lio.put_labeled_string ("Type", container.generator)
-					lio.put_new_line
-					create character_to_code_map.make_from_keys (container, agent ascii_code)
-					character_to_code_map.compare_objects
+			across new_character_containers as container loop
+				lio.put_labeled_string ("Type", container.generator)
+				lio.put_new_line
+				create character_to_code_map.make_from_keys (container, agent ascii_code)
+				character_to_code_map.compare_objects
 
-					assert ("same count", character_to_code_map.count >= character_set.count)
-					across Character_string as str loop
-						assert ("has character->code pair", character_to_code_map.has ([str.item, str.item.natural_32_code]))
-					end
-					create string_to_character_map.make_from_values (container, agent to_character_string)
-					string_to_character_map.compare_objects
+				assert ("same count", character_to_code_map.count >= character_set.count)
+				across Character_string as str loop
+					assert ("has character->code pair", character_to_code_map.has ([str.item, str.item.natural_32_code]))
+				end
+				create string_to_character_map.make_from_values (container, agent to_character_string)
+				string_to_character_map.compare_objects
 
-					assert ("same count", string_to_character_map.count >= character_set.count)
-					across Character_string as str loop
-						assert ("has string->character pair", string_to_character_map.has ([str.item.out, str.item]))
-					end
+				assert ("same count", string_to_character_map.count >= character_set.count)
+				across Character_string as str loop
+					assert ("has string->character pair", string_to_character_map.has ([str.item.out, str.item]))
 				end
 			end
 		end
@@ -435,13 +431,11 @@ feature -- Test
 			summator: EL_CONTAINER_ARITHMETIC [CHARACTER, INTEGER]
 			wrapper: EL_CONTAINER_WRAPPER [CHARACTER]
 		do
-			across new_character_containers as list loop
-				if attached list.item as container then
-					lio.put_labeled_string ("Type", container.generator)
-					lio.put_new_line
-					create summator.make (as_structure (container))
-					assert ("sum is 6", summator.sum_meeting (agent to_integer, character_is_digit) = 6 )
-				end
+			across new_character_containers as container loop
+				lio.put_labeled_string ("Type", container.generator)
+				lio.put_new_line
+				create summator.make (as_structure (container))
+				assert ("sum is 6", summator.sum_meeting (agent to_integer, character_is_digit) = 6 )
 			end
 		end
 
@@ -474,7 +468,7 @@ feature -- Test
 
 			create base_set.make_equal (boot_lines.count)
 			across boot_lines as line loop
-				path := line.item
+				path := line
 				base_set.put (path.base)
 			end
 			assert ("3 base names", base_set.count = 3)
@@ -502,13 +496,13 @@ feature -- Test
 			dozen_a_words := "able,archery,android,anchor,average,ant,ancestor,anca,all,attached,artery,arc"
 			assert ("one dozen", dozen_a_words.occurrences (',') + 1 = 12)
 			across (dozen_a_words + ",Zig,zag,zebra").split (',') as word loop
-				name := word.item
+				name := word
 				name_null_1 := cache.item (name)
 				name_null_2 := cache.item (name)
 				assert ("same reference", name_null_1 = name_null_2)
 
 				create name_str.make_from_c (name_null_1.area) -- calls C function strlen
-				assert ("same name", name_str ~ word.item)
+				assert ("same name", name_str ~ word)
 			end
 			assert ("3 buckets have items", cache.used_count = 3)
 		end
@@ -520,14 +514,12 @@ feature -- Test
 		local
 			arrayed_list: EL_ARRAYED_LIST [CHARACTER]
 		do
-			across new_character_containers as list loop
-				if attached list.item as container then
-					lio.put_labeled_string ("Type", container.generator)
-					lio.put_new_line
-					create arrayed_list.make_from_if (container, agent is_character_digit)
+			across new_character_containers as container loop
+				lio.put_labeled_string ("Type", container.generator)
+				lio.put_new_line
+				create arrayed_list.make_from_if (container, agent is_character_digit)
 
-					assert ("same digits", arrayed_list.to_array ~ << '1', '2' , '3' >>)
-				end
+				assert ("same digits", arrayed_list.to_array ~ << '1', '2' , '3' >>)
 			end
 		end
 
@@ -541,18 +533,16 @@ feature -- Test
 		local
 			result_list: EL_ARRAYED_RESULT_LIST [CHARACTER, INTEGER]
 		do
-			across new_character_containers as list loop
-				if attached list.item as container then
-					if attached {LINEAR [CHARACTER]} container as linear then
-						linear.start
-					end
-					lio.put_labeled_string ("Type", container.generator)
-					lio.put_new_line
-					create result_list.make_from_for (container, character_is_digit, agent to_integer)
-					assert ("array is 1, 2, 3", result_list.to_array ~ << 1, 2, 3 >> )
-					if attached {LINEAR [CHARACTER]} container as linear then
-						assert ("index = 1", linear.index = 1)
-					end
+			across new_character_containers as container loop
+				if attached {LINEAR [CHARACTER]} container as linear then
+					linear.start
+				end
+				lio.put_labeled_string ("Type", container.generator)
+				lio.put_new_line
+				create result_list.make_from_for (container, character_is_digit, agent to_integer)
+				assert ("array is 1, 2, 3", result_list.to_array ~ << 1, 2, 3 >> )
+				if attached {LINEAR [CHARACTER]} container as linear then
+					assert ("index = 1", linear.index = 1)
 				end
 			end
 		end

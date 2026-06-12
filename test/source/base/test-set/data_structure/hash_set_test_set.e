@@ -53,11 +53,11 @@ feature -- Test
 			if attached Text.lines as lines then
 			-- comparison reference VS object
 				create set_1.make_from (lines, False)
-				assert ("all found", across lines as ln all set_1.has (ln.item) end)
-				assert ("none found", across Text.lines as ln all not set_1.has (ln.item) end)
+				assert ("all found", across lines as line all set_1.has (line) end)
+				assert ("none found", across Text.lines as line all not set_1.has (line) end)
 
 				create set_1.make_from (lines, True)
-				assert ("all found", across Text.lines as ln all set_1.has (ln.item) end)
+				assert ("all found", across Text.lines as line all set_1.has (line) end)
 
 			-- wipe_out, to_list
 				create set_1.make_from (lines, True)
@@ -65,8 +65,8 @@ feature -- Test
 				set_2.wipe_out
 				assert ("is empty", set_2.count = 0)
 				assert ("is empty", set_2.to_list.is_empty)
-				across set_1.to_list as list loop
-					set_2.put (list.item)
+				across set_1.to_list as str loop
+					set_2.put (str)
 				end
 				assert ("same sets", set_1 ~ set_2)
 
@@ -77,7 +77,7 @@ feature -- Test
 
 				range_0_to_4 := 0 |..| 4
 				across range_0_to_4 as code loop
-					code_set.prune (code.item)
+					code_set.prune (code)
 				end
 				assert ("same count", code_set.count = range_0_to_9.count - range_0_to_4.count)
 
@@ -102,15 +102,14 @@ feature -- Test
 				covers/{EL_HASH_SET_BASE}.internal_search
 			]"
 		local
-			evolicity_class, name: STRING; evolicity_class_removed: BOOLEAN
+			evolicity_class: STRING; evolicity_class_removed: BOOLEAN
 			name_set, library_set: EL_HASH_SET [STRING]
 		do
 			library_set := new_class_set (Class_set_1)
 			name_set := new_class_set (Class_set_2)
 			evolicity_class := "EVOLICITY_GETTER_FUNCTION_TABLE"
 		--	Reproduce `name_set.intersect (library_set)'
-			across name_set.query_not_in (library_set) as list loop
-				name := list.item
+			across name_set.query_not_in (library_set) as name loop
 				name_set.prune (name)
 				if name ~ evolicity_class then
 					evolicity_class_removed := True
@@ -134,7 +133,7 @@ feature -- Test
 				covers/{SEARCH_TABLE}.prune
 			]"
 		local
-			evolicity_class, name: STRING; evolicity_class_removed: BOOLEAN
+			evolicity_class: STRING; evolicity_class_removed: BOOLEAN
 			name_set: SEARCH_TABLE [STRING]; library_set: EL_HASH_SET [STRING]
 			name_list: EL_STRING_8_LIST
 		do
@@ -143,8 +142,7 @@ feature -- Test
 			evolicity_class := "EVOLICITY_GETTER_FUNCTION_TABLE"
 		--	Reproduce `name_set.intersect (library_set)'
 			create name_list.make_from_iterable (name_set.linear_representation, False)
-			across name_list.query_not_in (library_set) as list loop
-				name := list.item
+			across name_list.query_not_in (library_set) as name loop
 				name_set.prune (name)
 				if name ~ evolicity_class then
 					evolicity_class_removed := True
@@ -173,22 +171,20 @@ feature -- Test
 			create with_comma_list.make (100)
 			create without_comma_list.make (100)
 
-			across Hexagram.English_titles as list loop
-				across list.item.split (' ') as split loop
-					if attached split.item as word then
-						word_set.put (word)
-						if word_set.inserted then
-							inserted_count := inserted_count + 1
-							if attached sg.super_8 (word).ends_with_character (',') then
-								with_comma_list.extend (word)
-							else
-								without_comma_list.extend (word)
-							end
+			across Hexagram.English_titles as title loop
+				across title.split (' ') as word loop
+					word_set.put (word)
+					if word_set.inserted then
+						inserted_count := inserted_count + 1
+						if attached sg.super_8 (word).ends_with_character (',') then
+							with_comma_list.extend (word)
+						else
+							without_comma_list.extend (word)
 						end
-						word_table.put (word, word)
-						assert ("both inserted", word_set.inserted = word_table.inserted)
-						word_count := word_count + 1
 					end
+					word_table.put (word, word)
+					assert ("both inserted", word_set.inserted = word_table.inserted)
+					word_count := word_count + 1
 				end
 			end
 			assert ("same count", word_set.count = word_table.count)
@@ -266,20 +262,18 @@ feature -- Test
 				create word_set.make (word_list.joined_lines)
 				create name_set.make_equal (word_set.count)
 				create name_table.make (word_set.count)
-				across word_set as set loop
+				across word_set as word loop
 				-- Post-condition for {IMMUTABLE_STRING_8}.same_characters fails, so use STRING_8
-					if attached set.item.as_string_8 as str then
-						name_set.put (str)
-						name_table.put (str)
+					if attached word.as_string_8 as str_8 then
+						name_set.put (str_8)
+						name_table.put (str_8)
 					end
 				end
-				across word_list as list loop
-					if attached list.item as word then
-						assert ("set member", word_set.has_key (word))
-						assert_same_string (Void, word_set.found_item, word)
-						assert ("name set has", name_set.has_key (word))
-						assert_same_string (Void, name_set.found_item, word)
-					end
+				across word_list as word loop
+					assert ("set member", word_set.has_key (word))
+					assert_same_string (Void, word_set.found_item, word)
+					assert ("name set has", name_set.has_key (word))
+					assert_same_string (Void, name_set.found_item, word)
 				end
 			end
 		end
@@ -294,15 +288,15 @@ feature {NONE} -- Implementation
 	new_class_table (lines: STRING): SEARCH_TABLE [STRING]
 		do
 			create Result.make (lines.occurrences ('%N') + 1)
-			across lines.split ('%N') as list loop
-				Result.put (list.item)
+			across lines.split ('%N') as line loop
+				Result.put (line)
 			end
 		end
 
 	print_set (label: STRING; set: EL_HASH_SET [ZSTRING])
 		do
-			across set.to_list as list loop
-				lio.put_index_labeled_string (list, label, list.item)
+			across set.to_list as str loop
+				lio.put_index_labeled_string (@ str, label, str)
 				lio.put_new_line
 			end
 			lio.put_new_line

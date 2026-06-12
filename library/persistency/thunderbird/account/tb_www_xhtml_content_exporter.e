@@ -35,7 +35,7 @@ feature -- Basic operations
 			l_output_dir: DIR_PATH
 		do
 			across OS.file_list (mail_dir #+ WWW_dir_name, "*.msf") as path loop
-				mails_path := path.item.without_extension
+				mails_path := path.without_extension
 				lio.put_path_field ("Content %S", mails_path)
 				lio.put_new_line
 				l_output_dir := export_dir #+ mails_path.base

@@ -14,9 +14,6 @@ deferred class
 
 inherit
 	EL_BUILDABLE_FROM_PYXIS
-		redefine
-			building_action_table
-		end
 
 feature -- Element change
 
@@ -29,9 +26,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make (<<
-				[item_xpath, agent do extend (node.to_string) end]
-			>>)
+			create Result.make_one (item_xpath, agent do extend (node.to_string) end)
 		end
 
 	item_xpath: STRING

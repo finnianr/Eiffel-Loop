@@ -68,17 +68,17 @@ feature -- Access
 	user_permutation_list (user_dir_list: ITERABLE [DIR_PATH]): EL_ARRAYED_LIST [DIR_PATH]
 		-- list of permutations of system users over the `user_dir_list' directory list
 		require
-			all_user_directories: across user_dir_list as list all Directory.home.is_parent_of (list.item) end
+			all_user_directories: across user_dir_list as user_dir all Directory.home.is_parent_of (user_dir) end
 		local
 			index: INTEGER; steps: EL_PATH_STEPS
 		do
 			create Result.make (user_list.count * Iterable.count (user_dir_list))
 			Result.compare_objects
 			index := Directory.Users.step_count
-			across user_dir_list as list loop
-				steps := list.item
+			across user_dir_list as user_dir loop
+				steps := user_dir
 				across user_list as user loop
-					steps [index + 1] := user.item
+					steps [index + 1] := user
 					Result.extend (steps)
 				end
 			end

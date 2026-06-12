@@ -35,8 +35,8 @@ feature -- Tests
 			table: EL_ZSTRING_TOKEN_TABLE
 			line: ZSTRING; path_tokens: STRING_32
 		do
-			across Text.lines_32 as list loop
-				line := list.item
+			across Text.lines_32 as str_32 loop
+				line := str_32
 				create table.make (30)
 				path_tokens := table.token_list (line, ' ')
 				assert ("same token list", path_tokens ~ table.iterable_to_token_list (line.split_list (' ')))

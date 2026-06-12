@@ -142,8 +142,8 @@ feature -- File operations
 			else
 				create extension.make_empty
 			end
-			across file_list (dir_path, extension) as list loop
-				remove_file (list.item)
+			across file_list (dir_path, extension) as path loop
+				remove_file (path)
 			end
 		end
 

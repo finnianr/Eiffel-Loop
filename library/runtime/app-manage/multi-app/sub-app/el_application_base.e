@@ -66,11 +66,11 @@ feature {NONE} -- Implementation
 				migrate_legacy_directories
 			end
 			create option_sub_dir.make (option_name)
-			across App_directory_list as list loop
+			across App_directory_list as standard_dir loop
 				if is_switched then
-					dir_path := list.item.plus_dir (option_sub_dir)
+					dir_path := standard_dir.plus_dir (option_sub_dir)
 				else
-					dir_path := list.item
+					dir_path := standard_dir
 				end
 				if not dir_path.exists then
 					File_system.make_directory (dir_path)
@@ -91,10 +91,9 @@ feature {NONE} -- Implementation
 	migrate_legacy_directories
 		do
 			if attached Directory.Legacy_table as table then
-				across App_directory_list as list loop
+				across App_directory_list as standard_dir loop
 				-- If a differing legacy data directory exists already, move it to standard location
-					if attached list.item as standard_dir and then table.has_key (standard_dir)
-						and then attached table.found_item as legacy_dir
+					if table.has_key (standard_dir) and then attached table.found_item as legacy_dir
 						and then legacy_dir.exists and then legacy_dir /~ standard_dir
 					then
 						migrate (legacy_dir, standard_dir)
@@ -129,9 +128,9 @@ feature {NONE} -- Implementation
 			file_path := Directory.Sub_app_data + "show_benchmarks.dat"
 			timer.stop
 			across (";Average ").split (';') as l_prefix loop
-				lio.put_labeled_string (l_prefix.item + "Execution time", timer.elapsed_time.out)
+				lio.put_labeled_string (l_prefix + "Execution time", timer.elapsed_time.out)
 				lio.put_new_line
-				if l_prefix.is_first then
+				if @ l_prefix.is_first then
 					-- Set average elapsed time from previous runs
 					if file_path.exists then
 						create timer_data.make_open_read (file_path)

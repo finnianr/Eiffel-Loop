@@ -38,9 +38,9 @@ feature -- Tests
 			edited := "[[]]**"
 			across << Empty_string, Asterisks >> as trailing loop
 				across << Empty_string, Asterisks >> as leading loop
-					create editor.make (leading.item + Target.item (1).multiplied (2) + trailing.item)
+					create editor.make (leading + Target.item (1).multiplied (2) + trailing)
 					editor.for_each ("[[", "]]", agent delete_interior)
-					assert ("asterisks removed", editor.target ~ leading.item + edited.multiplied (2) + trailing.item)
+					assert ("asterisks removed", editor.target ~ leading + edited.multiplied (2) + trailing)
 				end
 			end
 		end

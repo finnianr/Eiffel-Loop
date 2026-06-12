@@ -46,13 +46,13 @@ feature -- Conversion tests
 				create {ZSTRING}.make (10), create {STRING}.make (10), create {STRING_32}.make (10)
 			>>)
 			across type_list as type loop
-				across String_table as table loop
-					str := type.item
+				across Integer_32_table as int_32 loop
+					str := type
 					str.keep_head (0)
-					str.append (table.key)
-					lio.put_integer_field (str.generator + " base", table.item)
+					str.append (@ int_32.key)
+					lio.put_integer_field (str.generator + " base", int_32)
 					lio.put_new_line
-					inspect table.item
+					inspect int_32
 						when 2 then
 							n := b2.to_integer (str)
 						when 8 then
@@ -67,7 +67,7 @@ feature -- Conversion tests
 
 feature {NONE} -- Implementation
 
-	String_table: EL_HASH_TABLE [INTEGER, STRING]
+	Integer_32_table: EL_HASH_TABLE [INTEGER, STRING]
 		once
 			Result := << ["11111111", 2], ["0377", 8], ["0xFF", 16] >>
 		end

@@ -47,7 +47,7 @@ feature -- Access
 			create Result.make (5)
 			create dir.make (Rates_dir)
 			across dir.files_with_extension (XML_extension) as file_path loop
-				Result.extend (Date_factory.create_date (file_path.item.base_name))
+				Result.extend (Date_factory.create_date (file_path.base_name.to_string_8))
 			end
 			Result.reverse_sort
 			Result.compare_objects

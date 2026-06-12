@@ -71,8 +71,8 @@ feature -- Basic operations
 					end
 				else
 					across new_list (string_value) as str until argument.manager.has_error loop
-						if is_convertible (str.item) then
-							try_put_value (value (str.item))
+						if is_convertible (str) then
+							try_put_value (value (str))
 						else
 							extend_errors (agent {EL_COMMAND_ARGUMENT_ERROR}.set_type_error (type_description))
 						end
@@ -171,10 +171,10 @@ feature {NONE} -- Implementation
 
 	validate (a_value: like value)
 		local
-			l_operands: TUPLE; description: ZSTRING; valid_value: PREDICATE
+			l_operands: TUPLE; description: ZSTRING
 		do
-			across argument.validation_table as table loop
-				description := table.key; valid_value := table.item
+			across argument.validation_table as valid_value loop
+				description := @ valid_value.key
 
 				inspect valid_value.open_count
 					when 1 then

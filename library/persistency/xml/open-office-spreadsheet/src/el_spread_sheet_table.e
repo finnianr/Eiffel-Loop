@@ -66,8 +66,8 @@ feature -- Access
 	maximum_column_count: INTEGER
 		do
 			across Current as l_row loop
-				if l_row.item.count > Result then
-					Result := l_row.item.count
+				if l_row.count > Result then
+					Result := l_row.count
 				end
 			end
 		end
@@ -125,7 +125,7 @@ feature {NONE} -- Implementation
 			create columns.make_empty
 			across defined_ranges as range loop
 			-- parse: 'IT Jobs'.G1:.G46
-				create cell_range_address.make (range.key, '.')
+				create cell_range_address.make (@ range.key, '.')
 				if attached cell_range_address as list and then list.count = 3 then
 					from list.start until list.after loop
 						inspect list.index
@@ -133,16 +133,16 @@ feature {NONE} -- Implementation
 								name := list.item_copy
 								name.remove_bookends ('%'', '%'')
 							when 2 then
-								left_c := range.key.item_8 (list.item_lower)
+								left_c := @ range.key.item_8 (list.item_lower)
 							when 3 then
-								right_c := range.key.item_8 (list.item_lower)
+								right_c := @ range.key.item_8 (list.item_lower)
 						else
 						end
 						list.forth
 					end
 					if left_c = right_c then
 						column := left_c |-| 'A' + 1
-						Result [range.item] := column
+						Result [range] := column
 					end
 				end
 			end

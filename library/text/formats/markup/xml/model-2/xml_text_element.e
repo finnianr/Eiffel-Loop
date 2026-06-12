@@ -55,9 +55,9 @@ feature -- Access
 			if attached String_pool.borrowed_item as borrowed then
 				if attached borrowed.empty as str then
 					str.append (open)
-					if attached actual_attribute_list as l_attribute_list and then l_attribute_list.count > 0 then
+					if attribute_list.count > 0 then
 						str.remove_tail (1)
-						across l_attribute_list as l_attribute loop
+						across attribute_list as l_attribute loop
 							str.append_character (' ')
 							str.append (l_attribute.to_string (False))
 						end

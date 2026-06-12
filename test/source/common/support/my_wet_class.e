@@ -101,7 +101,7 @@ feature -- Basic operations
 	print_fields (lio: EL_LOGGABLE)
 		do
 			across data_export as field loop
-				lio.put_labeled_string (field.key, field.item)
+				lio.put_labeled_string (@ field.key, field)
 				lio.put_new_line
 			end
 		end

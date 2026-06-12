@@ -42,7 +42,7 @@ feature {NONE} -- Implementation
 
 	do_with (line: STRING)
 		do
-			if across warning_list as warning some line.has_substring (warning.item) end then
+			if across warning_list as warning some line.has_substring (warning) end then
 				extend_intruder_list (line)
 			end
 		end

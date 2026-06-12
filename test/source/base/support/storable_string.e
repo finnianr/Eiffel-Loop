@@ -21,8 +21,6 @@ inherit
 			make_default as make_empty
 		undefine
 			copy, is_equal, out
-		redefine
-			write, read_default
 		end
 
 create

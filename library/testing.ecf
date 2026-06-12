@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system name = "EL_testing" library_target = "EL_testing" uuid = "229B6BF6-09AA-11DF-87A7-175ABB67064B" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
+<system name = "EL_testing" library_target = "EL_testing" uuid = "229B6BF6-09AA-11DF-87A7-175ABB67064B" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-23-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-23-0 http://www.eiffel.com/developers/xml/configuration-1-23-0.xsd">
 	<description>
 Development Testing
 
@@ -10,9 +10,13 @@ These are used extensively in Eiffel-Loop projects.
 	</description>
 	<target name = "EL_testing">
 		<root all_classes = "true"/>
-		<option namespace = "Eiffel-Loop.Library.Testing" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
+		<option namespace = "Eiffel-Loop.Library.Testing" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "warning">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
+		<capability>
+			<concurrency support="thread"/>
+			<void_safety support="none"/>
+		</capability>
 		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "ise_testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>

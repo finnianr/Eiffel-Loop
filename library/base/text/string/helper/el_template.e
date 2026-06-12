@@ -50,11 +50,11 @@ feature {NONE} -- Initialization
 			variable_count := a_template.occurrences ('$')
 			create place_holder_table.make (variable_count)
 			make_list (variable_count * 2)
-			across iterable.new_split_on_character (template, '$') as list loop
-				offset := @ list.item_lower
-				if attached {S} list as item then
+			across iterable.new_split_on_character (template, '$') as part loop
+				offset := @ part.item_lower
+				if attached {S} part as item then
 					item_count := item.count
-					if @ list.cursor_index = 1 or else previous_end_character = '%%' then
+					if @ part.cursor_index = 1 or else previous_end_character = '%%' then
 						if previous_end_character = '%%' then
 							last.put_code ({EL_ASCII}.Dollar, last.count)
 						end
@@ -95,6 +95,14 @@ feature -- Access
 		-- variable name list
 		do
 			Result := place_holder_table.key_list
+			Result.compare_objects
+		end
+
+	sorted_name_list: EL_STRING_8_LIST
+		-- sorted variable name list
+		do
+			create Result.make_from_general (name_list)
+			Result.sort (True)
 		end
 
 feature -- Status query

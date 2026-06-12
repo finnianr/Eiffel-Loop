@@ -34,8 +34,8 @@ feature -- Basic operations
 			Precursor
 			create user_agent_group_table.make ((not_found_list.count // 20).max (20))
 
-			across not_found_list as list loop
-				user_agent_group_table.extend (list.item)
+			across not_found_list as log_entry loop
+				user_agent_group_table.extend (log_entry)
 			end
 			user_agent_group_table.display (True, " 404 REQUESTS FROM AGENT")
 		end

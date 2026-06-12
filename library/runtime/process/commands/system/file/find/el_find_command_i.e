@@ -24,7 +24,7 @@ inherit
 		undefine
 			getter_function_table, new_transient_fields
 		redefine
-			make_default, do_with_lines, reset
+			make_default, reset
 		end
 
 	EL_MODULE_OS
@@ -153,14 +153,14 @@ feature -- Basic operations
 			set_depth (1, 1); execute
 			across path_list as source_dir loop
 				if is_lio_enabled then
-					lio.put_path_field ("Copying", source_dir.item)
+					lio.put_path_field ("Copying", source_dir)
 					lio.tab_right
 					lio.put_new_line
 					lio.put_path_field ("to", destination_dir)
 					lio.tab_left
 					lio.put_new_line
 				end
-				copy_path_item (source_dir.item, destination_dir)
+				copy_path_item (source_dir, destination_dir)
 				if is_lio_enabled then
 					lio.put_new_line
 				end

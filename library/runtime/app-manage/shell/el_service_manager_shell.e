@@ -60,12 +60,11 @@ feature {NONE} -- Implementation
 
 	new_command_table: EL_PROCEDURE_TABLE [ZSTRING]
 		local
-			screen: EL_SERVICE_SCREEN; longest_name_count: INTEGER
+			longest_name_count: INTEGER
 		do
 			longest_name_count := config.screen_list.longest_name_count
 			create Result.make (config.screen_list.count)
-			across config.screen_list as list loop
-				screen := list.item
+			across config.screen_list as screen loop
 				Result [screen.menu_name (longest_name_count)] := agent screen.resume_or_launch (Current)
 			end
 		end

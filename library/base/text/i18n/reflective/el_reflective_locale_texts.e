@@ -119,8 +119,20 @@ feature -- Access
 		do
 			create Result.make (field_table.count)
 			across field_table as field loop
-				if attached {EL_REFLECTED_ZSTRING} field as l_field then
-					Result.extend (l_field.value (current_reflective))
+				if attached {EL_REFLECTED_ZSTRING} field as zstring_field then
+					Result.extend (zstring_field.value (current_reflective))
+				end
+			end
+		end
+
+	quantity_template_table: EL_STRING_8_TABLE [EL_QUANTITY_TEMPLATE]
+		once ("OBJECT")
+			create Result.make (3)
+			across field_table as field loop
+				if attached {EL_REFLECTED_REFERENCE [ANY]} field as ref_field
+					and then attached {EL_QUANTITY_TEMPLATE} ref_field.value (Current) as template
+				then
+					Result.extend (template, field.name)
 				end
 			end
 		end
@@ -191,12 +203,12 @@ feature {NONE} -- Factory
 		do
 			text_table := english_table
 			if text_table.has ('%%') and then
-				across Substitution_table as table some text_table.has_substring (table) end
+				across Substitution_table as substitution some text_table.has_substring (substitution) end
 			then
 				create substituted_text.make (text_table.count + text_table.occurrences ('%%') * 2)
 				substituted_text.append_string_general (text_table)
-				across Substitution_table as table loop
-					substituted_text.replace_substring_all (@ table.key, table)
+				across Substitution_table as substitution loop
+					substituted_text.replace_substring_all (@ substitution.key, substitution)
 				end
 				create Result.make_indented_eiffel (substituted_text)
 			else
@@ -206,7 +218,7 @@ feature {NONE} -- Factory
 
 	new_quantity_table (text: ZSTRING): EL_ZSTRING_TABLE
 		do
-			Result := text
+			create Result.make_indented_eiffel (text)
 		ensure
 			valid_keys: across Result as name all Quantifier_names.has (@ name.key) end
 		end
@@ -266,9 +278,9 @@ feature {NONE} -- Implementation
 
 	set_as_paragraph (str: ZSTRING)
 		do
-			if attached str.lines as lines then
+			if attached str.lines as line_list then
 				str.wipe_out
-				across lines as line loop
+				across line_list as line loop
 					if line.is_empty then
 						str.append_character ('%N')
 					else

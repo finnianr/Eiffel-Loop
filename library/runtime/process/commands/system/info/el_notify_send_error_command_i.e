@@ -35,12 +35,12 @@ feature -- Element change
 
 feature -- Contract Support
 
-	valid_urgency (value: READABLE_STRING_GENERAL): BOOLEAN
+	valid_urgency (a_value: READABLE_STRING_GENERAL): BOOLEAN
 		local
 			valid_values: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
 		do
 			create valid_values.make_from_tuple (Urgency)
-			Result := across valid_values as list some list.item = value end
+			Result := across valid_values as value some value = a_value end
 		end
 
 feature {NONE} -- Implementation

@@ -32,7 +32,7 @@ feature {NONE} -- Implementation
 		do
 			create applications_menu.make_root (package_sub_dir (Applications_merged_dir))
 			across Application_list.installable_list as installable loop
-				create menu_desktop.make_relocated (installable.item, agent package_sub_dir)
+				create menu_desktop.make_relocated (installable, agent package_sub_dir)
 				menu_desktop.install_entry_steps
 				applications_menu.extend (menu_desktop.entry_steps)
 			end

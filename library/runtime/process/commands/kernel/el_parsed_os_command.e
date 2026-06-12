@@ -83,7 +83,7 @@ feature -- Status query
 			Result := True
 			across name_list as name until not Result loop
 				var_name.keep_head (1)
-				var_name.append (name.item)
+				var_name.append (name)
 				if substituted.has_substring (var_name) then
 					Result := False
 				end
@@ -142,7 +142,7 @@ feature {NONE} -- Implementation
 			Result := True
 			across name_list as name until not Result loop
 				var_name.keep_head (1)
-				var_name.append (name.item)
+				var_name.append (name)
 				pos := l_template.substring_index (var_name, pos + 1)
 				if pos > 0 then
 					pos := pos + var_name.count - 1

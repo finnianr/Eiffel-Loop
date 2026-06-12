@@ -71,25 +71,22 @@ feature -- Basic operations
 		end
 
 	put (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
-		local
-			value_table: like item
 		do
-			across Current as line loop
-				value_table := line.item
+			across Current as value_table loop
 				if value_table.count > 0 then
 					output.put_indent (tab_count)
 					across value_table as table loop
-						if not table.is_first then
+						if not @ table.is_first then
 							output.put_string_8 (Semicolon_space)
 						end
-						output.put_string_8 (table.key)
+						output.put_string_8 (@ table.key)
 						output.put_string_8 (Equals_sign)
-						if line.cursor_index = Type_quoted then
+						if @ value_table.cursor_index = Type_quoted then
 							output.put_character_8 ('"')
-							output.put_string (Pyxis.escaped (table.item, False))
+							output.put_string (Pyxis.escaped (@ table.item, False))
 							output.put_character_8 ('"')
 						else
-							output.put_string (table.item)
+							output.put_string (table)
 						end
 					end
 					output.put_new_line
@@ -97,7 +94,7 @@ feature -- Basic operations
 				value_table.wipe_out
 			end
 		ensure
-			empty_attribute_lines: across Current as line all line.item.is_empty end
+			empty_attribute_lines: across Current as line all line.is_empty end
 		end
 
 feature {NONE} -- Implementation

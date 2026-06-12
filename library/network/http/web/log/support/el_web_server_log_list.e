@@ -38,8 +38,8 @@ feature {NONE} -- Initialization
 			log_path_wildcard.add_extension ("*")
 			if attached OS.file_pattern_list (log_path_wildcard) as file_list then
 				make_list (file_list.count)
-				across file_list as list loop
-					extend (create {EL_WEB_SERVER_LOG}.make (list.item))
+				across file_list as path loop
+					extend (create {EL_WEB_SERVER_LOG}.make (path))
 				end
 				order_by (agent {EL_WEB_SERVER_LOG}.modification_time, False)
 			else

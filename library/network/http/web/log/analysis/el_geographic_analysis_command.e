@@ -42,7 +42,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create human_agent_table.make_equal (50)
 			create human_entry_list.make (500)
 			across config.page_list as page loop
-				page_table.extend_area (create {SPECIAL [NATURAL]}.make_empty (50), page.item)
+				page_table.extend_area (create {SPECIAL [NATURAL]}.make_empty (50), page)
 			end
 		end
 
@@ -54,19 +54,19 @@ feature -- Basic operations
 		do
 			Precursor -- parse log file
 
-			across human_entry_list as list loop
-				human_agent_table.put (list.item.normalized_user_agent)
+			across human_entry_list as entry loop
+				human_agent_table.put (entry.normalized_user_agent)
 			end
 			lio.put_new_line
 
-			across << bot_agent_table, human_agent_table >> as table loop
-				if table.cursor_index = 1 then
+			across << bot_agent_table, human_agent_table >> as l_agent loop
+				if @ l_agent.cursor_index = 1 then
 					lio.put_line ("WEB CRAWLER AGENTS")
 				else
 					lio.put_line ("HUMAN AGENTS")
 				end
-				across table.item.as_sorted_list (False) as map loop
-					lio.put_natural_field (map.key, map.value)
+				across l_agent.as_sorted_list (False) as map loop
+					lio.put_natural_field (@ map.key, @ map.value)
 					lio.put_new_line
 				end
 				lio.put_new_line
@@ -79,11 +79,9 @@ feature -- Basic operations
 
 			if not_found_list.count > 0 then
 				lio.put_line ("HUMAN REQUESTS NOT FOUND")
-				across not_found_list as list loop
-					if attached list.item as entry then
-						lio.put_string_field (entry.status_code.out, entry.uri_path)
-						lio.put_new_line
-					end
+				across not_found_list as log_entry loop
+					lio.put_string_field (log_entry.status_code.out, log_entry.uri_path)
+					lio.put_new_line
 				end
 				User_input.press_enter
 				lio.put_new_line
@@ -127,8 +125,8 @@ feature {NONE} -- Implementation
 		do
 			user_agent := buffer.copied (entry.user_agent)
 			user_agent.to_lower
-			Result := across crawler_substring_list as list some
-				user_agent.has_substring (list.item)
+			Result := across crawler_substring_list as str some
+				user_agent.has_substring (str)
 			end
 		end
 
@@ -138,12 +136,10 @@ feature {NONE} -- Implementation
 		do
 			uri_index := index_of_request_uri (line)
 			if uri_index > 0 then
-				across config.page_list as page until Result loop
-					if attached page.item as uri_stem then
-						if line.same_characters (uri_stem, 1, uri_stem.count, uri_index) then
-							last_uri_stem := uri_stem
-							Result := True
-						end
+				across config.page_list as uri_stem until Result loop
+					if line.same_characters (uri_stem, 1, uri_stem.count, uri_index) then
+						last_uri_stem := uri_stem
+						Result := True
 					end
 				end
 			end
@@ -160,28 +156,26 @@ feature {NONE} -- Implementation
 		do
 			page_table.wipe_out_sets
 
-			across entry_list as list loop
-				if attached list.item as entry then
-					found := False
-					if list.cursor_index = 1 then
-						lio.put_labeled_string ("-- MONTH", entry.month_year)
-						lio.put_string (" --")
-						lio.put_new_line_x2
-					end
-					page_table.extend (entry.uri_group, entry.ip_number)
+			across entry_list as entry loop
+				found := False
+				if @ entry.cursor_index = 1 then
+					lio.put_labeled_string ("-- MONTH", entry.month_year)
+					lio.put_string (" --")
+					lio.put_new_line_x2
 				end
+				page_table.extend (entry.uri_group, entry.ip_number)
 			end
 			across page_table as page loop
-				lio.put_integer_field (page.key, page.item.count)
+				lio.put_integer_field (@ page.key, page.count)
 				lio.put_new_line
-				create location_table.make (page.item.count)
-				across page.item as ip loop
-					location_table.put (Geolocation.for_number (ip.item))
+				create location_table.make (page.count)
+				across page as ip loop
+					location_table.put (Geolocation.for_number (ip))
 				end
 				across location_table.as_sorted_list (False) as map loop
 					lio.tab_right
 					lio.put_new_line
-					lio.put_natural_field (map.key, map.value)
+					lio.put_natural_field (@ map.key, @ map.value)
 					lio.tab_left
 				end
 				lio.put_new_line_x2

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system name = "EL_eco_db" library_target = "EL_eco_db" uuid = "229B73E4-09AA-11DF-87BB-93E5E9639079" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
+<system name = "EL_eco_db" library_target = "EL_eco_db" uuid = "229B73E4-09AA-11DF-87BB-93E5E9639079" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-23-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-23-0 http://www.eiffel.com/developers/xml/configuration-1-23-0.xsd">
 	<description>
 Eco-DB (Eiffel CHAIN Orientated Database)
 
@@ -28,7 +28,11 @@ Some of the main features of this database system are as follows:
 See doc/eco-db.txt for details
 	</description>
 	<target name = "EL_eco_db">
-		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true"/>
+		<option syntax = "standard" full_class_checking = "false" trace = "false" debug = "false" warning = "warning"/>
+		<capability>
+			<concurrency support="thread"/>
+			<void_safety support="none"/>
+		</capability>
 		<root all_classes = "true"/>
 		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>

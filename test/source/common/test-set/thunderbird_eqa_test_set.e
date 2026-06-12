@@ -51,9 +51,9 @@ feature -- Tests
 			create package_root.make_from_file (package_path)
 			if attached package_root.find_node ("/package/metadata") as metadata then
 				metadata.set_namespace_key ("dc")
-				across Book_info_table as table loop
-					if attached metadata.find_node ("dc:" + new_metadata_name (table.key)) as dc then
-						assert ("same value", table.item.is_equal (dc))
+				across Book_info_table as book_info loop
+					if attached metadata.find_node ("dc:" + new_metadata_name (@ book_info.key)) as dc then
+						assert ("same value", book_info.is_equal (dc))
 						dc_count := dc_count + 1
 					end
 				end
@@ -61,9 +61,9 @@ feature -- Tests
 			assert ("7 dc fields", dc_count = 7)
 
 			across package_root.context_list ("/package/manifest/item") as manifest loop
-				href := manifest.node ["href"]
+				href := @ manifest.node ["href"]
 				item_path := package_path.parent + href
-				item_id := manifest.node ["id"]
+				item_id := @ manifest.node ["id"]
 
 				if item_path.has_extension ("png") then
 					if item_id ~ "item_1" then
@@ -93,8 +93,8 @@ feature {NONE} -- Factory
 		do
 			create Result.make (Book_info_table.count * 2 + 1)
 			Result.extend ("kindle-book:")
-			across Book_info_table as table loop
-				Result.append_split (Template.pyxis_value #$ [table.key, table.item], '%N', 0)
+			across Book_info_table as book_info loop
+				Result.append_split (Template.pyxis_value #$ [@ book_info.key, book_info], '%N', 0)
 			end
 			Result.indent (1)
 		end
@@ -122,8 +122,8 @@ feature {NONE} -- Factory
 				Result.extend ("%Tcharset = %"ISO-8859-15%"")
 			else
 				Result.extend ("%Tfolders:")
-				across folder_list as list loop
-					Result.extend (Template.folder #$ [list.item])
+				across folder_list as folder loop
+					Result.extend (Template.folder #$ [folder])
 				end
 			end
 		end
@@ -170,11 +170,11 @@ feature {NONE} -- Implementation
 				create h2_set.make_equal (11)
 				if attached open_lines (h2_path, {EL_ENCODING_TYPE}.Utf_8) as h2_lines then
 					across h2_lines as line loop
-						h2_set.put_copy (line.shared_item)
+						h2_set.put_copy (@ line.shared_item)
 					end
 				end
 				across h2_list as h2 loop
-					title := h2.node.as_full_string
+					title := @ h2.node.as_full_string
 					assert_32 (has_title + title, h2_set.has (title))
 					count := count + 1
 				end
@@ -212,7 +212,7 @@ feature {NONE} -- Implementation
 	display_book_navigation_text (ncx_root: EL_XML_DOC_CONTEXT)
 		do
 			across ncx_root.context_list ("//text") as text loop
-				lio.put_string_field ("text", text.node.as_string)
+				lio.put_string_field ("text", @ text.node.as_string)
 				lio.put_new_line
 			end
 		end

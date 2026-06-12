@@ -15,7 +15,7 @@ deferred class
 inherit
 	TB_FOLDER_EXPORTER
 		redefine
-			make_default, export_mails, set_output_file_path
+			make_default, export_mails
 		end
 
 	XML_ESCAPE_ROUTINES
@@ -75,11 +75,11 @@ feature {NONE} -- Implementation
 		do
 			-- Remove surplus breaks
 			across Text_tags as l_tag loop
-				html_doc.edit (l_tag.item.open, l_tag.item.close, agent edit_text_tags)
+				html_doc.edit (l_tag.open, l_tag.close, agent edit_text_tags)
 			end
 			-- Remove empty
 			across List_tags as l_tag loop
-				html_doc.edit (l_tag.item.open, l_tag.item.close, agent edit_list_tag)
+				html_doc.edit (l_tag.open, l_tag.close, agent edit_list_tag)
 			end
 
 	 		-- remove trailing breaks between elements <img.. /> and <p>
@@ -87,13 +87,13 @@ feature {NONE} -- Implementation
 
 			-- Change <br> to <br/>
 			across Unclosed_tags as l_tag loop
-				html_doc.edit (l_tag.item, char ('>'), agent close_empty_tag)
+				html_doc.edit (l_tag, char ('>'), agent close_empty_tag)
 			end
 			html_doc.edit (char ('&'), char (';'), agent substitute_html_entities)
 			html_doc.edit (Tag_start.image, char ('>'), agent edit_image_tag)
 			html_doc.edit (Tag_start.anchor, char ('>'), agent edit_anchor_tag)
 			across << Attribute_start.alt, Attribute_start.title >> as start loop
-				html_doc.edit (start.item, char ('"'), agent normalize_attribute_text)
+				html_doc.edit (start, char ('"'), agent normalize_attribute_text)
 			end
 		end
 
@@ -129,11 +129,11 @@ feature {NONE} -- Implementation
 			-- Remove old files that don't have a match in current `subject_set'
 			create l_dir.make (output_dir)
 			across related_file_extensions as extension loop
-				across l_dir.files_with_extension (extension.item) as file_path loop
-					if not email_list.has_subject (file_path.item.base_name) then
-						lio.put_path_field ("Removing %S", file_path.item)
+				across l_dir.files_with_extension (extension) as file_path loop
+					if not email_list.has_subject (file_path.base_name) then
+						lio.put_path_field ("Removing %S", file_path)
 						lio.put_new_line
-						File_system.remove_file (file_path.item)
+						File_system.remove_file (file_path)
 					end
 				end
 			end

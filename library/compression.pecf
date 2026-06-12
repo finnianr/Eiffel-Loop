@@ -23,21 +23,22 @@ system:
 					C_ZLIB = $ISE_LIBRARY/C_library/zlib
 			"""
 		option:
-			debug = false; full_class_checking = false; void_safety = none; syntax = standard
-			trace = false; warning = warning
+			debug = false; full_class_checking = false; syntax = standard; trace = false; warning = warning
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 		capability:
 			concurrency:
 				support = thread; use = thread
+			void_safety:
+				support = none
 		root:
 			all_classes = true
 				
 		external_include:
 			location = "$(C_ZLIB)"
 
-		external_object:
-			location = "-L$(C_ZLIB) -lz"
+		external_linker_flag:
+			value = "-L$(C_ZLIB) -lz"
 			condition:
 				platform = unix
 

@@ -32,16 +32,16 @@ feature {NONE} -- Implementation
 			Execution_environment.set_library_path
 		end
 
-	new_platform_types: TUPLE [
+	new_platform_types: TUPLE --[
 	-- Test fast-cgi.ecf
-		FAST_CGI_TEST_APP, HACKER_INTERCEPT_TEST_SERVICE_APP,
+	--	FAST_CGI_TEST_APP, HACKER_INTERCEPT_TEST_SERVICE_APP,
 
 	-- Test TagLib.ecf (Not yet available in Windows due to contrib/C++ links to external library)
-		TAGLIB_AUTOTEST_APP,
+	--	TAGLIB_AUTOTEST_APP,
 
 	-- multi-media.ecf
-		MULTIMEDIA_AUTOTEST_APP
-	]
+	--	MULTIMEDIA_AUTOTEST_APP
+	--]
 		-- extra platform specific types to supplement `new_application_types'
 		do
 			create Result

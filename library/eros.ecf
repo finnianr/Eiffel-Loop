@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system name = "EL_eros" library_target = "EL_eros" uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
+<system name = "EL_eros" library_target = "EL_eros" uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-23-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-23-0 http://www.eiffel.com/developers/xml/configuration-1-23-0.xsd">
 	<description>
 Eiffel Remote Object Server (EROS)
 
@@ -18,9 +18,13 @@ See doc/eros.txt for details.
 	</description>
 	<target name = "EL_eros">
 		<root all_classes = "true"/>
-		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
+		<option syntax = "standard" full_class_checking = "false" trace = "false" debug = "false" warning = "warning">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
+		<capability>
+			<concurrency support="thread"/>
+			<void_safety support="none"/>
+		</capability>
 		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>

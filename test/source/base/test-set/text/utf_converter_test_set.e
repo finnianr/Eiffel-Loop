@@ -43,11 +43,9 @@ feature {NONE} -- Implementation
 
 	do_test (test_utf: PROCEDURE [STRING_32, INTEGER, INTEGER])
 		local
-			str_32: STRING_32; i, start_index, end_index: INTEGER
-			break: BOOLEAN
+			i, start_index, end_index: INTEGER; break: BOOLEAN
 		do
-			across Text.lines_32 as line loop
-				str_32 := line.item
+			across Text.lines_32 as str_32 loop
 				break := False
 				from i := str_32.count until i < 1 or break loop
 					if str_32.code (i) > 0x7F then

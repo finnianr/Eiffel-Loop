@@ -20,17 +20,17 @@ system:
 				* Text Processing
 				* Utility
 			"""
-		capability:
-			concurrency:
-				support = thread; use = thread
 		root:
 			all_classes = true
 
 		option:
 			namespace = "Eiffel-Loop.Library"; trace = false; debug = false; warning = warning
-			syntax = standard; full_class_checking = false; void_safety = none
+			syntax = standard; full_class_checking = false
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = false
+		capability:
+			void_safety:
+				support = none
 
 		mapping:
 			ZSTRING = EL_ZSTRING

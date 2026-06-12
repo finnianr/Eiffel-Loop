@@ -24,7 +24,7 @@ inherit
 		undefine
 			make_default, launch_command, getter_function_table
 		redefine
-			Command_args_template, launch_command
+			Command_args_template
 		end
 
 create

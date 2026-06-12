@@ -30,12 +30,8 @@ deferred class
 	EL_CODE_TEXT_TABLE_I
 
 inherit
-	EL_LAZY_ATTRIBUTE
-		rename
-			new_item as new_cache,
-			cached_item as actual_cache
-		end
-
+	ANY
+	
 	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_CONVERT_STRING
@@ -96,9 +92,9 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
-	cache: like new_cache
-		do
-			Result := lazy_item
+	cache: EL_HASH_TABLE [ZSTRING, INTEGER_64]
+		once ("OBJECT")
+			create Result.make_equal (11)
 		end
 
 	search (code: INTEGER_64; line_list: EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER; utf_8_encoded: BOOLEAN)
@@ -150,13 +146,6 @@ feature {NONE} -- Implementation
 					Result := line [1] = '%T'
 				end
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	new_cache: EL_HASH_TABLE [ZSTRING, INTEGER_64]
-		do
-			create Result.make_equal (11)
 		end
 
 feature {NONE} -- Deferred

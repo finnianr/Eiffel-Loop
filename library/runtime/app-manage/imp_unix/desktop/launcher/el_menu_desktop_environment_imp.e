@@ -72,7 +72,7 @@ feature -- Basic operations
 	install_entry_steps
 		do
 			across entry_steps.non_standard_items as entry loop
-				entry.item.install
+				entry.install
 			end
 		end
 
@@ -80,7 +80,7 @@ feature -- Basic operations
 			--
 		do
 			across entry_steps.non_standard_items as entry loop
-				entry.item.uninstall
+				entry.uninstall
 			end
 			Applications_menu.remove
 		end

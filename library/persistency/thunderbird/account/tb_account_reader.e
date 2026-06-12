@@ -31,7 +31,7 @@ inherit
 
 	EL_BUILDABLE_FROM_PYXIS
 		redefine
-			make_default, make_from_file, building_action_table
+			make_default, make_from_file
 		end
 
 	EL_FILE_OPEN_ROUTINES
@@ -64,7 +64,7 @@ feature {NONE} -- Initialization
 			mail_dir_path.append_step (".thunderbird")
 			if attached open_lines (mail_dir_path + "profiles.ini", Utf_8) as profile_lines then
 				across profile_lines as lines loop
-					if attached lines.shared_item as line and then line.starts_with (Path_equals) then
+					if attached @ lines.shared_item as line and then line.starts_with (Path_equals) then
 						mail_dir_path.append_step (line.split_list ('=').last)
 					end
 				end

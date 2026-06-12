@@ -17,26 +17,16 @@ deferred class
 inherit
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
 		redefine
-			new_type_description, type
+			type_description, type
 		end
 
 feature -- Access
 
 	type: TYPE [STRING_GENERAL]
 
-feature -- Basic operations
-
-	put_tuple_item (a_tuple: TUPLE; value: G; index: INTEGER)
-		-- put `value' at `index' position in `a_tuple'
-		do
-			a_tuple.put_reference (value, index)
-		end
-
-feature {NONE} -- Implementation
-
-	new_type_description: STRING
+	type_description: STRING
 		-- terse English language description of type
-		do
+		once ("OBJECT")
 			if {ISE_RUNTIME}.type_conforms_to (type.type_id, ({STRING_GENERAL}).type_id) then
 				create Result.make_empty
 			else
@@ -48,4 +38,13 @@ feature {NONE} -- Implementation
 				Result.append ("unicode string")
 			end
 		end
+
+feature -- Basic operations
+
+	put_tuple_item (a_tuple: TUPLE; value: G; index: INTEGER)
+		-- put `value' at `index' position in `a_tuple'
+		do
+			a_tuple.put_reference (value, index)
+		end
+
 end

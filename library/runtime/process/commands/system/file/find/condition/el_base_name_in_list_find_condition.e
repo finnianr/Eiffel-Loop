@@ -32,12 +32,12 @@ feature {NONE} -- Status query
 			separator: CHARACTER_32
 		do
 			separator := Operating_environment.Directory_separator
-			across base_name_list as list until Result loop
-				if path.ends_with (list.item) then
-					if path.count = list.item.count then
+			across base_name_list as base_name until Result loop
+				if path.ends_with (base_name) then
+					if path.count = base_name.count then
 						Result := True
 					else
-						Result := path [path.count - list.item.count] = separator
+						Result := path [path.count - base_name.count] = separator
 					end
 				end
 			end

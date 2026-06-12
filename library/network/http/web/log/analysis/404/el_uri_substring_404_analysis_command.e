@@ -50,22 +50,20 @@ feature -- Basic operations
 			create request_counter_table.make (500)
 			create request_list.make (50)
 			ask_to_filter_extensions
-			across not_found_list as list loop
-				if attached list.item as entry then
-					if entry.has_excess_digits then
-						excess_digit_count := excess_digit_count + 1
+			across not_found_list as entry loop
+				if entry.has_excess_digits then
+					excess_digit_count := excess_digit_count + 1
 
-					elseif not utf.is_valid_string_8 (entry.uri_path) then
-						if not invalid_utf_8 then
-							lio.put_line ("INVALID UTF-8")
-							invalid_utf_8 := True
-						end
-						lio.put_line (entry.uri_path)
+				elseif not utf.is_valid_string_8 (entry.uri_path) then
+					if not invalid_utf_8 then
+						lio.put_line ("INVALID UTF-8")
+						invalid_utf_8 := True
+					end
+					lio.put_line (entry.uri_path)
 
-					elseif filter_foreign implies not matches_foreign (entry) then
-						if not excluded (entry) and then attached uri_part (entry) as str and then str.count > 0 then
-							request_counter_table.put (str)
-						end
+				elseif filter_foreign implies not matches_foreign (entry) then
+					if not excluded (entry) and then attached uri_part (entry) as str and then str.count > 0 then
+						request_counter_table.put (str)
 					end
 				end
 			end
@@ -80,10 +78,10 @@ feature -- Basic operations
 			end
 			if attached request_counter_table.as_count_group_table as group_table then
 				group_table.sort_by_key (False) -- most occurrences first
-				across group_table as table loop
-					create request_list.make_from_special (table.item_area)
+				across group_table as group loop
+					create request_list.make_from_special (@ group.item_area)
 					request_list.sort (True)
-					lio.put_natural_field ("OCCURRENCES", table.key)
+					lio.put_natural_field ("OCCURRENCES", @ group.key)
 					lio.put_new_line
 					if grid_column_count > 1 then
 						lio.put_columns (request_list, grid_column_count, grid_column_width)
@@ -101,9 +99,9 @@ feature -- Basic operations
 				minimum_occurrences := natural_input.value
 				if minimum_occurrences > 0 then
 					request_list.wipe_out
-					across request_counter_table as table loop
-						if table.item >= minimum_occurrences then
-							request_list.extend (table.key)
+					across request_counter_table as request_counter loop
+						if request_counter >= minimum_occurrences then
+							request_list.extend (@ request_counter.key)
 						end
 					end
 					request_list.sort (True)
@@ -120,18 +118,18 @@ feature {NONE} -- Implementation
 	ask_to_filter_extensions
 		do
 			filter_foreign := False
-			across << Predicate.has_extension, Predicate.starts_with >> as p loop
-				lio.put_labeled_string ("PREDICATE", p.item)
+			across << Predicate.has_extension, Predicate.starts_with >> as predicate_string loop
+				lio.put_labeled_string ("PREDICATE", predicate_string)
 				lio.put_new_line
-				if attached config.new_match_manifest (p.item) as lines then
+				if attached config.new_match_manifest (predicate_string) as lines then
 					lio.put_columns (lines.split ('%N'), 8, 6)
 					lio.put_new_line
-					if User_input.approved_action_y_n ("Exclude entries matching " + p.item) then
+					if User_input.approved_action_y_n ("Exclude entries matching " + predicate_string) then
 						filter_foreign := True
-						if p.item = Predicate.has_extension then
+						if predicate_string = Predicate.has_extension then
 							create foreign_extension_set.make (lines)
 
-						elseif p.item = Predicate.starts_with  then
+						elseif predicate_string = Predicate.starts_with  then
 							create foreign_starts_with_set.make_with_lines (lines)
 						end
 					end
@@ -145,7 +143,7 @@ feature {NONE} -- Implementation
 				Result := foreign_extension_set.has (extension)
 			end
 			if not Result then
-				Result := across foreign_starts_with_set as set some entry.uri_path.starts_with (set.item) end
+				Result := across foreign_starts_with_set as str some entry.uri_path.starts_with (str) end
 			end
 		end
 

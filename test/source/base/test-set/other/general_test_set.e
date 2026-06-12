@@ -111,8 +111,8 @@ feature -- Tests
 			parts: EL_ZSTRING_LIST; padding_permutation_set: EL_HASH_SET [STRING]
 		do
 			create padding_permutation_set.make_equal (3)
-			across Hexagram.String_arrays.new_cursor as array loop
-				create parts.make_from_general (array.item)
+			across Hexagram.String_arrays as array loop
+				create parts.make_from_general (array)
 				zstr := parts.as_word_string
 				base_64_str := Base_64.encoded (zstr.to_utf_8, True)
 				last_8_characters := base_64_str.substring (base_64_str.count - 8 + 1, base_64_str.count)
@@ -120,7 +120,7 @@ feature -- Tests
 				trimmed := last_8_characters.twin; trimmed.prune_all_trailing ('=')
 				create padding.make_filled ('=', last_8_characters.count - trimmed.count)
 				lio.put_labeled_string (parts.first, last_8_characters)
-				if array.cursor_index \\ 4 = 0 then
+				if @ array.cursor_index \\ 4 = 0 then
 					lio.put_new_line
 				else
 					lio.put_character (' ')

@@ -12,9 +12,6 @@ note
 class
 	EL_DEFERRED_CELL [G]
 
-inherit
-	EL_LAZY_ATTRIBUTE
-
 create
 	make
 
@@ -28,15 +25,18 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	item: like new_item
-		do
-			Result := lazy_item
+		once ("OBJECT")
+			Result := new_item
+			item_created := True
 		end
 
 feature -- Element change
 
 	update
 		do
-			cached_item := new_item
+			if item_created then
+				item.copy (new_item)
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -50,4 +50,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	item_factory: FUNCTION [G]
+
+	item_created: BOOLEAN
 end

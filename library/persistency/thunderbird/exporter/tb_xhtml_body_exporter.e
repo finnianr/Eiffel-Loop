@@ -75,13 +75,13 @@ feature {NONE} -- Implementation
 			create Result.make (email.content.occurrences ('%N') + 1)
 			across email.content.split ('%N') as line until done loop
 				if collecting then
-					if line.item.has_substring (Tag.body.close) then
+					if line.has_substring (Tag.body.close) then
 						done := True
 					else
-						Result.extend (line.item_copy)
+						Result.extend (@ line.item_copy)
 					end
 
-				elseif line.item.has_substring (Tag_start.body) then
+				elseif line.has_substring (Tag_start.body) then
 					collecting := True
 				end
 			end

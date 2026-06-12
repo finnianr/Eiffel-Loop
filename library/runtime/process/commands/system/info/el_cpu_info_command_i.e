@@ -19,8 +19,6 @@ inherit
 		export
 			{NONE} all
 			{EL_MODULE_SYSTEM} template -- for testing
-		redefine
-			do_with_output_lines
 		end
 
 	EL_OS_DEPENDENT

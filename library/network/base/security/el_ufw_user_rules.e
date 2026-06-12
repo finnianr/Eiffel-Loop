@@ -99,18 +99,18 @@ feature -- Basic operations
 		do
 			create rules.make_open_write (path)
 			across << head_lines, tail_lines >> as line_list loop
-				across line_list.item as line loop
-					rules.put_string (line.item)
-					if not (line_list.is_last and line.is_last) then
+				across line_list as line loop
+					rules.put_string (line)
+					if not (@ line_list.is_last and @ line.is_last) then
 						rules.put_new_line
 					end
 				end
-				if line_list.is_first and then attached Port_list as ports
+				if @ line_list.is_first and then attached Port_list as ports
 					and then attached Deny_rule_template as template
 				then
-					across denied_access_table as table loop
-						denied_ports := table.item
-						if attached Net_address.to_string (table.key) as ip_address then
+					across denied_access_table as bitmap loop
+						denied_ports := bitmap
+						if attached Net_address.to_string (@ bitmap.key) as ip_address then
 							from i := 1 until i > ports.count loop
 								if denied_ports.bit_test (i - 1) then
 									template.put (Var.address, ip_address)

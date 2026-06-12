@@ -17,9 +17,6 @@ class
 
 inherit
 	EL_APPLICATION_COMMAND
-		redefine
-			description
-		end
 
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_TRACK; EL_MODULE_LIO
 

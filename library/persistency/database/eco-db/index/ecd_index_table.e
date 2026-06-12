@@ -80,6 +80,13 @@ feature -- Basic operations
 			end
 		end
 
+feature -- Constract support
+
+	cursor_on_item: BOOLEAN
+		do
+			Result := not list.off
+		end
+
 feature {ECD_ARRAYED_LIST} -- Access
 
 	list: ECD_ARRAYED_LIST [G]
@@ -110,7 +117,7 @@ feature {ECD_ARRAYED_LIST} -- Event handlers
 
 	on_replace (old_item, new_item: G)
 		require else
-			cursor_on_item: not list.off
+			cursor_on_item: cursor_on_item
 		local
 			old_key, new_key: K
 		do

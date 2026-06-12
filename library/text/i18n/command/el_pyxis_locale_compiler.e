@@ -93,7 +93,7 @@ feature {NONE} -- Implementation
 
 	compile
 		local
-			language: STRING; build_path: FILE_PATH; all_items_list: EL_TRANSLATION_ITEMS_LIST
+			build_path: FILE_PATH; all_items_list: EL_TRANSLATION_ITEMS_LIST
 			pyxis_table: EL_PYXIS_ML_TRANSLATION_TABLE
 		do
 			lio.put_line ("Compiling locales..")
@@ -102,12 +102,12 @@ feature {NONE} -- Implementation
 				and attached new_relative_source_path_list as relative_path_list
 			then
 				across new_source_path_list as path loop
-					build_path := build_path_list [path.cursor_index]
+					build_path := build_path_list [@ path.cursor_index]
 					File_system.make_directory (build_path.parent)
 
-					if is_source_updated (path.item, build_path) then
-						lio.put_path_field ("Updating", relative_path_list [path.cursor_index])
-						create pyxis_table.make_from_file (path.item)
+					if is_source_updated (path, build_path) then
+						lio.put_path_field ("Updating", relative_path_list [@ path.cursor_index])
+						create pyxis_table.make_from_file (path)
 						check_missing_translations (pyxis_table)
 
 						create all_items_list.make_from_file (build_path)
@@ -119,9 +119,8 @@ feature {NONE} -- Implementation
 						create all_items_list.make_from_file (build_path)
 					end
 					lio.put_new_line
-					across all_items_list as list loop
-						if attached list.item as translation
-							and then translation.has_language
+					across all_items_list as translation loop
+						if translation.has_language
 							and then attached translations_table.item (translation.language) as items_list
 						then
 							translation.remove_language
@@ -130,11 +129,12 @@ feature {NONE} -- Implementation
 					end
 				end
 			end
-			across translations_table as table loop
-				language := table.item.file_path.base_name
-				lio.put_integer_field ("Storing " + language, table.item.count)
-				table.item.store
-				lio.put_new_line
+			across translations_table as translation_list loop
+				if attached translation_list.file_path.base_name as language then
+					lio.put_integer_field ("Storing " + language, translation_list.count)
+					translation_list.store
+					lio.put_new_line
+				end
 			end
 
 			if translations_table.has_key (Key_language) and then attached translations_table.found_item as list
@@ -180,9 +180,9 @@ feature {NONE} -- Implementation
 
 	output_modification_time: INTEGER
 		do
-			across locales as locale loop
-				if locale.item.modification_time > Result then
-					Result := locale.item.modification_time
+			across locales as l loop
+				if l.modification_time > Result then
+					Result := l.modification_time
 				end
 			end
 		end
@@ -190,8 +190,8 @@ feature {NONE} -- Implementation
 	source_changed: BOOLEAN
 		do
 			if attached new_build_path_list as build_path_list then
-				Result := across new_source_path_list as list some
-					is_source_updated (list.item, build_path_list [list.cursor_index])
+				Result := across new_source_path_list as path some
+					is_source_updated (path, build_path_list [@ path.cursor_index])
 				end
 			end
 		end

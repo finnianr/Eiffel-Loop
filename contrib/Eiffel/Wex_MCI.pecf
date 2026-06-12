@@ -1,9 +1,8 @@
 pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 system:
-	configuration_ns = "1-8-0"
-	name = Wex_MCI; uuid = "264827f0-fcb7-11dc-95ff-0800200c9a66"
-	library_target = Wex_MCI
+	configuration_ns = "1-8-0"; uuid = "264827f0-fcb7-11dc-95ff-0800200c9a66"
+	name = Wex_MCI; library_target = Wex_MCI
 
 	target:
 		name = Wex_MCI

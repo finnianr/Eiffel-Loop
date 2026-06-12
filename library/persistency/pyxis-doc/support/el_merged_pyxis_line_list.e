@@ -37,13 +37,13 @@ feature {NONE} -- Initialization
 			make_sized (path_list.sum_byte_count // 60)
 			create buffer
 			across path_list as source_path loop
-				encoding := Pyxis.encoding (source_path.item)
+				encoding := Pyxis.encoding (source_path)
 				if is_lio_enabled then
-					lio.put_labeled_string ("Merging " + encoding.name + " file", source_path.item.base)
+					lio.put_labeled_string ("Merging " + encoding.name + " file", source_path.base)
 					lio.put_new_line
 				end
 				file_count := file_count + 1
-				do_with_split (agent find_root_element, File.plain_text_lines (source_path.item), True)
+				do_with_split (agent find_root_element, File.plain_text_lines (source_path), True)
 			end
 		end
 

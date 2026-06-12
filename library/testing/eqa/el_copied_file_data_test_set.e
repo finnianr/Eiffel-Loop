@@ -31,10 +31,10 @@ feature {NONE} -- Events
 			list := source_file_list
 			create file_list.make (list.count)
 			across list as path loop
-				relative_path := Work_area_dir.plus_file (path.item.relative_path (data_dir))
+				relative_path := Work_area_dir.plus_file (path.relative_path (data_dir))
 				relative_dir := relative_path.parent
 				OS.File_system.make_directory (relative_dir)
-				OS.copy_file (path.item, relative_dir)
+				OS.copy_file (path, relative_dir)
 				file_list.extend (relative_path)
 			end
 		end
@@ -52,8 +52,8 @@ feature {NONE} -- Implementation
 	new_file_digest_table: EL_HASH_TABLE [EL_BYTE_ARRAY, FILE_PATH]
 		do
 			create Result.make (file_list.count)
-			across file_list as list loop
-				Result [list.item] := Digest.md5_plain_text (list.item)
+			across file_list as path loop
+				Result [path] := Digest.md5_plain_text (path)
 			end
 		end
 

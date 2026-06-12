@@ -86,7 +86,7 @@ feature -- Basic operations
 	print_duplicates
 		do
 			across duplicate_list as id loop
-				lio.put_string_field ("id", id.item)
+				lio.put_string_field ("id", id)
 				lio.put_string (" DUPLICATE")
 				lio.put_new_line
 			end
@@ -106,8 +106,8 @@ feature -- Element change
 		do
 			if attached table.key_list_for (language) as language_key_list then
 				accommodate (language_key_list.count)
-				across language_key_list as list loop
-					if attached list.item as key and then key.count > 3 then
+				across language_key_list as language_key loop
+					if attached language_key as key and then key.count > 3 then
 						put (table [key], key.substring (4, key.count))
 					end
 				end

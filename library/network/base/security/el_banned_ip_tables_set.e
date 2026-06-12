@@ -71,12 +71,10 @@ feature -- Initialization
 				make_from_file (a_dir_path + (Name_template #$ [port_name]))
 			-- read IP addresses from existing rules file
 				if output_path.exists then
-					across open (output_path, Read) as list loop
-						if attached list.item as line then
-							index_slash := line.substring_index (once "/32 -p tcp", 1) -- ignore udp
-							if index_slash > 0 then
-								put_item (parsed_ip_number (line, index_slash))
-							end
+					across open (output_path, Read).lines as line loop
+						index_slash := line.substring_index (once "/32 -p tcp", 1) -- ignore udp
+						if index_slash > 0 then
+							put_item (parsed_ip_number (line, index_slash))
 						end
 					end
 				end

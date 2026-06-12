@@ -41,7 +41,7 @@ feature -- Basic operations
 	export_mails (email_list: TB_EMAIL_LIST)
 		do
 			Precursor (email_list)
-			if across chapter_list as chapter some chapter.item.is_modified end then
+			if across chapter_list as chapter some chapter.is_modified end then
 				on_chapter_modified
 			else
 				lio.put_labeled_string ("No modifications", output_file_path)
@@ -64,8 +64,8 @@ feature {NONE} -- Implementation
 			assembly: EL_BOOK_ASSEMBLY
 		do
 			across chapter_list as chapter loop
-				if chapter.item.is_modified then
-					chapter.item.serialize
+				if chapter.is_modified then
+					chapter.serialize
 				end
 			end
 			create assembly.make (config.book, chapter_list, output_dir)

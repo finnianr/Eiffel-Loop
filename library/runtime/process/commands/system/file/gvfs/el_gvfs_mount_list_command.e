@@ -26,7 +26,7 @@ inherit
 			{NONE} all
 			{ANY} execute
 		redefine
-			default_template, make_default, find_volume, reset
+			make_default, find_volume, reset
 		end
 
 	EL_MODULE_TUPLE

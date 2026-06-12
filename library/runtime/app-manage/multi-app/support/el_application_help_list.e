@@ -51,7 +51,7 @@ feature -- Basic operations
 				end
 				lio.put_new_line
 				across line_list as line loop
-					lio.put_spaces (5); lio.put_line (line.item)
+					lio.put_spaces (5); lio.put_line (line)
 				end
 				if attached default_value_string (item_value.default_value) as str and then str.count > 0 then
 					lio.put_spaces (5); lio.put_labeled_string ("Default", str)

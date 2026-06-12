@@ -67,10 +67,10 @@ feature -- Status change
 
 	enable_all_except (exception_list: ARRAY [EL_BOOLEAN_OPTION])
 		require
-			valid_options: across exception_list as list all option_list.has (list.item) end
+			valid_options: across exception_list as exception all option_list.has (exception) end
 		do
-			across option_list as list loop
-				list.item.set_state (not exception_list.has (list.item))
+			across option_list as option loop
+				option.set_state (not exception_list.has (option))
 			end
 		end
 
@@ -176,8 +176,8 @@ feature {NONE} -- Implementation
 		do
 			if attached enabled_option_list as enabled_list then
 				create Result.make (enabled_list.count)
-				across field_list.name_list_for (Current, enabled_list) as list loop
-					option_name := hyphen * 2 + list.item
+				across field_list.name_list_for (Current, enabled_list) as name loop
+					option_name := hyphen * 2 + name
 					super_8 (option_name).replace_character ('_', '-') -- no-links
 					Result.extend (option_name)
 				end

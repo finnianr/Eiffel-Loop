@@ -56,7 +56,7 @@ feature -- Tests
 				covers/{EL_HTTP_CODE_DESCRIPTIONS}.code_descriptions
 			]"
 		local
-			enum: HTTP_STATUS_ENUM i: INTEGER; code: NATURAL_16
+			enum: HTTP_STATUS_ENUM i: INTEGER
 		do
 			create enum.make
 			assert ("valid description keys", enum.valid_table_keys)
@@ -64,8 +64,8 @@ feature -- Tests
 			if attached code_descriptions as manifest then
 				across <<
 					enum.continue, enum.accepted, enum.found, enum.bad_request, enum.bad_gateway
-				>> as list loop
-					i := list.cursor_index; code := list.item
+				>> as code loop
+					i := @ code.cursor_index
 					assert ("valid value", enum.valid_value (code))
 
 					assert_same_string (Void, enum.field_name (code), Name_list [i])
@@ -146,10 +146,10 @@ feature -- Tests
 			if attached code_descriptions as manifest then
 				across <<
 					status.continue, status.accepted, status.found, status.bad_request, status.bad_gateway
-				>> as field loop
-					description := field.item.str
+				>> as substring loop
+					description := substring.str
 					first_line := super_8 (description).substring_to ('%N')
-					assert_same_string (Void, field.item.lines.first, first_line)
+					assert_same_string (Void, substring.lines.first, first_line)
 					assert ("has description", manifest.has_substring (first_line))
 					assert ("tabs removed", not description.has ('%T'))
 				end
@@ -168,11 +168,11 @@ feature -- Tests
 				covers/{EL_ENUMERATION_INTEGER_16}.name
 			]"
 		local
-			code: INTEGER_16; i: INTEGER
+			i: INTEGER
 		do
 			if attached Http_status as s and then attached code_descriptions as manifest then
-				across << s.continue, s.accepted, s.found, s.bad_request, s.bad_gateway >> as list loop
-					code := list.item; i := list.cursor_index
+				across << s.continue, s.accepted, s.found, s.bad_request, s.bad_gateway >> as code loop
+					i := @ code.cursor_index
 					if attached s.description (code) as description then
 						assert ("has description", manifest.has_substring (super_8 (description).substring_to ('%N')))
 					end

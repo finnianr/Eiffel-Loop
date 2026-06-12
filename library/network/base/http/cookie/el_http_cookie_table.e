@@ -73,16 +73,16 @@ feature {NONE} -- State handlers
 			cookie_value: EL_COOKIE_STRING_8; name: STRING
 		do
 			create tab_splitter.make (line, '%T')
-			across tab_splitter as split loop
-				inspect split.cursor_index
+			across tab_splitter as part loop
+				inspect @ part.cursor_index
 					when 6 then
-						name := split.item_copy
+						name := @ part.item_copy
 					when 7 then
-						if split.item_has ('\') then
+						if @ part.item_has ('\') then
 --							assume to contain octal rather than hexadecimal escape sequences
-							create {EL_OCTAL_COOKIE_STRING_8} cookie_value.make_encoded (split.item)
+							create {EL_OCTAL_COOKIE_STRING_8} cookie_value.make_encoded (part)
 						else
-							cookie_value := split.item
+							cookie_value := part
 						end
 						value := cookie_value.decoded
 						value.remove_double

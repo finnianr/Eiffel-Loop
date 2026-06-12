@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			create type_index_table.make_equal (a_descendants.count + 1)
 			type_index_table.put (0, ({G}).type_id)
 			across a_descendants as descendant loop
-				type_index_table.put (type_index_table.count.to_natural_8, descendant.item.type_id)
+				type_index_table.put (type_index_table.count.to_natural_8, descendant.type_id)
 			end
 		end
 

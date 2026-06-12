@@ -62,8 +62,8 @@ feature -- Basic operations
 			user_agreed := User_input.entered_letter (Word.first_letter_yes)
 			lio.put_new_line
 			if user_agreed then
-				across System.user_permutation_list (Directory.app_all_list) as list loop
-					remove_directory (list.item)
+				across System.user_permutation_list (Directory.app_all_list) as user_permutation loop
+					remove_directory (user_permutation)
 				end
 			end
 		end

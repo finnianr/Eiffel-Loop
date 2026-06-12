@@ -44,7 +44,7 @@ feature -- Basic operations
 			if attached open (email_path, Write) as file_out then
 				file_out.set_encoding_from_other (Current)
 				across as_text.lines as line loop
-					file_out.put_string (line.item)
+					file_out.put_string (line)
 					file_out.put_encoded_character_8 ('%R')
 					file_out.put_new_line
 				end

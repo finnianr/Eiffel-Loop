@@ -17,12 +17,7 @@ class
 	EL_CLASS_META_DATA
 
 inherit
-	EL_LAZY_ATTRIBUTE
-		rename
-			new_item as new_alphabetical_list,
-			cached_item as actual_alphabetical_list
-		end
-
+	ANY
 	EL_REFLECTED_REFERENCE_FACTORY
 		redefine
 			tuple_field_table
@@ -57,9 +52,10 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	alphabetical_list: like new_alphabetical_list
-		do
-			Result := lazy_item
+	alphabetical_list: EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
+		-- fields sorted alphabetically
+		once ("OBJECT")
+			Result := field_list.ordered_by (agent {EL_REFLECTED_FIELD}.name, True)
 		end
 
 	field_indices_subset (name_list: STRING): EL_FIELD_INDICES_SET
@@ -89,12 +85,6 @@ feature -- Status query
 		end
 
 feature {EL_FIELD_LIST} -- Factory
-
-	new_alphabetical_list: EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
-		-- fields sorted alphabetically
-		do
-			Result := field_list.ordered_by (agent {EL_REFLECTED_FIELD}.name, True)
-		end
 
 	new_expanded_field (index: INTEGER; name: IMMUTABLE_STRING_8): EL_REFLECTED_FIELD
 		-- have not worked out how to deal with this

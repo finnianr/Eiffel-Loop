@@ -16,8 +16,6 @@ inherit
 	EVC_SERIALIZEABLE
 		rename
 			Var as Standard_var
-		redefine
-			getter_function_table
 		end
 
 	EL_MODULE_DEFERRED_LOCALE; EL_MODULE_LIO; EL_MODULE_TUPLE
@@ -115,11 +113,11 @@ feature {NONE} -- Evolicity reflection
 				if item.comment.is_empty then
 					comment := Empty_string
 				else
-					comment := Locale.in (lang.item) * item.comment
+					comment := Locale.in (lang) * item.comment
 				end
-				create context.make ([Locale.in (lang.item) * item.name, comment], once "name, comment")
+				create context.make ([Locale.in (lang) * item.name, comment], once "name, comment")
 
-				Result.extend (context, lang.item)
+				Result.extend (context, lang)
 			end
 		end
 

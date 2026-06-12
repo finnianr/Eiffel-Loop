@@ -52,6 +52,13 @@ feature -- Basic operations
 			end
 		end
 
+feature -- Contract support
+
+	waiting_condition_set: BOOLEAN
+		do
+			Result := product_count.is_set
+		end
+
 feature {NONE} -- Event handlers
 
 	on_continue
@@ -69,7 +76,7 @@ feature {NONE} -- Implementation
 	execute
 			-- Continuous loop to do action that waits to be prompted
 		require else
-			waiting_condition_set: product_count.is_set
+			waiting_condition_set: waiting_condition_set
 		do
 			Precursor
 			if consume_remaining_enabled then

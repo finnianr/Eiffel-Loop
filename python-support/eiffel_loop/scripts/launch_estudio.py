@@ -29,16 +29,18 @@ def main():
 		config = EIFFEL_CONFIG_FILE (project_py.ecf)
 		config.set_export_paths ()
 
-		eifgen_path = path.join ('build', project_py.ise.platform)
-		if not path.exists (eifgen_path):
-			dir_util.mkpath (eifgen_path)
+		build_path = path.join ('build', project_py.ise.platform)
+		if not path.exists (build_path):
+			dir_util.mkpath (build_path)
 
-		cmd = ['estudio', '-ecf_path', eifgen_path, '-config', ecf_path]
+		# /w: wait until launched process exits (not sure about this)
+		cmd = ['estudio', '-project_path', build_path, '-config', ecf_path]
 		print(cmd)
 		subprocess.call (cmd)
 
 	else:
-		print("USAGE: launch_estudio <project name>.(pecf|ecf)")
+		print ("USAGE: launch_estudio <project name>.(pecf|ecf)")
+		print ("NOTE: -project_path is always 'build/$ISE_PLATFORM'")
 
 
 if __name__ == '__main__':

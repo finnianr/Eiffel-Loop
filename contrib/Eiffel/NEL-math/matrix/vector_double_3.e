@@ -11,7 +11,7 @@ class
 
 inherit
    VECTOR_DOUBLE
-   
+
 creation
    make, make_row, make_column, make_from_array, make_from
 
@@ -26,12 +26,12 @@ feature -- Access
       do
          Result := item(1)
       end
-      
+
    y: DOUBLE assign put_y is
       do
          Result := item(2)
       end
-      
+
    z: DOUBLE assign put_z is
       do
          Result := item(3)
@@ -44,33 +44,33 @@ feature -- Element change
          put( a_x, 1 )
          put( a_y, 2 )
          put( a_z, 3 )
-      end      
+      end
 
    set_from_tuple( t: TUPLE[DOUBLE, DOUBLE, DOUBLE] ) is
       do
          put( t.double_item(1), 1 )
          put( t.double_item(2), 2 )
          put( t.double_item(3), 3 )
-      end      
+      end
 
    put_x( a_x: DOUBLE ) is
       do
          put( a_x, 1 )
       end
-      
+
    put_y( a_y: DOUBLE ) is
       do
          put( a_y, 2 )
       end
-      
+
    put_z( a_z: DOUBLE ) is
       do
          put( a_z, 3 )
       end
-      
+
 feature -- Basic operations
 
-   cross, infix "#cross" ( other: VECTOR_DOUBLE ): like Current is
+   cross alias "#cross" ( other: VECTOR_DOUBLE ): like Current is
       require
          other_size_ok: other.size = 3
          compatible_row_or_column: is_row_vector = other.is_row_vector
@@ -78,14 +78,14 @@ feature -- Basic operations
          a: DOUBLE
       do
          create Result.make_from( Current )
-         a := item(2)*other.item(3) - item(3)*other.item(2) 
+         a := item(2)*other.item(3) - item(3)*other.item(2)
          Result.put( a, 1 )
          a := item(3)*other.item(1) - item(1)*other.item(3)
          Result.put( a, 2 )
          a := item(1)*other.item(2) - item(2)*other.item(1)
          Result.put( a, 3 )
       end
-   
+
    set_from_cross( u: like Current; v: like Current ) is
       require
          compatible_row_or_column: u.is_row_vector = v.is_row_vector
@@ -94,7 +94,7 @@ feature -- Basic operations
          put( u.item(3)*v.item(1) - u.item(1)*v.item(3), 2 )
          put( u.item(1)*v.item(2) - u.item(2)*v.item(1), 3 )
       end
-   
+
 indexing
 
    license: "[ 
@@ -118,6 +118,6 @@ indexing
       IN NO EVENT SHALL THE AUTHORS BE LIABLE TO ANY PARTY FOR ANY DIRECT, 
       INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
       ARISING IN ANY WAY OUT OF THE USE OF THIS PACKAGE.
-      ]" 
+      ]"
 
 end -- class VECTOR_DOUBLE_3

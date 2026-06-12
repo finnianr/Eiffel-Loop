@@ -39,8 +39,8 @@ feature {NONE} -- Widget Implementation
 	widget_colors: EL_ARRAYED_LIST [NATURAL_8]
 		do
 			create Result.make (10)
-			across Widget_list as list loop
-				Result.extend (list.item.color)
+			across Widget_list as widget loop
+				Result.extend (widget.color)
 			end
 		end
 
@@ -132,8 +132,8 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (Character_string [1])
 			across Character_string as str loop
-				if str.cursor_index > 1 then
-					Result.put (str.item)
+				if @ str.cursor_index > 1 then
+					Result.put (str)
 				end
 			end
 		end

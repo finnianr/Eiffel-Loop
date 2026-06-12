@@ -87,8 +87,8 @@ feature -- Test comparisons
 			create intervals_list.make_from_array (<<
 				create {EL_SPLIT_INTERVALS}.make_by_string (s_32, s_32_substring)
 			>>)
-			across intervals_list as list loop
-				test.assert ("same item", list.item.same_as (intervals_s_32))
+			across intervals_list as interval loop
+				test.assert ("same interval item", interval.same_as (intervals_s_32))
 			end
 		end
 
@@ -96,8 +96,8 @@ feature -- Extended ZSTRING
 
 	is_ascii (substring_is_ascii: BOOLEAN)
 		do
-			across new_general_substring_list as list loop
-				test.assert ("methods agree", substring_is_ascii = super_readable_general (list.item).is_ascii)
+			across new_general_substring_list as substring loop
+				test.assert ("methods agree", substring_is_ascii = super_readable_general (substring).is_ascii)
 			end
 		end
 
@@ -107,13 +107,11 @@ feature -- Extended ZSTRING
 			value: STRING_32; start_index, end_index: INTEGER_32
 		do
 			value := a_value.substring (1, 3)
-			across new_general_list as list loop
-				if attached list.item as general then
-					value.keep_head (3)
-					start_index := intervals.item_lower; end_index := intervals.item_upper
-					super_readable_general (general).append_substring_to_string_32 (value, start_index, end_index)
-					test.assert ("same appended strings", value ~ a_value)
-				end
+			across new_general_list as general loop
+				value.keep_head (3)
+				start_index := intervals.item_lower; end_index := intervals.item_upper
+				super_readable_general (general).append_substring_to_string_32 (value, start_index, end_index)
+				test.assert ("same appended strings", value ~ a_value)
 			end
 		end
 
@@ -123,13 +121,11 @@ feature -- Extended ZSTRING
 			value: STRING_8; start_index, end_index: INTEGER_32
 		do
 			value := a_value.substring (1, 3)
-			across new_general_list as list loop
-				if attached list.item as general then
-					value.keep_head (3)
-					start_index := intervals.item_lower; end_index := intervals.item_upper
-					super_readable_general (general).append_substring_to_string_8 (value, start_index, end_index)
-					test.assert ("same appended strings", value ~ a_value)
-				end
+			across new_general_list as general loop
+				value.keep_head (3)
+				start_index := intervals.item_lower; end_index := intervals.item_upper
+				super_readable_general (general).append_substring_to_string_8 (value, start_index, end_index)
+				test.assert ("same appended strings", value ~ a_value)
 			end
 		end
 
@@ -138,9 +134,9 @@ feature -- Extended ZSTRING
 		local
 			start_index, end_index: INTEGER_32; l_result: BOOLEAN
 		do
-			across new_general_list as list loop
+			across new_general_list as str loop
 				start_index := intervals.item_lower; end_index := intervals.item_upper
-				if attached super_readable_general (list.item) as general then
+				if attached super_readable_general (str) as general then
 					l_result := general.is_ascii_in_bounds (start_index, end_index)
 				end
 				test.assert ("methods agree", l_result = is_ascii_interval)

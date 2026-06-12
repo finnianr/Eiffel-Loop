@@ -18,8 +18,6 @@ inherit
 			compact_integer_32 as compact_date,
 			make_from_integer_32 as make_from_compact_date,
 			set_from_integer_32 as set_from_compact_date
-		redefine
-			Range_table
 		end
 
 create

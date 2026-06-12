@@ -43,8 +43,8 @@ feature -- Basic operations
 			Precursor
 			create user_agent_group_table.make ((not_found_list.count // 20).max (20))
 
-			across not_found_list as list loop
-				if attached list.item as entry and then attached entry.geographic_location as location then
+			across not_found_list as entry loop
+				if attached entry.geographic_location as location then
 					location_grouped_entry_table.extend (location, entry)
 				end
 			end
@@ -52,15 +52,15 @@ feature -- Basic operations
 
 			location_grouped_entry_table.sort_by_item_count (False) -- location with most requests at the top
 
-			across location_grouped_entry_table as table loop
-				if attached table.key as location then
-					lio.put_integer (table.item_area.count)
+			across location_grouped_entry_table as grouped_entry loop
+				if attached @ grouped_entry.key as location then
+					lio.put_integer (@ grouped_entry.item_area.count)
 					lio.put_labeled_string (" 404 REQUESTS FROM", location)
 					lio.tab_right
 					lio.put_new_line
 					user_agent_group_table.wipe_out
-					across table.item_area as area loop
-						user_agent_group_table.extend (area.item)
+					across @ grouped_entry.item_area as area loop
+						user_agent_group_table.extend (area)
 					end
 					user_agent_group_table.display (False, " FROM AGENT")
 					lio.tab_left

@@ -78,8 +78,8 @@ feature -- Element change
 		do
 			create template.make (command_args)
 			template.disable_strict
-			across variable_table as table loop
-				template.put (table.key, table.item)
+			across variable_table as variable loop
+				template.put (@ variable.key, variable)
 			end
 			command_args := template.substituted
 		end

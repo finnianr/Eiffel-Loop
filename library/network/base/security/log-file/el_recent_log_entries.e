@@ -77,28 +77,24 @@ feature -- Element change
 
 			if last_line.count > 0 then
 			-- Try to pick up from same line in previous call to `update_intruder_list'
-				across File.plain_text_lines (log_path) as file_line loop
-					if attached file_line.item as line then
-						if continue_from_last then
-							do_with (line)
-						else
-							continue_from_last := line ~ last_line
-						end
-						if file_line.is_last then
-							last_line := line
-						end
+				across File.plain_text_lines (log_path) as line loop
+					if continue_from_last then
+						do_with (line)
+					else
+						continue_from_last := line ~ last_line
+					end
+					if @ line.is_last then
+						last_line := line
 					end
 				end
 			end
 			if not continue_from_last then
 			-- check entire log file from beginning
 				state := agent check_line
-				across File.plain_text_lines (log_path) as file_line loop
-					if attached file_line.item as line then
-						do_with (line)
-						if file_line.is_last then
-							last_line := line
-						end
+				across File.plain_text_lines (log_path) as line loop
+					do_with (line)
+					if @ line.is_last then
+						last_line := line
 					end
 				end
 			end

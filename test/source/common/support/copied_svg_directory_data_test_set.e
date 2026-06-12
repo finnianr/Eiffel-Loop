@@ -51,14 +51,14 @@ feature {NONE} -- Implementation
 		local
 			name: STRING; size: INTEGER; output_path: FILE_PATH
 		do
-			-- 11 March 2021
+		-- 11 March 2021
 			name := "convert_to_width_and_color"
 			size := 64
-			across Color_code_table as table loop
+			across Color_code_table as color_code loop
 				output_path := svg_path.without_extension
-				output_path.set_base (output_path.base + Png_name_template #$ [table.key, size, size])
+				output_path.set_base (output_path.base + Png_name_template #$ [@ color_code.key, size, size])
 
-				do_test (name, Check_sums [table.cursor_index], write_png, [size, table.item, output_path])
+				do_test (name, Check_sums [@ color_code.cursor_index], write_png, [size, color_code, output_path])
 				size := size * 2
 			end
 		end

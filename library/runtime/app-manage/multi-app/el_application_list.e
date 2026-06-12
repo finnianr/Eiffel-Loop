@@ -33,6 +33,8 @@ inherit
 
 	EL_SHARED_BASE_OPTION
 
+	EL_CHARACTER_8_CONSTANTS
+
 create
 	make
 
@@ -71,8 +73,8 @@ feature -- Access
 	application (type: TYPE [EL_APPLICATION]): detachable EL_APPLICATION
 		do
 			across Current as app until attached Result loop
-				if app.item.generating_type ~ type then
-					Result := app.item
+				if app.generating_type ~ type then
+					Result := app
 				end
 			end
 		end
@@ -93,7 +95,7 @@ feature -- Access
 	uninstall_app: detachable EL_STANDARD_UNINSTALL_APP
 		do
 			across installable_list as installable until attached Result loop
-				if attached {EL_STANDARD_UNINSTALL_APP} installable.item as app then
+				if attached {EL_STANDARD_UNINSTALL_APP} installable as app then
 					Result := app
 				end
 			end
@@ -141,7 +143,7 @@ feature -- Basic operations
 				script.serialize
 			end
 			across installable_list as app loop
-				app.item.install
+				app.install
 			end
 		end
 
@@ -149,9 +151,9 @@ feature -- Basic operations
 		do
 			lio.put_new_line
 			across Current as app loop
-				lio.put_labeled_string (app.cursor_index.out + ". command switch", "-" + app.item.option_name)
+				lio.put_index_labeled_string (@ app, "%S. command switch", hyphen + app.option_name)
 				lio.put_new_line
-				lio.put_labeled_lines ("Description", app.item.description.split ('%N'))
+				lio.put_labeled_lines ("Description", app.description.split ('%N'))
 				lio.put_new_line
 			end
 		end
@@ -159,7 +161,7 @@ feature -- Basic operations
 	uninstall
 		do
 			across installable_list as app loop
-				app.item.uninstall
+				app.uninstall
 			end
 			if has_main and then attached uninstall_script as script then
 				script.create_remove_directories_script
@@ -189,7 +191,7 @@ feature -- Element change
 		do
 			grow (count + type_list.count)
 			across type_list as type loop
-				if attached {EL_APPLICATION} Eiffel.new_instance_of (type.item.type_id) as app then
+				if attached {EL_APPLICATION} Eiffel.new_instance_of (type.type_id) as app then
 					extend (app)
 					if attached {EL_INSTALLABLE_APPLICATION} app as installable_app then
 						installable_list.extend (installable_app)

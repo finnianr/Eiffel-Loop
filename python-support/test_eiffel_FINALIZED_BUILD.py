@@ -41,8 +41,7 @@ var_names = {
 	'C_NET_ADAPTOR' : 'network-adapter',
 	'C_VTD2EIFFEL' : 'vtd2eiffel',
 	'C_VTD_XML' : 'VTD-XML-2.7',
-	'C_ZLIB' : 'zlib',
-	'LIB_CURL' : 'cURL'
+	'C_ZLIB' : 'zlib'
 }
 check_C_library_paths (var_names)
 

@@ -35,7 +35,7 @@ feature {NONE} -- Line states
 				div_lines.append (Image_divs.sub_list (1, 2))
 				extend (line)
 				from finish until l_found loop
-					if across << Tag_start.image, Tag_start.anchor >> as l_tag some item.begins_with (l_tag.item) end then
+					if across << Tag_start.image, Tag_start.anchor >> as l_tag some item.begins_with (l_tag) end then
 						l_found := True
 					else
 						back

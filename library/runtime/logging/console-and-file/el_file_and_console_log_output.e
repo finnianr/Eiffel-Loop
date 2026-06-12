@@ -32,6 +32,7 @@ inherit
 			put_boolean as put_file_boolean,
 			put_new_line as put_file_new_line,
 			put_double as put_file_double,
+			put_string_general as put_file_string_general,
 			flush as flush_file
 		export
 			{NONE} all

@@ -63,18 +63,18 @@ feature -- Tests
 				covers/{EL_TRANSFORMABLE_ZSTRING}.to_proper
 			]"
 		local
-			lower, upper, str_32: STRING_32; str: ZSTRING
+			lower, upper: STRING_32; str: ZSTRING
 			word_intervals: EL_SPLIT_INTERVALS
 		do
 			across Text.words_32 as word loop
-				lower := word.item.as_lower
+				lower := word.as_lower
 				upper := lower.as_upper
 				change_case (lower, upper)
 			end
 			change_case (Lower_case_characters, Upper_case_characters)
 
-			across Text.lines_32 as line until line.cursor_index > 2 loop
-				str_32 := line.item; str := str_32
+			across Text.lines_32 as str_32 until @ str_32.cursor_index > 2 loop
+				str := str_32
 				create word_intervals.make (str_32, ' ')
 				if attached word_intervals as word then
 					from word.start until word.after loop
@@ -100,8 +100,8 @@ feature -- Tests
 		do
 			create test.make_empty (Current)
 			across Text.words_32 as word loop
-				test.set (word.item)
-				if word.cursor_index = Line_latin_1 then
+				test.set (word)
+				if @ word.cursor_index = Line_latin_1 then
 					super_32 (test.s_32).replace_character ('=', '"') -- "Latin-1: ¼ + ¾ " 1"
 				end
 			-- 3 is appropriate quotes type
@@ -134,7 +134,7 @@ feature -- Tests
 		do
 			create test.make_empty (Current)
 			across Text.words_32 as word loop
-				test.set (word.item)
+				test.set (word)
 				assert_same_string ("mirror OK", test.zs.mirrored, test.s_32.mirrored)
 			end
 		end
@@ -145,9 +145,9 @@ feature -- Tests
 			test: STRING_TEST
 		do
 			across Text.lines_32 as line loop
-				create test.make (Current, line.item)
-				across Text.character_set as set loop
-					test.prune_all (set.item)
+				create test.make (Current, line)
+				across Text.character_set as c loop
+					test.prune_all (c)
 				end
 			end
 		end
@@ -236,9 +236,9 @@ feature -- Tests
 		do
 			across Text.cyrillic_line_32 as uc loop
 				test := new_test (Text.cyrillic_line_32)
-				if not uc.is_last then
-					uc_old := uc.item
-					uc_new := test.s_32 [uc.cursor_index + 1]
+				if not @ uc.is_last then
+					uc_old := uc
+					uc_new := test.s_32 [@ uc.cursor_index + 1]
 				end
 				sg.super_32 (test.s_32).replace_character (uc_old, uc_new)
 				test.zs.replace_character (uc_old, uc_new)
@@ -270,16 +270,16 @@ feature -- Tests
 			create word_list_32.make (50)
 			line_list := Text.lines_32
 			across line_list as line loop
-				if line.is_first or line.is_last then
-					across line.item.split (' ') as list loop
-						word_list_32.extend (list.item)
+				if @ line.is_first or @ line.is_last then
+					across line.split (' ') as word loop
+						word_list_32.extend (word)
 					end
 				end
 			end
-			across word_list_32 as list loop
-				word_pair.set (list.item)
+			across word_list_32 as word_32 loop
+				word_pair.set (word_32)
 				across Text.lines_32 as line loop
-					test.set (line.item)
+					test.set (line)
 					space_intervals.fill (test.s_32, ' ', 0)
 					start_index := space_intervals.first_lower + 1
 					end_index := space_intervals.i_th_lower (2) - 1
@@ -299,43 +299,41 @@ feature -- Tests
 			]"
 		local
 			test: STRING_TEST; word_list, s_32_words: EL_STRING_32_LIST
-			word, word_A, first_word: STRING_32; i: INTEGER
+			word_A, first_word: STRING_32; i: INTEGER
 		do
 			create word_list.make (20)
 			create test.make_empty (Current)
-			across Text.lines_32 as line loop
-				first_word := super_32 (line.item).substring_to (' ')
+			across Text.lines_32 as str_32 loop
+				first_word := super_32 (str_32).substring_to (' ')
 				word_A := "A"
-				test.set (line.item)
-				across << word_A, first_word + first_word >> as list loop
-					word := list.item
-					test.set_old_new (first_word, word)
+				test.set (str_32)
+				across << word_A, first_word + first_word >> as word_32 loop
+					test.set_old_new (first_word, word_32)
 					assert ("replace_substring_all OK", test.replace_substring_all)
 				end
 			end
 			from i := 1 until i > 4 loop
-				across Text.lines_32 as line loop
-					test.set (line.item.as_lower)
+				across Text.lines_32 as str_32 loop
+					test.set (str_32.as_lower)
 
 					word_list.wipe_out
 					-- Replace each word with A, B, C letters
 					create s_32_words.make_word_split (test.s_32)
-					across s_32_words as list loop
-						word := list.item
+					across s_32_words as word loop
 						word.to_lower
-						if not list.is_last then
+						if not @ word.is_last then
 							inspect i
 								when 2 then
 --									word plus a space
 									word.append_character (' ')
 								when 3 then
 --									2 words
-									word.append (s_32_words.i_th (list.cursor_index + 1).as_lower)
+									word.append (s_32_words.i_th (@ word.cursor_index + 1).as_lower)
 								when 4 then
 --									2 split words
-									word.append (s_32_words.i_th (list.cursor_index + 1).as_lower)
-									word.remove_head (list.item.count // 2)
-									word.remove_tail (s_32_words.i_th (list.cursor_index + 1).count // 2)
+									word.append (s_32_words.i_th (@ word.cursor_index + 1).as_lower)
+									word.remove_head (word.count // 2)
+									word.remove_tail (s_32_words.i_th (@ word.cursor_index + 1).count // 2)
 							else
 							end
 						end
@@ -346,12 +344,11 @@ feature -- Tests
 						end
 					end
 					-- Reverse replacements
-					across word_list as list loop
-						word := list.item
-						test.set_old_new (('A' + list.cursor_index - 1).out, word)
+					across word_list as word loop
+						test.set_old_new (('A' + @ word.cursor_index - 1).out, word)
 						assert ("replace_substring_all OK", test.replace_substring_all)
 					end
-					assert ("line restored", test.s_32 ~ line.item.as_lower)
+					assert ("line restored", test.s_32 ~ str_32.as_lower)
 				end
 				i := i + 1
 			end
@@ -391,21 +388,21 @@ feature -- Tests
 			end
 
 		-- Rigorous test
-			across Text.lines_32 as list loop
-				line := list.item
+			across Text.lines_32 as line_32 loop
+				line := line_32
 				assert ("canonically spaced", line.is_canonically_spaced)
 				assert ("STRING_32 canonically spaced", sg.super_32 (line.to_string_32).is_canonically_spaced)
 
 				create not_canonical_line.make (line.count * 2)
 				count := 0
 				white_space.wipe_out
-				across line.split (' ') as split loop
+				across line.split (' ') as word loop
 					if count > 0 then
 					-- insert bigger and bigger space strings
 						white_space.extend (tab_space [count \\ tab_space.count])
 						not_canonical_line.append (white_space)
 					end
-					not_canonical_line.append (split.item)
+					not_canonical_line.append (word)
 					count := count + 1
 				end
 				str_32 := not_canonical_line.to_string_32
@@ -425,15 +422,13 @@ feature -- Tests
 			test: STRING_TEST; new_set: STRING_32
 		do
 			across << space.item, Text.Ogham_space_mark, ('%U').to_character_32 >> as c loop
-				across Text.lines_32 as list loop
-					if attached list.item as line then
-						across line.split (' ') as split loop
-							if attached split.item as word and then attached new_characters_set (word) as old_set then
-								create new_set.make_filled (c.item, old_set.count)
-								test := new_test (line.twin)
-								test.set_old_new (old_set, new_set)
-								assert ("translate OK", test.translate (c.item.code = 0))
-							end
+				across Text.lines_32 as line loop
+					across line.split (' ') as word loop
+						if attached new_characters_set (word) as old_set then
+							create new_set.make_filled (c.item, old_set.count)
+							test := new_test (line.twin)
+							test.set_old_new (old_set, new_set)
+							assert ("translate OK", test.translate (c.item.code = 0))
 						end
 					end
 				end
@@ -457,7 +452,7 @@ feature {NONE} -- Implementation
 		do
 			create test.make_empty (Current)
 			across Text.words_32 as word loop
-				test.set (word.item)
+				test.set (word)
 				across << Text.Tab_character, Text.Ogham_space_mark, Text.Non_breaking_space >> as c loop
 					across 1 |..| 2 as n loop
 						inspect type
@@ -484,10 +479,10 @@ feature {NONE} -- Implementation
 			test: STRING_TEST; hash_set: EL_HASH_SET [CHARACTER_32]; set_8: EL_HASH_SET [CHARACTER_8]
 			word: STRING_32
 		do
-			across Text.lines_32 as line loop
-				create test.make (Current, line.item)
-				if attached line.item.split (' ') as word_list then
-					inspect line.cursor_index
+			across Text.lines_32 as str_32 loop
+				create test.make (Current, str_32)
+				if attached str_32.split (' ') as word_list then
+					inspect @ str_32.cursor_index
 						when Line_quattro then
 							word := word_list [4] -- "´L´Estate`"
 						when Line_euro then

@@ -50,7 +50,7 @@ feature -- Tests
 			s1 := "one"; s2 := "two"; one_two := "one, two"; one_one := "one, one"
 
 			across 1 |..| 2 as n loop
-				if n.cursor_index = 2 then
+				if @ n.cursor_index = 2 then
 					template_string.prepend (prefix_string)
 					one_one.prepend_string_general (prefix_string)
 					one_two.prepend_string_general (prefix_string)

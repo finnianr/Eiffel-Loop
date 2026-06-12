@@ -30,10 +30,8 @@ feature -- Access
 
 	hash_code: INTEGER
 		do
-			across << s_32, s_32_substring, s_32_old, s_32_new >> as list loop
-				if attached list.item as str_32 then
-					Result := Result + str_32.hash_code
-				end
+			across << s_32, s_32_substring, s_32_old, s_32_new >> as str_32 loop
+				Result := Result + str_32.hash_code
 			end
 			Result := Result.abs
 		end
@@ -314,18 +312,14 @@ feature -- Test comparisons
 			last_word: READABLE_STRING_GENERAL
 		do
 			if attached new_general_substring_list as substring_list then
-				across new_general_list as list loop
-					if attached list.item as general then
-						index_space := general.last_index_of (' ', general.count)
-						last_word := general.substring (index_space + 1, general.count)
-						found := False
-						across substring_list as list_2 until found loop
-							if attached list_2.item as substring
-								and then last_word.same_type (substring)
-							then
-								test.assert ("same string", super_readable_general (last_word).same_string (substring))
-								found := True; count := count + 1
-							end
+				across new_general_list as general loop
+					index_space := general.last_index_of (' ', general.count)
+					last_word := general.substring (index_space + 1, general.count)
+					found := False
+					across substring_list as substring until found loop
+						if last_word.same_type (substring) then
+							test.assert ("same string", super_readable_general (last_word).same_string (substring))
+							found := True; count := count + 1
 						end
 					end
 				end
@@ -368,8 +362,8 @@ feature -- Test splitting
 			if attached s_8_substring as str_8 then
 				intervals_list.extend (create {EL_SPLIT_INTERVALS}.make_by_string (zs, str_8))
 			end
-			across intervals_list as list loop
-				test.assert ("same item", list.item.same_as (intervals_s_32))
+			across intervals_list as intervals loop
+				test.assert ("same item", intervals.same_as (intervals_s_32))
 			end
 		end
 
@@ -382,11 +376,9 @@ feature -- Test splitting
 			then
 				from interval.start until interval.after loop
 					item_32 := s_32.substring (interval.item_lower, interval.item_upper)
-					across split_list_array as array loop
-						if attached array.item as split_list then
-							split_list.go_i_th (interval.index)
-							test.assert ("same item", split_list.item_same_as (item_32))
-						end
+					across split_list_array as split_list loop
+						split_list.go_i_th (interval.index)
+						test.assert ("same item", split_list.item_same_as (item_32))
 					end
 					interval.forth
 				end
@@ -399,29 +391,27 @@ feature -- Test splitting
 			start_index, end_index, first_index, last_index, delta: INTEGER; c32: EL_CHARACTER_32_ROUTINES
 		do
 			string_types := << s_32, zs >>
-			across string_types as type loop
-				if attached type.item as str then
-					create bounds_list.make (str)
-					if c32.is_space (s_32 [1]) then
-						test.assert ("first is empty", bounds_list.first_count = 0)
-						first_index := 2
-					else
-						first_index := 1
-					end
-					if c32.is_space (s_32 [s_32.count]) then
-						test.assert ("last is empty", bounds_list.last_count = 0)
-						last_index := bounds_list.count - 1
-					else
-						last_index := bounds_list.count
-					end
-					test.assert ("same word count", last_index - first_index + 1 = word_list.count)
+			across string_types as str loop
+				create bounds_list.make (str)
+				if c32.is_space (s_32 [1]) then
+					test.assert ("first is empty", bounds_list.first_count = 0)
+					first_index := 2
+				else
+					first_index := 1
+				end
+				if c32.is_space (s_32 [s_32.count]) then
+					test.assert ("last is empty", bounds_list.last_count = 0)
+					last_index := bounds_list.count - 1
+				else
+					last_index := bounds_list.count
+				end
+				test.assert ("same word count", last_index - first_index + 1 = word_list.count)
 
-					if attached bounds_list as list then
-						from list.go_i_th (first_index) until list.index > last_index loop
-							interval_item := str.substring (list.item_lower, list.item_upper)
-							test.assert_same_string (Void, word_list [list.index - first_index + 1], interval_item)
-							list.forth
-						end
+				if attached bounds_list as list then
+					from list.go_i_th (first_index) until list.index > last_index loop
+						interval_item := str.substring (list.item_lower, list.item_upper)
+						test.assert_same_string (Void, word_list [list.index - first_index + 1], interval_item)
+						list.forth
 					end
 				end
 			end

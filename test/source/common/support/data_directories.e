@@ -29,15 +29,15 @@ feature {NONE} -- Initialization
 
 	initialize (field_list: EL_FIELD_LIST)
 		do
-			across field_list as list loop
-				if attached {EL_REFLECTED_PATH} list.item as field
-					and then attached {DIR_PATH} field.value (Current) as directory
+			across field_list as field loop
+				if attached {EL_REFLECTED_PATH} field as path_field
+					and then attached {DIR_PATH} path_field.value (Current) as directory
 				then
 					directory.set_parent (eiffel_loop_dir #+ "test/data")
 				end
 			end
 		ensure then
-			all_exist: across directory_list as list all list.item.exists end
+			all_exist: across directory_list as dir_path all dir_path.exists end
 		end
 
 feature -- Test data

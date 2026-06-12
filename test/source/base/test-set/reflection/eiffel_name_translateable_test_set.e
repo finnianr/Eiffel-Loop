@@ -44,15 +44,13 @@ feature -- Tests
 		do
 			if attached generator.split ('_') as word_list then
 				across word_list as word loop
-					head_count := word.cursor_index - 1
-					tail_count := word_list.count - word.cursor_index
-					name := word.item.as_lower
+					head_count := @ word.cursor_index - 1
+					tail_count := word_list.count - @ word.cursor_index
+					name := word.as_lower
 					lio.put_index_labeled_string (head_count, "head_count = ", name)
 					lio.put_new_line
 					across << Current, generating_type >> as object loop
-						assert_same_string (
-							Void, Naming.class_as_snake_lower (object.item, head_count, tail_count), name
-						)
+						assert_same_string (Void, Naming.class_as_snake_lower (object, head_count, tail_count), name)
 					end
 				end
 			end

@@ -41,8 +41,8 @@ feature {NONE} -- Initialization
 			locale_dir := a_locale_dir
 			make_equal (7)
 			across Directory.named (locale_dir).files as path loop
-				if path.item.base.count = 2 then
-					extend (path.item, path.item.base)
+				if path.base.count = 2 then
+					extend (path, path.base)
 				end
 			end
 		end

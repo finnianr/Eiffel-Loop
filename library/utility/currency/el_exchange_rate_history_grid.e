@@ -103,7 +103,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 			currency_list.sort (False)
 			across currency_list as code until has_error loop
-				parse_html (code.cursor_index + 1, code.item)
+				parse_html (@ code.cursor_index + 1, code)
 			end
 		ensure
 			valid_column_count: width = currency_list.count + 1
@@ -150,7 +150,7 @@ feature -- Basic operations
 	export_to_csv (output_path: FILE_PATH; date_format: STRING)
 		-- export to `output_path' as comma separated values with dates formatted as `date_format'
 		local
-			csv_file: PLAIN_TEXT_FILE; column, day_row: INTEGER; date: EL_DATE
+			csv_file: PLAIN_TEXT_FILE; column: INTEGER; date: EL_DATE
 		do
 			create date.make_now
 			create csv_file.make_open_write (output_path)
@@ -158,20 +158,19 @@ feature -- Basic operations
 			csv_file.put_string ("Column No.,2")
 			across currency_list as code loop
 				csv_file.put_character (',')
-				csv_file.put_integer (code.cursor_index + 2)
+				csv_file.put_integer (@ code.cursor_index + 2)
 			end
 			csv_file.put_new_line
 
 			csv_file.put_string ("," + base_currency + " (1)")
 			across currency_list as code loop
 				csv_file.put_character (',')
-				csv_file.put_string (code.item + " to " + base_currency)
+				csv_file.put_string (code + " to " + base_currency)
 			end
 			csv_file.put_new_line
 
-			across day_of_year_table as table loop
-				day_row := table.item
-				date.make_by_ordered_compact_date (table.key)
+			across day_of_year_table as day_row loop
+				date.make_by_ordered_compact_date (@ day_row.key)
 				csv_file.put_string (date.formatted_out (date_format))
 
 				from column := 1 until column > width loop

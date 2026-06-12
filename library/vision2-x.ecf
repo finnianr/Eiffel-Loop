@@ -31,26 +31,16 @@ export:
 				<platform value = "unix"/>
 			</condition>
 		</external_include>
-		<external_object location = "-lcairo">
+		<external_linker_flag value = "-lcairo -lXrandr -lX11">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
-		</external_object>
-		<external_object location = "-lXrandr">
+		</external_linker_flag>
+		<external_linker_flag value = "-L$(C_GTK_INIT)/spec/$(ISE_PLATFORM) -lgtkinit">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
-		</external_object>
-		<external_object location = "-lX11">
-			<condition>
-				<platform value = "unix"/>
-			</condition>
-		</external_object>
-		<external_object location = "$(C_GTK_INIT)/spec/$(ISE_PLATFORM)/libgtkinit.a">
-			<condition>
-				<platform value = "unix"/>
-			</condition>
-		</external_object>
+		</external_linker_flag>
 		<external_include location = "$(CAIRO_LIB)/include/atk-1.0">
 			<condition>
 				<platform value = "windows"/>

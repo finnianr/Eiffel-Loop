@@ -80,7 +80,7 @@ feature -- Basic operations
 			elseif test_type_list.all_conform then
 				create failed_list.make_empty
 				across test_type_list as type loop
-					create evaluator.make (type.item, test_name)
+					create evaluator.make (type, test_name)
 					evaluator.execute
 					if evaluator.has_failure then
 						failed_list.extend (evaluator)
@@ -93,13 +93,13 @@ feature -- Basic operations
 					lio.put_line ("The following tests failed")
 					lio.put_new_line
 					across failed_list as failed loop
-						failed.item.print_failures
+						failed.print_failures
 					end
 					exit_code := 1
 				end
 			else
 				across test_type_list.non_conforming_list as type loop
-					lio.put_labeled_string (type.item.name, "type does not conform to " + ({EL_TEST_SET_EVALUATOR}).name)
+					lio.put_labeled_string (type.name, "type does not conform to " + ({EL_TEST_SET_EVALUATOR}).name)
 				end
 			end
 		end
@@ -110,7 +110,7 @@ feature {NONE} -- Implementation
 		do
 			Result := "Call EQA test sets for:%N"
 			across new_test_type_list as type loop
-				if attached Naming.new_type_words (type.item) as type_words then
+				if attached Naming.new_type_words (type) as type_words then
 					type_words.remove_suffix (Test_set_suffix)
 					Result.append ("%N   ")
 					Result.append (type_words.description)
@@ -132,8 +132,8 @@ feature {NONE} -- Implementation
 			type_list := test_type_list
 			create Result.make_sized (type_list.count + 1)
 			Result.show_all ({like Current})
-			across type_list as list loop
-				if attached {TYPE [EL_MODULE_LOG]} list.item as log_type then
+			across type_list as type loop
+				if attached {TYPE [EL_MODULE_LOG]} type as log_type then
 					Result.show_all (log_type)
 				end
 			end

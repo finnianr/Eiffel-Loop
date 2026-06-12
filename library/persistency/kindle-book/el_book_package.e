@@ -54,13 +54,13 @@ feature {NONE} -- Factory
 		do
 			create Result.make (50)
 			across create {EL_FILE_PATH_LIST}.make_from_tuple (path) as name loop
-				Result.extend (name.item)
+				Result.extend (name)
 			end
 			across book.chapter_list as chapter loop
-				Result.extend (chapter.item.output_path.base)
+				Result.extend (chapter.output_path.base)
 			end
 			across book.image_path_set.to_list as image_path loop
-				Result.extend (image_path.item)
+				Result.extend (image_path)
 			end
 		ensure then
 			valid_manifest: Result.count >= 3

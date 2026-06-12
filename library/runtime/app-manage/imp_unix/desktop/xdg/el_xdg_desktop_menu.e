@@ -14,9 +14,6 @@ class
 
 inherit
 	EVC_SERIALIZEABLE
-		redefine
-			getter_function_table
-		end
 
 	EL_MODULE_BUILD_INFO
 

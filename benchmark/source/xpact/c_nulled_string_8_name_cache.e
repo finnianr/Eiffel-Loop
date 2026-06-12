@@ -58,8 +58,8 @@ feature -- Access
 	used_count: INTEGER
 		-- count of buckets that have items
 		do
-			across Current as list loop
-				if list.item.count > 0 then
+			across Current as map_list loop
+				if map_list.count > 0 then
 					Result := Result + 1
 				end
 			end

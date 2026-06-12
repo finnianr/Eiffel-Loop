@@ -196,7 +196,7 @@ feature -- Output
 
 feature -- Basic operations
 
-   dot, infix "#dot"(other: VECTOR_COMPLEX_DOUBLE): COMPLEX_DOUBLE is
+   dot alias "#dot" (other: VECTOR_COMPLEX_DOUBLE): COMPLEX_DOUBLE is
       -- dot product of `Current' by `other'
       require
          other_not_void: other /= Void

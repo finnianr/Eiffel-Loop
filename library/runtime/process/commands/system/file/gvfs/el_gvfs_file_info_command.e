@@ -53,9 +53,9 @@ feature {NONE} -- Line states
 		do
 			file_exists := True
 			line.left_adjust
-			across Field_prefix_list as list until found loop
-				if line.starts_with (list.item) then
-					line.replace_substring (File_prefix, 1, list.item.count)
+			across Field_prefix_list as f_prefix until found loop
+				if line.starts_with (f_prefix) then
+					line.replace_substring (File_prefix, 1, f_prefix.count)
 					set_field_from_line (line, ':')
 					found := True
 				end

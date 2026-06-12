@@ -42,7 +42,7 @@ feature -- Basic operations
 			lio.put_line (log_name + " logs")
 			lio.put_new_line
 			across Application_list as app_list loop
-				if attached {EL_LOGGED_APPLICATION} app_list.item as app then
+				if attached {EL_LOGGED_APPLICATION} app_list as app then
 					lio.put_line (app.generator)
 					output_dir := Directory.App_data.joined_dir_tuple ([app.option_name, app.Logs_dir_name])
 					if output_dir.exists then

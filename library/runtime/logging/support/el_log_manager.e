@@ -183,20 +183,20 @@ feature -- Basic operations
 					lio.put_new_line
 				else
 					lio.put_line ("Keeping")
-					across log_path_list as list loop
-						if list.cursor_index = count + 1 then
+					across log_path_list as log_path loop
+						if @ log_path.cursor_index = count + 1 then
 							lio.put_line ("Deleting")
 							deleting := True
 						end
-						lio.put_index_labeled_string (list, Void, list.item.relative_path (Directory.App_data.parent).to_string)
+						lio.put_index_labeled_string (@ log_path, Void, log_path.relative_path (Directory.App_data.parent).to_string)
 						lio.put_new_line
 						if deleting then
-							deletion_list.extend (list.item)
+							deletion_list.extend (log_path)
 						end
 					end
 					if deletion_list.count > 0 and then User_input.approved_action_y_n ("Are you sure?") then
-						across deletion_list as list loop
-							File_system.remove_file (list.item)
+						across deletion_list as path loop
+							File_system.remove_file (path)
 						end
 					end
 				end
@@ -268,7 +268,7 @@ feature -- Status setting
 		do
 			restrict_access
 			across log_file_by_thread_id_table as log_file loop
-				log_file.item.close
+				log_file.close
 			end
 			end_restriction
 		end

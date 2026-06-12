@@ -52,15 +52,15 @@ feature -- Basic operations
 							element.keep_head (start_index - 1)
 							element.right_adjust
 							across quote_splitter as split loop
-								if split.cursor_index \\ 2 = 1 then
-									name := split.item_copy
+								if @ split.cursor_index \\ 2 = 1 then
+									name := @ split.item_copy
 									name.remove_tail (1)
 									name.right_adjust
 									search (name)
 								elseif found then
-									found_item (name, split.item, element)
+									found_item (name, split, element)
 								else
-									XML.append_attribute (name, split.item, element)
+									XML.append_attribute (name, split, element)
 								end
 							end
 							element.append (ending)

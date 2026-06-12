@@ -81,15 +81,15 @@ feature {NONE} -- Implementation
 			-- Change name of data and config directories because they are owned by root
 			-- Example: "$HOME/.config/Hex 11 Software/My Ching" becomes "$HOME/.config/Hex 11 Software-installer/My Ching"
 			across Root_owned_app_directory_list as path loop
-				parent := path.item.parent
+				parent := path.parent
 				parent.set_base (parent.base + "-installer")
-				path.item.set_parent (parent)
+				path.set_parent (parent)
 			end
 			Precursor
 			-- delete root owned directories, for example:
 			-- "$HOME/.config/Hex 11 Software-installer" + "$HOME/.Hex 11 Software-installer"
 			across Root_owned_app_directory_list as path loop
-				OS.delete_tree (path.item.parent)
+				OS.delete_tree (path.parent)
 			end
 		end
 

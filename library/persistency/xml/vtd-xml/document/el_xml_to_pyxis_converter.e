@@ -14,9 +14,6 @@ class
 
 inherit
 	EL_APPLICATION_COMMAND
-		redefine
-			description
-		end
 
 	EL_MODULE_LIO
 
@@ -199,8 +196,8 @@ feature {NONE} -- Node events
 					put_indent (node_depth + 1); put_line (Triple_quote)
 					across lines as line loop
 						put_indent (node_depth + 2)
-						line.item.left_adjust
-						put_line (line.item)
+						line.left_adjust
+						put_line (line)
 					end
 					put_indent (node_depth + 1); put_line (Triple_quote)
 				end
@@ -218,13 +215,13 @@ feature {NONE} -- Node events
 			l_lines := a_comment.split_list ('%N')
 			trim_lines (l_lines)
 			across l_lines as line loop
-				line.item.left_adjust
-				if line.item.is_empty then
+				line.left_adjust
+				if line.is_empty then
 					out_file.put_new_line
 				else
 					put_indent (node_depth + 1)
 					out_file.put_string_8 ("# ")
-					put_line (line.item)
+					put_line (line)
 				end
 			end
 		end
@@ -291,7 +288,7 @@ feature {NONE} -- Implementation
 		do
 			create line.make (attributes.count * 60)
 			across attributes.key_list as name loop
-				name_value_text := name.item + " = " + adjusted_value (attributes [name.item], False, True)
+				name_value_text := name + " = " + adjusted_value (attributes [name], False, True)
 				if line.count + name_value_text.count < 80 then
 					if not line.is_empty then
 						line.append (Colon_separator)

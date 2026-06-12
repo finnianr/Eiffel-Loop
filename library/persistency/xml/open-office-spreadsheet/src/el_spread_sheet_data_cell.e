@@ -63,9 +63,9 @@ feature {NONE} -- Initialization
 			if attached Once_paragraph_list as paragraph_list then
 				paragraph_list.wipe_out
 				across paragraph_nodes as paragraph loop
-					str := paragraph.node.as_full_string
+					str := @ paragraph.node.as_full_string
 					if str.is_empty then
-						str := paragraph.node @ Xpath_text_node
+						str := @ paragraph.node @ Xpath_text_node
 					end
 					if str.count > 0 then
 						paragraph_list.extend (str)

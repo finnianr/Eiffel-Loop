@@ -56,13 +56,13 @@ feature {NONE} -- Initialization
 			exists: BOOLEAN; localized_path: DIR_PATH
 		do
 			across << Locale.language, Locale.default_language >> as lang until exists loop
-				localized_path := locale_template #$ [lang.item]
+				localized_path := locale_template #$ [lang]
 				across
 					<< updated_base_dir (a_updated_base_dir), installed_base_dir (a_installed_base_dir) >> as base_dir
 				until
 					exists
 				loop
-					exists := base_dir.item.plus_dir (localized_path).exists
+					exists := base_dir.plus_dir (localized_path).exists
 				end
 			end
 			make (a_installed_base_dir, a_updated_base_dir, localized_path, extension)
@@ -115,8 +115,8 @@ feature {NONE} -- Implementation
 		local
 			exists: BOOLEAN
 		do
-			across path_list as list until exists loop
-				Result := list.item
+			across path_list as path until exists loop
+				Result := path
 				exists := Result.exists
 			end
 		end

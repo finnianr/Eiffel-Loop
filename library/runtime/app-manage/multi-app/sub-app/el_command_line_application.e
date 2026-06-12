@@ -41,9 +41,9 @@ feature {NONE} -- Initialization
 		do
 			make_command := default_make
 			if attached make_operands as operands then
-				across argument_list as list loop
-					list.item.set_operands (operands, list.cursor_index + first_operand_offset)
-					list.item.try_put_argument
+				across argument_list as argument loop
+					argument.set_operands (operands, @ argument.cursor_index + first_operand_offset)
+					argument.try_put_argument
 				end
 			end
 			if not has_error and then attached new_command as cmd then
@@ -106,6 +106,13 @@ feature {NONE} -- Argument items
 			if validations /= No_checks then
 				Result.validation_table.merge_array (validations)
 			end
+		end
+
+feature -- Contract support
+
+	make_command_set: BOOLEAN
+		do
+			Result := make_command /= Void
 		end
 
 feature {NONE} -- Validations
@@ -183,20 +190,20 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_valid_path_or_wild_card (path: FILE_PATH; is_optional: BOOLEAN): BOOLEAN
+	is_valid_path_or_wild_card (a_path: FILE_PATH; is_optional: BOOLEAN): BOOLEAN
 		local
 			parent_dir: DIR_PATH
 		do
-			if path.is_pattern then
-				parent_dir := path.parent
+			if a_path.is_pattern then
+				parent_dir := a_path.parent
 				if parent_dir.is_empty then
 					parent_dir := Directory.current_working
 				end
 				if parent_dir.exists then
-					Result := across OS.file_list (parent_dir, path.base) as file some file.item.exists end
+					Result := across OS.file_list (parent_dir, a_path.base) as path some path.exists end
 				end
 			else
-				Result := is_valid_path (path, is_optional)
+				Result := is_valid_path (a_path, is_optional)
 			end
 		end
 
@@ -220,16 +227,16 @@ feature {NONE} -- Implementation
 
 	options_help: EL_APPLICATION_HELP_LIST
 		require else
-			make_command_attached: attached make_command
+			make_command_set: make_command_set
 		local
 			i: INTEGER
 		do
 			Result := Precursor
 			-- Add command line options
 			if attached make_operands as operands then
-				across argument_list as list loop
-					i := list.cursor_index + first_operand_offset
-					Result.extend (list.item.word_option, list.item.help_description, operands [i])
+				across argument_list as argument loop
+					i := @ argument.cursor_index + first_operand_offset
+					Result.extend (argument.word_option, argument.help_description, operands [i])
 				end
 			end
 		end

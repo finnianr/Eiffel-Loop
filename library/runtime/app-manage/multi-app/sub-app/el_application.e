@@ -126,8 +126,8 @@ feature -- Access
 		do
 			create Result.make (11)
 			across standard_options as options loop
-				across options.item.help_table as help loop
-					Result.extend (help.key, help.item.description, help.item.default_value)
+				across options.help_table as help loop
+					Result.extend (@ help.key, help.description, help.default_value)
 				end
 			end
 		end

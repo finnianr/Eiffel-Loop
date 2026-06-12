@@ -14,7 +14,7 @@ class
 
 inherit
 	ANY
-	
+
 	EROS_REMOTE_CALL_CONSTANTS
 
 create
@@ -39,7 +39,7 @@ feature -- Status setting
 		do
 			handler.set_inbound_type (type)
 			across proxy_list as proxy loop
-				proxy.item.set_outbound_type (type)
+				proxy.set_outbound_type (type)
 			end
 		end
 
@@ -48,7 +48,7 @@ feature -- Status setting
 		do
 			handler.set_outbound_type (type)
 			across proxy_list as proxy loop
-				proxy.item.set_inbound_type (type)
+				proxy.set_inbound_type (type)
 			end
 		end
 

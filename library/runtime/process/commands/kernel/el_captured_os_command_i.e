@@ -68,8 +68,8 @@ feature {NONE} -- Implementation
 			break: BOOLEAN
 		do
 			across line_source as line until break loop
-				if line.cursor_index = i then
-					Result := line.item_copy
+				if @ line.cursor_index = i then
+					Result := @ line.item_copy
 					break := True
 				end
 			end

@@ -18,14 +18,6 @@ inherit
 			copy, is_equal
 		end
 
-	EL_LAZY_ATTRIBUTE
-		rename
-			new_item as new_attribute_list,
-			cached_item as actual_attribute_list
-		undefine
-			copy, is_equal
-		end
-
 	EL_MODULE_ITERABLE
 
 	XML_ZSTRING_CONSTANTS
@@ -43,14 +35,12 @@ feature {NONE} -- Initialization
 	make (a_name: READABLE_STRING_GENERAL)
 		do
 			open := Open_template #$ [a_name]
+			attribute_list := Empty_attribute_list
 		end
 
 feature -- Access
 
-	attribute_list: like new_attribute_list
-		do
-			Result := lazy_item
-		end
+	attribute_list: like Empty_attribute_list
 
 	name: ZSTRING
 		do
@@ -67,9 +57,7 @@ feature -- Measurement
 
 	attribute_count: INTEGER
 		do
-			if attached actual_attribute_list as list then
-				Result := list.count
-			end
+			Result := attribute_list.count
 		end
 
 feature -- Basic operations
@@ -91,7 +79,7 @@ feature -- Element change
 
 	set_attributes_list (list: ITERABLE [XML_ELEMENT_ATTRIBUTE])
 		do
-			create actual_attribute_list.make_from_list (list)
+			create attribute_list.make_from_list (list)
 		end
 
 	set_attributes_from_string (csv_pair_list: STRING)
@@ -106,13 +94,12 @@ feature -- Element change
 		require
 			valid_attributes: across nvp_list as attrib all attrib.has ('=') end
 		local
-			new_list: like new_attribute_list
+			new_list: like Empty_attribute_list
 		do
-			create new_list.make (Iterable.count (nvp_list))
+			create attribute_list.make (Iterable.count (nvp_list))
 			across nvp_list as nvp loop
-				new_list.extend (create {XML_ELEMENT_ATTRIBUTE}.make_from_string (nvp))
+				attribute_list.extend (create {XML_ELEMENT_ATTRIBUTE}.make_from_string (nvp))
 			end
-			actual_attribute_list := new_list
 		end
 
 feature {NONE} -- Duplication
@@ -122,7 +109,7 @@ feature {NONE} -- Duplication
 			if other /= Current then
 				standard_copy (other)
 				if other.attribute_count > 0 then
-					actual_attribute_list := other.attribute_list.twin
+					attribute_list := other.attribute_list.twin
 				end
 			end
 		end
@@ -132,11 +119,6 @@ feature {NONE} -- Implementation
 	name_end_index: INTEGER
 		do
 			Result := open.count - 2
-		end
-
-	new_attribute_list: EL_ARRAYED_LIST [XML_ELEMENT_ATTRIBUTE]
-		do
-			create Result.make (0)
 		end
 
 	write_open_element (medium: EL_OUTPUT_MEDIUM)
@@ -151,8 +133,8 @@ feature {NONE} -- Implementation
 						else
 							escaper := XML_escaper
 						end
-						if attached actual_attribute_list as l_attribute_list then
-							across l_attribute_list as attrib loop
+						if attached attribute_list /= Empty_attribute_list then
+							across attribute_list as attrib loop
 								str.append_character (' ')
 								str.append (attrib.escaped (escaper, False))
 							end
@@ -169,6 +151,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	Empty_attribute_list: EL_ARRAYED_LIST [XML_ELEMENT_ATTRIBUTE]
+		once
+			create Result.make (0)
+		end
+
 	Escaped_quote: ZSTRING
 		once
 			Result := "&quot;"
@@ -183,4 +170,7 @@ feature {NONE} -- Constants
 		once
 			Result := "<%S/>"
 		end
+
+invariant
+	empty_has_no_items: attribute_list = Empty_attribute_list implies attribute_list.is_empty
 end

@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_READABLE_STRING_GENERAL_TO_TYPE [N]
 		redefine
-			is_convertible, is_substring_convertible, new_type_description
+			is_convertible, is_substring_convertible, type_description
 		end
 
 	NUMERIC_INFORMATION
@@ -24,6 +24,14 @@ inherit
 		end
 
 	EL_STRING_8_CONSTANTS
+
+feature -- Access
+
+	type_description: STRING
+		-- terse English language description of type
+		once ("OBJECT")
+			Result := Precursor + once " number"
+		end
 
 feature -- Contract Support
 
@@ -61,12 +69,6 @@ feature {NONE} -- Implementation
 
 	is_real (a_convertor: like Convertor): BOOLEAN
 		deferred
-		end
-
-	new_type_description: STRING
-		-- terse English language description of type
-		do
-			Result := Precursor + once " number"
 		end
 
 	numeric_type: INTEGER

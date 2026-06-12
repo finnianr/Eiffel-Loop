@@ -37,7 +37,7 @@ feature -- Output
 		do
 			last_string.append (string)
 			if not string.is_empty then
-				last_char := string @ string.count
+				last_char := string [string.count]
 				if (last_char = '%N' or last_char = '>') and then is_correct then
 					parse_string_and_set_error (last_string, False)
 					last_string.wipe_out
@@ -119,49 +119,9 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-feature {NONE} -- Unused
+feature {NONE} -- Unused put_<numeric>
 
-	put_new_line, new_line
-			-- Write a new line character to medium
-		do
-		end
-
-	put_character, putchar (c: CHARACTER)
-			--
-		do
-		end
-
-	put_real, putreal (r: REAL)
-			--
-		do
-		end
-
-	put_integer, putint, put_integer_32 (i: INTEGER)
-			--
-		do
-		end
-
-	put_integer_8 (i: INTEGER_8)
-			--
-		do
-		end
-
-	put_integer_16 (i: INTEGER_16)
-			--
-		do
-		end
-
-	put_integer_64 (i: INTEGER_64)
-			--
-		do
-		end
-
-	put_boolean, putbool (b: BOOLEAN)
-			-- Write `b' to medium.
-		do
-		end
-
-	put_double, putdouble (d: DOUBLE)
+	put_double, putdouble, put_real_64 (d: DOUBLE)
 			-- Write `d' to medium.
 		do
 		end
@@ -186,57 +146,40 @@ feature {NONE} -- Unused
 		do
 		end
 
-	put_managed_pointer (p: MANAGED_POINTER; start_pos, nb_bytes: INTEGER)
-			-- Put data of length `nb_bytes' pointed by `start_pos' index in `p' at
-			-- current position.
+	put_real, putreal, put_real_32 (r: REAL)
+			--
 		do
 		end
 
-
-	basic_store (object: ANY)
-			-- Produce an external representation of the
-			-- entire object structure reachable from `object'.
-			-- Retrievable within current system only.
+	put_integer, putint, put_integer_32 (i: INTEGER)
+			--
 		do
 		end
 
-	general_store (object: ANY)
-			-- Produce an external representation of the
-			-- entire object structure reachable from `object'.
-			-- Retrievable from other systems for same platform
-			-- (machine architecture).
-			--| This feature may use a visible name of a class written
-			--| in the `visible' clause of the Ace file. This makes it
-			--| possible to overcome class name clashes.
+	put_integer_8 (i: INTEGER_8)
+			--
 		do
 		end
 
-	independent_store (object: ANY)
-			-- Produce an external representation of the
-			-- entire object structure reachable from `object'.
-			-- Retrievable from other systems for the same or other
-			-- platform (machine architecture).
+	put_integer_16 (i: INTEGER_16)
+			--
 		do
 		end
 
-	handle: INTEGER
-			-- Handle to medium
+	put_integer_64 (i: INTEGER_64)
+			--
 		do
 		end
 
-	handle_available: BOOLEAN
-			-- Is the handle available after class has been
-			-- created?
-		do
-		end
+feature {NONE} -- Unused read_<numeric>
 
-	read_real, readreal
+	read_real, readreal, read_real_32
 			-- Read a new real.
 			-- Make result available in `last_real'.
 		do
 		end
 
-	read_double, readdouble
+	read_double, readdouble, read_real_64
 			-- Read a new double.
 			-- Make result available in `last_double'.
 		do
@@ -293,6 +236,67 @@ feature {NONE} -- Unused
 	read_natural_64
 			-- Read a new 64-bit natural.
 			-- Make result available in `last_natural_64'.
+		do
+		end
+
+feature {NONE} -- Unused
+
+	put_new_line, new_line
+			-- Write a new line character to medium
+		do
+		end
+
+	put_character, putchar (c: CHARACTER)
+			--
+		do
+		end
+
+	put_boolean, putbool (b: BOOLEAN)
+			-- Write `b' to medium.
+		do
+		end
+
+	put_managed_pointer (p: MANAGED_POINTER; start_pos, nb_bytes: INTEGER)
+			-- Put data of length `nb_bytes' pointed by `start_pos' index in `p' at
+			-- current position.
+		do
+		end
+
+
+	basic_store (object: ANY)
+			-- Produce an external representation of the
+			-- entire object structure reachable from `object'.
+			-- Retrievable within current system only.
+		do
+		end
+
+	general_store (object: ANY)
+			-- Produce an external representation of the
+			-- entire object structure reachable from `object'.
+			-- Retrievable from other systems for same platform
+			-- (machine architecture).
+			--| This feature may use a visible name of a class written
+			--| in the `visible' clause of the Ace file. This makes it
+			--| possible to overcome class name clashes.
+		do
+		end
+
+	independent_store (object: ANY)
+			-- Produce an external representation of the
+			-- entire object structure reachable from `object'.
+			-- Retrievable from other systems for the same or other
+			-- platform (machine architecture).
+		do
+		end
+
+	handle: INTEGER
+			-- Handle to medium
+		do
+		end
+
+	handle_available: BOOLEAN
+			-- Is the handle available after class has been
+			-- created?
 		do
 		end
 

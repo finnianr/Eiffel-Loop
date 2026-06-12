@@ -49,8 +49,8 @@ feature -- Access
 			list := chapter_list
 			create Result.make_equal (list.sum_integer (agent image_list_count))
 			across list as chapter loop
-				across chapter.item.image_list as path loop
-					Result.put (path.item)
+				across chapter.image_list as path loop
+					Result.put (path)
 				end
 			end
 		end

@@ -86,10 +86,10 @@ feature -- Tests
 			testing: "covers/{EL_READABLE_STRING_GENERAL_TO_TYPE}.new_type_description"
 		do
 			if attached crc_generator as crc then
-				across Convert_string.type_list as list loop
-					if attached Convert_string.type_descripton (list.item) as description then
+				across Convert_string.type_list as type loop
+					if attached Convert_string.type_descripton (type) as description then
 						crc.add_string_8 (description)
-						lio.put_labeled_string (list.item.name, description)
+						lio.put_labeled_string (type.name, description)
 						lio.put_new_line
 					end
 				end
@@ -122,8 +122,8 @@ feature -- Tests
 			first_latin, first_windows: BOOLEAN
 		do
 			if attached crc_generator as crc then
-				across Text.lines_32 as line loop
-					zstr := line.item
+				across Text.lines_32 as str_32 loop
+					zstr := str_32
 					crc.add_string (zstr)
 					lio.put_labeled_string ("LINE", zstr)
 					lio.put_new_line
@@ -164,9 +164,9 @@ feature -- Tests
 			zstr, name: ZSTRING; latin_id: INTEGER
 		do
 			create buffer.make (100)
-			across Text.lines_32 as line loop
-				if line.item.starts_with (Latin) then
-					zstr := line.item
+			across Text.lines_32 as str_32 loop
+				if str_32.starts_with (Latin) then
+					zstr := str_32
 					name := zstr.substring_to (':')
 					name.replace_substring_general ("ISO-8859", 1, Latin.count)
 					create encoding.make_from_name (name)
@@ -193,13 +193,16 @@ feature -- Tests
 
 	test_substring_to_numeric
 		-- STRING_CONVERSION_TEST_SET.test_substring_to_numeric
+		local
+			lower, upper: INTEGER
 		do
 			across new_string_type_list ("1a, 10, -10, 1.03") as csv_list loop
-				across Convert_string.split_list (csv_list.item, ',', {EL_SIDE}.Left) as list loop
-					if attached list.item as value and then attached value.to_string_8 as str_8 then
-						check_if_natural (value, csv_list.item, str_8, list.item_lower, list.item_upper)
-						check_if_integer (value, csv_list.item, str_8, list.item_lower, list.item_upper)
-						check_if_real (value, csv_list.item, str_8, list.item_lower, list.item_upper)
+				across Convert_string.split_list (csv_list, ',', {EL_SIDE}.Left) as value loop
+					if attached value.to_string_8 as str_8 then
+						lower := @ value.item_lower; upper := @ value.item_upper
+						check_if_natural (value, csv_list, str_8, lower, upper)
+						check_if_integer (value, csv_list, str_8, lower, upper )
+						check_if_real (value, csv_list, str_8, lower, upper)
 					end
 				end
 			end
@@ -360,7 +363,7 @@ feature {NONE} -- Implementation
 		do
 			across << True, False >> as replace_space loop
 				across Text.lines_32 as string loop
-					str_32 := string.item.twin
+					str_32 := string.twin
 					if replace_space.item then
 						sg.super_32 (str_32).replace_character (' ', '/')
 					else

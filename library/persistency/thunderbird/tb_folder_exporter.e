@@ -53,14 +53,11 @@ feature -- Element change
 feature -- Basic operations
 
 	export_mails (email_list: TB_EMAIL_LIST)
-		local
-			email: TB_EMAIL
 		do
 			output_dir := config.export_dir #+ export_steps (email_list.source_path)
 			File_system.make_directory (output_dir)
 
-			across email_list as list loop
-				email := list.item
+			across email_list as email loop
 				set_output_file_path (email.subject_decoded)
 				write_lines (email)
 			end

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system name = "EL_pyxis_scan" library_target = "EL_pyxis_scan" uuid = "CA3824DE-42E3-11EB-8315-9724A6D80CCA" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
+<system name = "EL_pyxis_scan" library_target = "EL_pyxis_scan" uuid = "CA3824DE-42E3-11EB-8315-9724A6D80CCA" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-23-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-23-0 http://www.eiffel.com/developers/xml/configuration-1-23-0.xsd">
 	<description>
 Pyxis Document Node-scanning and Object Building
 
@@ -17,9 +17,13 @@ Pyxis is a direct analog of XML that is easier to read and edit making it suitab
 	</description>
 	<target name = "EL_pyxis_scan">
 		<root all_classes = "true"/>
-		<option namespace = "Eiffel-Loop.Library.Pyxis-scan" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
+		<option namespace = "Eiffel-Loop.Library.Pyxis-scan" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "warning">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
+		<capability>
+			<concurrency support="thread"/>
+			<void_safety support="none"/>
+		</capability>
 		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<!--Eiffel-Loop-->

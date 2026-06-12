@@ -38,18 +38,22 @@ feature -- Tests
 				covers/{EL_SEARCHABLE_ZSTRING}.index_of
 			]"
 		local
-			list: LIST [ZSTRING]; list_32: LIST [STRING_32]
+			split_list: LIST [ZSTRING]; split_list_32: LIST [STRING_32]
 			test: STRING_TEST; i: INTEGER
 		do
 			create test.make_empty (Current)
 			across Text.lines_32 as line loop
-				test.set (line.item)
+				test.set (line)
 				from i := 1 until i > 3 loop
-					list := test.zs.split_list (test.s_32 [i])
-					list_32 := test.s_32.split (test.s_32 [i])
-					assert ("same count", list.count = list_32.count)
-					if list.count = list_32.count then
-						assert ("same content", across list as ls all ls.item.same_string (list_32.i_th (ls.cursor_index)) end)
+					split_list := test.zs.split_list (test.s_32 [i])
+					split_list_32 := test.s_32.split (test.s_32 [i])
+					assert ("same count", split_list.count = split_list_32.count)
+					if split_list.count = split_list_32.count then
+						if across split_list as str all str.same_string (split_list_32.i_th (@ str.cursor_index)) end then
+							do_nothing
+						else
+							failed ("same content")
+						end
 					end
 					i := i + 1
 				end
@@ -64,10 +68,9 @@ feature -- Tests
 				covers/{EL_CONVERTABLE_ZSTRING}.to_string_8
 			]"
 		local
-			str: ZSTRING; str_32: STRING_32
+			str: ZSTRING
 		do
-			across Text.lines_32 as line loop
-				str_32 := line.item
+			across Text.lines_32 as str_32 loop
 				if str_32.is_valid_as_string_8 then
 					str := str_32
 					assert ("same string", str.to_latin_1 ~ str_32.to_string_8)
@@ -88,9 +91,9 @@ feature -- Tests
 		do
 			create test.make_empty (Current)
 			across Text.lines_32 as line loop
-				test.set (line.item)
+				test.set (line)
 				assert ("strings the same", test.is_same)
-				assert ("to_string_32 is_equal", test.zs.to_string_32 ~ line.item)
+				assert ("to_string_32 is_equal", test.zs.to_string_32 ~ line)
 			end
 		end
 
@@ -109,16 +112,16 @@ feature -- Tests
 			create utf_8.make_empty
 			across Text.lines_32 as line loop
 				utf_8.wipe_out
-				across line.item.split (' ') as word loop
-					if word.cursor_index > 1 then
+				across line.split (' ') as word loop
+					if @ word.cursor_index > 1 then
 						utf_8.append_character (' ')
 					end
-					z_word := word.item
+					z_word := word
 					z_word.append_to_utf_8 (utf_8)
 				end
-				if attached conv.string_32_to_string_8 (line.item) as line_utf_8 then
+				if attached conv.string_32_to_string_8 (line) as line_utf_8 then
 					assert_same_string (Void, utf_8, line_utf_8)
-					z_str := line.item
+					z_str := line
 					assert_same_string (Void, z_str.to_utf_8, line_utf_8)
 				end
 			end

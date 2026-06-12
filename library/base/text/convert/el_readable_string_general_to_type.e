@@ -13,12 +13,6 @@ deferred class
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
 
 inherit
-	EL_LAZY_ATTRIBUTE
-		rename
-			new_item as new_type_description,
-			cached_item as actual_type_description
-		end
-
 	EL_STRING_GENERAL_ROUTINES_I
 		export
 			{NONE} all
@@ -54,9 +48,27 @@ feature -- Access
 
 	type: TYPE [ANY]
 
-	type_description: like new_type_description
-		do
-			Result := lazy_item
+	type_description: STRING
+		-- terse English language description of type
+		local
+			name, last_part: IMMUTABLE_STRING_8
+			underscore_index: INTEGER
+		once ("OBJECT")
+			name := type.name
+			underscore_index := name.last_index_of ('_', name.count)
+			if underscore_index > 0 then
+				last_part := name.substring (underscore_index + 1, name.count)
+				if last_part.is_integer then
+					Result := last_part + "-bit " + name.substring (1, underscore_index - 1)
+					Result.to_lower
+				else
+					Result := name
+					Result.to_lower
+				end
+			else
+				Result := name + " value"
+				Result.to_lower
+			end
 		end
 
 	type_id: INTEGER
@@ -113,31 +125,6 @@ feature -- Basic operations
 		do
 			if a_tuple.valid_index (index) then
 				Result := {ISE_RUNTIME}.type_conforms_to (type_id, Tuple.type_array (a_tuple)[index].type_id)
-			end
-		end
-
-feature {NONE} -- Implementation
-
-	new_type_description: STRING
-		-- terse English language description of type
-		local
-			name, last_part: IMMUTABLE_STRING_8
-			underscore_index: INTEGER
-		do
-			name := type.name
-			underscore_index := name.last_index_of ('_', name.count)
-			if underscore_index > 0 then
-				last_part := name.substring (underscore_index + 1, name.count)
-				if last_part.is_integer then
-					Result := last_part + "-bit " + name.substring (1, underscore_index - 1)
-					Result.to_lower
-				else
-					Result := name
-					Result.to_lower
-				end
-			else
-				Result := name + " value"
-				Result.to_lower
 			end
 		end
 

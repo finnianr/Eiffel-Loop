@@ -5,8 +5,8 @@ pyxis-doc:
 # readable supplement/substitute for XML configuration files.
 
 system:
-	configuration_ns = "1-16-0"
-	name = el_test; uuid = "A325754F-7BEB-44B6-937C-CC7EBDDA764F"
+	configuration_ns = "1-23-0"; uuid = "A325754F-7BEB-44B6-937C-CC7EBDDA764F"
+	name = el_test
 	description:
 		"""
 			Eiffel-Loop Library Tests
@@ -22,17 +22,20 @@ system:
 			copyright = "Finnian Reilly"
 
 		option:
-			syntax = standard; full_class_checking = false; void_safety = none
+			syntax = standard; full_class_checking = false
 			assertions:
 				precondition = true; postcondition = true; check = true
+		capability:
+			concurrency:
+				support = thread; use = thread
+			void_safety:
+				support = none
 
 		settings:
 			address_expression = false; array_optimization = false
-			check_vape = true; console_application = true; concurrency = thread
-			dead_code_removal = true; dynamic_runtime = false
+			check_vape = true; console_application = true; dead_code_removal = all; dynamic_runtime = false
 			exception_trace = true
-			inlining = true; inlining_size = 2
-			line_generation = false
+			inlining = true; inlining_size = 2; line_generation = false
 
 		precompile:
 			name = precompile; location = "$ISE_PRECOMP/EL/console-application.ecf"
@@ -64,7 +67,7 @@ system:
 
 		# Other libraries
 		library:
-			nel_fft_math = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
+			nel_fft_math = "$EIFFEL_LOOP/contrib/Eiffel/fft-math.ecf"
 
 		# EiffelLoop libraries
 		writeable_libraries:
@@ -139,12 +142,11 @@ system:
 				file_rule:
 					exclude:
 						"/tl_musicbrainz_enum.e$"
-
-		cluster:
-			name = xpact; location = "$EIFFEL_LOOP/benchmark/source/xpact"
+			sub_clusters:
+				xpact = "benchmark/source/xpact"
 
 		cluster_tree:
-			root = "source/root"
+			a_root = "source/root"
 			platform_list:
 				"imp_mswin; imp_unix"
 			description:

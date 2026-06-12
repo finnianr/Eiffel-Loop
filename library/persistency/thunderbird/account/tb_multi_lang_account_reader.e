@@ -51,18 +51,18 @@ feature -- Basic operations
 		do
 			if attached new_mail_folder_dir_list as dir_list then
 				across folder_list as folder loop
-					dir_list.find_first_equal (folder.item + Dot_sbd_extension, agent {DIR_PATH}.base)
+					dir_list.find_first_equal (folder + Dot_sbd_extension, agent {DIR_PATH}.base)
 					if dir_list.found then
 						found_count := found_count + 1
 					else
-						lio.put_labeled_string (folder.item, "not found")
+						lio.put_labeled_string (folder, "not found")
 						lio.put_new_line
 					end
 				end
 				if found_count = folder_list.count then
 					across dir_list as subdir_path loop
-						across OS.file_list (subdir_path.item, "*.msf") as path loop
-							mails_path := path.item.without_extension
+						across OS.file_list (subdir_path, "*.msf") as path loop
+							mails_path := path.without_extension
 							if not language.is_empty implies mails_path.same_base (language) then
 								lio.put_path_field ("Reading", mails_path)
 								lio.put_new_line

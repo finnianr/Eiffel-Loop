@@ -27,10 +27,10 @@ feature -- Access
 		do
 			create Result.make (address.count * 3 - 1)
 			across address as byte loop
-				if byte.cursor_index > 1 then
+				if @ byte.cursor_index > 1 then
 					Result.append_character (':')
 				end
-				Result.append (byte.item.to_hex_string)
+				Result.append (byte.to_hex_string)
 			end
 		end
 

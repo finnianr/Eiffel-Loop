@@ -64,8 +64,8 @@ feature {NONE} -- Implementation
 	do_with_lines (output_lines: like new_output_lines)
 		do
 			across output_lines as list loop
-				if list.cursor_index > 1 and then list.shared_item.starts_with_character ('%T')
-					and then attached list.shared_item.substring_end (2) as line
+				if @ list.cursor_index > 1 and then @ list.shared_item.starts_with_character ('%T')
+					and then attached @ list.shared_item.substring_end (2) as line
 				then
 					session_list.extend (new_session_info (line))
 					name_list.extend (session_list.last.name)

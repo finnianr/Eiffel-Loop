@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor {EL_SOLITARY}
 			Precursor {EL_SINGLE_THREAD_ACCESS}
-			create threads.make (10)
+			create thread_list.make (10)
 		end
 
 feature -- Access
@@ -47,8 +47,8 @@ feature -- Access
 		do
 			restrict_access
 --			synchronized
-				across threads as thread loop
-					if thread.item.is_active then
+				across thread_list as thread loop
+					if thread.is_active then
 						Result := Result + 1
 					end
 				end
@@ -62,9 +62,9 @@ feature -- Basic operations
 		do
 			restrict_access
 --			synchronized
-				across threads as thread loop
-					if thread.item.is_active then
-						lio.put_labeled_string ("Active thread", thread.item.name)
+				across thread_list as thread loop
+					if thread.is_active then
+						lio.put_labeled_string ("Active thread", thread.name)
 						lio.put_new_line
 					end
 				end
@@ -77,9 +77,9 @@ feature -- Basic operations
 		do
 			restrict_access
 --			synchronized
-				across threads as thread loop
-					if not (thread.item.is_stopped or thread.item.is_stopping) then
-						thread.item.stop
+				across thread_list as thread loop
+					if not (thread.is_stopped or thread.is_stopping) then
+						thread.stop
 					end
 				end
 --			end
@@ -92,12 +92,12 @@ feature -- Basic operations
 		do
 			restrict_access
 --			synchronized
-				across threads as thread loop
+				across thread_list as thread loop
 					-- Wait for thread to stop
-					from stopped := thread.item.is_stopped until stopped loop
-						on_wait (thread.item.name)
+					from stopped := thread.is_stopped until stopped loop
+						on_wait (thread.name)
 						Execution.sleep (Default_stop_wait_time)
-						stopped := thread.item.is_stopped
+						stopped := thread.is_stopped
 					end
 				end
 --			end
@@ -111,11 +111,11 @@ feature -- Element change
 		do
 			restrict_access
 --			synchronized
-				from threads.start until threads.after loop
-					if threads.item.is_stopped then
-						threads.remove
+				from thread_list.start until thread_list.after loop
+					if thread_list.item.is_stopped then
+						thread_list.remove
 					else
-						threads.forth
+						thread_list.forth
 					end
 				end
 --			end
@@ -126,7 +126,7 @@ feature -- Element change
 		do
 			restrict_access
 --			synchronized
-				threads.extend (a_thread)
+				thread_list.extend (a_thread)
 --			end
 			end_restriction
 		end
@@ -138,7 +138,7 @@ feature -- Status query
 		do
 			restrict_access
 --			synchronized
-				Result := threads.for_all (agent {EL_STOPPABLE_THREAD}.is_stopped)
+				Result := thread_list.for_all (agent {EL_STOPPABLE_THREAD}.is_stopped)
 --			end
 			end_restriction
 		end
@@ -149,7 +149,7 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	threads: ARRAYED_LIST [EL_STOPPABLE_THREAD]
+	thread_list: ARRAYED_LIST [EL_STOPPABLE_THREAD]
 
 feature {NONE} -- Constants
 

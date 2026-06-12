@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 			make_list (desktop.submenu_path.count + 1)
 			compare_objects
 			across desktop.submenu_path as path loop
-				extend (create {EL_XDG_DESKTOP_DIRECTORY}.make (path.item, directories_desktop_dir))
+				extend (create {EL_XDG_DESKTOP_DIRECTORY}.make (path, directories_desktop_dir))
 			end
 			create launcher.make (desktop, applications_desktop_dir)
 			extend (launcher)

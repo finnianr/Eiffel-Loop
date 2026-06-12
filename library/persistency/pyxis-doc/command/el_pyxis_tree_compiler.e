@@ -138,7 +138,7 @@ feature {NONE} -- Implementation
 		do
 			modification_time := output_modification_time
 			Result := across new_source_path_list as file_path some
-				file_path.item.modification_time > modification_time
+				file_path.modification_time > modification_time
 			end
 		end
 

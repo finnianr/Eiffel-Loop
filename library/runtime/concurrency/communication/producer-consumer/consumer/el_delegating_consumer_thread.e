@@ -70,7 +70,7 @@ feature -- Basic operations
 -- THREAD SIGNAL
 			end
 			across product_queue.all_consumers as consumer loop
-				consumer.item.stop
+				consumer.stop
 			end
 		end
 

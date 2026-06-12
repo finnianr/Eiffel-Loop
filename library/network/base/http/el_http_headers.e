@@ -42,14 +42,14 @@ feature {NONE} -- Initialization
 			make_default
 			create line_split.make (string, '%N')
 			across line_split as line loop
-				if line.item_starts_with (HTTP_slash)
-					and then attached line.item.split (' ') as parts
+				if @ line.item_starts_with (HTTP_slash)
+					and then attached line.split (' ') as parts
 					and then parts.count >= 3
 				then
 					response_code := parts [2].to_integer_16
 
-				elseif line.item_has (':') then
-					set_field_from_nvp (line.item, ':')
+				elseif @ line.item_has (':') then
+					set_field_from_nvp (line, ':')
 				end
 			end
 		end

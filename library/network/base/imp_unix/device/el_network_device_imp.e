@@ -61,8 +61,8 @@ feature -- Access
 	address: ARRAY [NATURAL_8]
 		do
 			across << hwaddr, device, Default_address >> as candidate until attached Result loop
-				if valid_hardware_address (candidate.item) then
-					Result := new_hardware_address (candidate.item)
+				if valid_hardware_address (candidate) then
+					Result := new_hardware_address (candidate)
 				end
 			end
 		end
@@ -71,11 +71,11 @@ feature -- Access
 		do
 			if attached String_pool.borrowed_item as borrowed then
 				if attached borrowed.empty as str then
-					across << vendor, product, type >> as list loop
-						if not valid_hardware_address (list.item) then
-							str.append_string_general (list.item); Result.prune_all_trailing ('-')
+					across << vendor, product, type >> as part loop
+						if not valid_hardware_address (part) then
+							str.append_string_general (part); Result.prune_all_trailing ('-')
 						end
-						if not str.is_empty and not list.is_last then
+						if not str.is_empty and not @ part.is_last then
 							str.append_character (' ')
 						end
 					end
@@ -162,7 +162,7 @@ feature {NONE} -- Factory
 			create byte_list.make_split (string, ':')
 			create Result.make_filled (0, 1, byte_list.count)
 			across byte_list as byte loop
-				Result [byte.cursor_index] := hex.to_integer (byte.item).to_natural_8
+				Result [@ byte.cursor_index] := hex.to_integer (byte).to_natural_8
 			end
 		end
 

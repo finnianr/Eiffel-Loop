@@ -67,13 +67,13 @@ feature {NONE} -- Initialization
 			if attached xdoc.context_list (Xpath_all_items) as item_context_list then
 				make_equal (item_context_list.count)
 
-				across item_context_list as list loop
-					item_id := list.node [Attribute_id]
+				across item_context_list as item_context loop
+					item_id := @ item_context.node [Attribute_id]
 					if is_translatable (item_id) then
 						put (Key_language, item_id, item_id)
 					end
-					across list.node.context_list (Xpath_translation) as context loop
-						if attached context.node as translation then
+					across @ item_context.node.context_list (Xpath_translation) as context loop
+						if attached @ context.node as translation then
 							if attached translation.as_full_string as string and then string.count > 0 then
 								string.adjust
 								if attached quantifier_suffix (translation.name) as suffix then

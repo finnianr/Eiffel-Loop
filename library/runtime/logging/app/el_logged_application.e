@@ -61,9 +61,9 @@ feature -- Basic operations
 				lio.put_new_line
 				lio.tab_right
 
-				across Log_filter_list_table.item (Current) as list loop
-					list.item.print_to (lio)
-					if not list.is_last then
+				across Log_filter_list_table.item (Current) as log_filter loop
+					log_filter.print_to (lio)
+					if not @ log_filter.is_last then
 						lio.put_new_line
 					end
 				end

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system name = "EL_http_client" library_target = "EL_http_client" uuid = "229b52e2-09aa-11df-8776-57ee66e3341a" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
+<system name = "EL_http_client" library_target = "EL_http_client" uuid = "229b52e2-09aa-11df-8776-57ee66e3341a" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-23-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-23-0 http://www.eiffel.com/developers/xml/configuration-1-23-0.xsd">
 	<description>
 HTTP Client Services
 
@@ -13,16 +13,20 @@ export:
 	C_LIB_CURL = $EIFFEL_LOOP/C_library/cURL
 		</description>
 		<root all_classes = "true"/>
-		<option namespace = "Eiffel-Loop.Library.http" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
+		<option namespace = "Eiffel-Loop.Library.http" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "warning">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
+		<capability>
+			<concurrency support="thread"/>
+			<void_safety support="none"/>
+		</capability>
 		<!--C externals-->
 		<external_include location = "$(C_LIB_CURL)/source"/>
-		<external_object location = "-L$(C_LIB_CURL)/spec/$(ISE_PLATFORM) -lelcurl">
+		<external_linker_flag value = "-L$(C_LIB_CURL)/spec/$(ISE_PLATFORM) -lelcurl">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
-		</external_object>
+		</external_linker_flag>
 		<external_object location = "$(C_LIB_CURL)/spec/$(ISE_PLATFORM)/elcurl.lib">
 			<condition>
 				<platform value = "windows"/>
@@ -32,8 +36,9 @@ export:
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
+		<library name = "curl" location = "$ISE_LIBRARY/library/cURL/cURL.ecf"/>
 		<!--ISE override-->
-		<library name = "url_client" location = "override/ES-cURL.ecf"/>
+		<!--library name = "url_client" location = "override/ES-cURL.ecf"/-->
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>

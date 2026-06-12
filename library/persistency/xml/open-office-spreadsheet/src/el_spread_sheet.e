@@ -83,9 +83,9 @@ feature {NONE} -- Initaliazation
 				if attached document_ctx.find_node ("office:body/office:spreadsheet") as spreadsheet_ctx then
 					spreadsheet_ctx.set_namespace_key ("table")
 					across spreadsheet_ctx.context_list ("table:named-expressions/table:named-range") as named_range loop
-						cell_range_address := named_range.node ["table:cell-range-address"]
+						cell_range_address := @ named_range.node ["table:cell-range-address"]
 						cell_range_address.prune_all ('$')
-						if attached named_range.node ["table:name"] as l_name then
+						if attached @ named_range.node ["table:name"] as l_name then
 							defined_ranges [cell_range_address] := l_name
 						end
 					end
@@ -94,7 +94,7 @@ feature {NONE} -- Initaliazation
 					make_array (table_nodes.count)
 
 					across table_nodes as table_context loop
-						extend (create {EL_SPREAD_SHEET_TABLE}.make (table_context.node, defined_ranges))
+						extend (create {EL_SPREAD_SHEET_TABLE}.make (@ table_context.node, defined_ranges))
 						tables.put (last_table, last_table.name)
 					end
 				end
@@ -134,11 +134,11 @@ feature {NONE} -- Implementation
 			Result := "table:table"
 			if table_names.count > 0 then
 				Result.append_character ('[')
-				across table_names as list loop
-					if not list.is_first then
+				across table_names as l_name loop
+					if not @ l_name.is_first then
 						Result.append_string (Or_operator)
 					end
-					Result.append (Table_name_test #$ [list.item])
+					Result.append (Table_name_test #$ [l_name])
 				end
 				Result.append_character (']')
 			end

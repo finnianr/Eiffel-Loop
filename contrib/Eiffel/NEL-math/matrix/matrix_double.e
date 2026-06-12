@@ -1,4 +1,4 @@
-indexing
+﻿indexing
    description: "Matrices of DOUBLEs"
    author: "Greg Lee"
    copyright: "Copyright (c) 2005, Greg Lee"
@@ -768,7 +768,7 @@ feature -- Miscellaneous
 
 feature -- Basic operations
 
-   infix "+"(other: like Current): like Current is
+   plus alias "+" (other: like Current): like Current is
       require
          other_not_void: other /= Void
          other_same_height: other.height = height
@@ -794,7 +794,7 @@ feature -- Basic operations
          end
       end
 
-   add(other: like Current) is
+   add (other: like Current) is
       require
          other_not_void: other /= Void
          other_same_height: other.height = height
@@ -819,7 +819,7 @@ feature -- Basic operations
          end
       end
 
-   infix "-"(other: like Current): like Current is
+   minus alias "-" (other: like Current): like Current is
       require
          other_not_void: other /= Void
          other_same_height: other.height = height
@@ -870,7 +870,7 @@ feature -- Basic operations
          end
       end
 
-   infix "*"(other: like Current): like Current is
+   multiplied alias "*" (other: like Current): like Current is
       -- Multiplication of `Current' by `other'
       require
          other_not_void: other /= Void
@@ -947,7 +947,7 @@ feature -- Basic operations
          Current.copy( temp )
       end
 
-   item_by_item_multiplied, infix "#*"(other: like Current): like Current is
+   item_by_item_multiplied alias "#*" (other: like Current): like Current is
       -- Item-by-item multiplication of `Current' by `other'
       require
          other_not_void: other /= Void
@@ -1045,7 +1045,7 @@ feature -- Basic operations
          end
       end
 
-   prefix "+": like Current is
+   identity alias "+": like Current is
       -- copy of Current
       do
          create Result.make_from(Current)
@@ -1055,8 +1055,8 @@ feature -- Basic operations
          same_width: Result.width = width
       end
 
-   prefix "-": like Current is
-      do
+ 	opposite alias "-" alias "−": like Current
+     do
          create Result.make_from(Current)
          Result.negate
       ensure

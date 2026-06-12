@@ -40,8 +40,8 @@ feature -- Tests
 			date_list.extend_seed (d2.ordered_compact_date)
 
 			assert ("two items", date_list.count = 2)
-			across date_list as list loop
-				assert ("same item", list.item ~ date_array [list.cursor_index])
+			across date_list as date loop
+				assert ("same item", date ~ date_array [@ date.cursor_index])
 			end
 			if attached date_list as list then
 				from list.start until list.after loop
@@ -56,7 +56,7 @@ feature -- Tests
 		local
 			list: EL_ARRAYED_LIST [CHARACTER]
 		do
-			create list.make_from_array (<< 'a', 'b', 'c', 'd' >>)
+			create list.make_from_list ("abcd")
 			list.shift_i_th (2, 2)
 			assert ("b shifted right by 2", to_string (list) ~ "acdb")
 			list.shift_i_th (4, -3)

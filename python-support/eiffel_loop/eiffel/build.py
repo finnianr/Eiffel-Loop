@@ -248,6 +248,19 @@ class FREEZE_BUILD:
 					self.file_system.copy_tree (resource_path, resource_dest_dir)	
 				else:
 					self.file_system.copy_file (resource_path, destination_dir)
+					
+	def print_c_libraries (self):
+		
+		print ('C LIBRARIES')
+		if self.implicit_C_libs:
+			print('  IMPLICIT')
+			print('    ', self.implicit_C_libs)
+
+		if self.explicit_C_libs:
+			print('  EXPLICIT')
+			for c_lib in self.explicit_C_libs:
+				print ('   ' + c_lib)
+			print ()
 
 # Implementation
 

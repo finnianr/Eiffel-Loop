@@ -14,9 +14,6 @@ class
 
 inherit
 	EL_DOCUMENT_NODE_SCANNER
-		redefine
-			on_start_document, on_end_document, on_start_tag, on_end_tag, on_content, on_comment
-		end
 
 create
 	make_with_handler

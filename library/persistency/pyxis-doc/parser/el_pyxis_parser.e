@@ -77,7 +77,7 @@ feature -- Basic operations
 			reset
 			scanner.on_start_document
 			across a_lines as line loop
-				call_state_procedure (line.item)
+				call_state_procedure (line)
 			end
 			parse_final
 		end
@@ -105,7 +105,7 @@ feature -- Basic operations
 			scanner.on_start_document
 			create line_splitter.make (a_string, '%N')
 			across line_splitter as split loop
-				call_state_procedure (split.item)
+				call_state_procedure (split)
 			end
 			parse_final
 		end
@@ -237,12 +237,12 @@ feature {NONE} -- Parse events
 			attribute_name: EL_UTF_8_STRING
 		do
 			across attribute_list as list loop
-				attribute_name := list.item.raw_name
-				if attribute_name.same_string (Pyxis_doc.version) and then list.item.is_real then
-					xml_version := list.item.to_real
+				attribute_name := list.raw_name
+				if attribute_name.same_string (Pyxis_doc.version) and then list.is_real then
+					xml_version := list.to_real
 
 				elseif attribute_name.same_string (Pyxis_doc.encoding) then
-					set_encoding_from_name (list.item.to_string_8)
+					set_encoding_from_name (list.to_string_8)
 				end
 			end
 			scanner.on_meta_data (xml_version, Current)

@@ -37,11 +37,10 @@ feature -- Tests
 				covers/{EL_IMMUTABLE_STRING_MANAGER}.set_adjusted_item
 			]"
 		local
-			str, adjusted: STRING_8; manager_8: EL_IMMUTABLE_8_MANAGER
+			adjusted: STRING_8; manager_8: EL_IMMUTABLE_8_MANAGER
 		do
 			create manager_8
-			across << "  abc  ", "abc", " abc", "abc ", "" >> as list loop
-				str := list.item
+			across << "  abc  ", "abc", " abc", "abc ", "" >> as str loop
 				adjusted := str.twin
 				adjusted.adjust
 				manager_8.set_adjusted_item (str.area, 0, str.count, {EL_SIDE}.Both)
@@ -61,30 +60,28 @@ feature -- Tests
 			word_8: STRING_8; word_32: STRING_32; word_index: INTEGER
 		do
 			create manager_32; create manager_8
-			across Text.lines_32 as line loop
-				if attached line.item as str_32 then
-					if str_32.is_valid_as_string_8 and then attached str_32.to_string_8 as str_8 then
-						if attached str_8.split (' ') as words then
-							word_8 := words [2]
-							word_index := line.item.substring_index (word_8, 1)
-							if attached Character_area_8.get_area (str_8) as area then
-								manager_8.set_item (area, word_index - 1, word_8.count)
-								assert_same_string (Void, manager_8.item, word_8)
-								word_8 := words [1]
-	--						same as first word
-								assert_same_string (Void, manager_8.new_substring (area, 0, word_8.count), word_8)
-							end
+			across Text.lines_32 as str_32 loop
+				if str_32.is_valid_as_string_8 and then attached str_32.to_string_8 as str_8 then
+					if attached str_8.split (' ') as words then
+						word_8 := words [2]
+						word_index := str_32.substring_index (word_8, 1)
+						if attached Character_area_8.get_area (str_8) as area then
+							manager_8.set_item (area, word_index - 1, word_8.count)
+							assert_same_string (Void, manager_8.item, word_8)
+							word_8 := words [1]
+						-- same as first word
+							assert_same_string (Void, manager_8.new_substring (area, 0, word_8.count), word_8)
 						end
-					elseif attached str_32.split (' ') as words then
-						word_32 := words [2]
-						word_index := line.item.substring_index (word_32, 1)
-						if attached Character_area_32.get_area (line.item) as area then
-							manager_32.set_item (area, word_index - 1, word_32.count)
-							assert_same_string (Void, manager_32.item, word_32)
-							word_32 := words [1]
-	--						same as first word
-							assert_same_string (Void, manager_32.new_substring (area, 0, word_32.count), word_32)
-						end
+					end
+				elseif attached str_32.split (' ') as words then
+					word_32 := words [2]
+					word_index := str_32.substring_index (word_32, 1)
+					if attached Character_area_32.get_area (str_32) as area then
+						manager_32.set_item (area, word_index - 1, word_32.count)
+						assert_same_string (Void, manager_32.item, word_32)
+						word_32 := words [1]
+					-- same as first word
+						assert_same_string (Void, manager_32.new_substring (area, 0, word_32.count), word_32)
 					end
 				end
 			end
@@ -97,16 +94,14 @@ feature -- Tests
 			line_32: STRING_32; substring_32: IMMUTABLE_STRING_32
 		do
 			create manager_32; create manager_8
-			across Text.lines_32 as line loop
-				if attached line.item as str_32 then
-					if str_32.is_valid_as_string_8 and then attached str_32.to_string_8 as str_8 then
-
-					else
-						line_32 := str_32.twin
-						substring_32 := manager_32.shared_substring (str_32, 1, str_32.index_of (' ', 1) - 1)
-						assert_same_string (Void, super_32 (str_32).substring_to (' '), substring_32)
-						assert_same_string ("str_32 unchanged", str_32, line_32)
-					end
+			across Text.lines_32 as str_32 loop
+				if str_32.is_valid_as_string_8 and then attached str_32.to_string_8 as str_8 then
+					do_nothing
+				else
+					line_32 := str_32.twin
+					substring_32 := manager_32.shared_substring (str_32, 1, str_32.index_of (' ', 1) - 1)
+					assert_same_string (Void, super_32 (str_32).substring_to (' '), substring_32)
+					assert_same_string ("str_32 unchanged", str_32, line_32)
 				end
 			end
 		end

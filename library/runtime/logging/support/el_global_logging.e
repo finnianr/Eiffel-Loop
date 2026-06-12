@@ -73,13 +73,10 @@ feature -- Element change
 
 	set_loggable_routines (filter_list: LIST [EL_LOG_FILTER])
 			-- set `filter_table' contents to filter which routines are loggable
-		local
-			filter: EL_LOG_FILTER
 		do
 			restrict_access
 				filter_table.wipe_out
-				across filter_list as list loop
-					filter := list.item
+				across filter_list as filter loop
 					inspect filter.type
 						when Show_all, Show_selected then
 							type_table.extend (filter.class_type, filter.class_type.type_id)

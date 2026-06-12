@@ -1,4 +1,4 @@
-indexing
+﻿indexing
    description: "Complex numbers with DOUBLE precision"
    author: "Greg Lee"
    copyright: "Copyright (c) 2005, Greg Lee"
@@ -64,28 +64,28 @@ feature -- Comparison
 
 feature -- Basic operations
 
-   infix "+"(other: like Current): like Current is
+   plus alias "+" (other: like Current): like Current is
       -- Sum with `other' (commutative)
       do
          create Result
          Result.set(r + other.r, i + other.i)
       end
 
-   infix "-"(other: like Current): like Current is
+   minus alias "-" alias "−" (other: like Current): like Current
       -- Result of subtracting `other'
       do
          create Result
          Result.set(r - other.r, i - other.i)
       end
 
-   infix "*"(other: like Current): like Current is
+   product alias "*" alias "×" (other: like Current): like Current
       -- Product by `other'
       do
          create Result
          Result.set(r*other.r - i*other.i, r*other.i + i*other.r)
       end
 
-   infix "/"(other: like Current): like Current is
+   quotient alias "/" alias "÷" (other: like Current): like Current
       -- Division by `other'
       local
          d: DOUBLE
@@ -95,7 +95,7 @@ feature -- Basic operations
          Result.set(d * (r*other.r + i*other.i), d*(-r*other.i + i*other.r))
       end
 
-   infix "^" (exponent: DOUBLE): like Current is
+   power_of alias "^" (exponent: DOUBLE): like Current is
       -- `Current' to the power `e'
 		local
 			m: DOUBLE
@@ -116,7 +116,7 @@ feature -- Basic operations
 
       end
 
-   prefix "+": like Current is
+   identity alias "+": like Current
       -- Unary plus
       do
          create Result
@@ -125,7 +125,7 @@ feature -- Basic operations
          result_is_equal_current: Result.is_equal(Current)
       end
 
-   prefix "-": like Current is
+   opposite alias "-" alias "−": like Current
       -- Unary minus
       do
          create Result

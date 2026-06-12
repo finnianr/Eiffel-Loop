@@ -65,13 +65,13 @@ feature -- Tests
 			str, delimiter, str_2, l_substring: STRING_32
 			s: EL_STRING_32_ROUTINES
 		do
-			across Text.lines_32 as line loop
-				str := line.item
+			across Text.lines_32 as line_32 loop
+				str := line_32
 				from delimiter := " "  until delimiter.count > 2 loop
 					create str_2.make_empty
 					across s.delimited_list (str, delimiter) as substring loop
-						l_substring := substring.item
-						if substring.cursor_index > 1 then
+						l_substring := substring
+						if @ substring.cursor_index > 1 then
 							str_2.append (delimiter)
 						end
 						str_2.append (l_substring)
@@ -82,8 +82,8 @@ feature -- Tests
 			end
 			str := Text.Mixed_text; delimiter := "Latin"
 			across s.delimited_list (str, delimiter) as substring loop
-				l_substring := substring.item
-				if substring.cursor_index > 1 then
+				l_substring := substring
+				if @ substring.cursor_index > 1 then
 					str_2.append (delimiter)
 				end
 				str_2.append (l_substring)
@@ -115,8 +115,8 @@ feature -- Tests
 			buffer.set_encoding_other (Console.Encoding)
 			is_ansi := Console.code_page.has_substring ("ANSI")
 
-			across Text.lines_8 as list loop
-				create line.make_from_string (list.item)
+			across Text.lines_8 as line_8 loop
+				create line.make_from_string (line_8)
 				if attached Encodings.Unicode as unicode then
 					if is_ansi implies line.is_ascii then
 						Buffer.wipe_out
@@ -143,14 +143,14 @@ feature -- Tests
 			word: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]; empty_pattern, pattern: READABLE_STRING_GENERAL
 		do
 			across new_string_type_list ("encylopedia, *dia, enc*, *lop*, *") as csv_list loop
-				if attached Convert_string.split_list (csv_list.item, ',', {EL_SIDE}.Left) as split_list then
-					across split_list as list loop
-						if list.cursor_index = 1 then
-							word := super_readable_general (list.item)
-							empty_pattern := list.item.substring (1, 0)
+				if attached Convert_string.split_list (csv_list, ',', {EL_SIDE}.Left) as split_list then
+					across split_list as str loop
+						if @ str.cursor_index = 1 then
+							word := super_readable_general (str)
+							empty_pattern := str.substring (1, 0)
 							assert ("empty not matched", not word.matches_wildcard (empty_pattern))
 						else
-							pattern := list.item
+							pattern := str
 							assert ("matches wildcard", word.matches_wildcard (pattern))
 						end
 					end
@@ -176,7 +176,7 @@ feature -- Tests
 				end
 				create symbol_table.make_general (natural_codes.to_array, symbol_list.joined_with_string (", "))
 				across natural_codes as code loop
-					assert ("same name", symbol_table.item_32 (code.item) ~ symbol_list [code.cursor_index])
+					assert ("same name", symbol_table.item_32 (code.item) ~ symbol_list [@ code.cursor_index])
 				end
 			end
 		end
@@ -193,21 +193,19 @@ feature -- Tests
 			pair: EL_NAME_VALUE_PAIR [STRING] name, value, name_value: STRING
 		do
 			create pair.make_empty
-			across << "a=b", "a=", "=b" >> as list loop
+			across << "a=b", "a=", "=b" >> as equal_string loop
 				across << {EL_SIDE}.None, {EL_SIDE}.Left, {EL_SIDE}.Right, {EL_SIDE}.Both >> as side loop
-					if attached list.item.split ('=') as part_list then
-						across part_list as part loop
-							if attached part.item as s then
-								inspect side.item
-									when {EL_SIDE}.Left then
-										s.prepend_character (' ')
-									when {EL_SIDE}.Right then
-										s.append_character (' ')
-									when {EL_SIDE}.Both then
-										s.prepend_character (' ')
-										s.append_character (' ')
-								else
-								end
+					if attached equal_string.split ('=') as part_list then
+						across part_list as str loop
+							inspect side.item
+								when {EL_SIDE}.Left then
+									str.prepend_character (' ')
+								when {EL_SIDE}.Right then
+									str.append_character (' ')
+								when {EL_SIDE}.Both then
+									str.prepend_character (' ')
+									str.append_character (' ')
+							else
 							end
 						end
 						name := part_list.first; value := part_list.last
@@ -260,14 +258,12 @@ feature -- Tests
 			none, right: READABLE_STRING_GENERAL; range: INTEGER_INTERVAL
 		do
 			range := 0 |..| Both_sides
-			across new_string_type_list (Side_name_list) as list loop
-				if attached list.item as name_list then
-					none := super_readable_general (name_list).selected_substring ({EL_SIDE}.None, range)
-					assert_same_string (Void, none, "None")
+			across new_string_type_list (Side_name_list) as name_list loop
+				none := super_readable_general (name_list).selected_substring ({EL_SIDE}.None, range)
+				assert_same_string (Void, none, "None")
 
-					right := super_readable_general (name_list).selected_substring ({EL_SIDE}.Right, range)
-					assert_same_string (Void, right, "Right")
-				end
+				right := super_readable_general (name_list).selected_substring ({EL_SIDE}.Right, range)
+				assert_same_string (Void, right, "Right")
 			end
 		end
 

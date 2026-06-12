@@ -39,10 +39,10 @@ feature -- Basic operations
 
 	initialize (variable_table: EL_ZSTRING_TABLE)
 		do
-			across Current as list loop
-				list.item.set_default_name
+			across Current as screen loop
+				screen.set_default_name
 			-- expand $EMAIL and $DOMAIN variables
-				list.item.expand_command_args (variable_table)
+				screen.expand_command_args (variable_table)
 			end
 			replace_active
 			order_by (agent {EL_SERVICE_SCREEN}.sort_name, True)
@@ -57,12 +57,10 @@ feature {NONE} -- Implementation
 		do
 			create screen_list.make
 			screen_list.execute
-			across screen_list.session_list as list loop
-				if attached list.item as session then
-					find_first_equal (session.name, agent {like item}.name)
-					if found then
-						replace (create {EL_ACTIVE_SERVICE_SCREEN}.make (item, session.id))
-					end
+			across screen_list.session_list as session loop
+				find_first_equal (session.name, agent {like item}.name)
+				if found then
+					replace (create {EL_ACTIVE_SERVICE_SCREEN}.make (item, session.id))
 				end
 			end
 		end

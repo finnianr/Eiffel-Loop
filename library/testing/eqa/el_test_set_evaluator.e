@@ -88,8 +88,8 @@ feature -- Basic operations
 						failure_table.extend (test_exception, test_name)
 					end
 				else
-					across test_table as table loop
-						do_call (table.key, table.item)
+					across test_table as test loop
+						do_call (@ test.key, test)
 					end
 				end
 			end
@@ -100,11 +100,11 @@ feature -- Basic operations
 			print_name
 			across failure_table as failed loop
 				lio.put_labeled_substitution (
-					failed.key + " failed", "%S (%"%S%")", [failed.item.recipient_name, failed.item.tag_name]
+					@ failed.key + " failed", "%S (%"%S%")", [failed.recipient_name, failed.tag_name]
 				)
 				lio.put_new_line
-				across failed.item.trace.split ('%N') as line loop
-					lio.put_line (line.item)
+				across failed.trace.split ('%N') as line loop
+					lio.put_line (line)
 				end
 				User_input.press_enter
 			end

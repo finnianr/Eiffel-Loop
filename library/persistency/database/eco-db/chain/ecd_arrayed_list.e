@@ -47,8 +47,8 @@ feature {NONE} -- Initialization
 
 			create field_table.make (Current, True, True)
 			create index_list.make (5)
-			across field_table.conforming_type_info_list ({like index_tables.item}) as list loop
-				if attached {like index_tables.item} list.item.value_for (Current) as index_field then
+			across field_table.conforming_type_info_list ({like index_tables.item}) as field loop
+				if attached {like index_tables.item} field.value_for (Current) as index_field then
 					index_list.extend (index_field)
 				end
 			end

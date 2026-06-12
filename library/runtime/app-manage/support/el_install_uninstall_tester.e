@@ -49,9 +49,9 @@ feature -- Basic operations
 		do
 			if testing then
 				across Parent_dir_map as dir loop
-					parent := dir.key
+					parent := @ dir.key
 					if parent.is_parent_of (path) then
-						path.set_parent (dir.item.plus_dir (path.parent.relative_path (parent)))
+						path.set_parent (dir.plus_dir (path.parent.relative_path (parent)))
 					end
 				end
 			else
@@ -76,8 +76,8 @@ feature {NONE} -- Constants
 		once
 			if attached new_parent_dir_map as dir_map then
 				create Result.make_equal (dir_map.count)
-				across dir_map as table loop
-					Result.put (table.item, table.key)
+				across dir_map as dir_path loop
+					Result.put (dir_path, @ dir_path.key)
 				end
 			end
 		end

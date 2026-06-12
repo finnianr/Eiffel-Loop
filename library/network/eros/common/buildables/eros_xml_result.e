@@ -17,7 +17,7 @@ inherit
 		rename
 			make_default as make
 		redefine
-			building_action_table, root_node_name
+			root_node_name
 		end
 
 	EL_MODULE_NAMING

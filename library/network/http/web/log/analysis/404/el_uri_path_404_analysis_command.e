@@ -29,8 +29,8 @@ feature {NONE} -- Implementation
 	excluded (entry: EL_WEB_LOG_ENTRY): BOOLEAN
 		-- `True' if entry should be excluded from report
 		do
-			Result := across root_names_list as list some
-				entry.uri_path.starts_with (list.item)
+			Result := across root_names_list as name some
+				entry.uri_path.starts_with (name)
 			end
 		end
 

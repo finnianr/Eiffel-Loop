@@ -47,13 +47,13 @@ feature -- Access
 		do
 			create Result.make (Number.Doubles_list.count * 4)
 			Result.append ("<< ")
-			across Number.Doubles_list as n until
-				attached upper as u and then n.cursor_index > u.item
+			across Number.Doubles_list as value until
+				attached upper as u and then @ value.cursor_index > u.item
 			loop
-				if n.cursor_index > 1 then
+				if @ value.cursor_index > 1 then
 					Result.append (", ")
 				end
-				Result.append (Number.double_to_string (n.item).out)
+				Result.append (Number.double_to_string (value).out)
 			end
 			Result.append (" >>")
 		end
@@ -131,9 +131,9 @@ feature -- Lists
 		-- only Latin-1 encoded lines
 		do
 			create Result.make (5)
-			across lines_32 as list loop
-				if list.item.is_valid_as_string_8 then
-					Result.extend (list.item.to_string_8)
+			across lines_32 as line loop
+				if line.is_valid_as_string_8 then
+					Result.extend (line.to_string_8)
 				end
 			end
 		end
@@ -153,8 +153,8 @@ feature -- Lists
 		do
 			create Result.make (50)
 			across lines_32 as line loop
-				across line.item.split (' ') as split loop
-					if attached split.item as word and then word.is_valid_as_string_8 then
+				across line.split (' ') as word loop
+					if word.is_valid_as_string_8 then
 						Result.extend (word.to_string_8)
 					end
 				end
@@ -170,8 +170,8 @@ feature -- Lists
 		do
 			create Result.make (50)
 			across lines_32 as line loop
-				across line.item.split (' ') as word loop
-					Result.extend (word.item)
+				across line.split (' ') as word loop
+					Result.extend (word)
 				end
 			end
 		end

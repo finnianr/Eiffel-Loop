@@ -58,12 +58,12 @@ feature {NONE} -- Line states
 	find_version (line: ZSTRING)
 		do
 			if line.starts_with (Version_field) then
-				across field_value (Version_field, line).split ('.') as list loop
-					inspect list.cursor_index
+				across field_value (Version_field, line).split ('.') as part loop
+					inspect @ part.cursor_index
 						when 1 then
-							major_version := list.item.to_integer
+							major_version := part.to_integer
 						when 2 then
-							minor_version := list.item.to_integer
+							minor_version := part.to_integer
 					else
 					end
 				end

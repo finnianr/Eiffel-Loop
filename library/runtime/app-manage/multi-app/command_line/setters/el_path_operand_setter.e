@@ -15,7 +15,7 @@ class
 inherit
 	EL_MAKE_OPERAND_SETTER [EL_PATH]
 		redefine
-			default_argument_setter, value
+			default_argument_setter
 		end
 
 feature {NONE} -- Implementation

@@ -17,7 +17,7 @@ class
 inherit
 	EL_ROUTINE_LOG
 		redefine
-			clear, output, exit, pause_for_enter_key, enter_with_args, move_cursor_up,
+			clear, exit, pause_for_enter_key, enter_with_args, move_cursor_up,
 			set_text_color, set_text_color_light
 		end
 

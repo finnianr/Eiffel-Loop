@@ -80,6 +80,7 @@ feature -- Tests
 			testing: "covers/{ECD_REFLECTIVE_RECOVERABLE_CHAIN}.export_pyxis"
 		local
 			data_table: COUNTRY_DATA_TABLE; data_path, pyxis_path: FILE_PATH
+			export_digest: STRING
 		do
 			data_path := Work_area_dir + "country.dat"
 			create data_table.make_from_file (data_path)
@@ -89,14 +90,13 @@ feature -- Tests
 			pyxis_path := data_path.with_new_extension ("pyx")
 			data_table.export_pyxis (pyxis_path, Latin_1)
 
-			if attached ("xdvebKdoIWHUoV/MK558Jg==") as export_digest then
-				assert_same_digest (Plain_text, pyxis_path, export_digest)
+			export_digest := "xdvebKdoIWHUoV/MK558Jg=="
+			assert_same_digest (Plain_text, pyxis_path, export_digest)
 
-				data_table.import_pyxis (pyxis_path)
+			data_table.import_pyxis (pyxis_path)
 
-				data_table.export_pyxis (pyxis_path, Latin_1)
-				assert_same_digest (Plain_text, pyxis_path, export_digest)
-			end
+			data_table.export_pyxis (pyxis_path, Latin_1)
+			assert_same_digest (Plain_text, pyxis_path, export_digest)
 
 			data_table.close
 		end

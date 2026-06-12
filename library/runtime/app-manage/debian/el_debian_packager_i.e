@@ -93,7 +93,7 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 		do
 			create Result.make_empty
 			across OS.file_list (versioned_package_dir, All_files).query_if (agent is_executable) as path loop
-				Result.extend (path.item.relative_path (Directory.temporary))
+				Result.extend (path.relative_path (Directory.temporary))
 			end
 		end
 
@@ -140,13 +140,13 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 			control_file: EL_DEBIAN_CONTROL; destination_path: FILE_PATH
 		do
 			across Shared_directory.named (debian_dir).files as file_path loop
-				destination_path := versioned_package_dir.joined_file_tuple ([Name.DEBIAN, file_path.item.base])
-				if file_path.item.base ~ Name.control then
-					create control_file.make (file_path.item, destination_path)
+				destination_path := versioned_package_dir.joined_file_tuple ([Name.DEBIAN, file_path.base])
+				if file_path.base ~ Name.control then
+					create control_file.make (file_path, destination_path)
 					control_file.set_installed_size (installed_size)
 					control_file.serialize
-				elseif file_path.item.extension /~ Evc_extension then
-					OS.copy_file (file_path.item, destination_path)
+				elseif file_path.extension /~ Evc_extension then
+					OS.copy_file (file_path, destination_path)
 				end
 			end
 		end

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!---->
-<system name = "EL_vtd_xml" library_target = "EL_vtd_xml" uuid = "229b77d6-09aa-11df-87c5-b77da3e246d9" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-23-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-23-0 http://www.eiffel.com/developers/xml/configuration-1-23-0.xsd" name="el_vtd_xml" uuid="229B77D6-09AA-11DF-87C5-B77DA3E246D9" library_target="el_vtd_xml">
 	<description>
 XML parsing and Xpath navigation with VTD-XML
 
@@ -16,55 +15,57 @@ Java or C version of VTD-XML.
 
 A substantial C-bridge was developed to make Eiffel work better with VTD-XML.
 The original VTX-XML code was forked to make it possible to compile it with the MSC compiler.
-This fork is found under `contrib/C&apos;.
+This fork is found under `contrib/C'.
 
 Test class ${VTD_XML_AUTOTEST_APP}
 	</description>
-	<target name = "EL_vtd_xml">
+	<target name="el_vtd_xml">
 		<description>
 export:
 	C_VTD2EIFFEL = $EIFFEL_LOOP/C_library/vtd2eiffel
 	C_VTD_XML = $EIFFEL_LOOP/contrib/C/VTD-XML*
 		</description>
-		<root all_classes = "true"/>
-		<option namespace = "Eiffel-Loop.Library.VTD-XML" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
-			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
+		<root all_classes="true"/>
+		<option trace="false" debug="false" warning="warning" full_class_checking="false" syntax="standard" namespace="Eiffel-Loop.Library.VTD-XML">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true"/>
 		</option>
-		<external_include location = "$(EIFFEL_LOOP)/C_library/include">
+		<capability>
+			<concurrency support="thread"/>
+			<void_safety support="none"/>
+		</capability>
+		<external_include location="$(EIFFEL_LOOP)/C_library/include">
 			<description>C implementation of EL_C_CALLABLE_PROCEDURE</description>
 		</external_include>
-		<external_include location = "$(C_VTD2EIFFEL)/source"/>
-		<external_object location = "$(C_VTD2EIFFEL)/spec/$(ISE_PLATFORM)/vtd-xml.lib">
+		<external_include location="$(C_VTD2EIFFEL)/source"/>
+		<external_object location="$(C_VTD2EIFFEL)/spec/$(ISE_PLATFORM)/vtd-xml.lib">
 			<condition>
-				<platform value = "windows"/>
+				<platform value="windows"/>
 			</condition>
 		</external_object>
-		<external_object location = "-L$(C_VTD2EIFFEL)/spec/$(ISE_PLATFORM) -lvtd-xml">
+		<external_linker_flag value="-L$(C_VTD2EIFFEL)/spec/$(ISE_PLATFORM) -lvtd-xml">
 			<condition>
-				<platform value = "unix"/>
+				<platform value="unix"/>
 			</condition>
-		</external_object>
-		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
-		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
-		<!--Eiffel-Loop libraries-->
-		<library name = "EL_base" location = "base/base.ecf"/>
-		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
-		<library name = "EL_evolicity" location = "evolicity.ecf"/>
-		<library name = "EL_file_process" location = "file-processing.ecf"/>
-		<library name = "EL_text_formats" location = "text-formats.ecf"/>
-		<library name = "EL_text_process" location = "text-process.ecf"/>
-		<!--Source code-->
-		<cluster name = "vtd_xml" location = "persistency/xml/vtd-xml" recursive = "true">
+		</external_linker_flag>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="el_base" location="base\base.ecf"/>
+		<library name="el_c_api" location="C-language-interface.ecf"/>
+		<library name="el_evolicity" location="evolicity.ecf"/>
+		<library name="el_file_process" location="file-processing.ecf"/>
+		<library name="el_text_formats" location="text-formats.ecf"/>
+		<library name="el_text_process" location="text-process.ecf"/>
+		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf"/>
+		<cluster name="vtd_xml" location="persistency\xml\vtd-xml\" recursive="true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
-					<platform value = "unix"/>
+					<platform value="unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
 				<exclude>/imp_unix$</exclude>
 				<condition>
-					<platform value = "windows"/>
+					<platform value="windows"/>
 				</condition>
 			</file_rule>
 		</cluster>

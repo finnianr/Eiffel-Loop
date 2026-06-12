@@ -47,13 +47,13 @@ feature -- Access
 	pyxis_attributes_line (a_table: like Attribute_table): STRING
 		do
 			create Result.make (50)
-			across a_table as table loop
+			across a_table as attrib loop
 				if not Result.is_empty then
 					Result.append_string_general ("; ")
 				end
-				Result.append (table.key)
+				Result.append (@ attrib.key)
 				Result.append_string_general (" = ")
-				Result.append (pyxis_attribute_value (table.item))
+				Result.append (pyxis_attribute_value (attrib))
 			end
 		end
 
@@ -73,11 +73,11 @@ feature -- Constants
 	Attributes_comma_separated_values: STRING
 		once
 			create Result.make (50)
-			across Attribute_table as table loop
+			across Attribute_table as attrib loop
 				if not Result.is_empty then
 					Result.append_character (',')
 				end
-				Result.append_string (pyxis_attribute_value (table.item))
+				Result.append_string (pyxis_attribute_value (attrib))
 			end
 		end
 

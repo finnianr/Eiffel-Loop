@@ -27,14 +27,14 @@ feature -- Basic operations
 	store (dir_path: DIR_PATH)
 		do
 			across table_array as table loop
-				table.item.store (dir_path)
+				table.store (dir_path)
 			end
 		end
 
 	try_restore (dir_path: DIR_PATH)
 		do
 			across table_array as table loop
-				table.item.try_restore (dir_path)
+				table.try_restore (dir_path)
 			end
 		end
 

@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 		do
 			make_sized (type_list.count)
 			across type_list as type loop
-				put (create {EL_LOG_FILTER}.make (type.item, Type_show_all), type.item)
+				put (create {EL_LOG_FILTER}.make (type, Type_show_all), type)
 			end
 		end
 

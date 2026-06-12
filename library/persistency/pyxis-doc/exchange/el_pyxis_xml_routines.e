@@ -156,7 +156,7 @@ feature -- Measurement
 				element_line := Tab * tab_count + name
 				element_line.append_character (':')
 				across File.plain_text_lines (file_path) as line loop
-					if line.item_starts_with (element_line) then
+					if @ line.item_starts_with (element_line) then
 						Result := Result + 1
 					end
 				end

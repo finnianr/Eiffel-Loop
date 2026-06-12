@@ -35,14 +35,10 @@ system:
 				location = "$(C_GTK_INIT)/source"
 			external_include:
 				location = "cairo.h"
-			external_object:
-				location = "-lcairo"
-			external_object:
-				location = "-lXrandr"
-			external_object:
-				location = "-lX11"
-			external_object:
-				location = "$(C_GTK_INIT)/spec/$(ISE_PLATFORM)/libgtkinit.a"
+			external_linker_flag:
+				value = "-lcairo -lXrandr -lX11"
+			external_linker_flag:
+				location = "-L$(C_GTK_INIT)/spec/$(ISE_PLATFORM) -lgtkinit"
 
 		windows_externals:
 			external_include:

@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_CAPTURED_OS_COMMAND_I
 		redefine
-			do_with_lines, getter_function_table, execute
+			getter_function_table, execute
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE

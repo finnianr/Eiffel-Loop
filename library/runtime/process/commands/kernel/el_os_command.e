@@ -76,10 +76,8 @@ feature -- Element change
 	put_fields (object: EL_REFLECTIVE)
 		do
 			if attached object.field_table as l_field_table then
-				across template.place_holder_table as table loop
-					if l_field_table.has_key_general (table.key) and then attached l_field_table.found_item as field
-						and then attached table.item as place_holder
-					then
+				across template.place_holder_table as place_holder loop
+					if l_field_table.has_key_general (@ place_holder.key) and then attached l_field_table.found_item as field then
 						place_holder.wipe_out
 						if field.is_expanded then
 							field.append_to_string (object, place_holder)
@@ -140,8 +138,8 @@ feature -- Basic operations
 			valid_variable_tuple: valid_tuple (var_names)
 		do
 			across template.name_list as name loop
-				if var_names.valid_index (name.cursor_index) then
-					var_names.put_reference (name.item, name.cursor_index)
+				if var_names.valid_index (@ name.cursor_index) then
+					var_names.put_reference (name, @ name.cursor_index)
 				end
 			end
 		end

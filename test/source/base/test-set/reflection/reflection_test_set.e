@@ -196,10 +196,9 @@ feature -- Tests
 				covers/{EL_TUPLE_ROUTINES}.reset
 			]"
 		local
-			country: COUNTRY; string_fields: ARRAY [READABLE_STRING_GENERAL]
+			string_fields: ARRAY [READABLE_STRING_GENERAL]
 		do
-			across new_country_list as list loop
-				country := list.item
+			across new_country_list as country loop
 				country.reset_fields
 				assert ("false booleans",
 					across << country.brics_member.item, country.euro_zone_member >> as boolean all
@@ -214,7 +213,7 @@ feature -- Tests
 				string_fields := << country.continent, country.name, country.code, country.wikipedia_url >>
 				assert ("empty strings",
 					across string_fields as string all
-						string.item.is_empty
+						string.is_empty
 					end
 				)
 				assert ("currency is 0", country.currency = 0)
@@ -257,21 +256,21 @@ feature -- Tests
 				create string_table.make (country)
 				string_values := << ["code", "IE"], ["continent", "Europe"] >>
 				assert ("same field count", string_table.count = string_values.count)
-				across string_values as list loop
-					if string_table.has_key (list.item.name) then
-						assert ("expected value", string_table.found_item ~ list.item.value)
+				across string_values as pair loop
+					if string_table.has_key (pair.name) then
+						assert ("expected value", string_table.found_item ~ pair.value)
 					else
-						failed ("has name " + list.item.name)
+						failed ("has name " + pair.name)
 					end
 				end
 				create integer_table.make (country)
 				integer_values := << ["population", country.population], ["date_founded", country.date_founded] >>
 				assert ("same field count", integer_table.count = integer_values.count)
-				across integer_values as list loop
-					if integer_table.has_key (list.item.name) then
-						assert ("expected value", integer_table.found_item ~ list.item.value)
+				across integer_values as pair loop
+					if integer_table.has_key (pair.name) then
+						assert ("expected value", integer_table.found_item ~ pair.value)
 					else
-						failed ("has name " + list.item.name)
+						failed ("has name " + pair.name)
 					end
 				end
 			end
@@ -294,13 +293,13 @@ feature -- Tests
 			create header.make (Header_response)
 			create counter
 			across Header_response.split ('%N') as line loop
-				if line.item [1] = 'H' then
+				if line [1] = 'H' then
 					assert ("response OK", header.response_code = 200)
 					assert_same_string ("is UTF-8", header.encoding_name, "UTF-8")
 					counter.bump
 				else
-					create nvp.make (line.item, ':')
-					inspect line.item [1]
+					create nvp.make (line, ':')
+					inspect line [1]
 						when 'D' then
 							assert_same_string (Void, nvp.value, header.date)
 							counter.bump
@@ -341,11 +340,11 @@ feature -- Tests
 				{STRING_32}, {STRING_8}, {EL_STRING_32}, {EL_STRING_8},
 				{ZSTRING}
 			>>)
-			across type_list as list loop
-				if attached String_factory.new_item_from_type (list.item) as str then
+			across type_list as type loop
+				if attached String_factory.new_item_from_type (type) as str then
 					lio.put_labeled_string ("Created", str.generator)
 					lio.put_new_line
-					assert ("same type", str.generating_type ~ list.item)
+					assert ("same type", str.generating_type ~ type)
 				else
 					failed ("created")
 				end
@@ -360,13 +359,13 @@ feature -- Tests
 			create arrayed_type_list.make_from_array (<<
 				{ARRAYED_LIST [STRING]}, {EL_STRING_8_LIST}, {EL_ARRAYED_LIST [INTEGER]}
 			>>)
-			across arrayed_type_list as list loop
-				if attached Arrayed_list_factory.new_item_from_type (list.item) as new then
+			across arrayed_type_list as arrayed_type loop
+				if attached Arrayed_list_factory.new_item_from_type (arrayed_type) as new then
 					lio.put_labeled_string ("Created", new.generator)
 					lio.put_new_line
-					assert ("same type", new.generating_type ~ list.item)
+					assert ("same type", new.generating_type ~ arrayed_type)
 				else
-					failed ("created " + list.item.name)
+					failed ("created " + arrayed_type.name)
 				end
 			end
 		end
@@ -470,12 +469,12 @@ feature -- Tests
 
 			type_list := << {INTEGER}, {STRING}, {COUNTRY} >>
 			across type_list as type loop
-				if attached Collection_field_factory_factory.new_item_factory (type.item.type_id) as factory_item then
+				if attached Collection_field_factory_factory.new_item_factory (type.type_id) as factory_item then
 					lio.put_labeled_string ("Created", factory_item.generating_type.name)
 					lio.put_new_line
 				else
 					type_id := Factory.substituted_type_id (
-						{EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]]}, {ANY}, type.item.type_id
+						{EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]]}, {ANY}, type.type_id
 					)
 					lio.put_labeled_string ("Failed to create",  {ISE_RUNTIME}.generating_type_of_type (type_id))
 					lio.put_new_line
@@ -496,7 +495,7 @@ feature -- Tests
 		note
 			testing: "covers/{EL_REFLECTIVE_ATTRIBUTE_TABLE}.make"
 		do
-			assert ("all exist", across Data_dir.directory_list as list all list.item.exists end)
+			assert ("all exist", across Data_dir.directory_list as dir_path all dir_path.exists end)
 		end
 
 	test_reflective_string_constants
@@ -541,11 +540,11 @@ feature -- Tests
 		do
 			create object.make_default
 			create table.make_equal (object.field_table.count)
-			across object.field_table as l_field loop
-				if l_field.key.same_string ("boolean") then
-					table [l_field.key] := "True"
+			across object.field_table.name_list as name loop
+				if name.same_string ("boolean") then
+					table [name] := "True"
 				else
-					table [l_field.key] := l_field.cursor_index.out
+					table [name] := @ name.cursor_index.out
 				end
 			end
 			create object.make (table)

@@ -67,16 +67,14 @@ feature -- Tests
 			word_split: EL_SPLIT_INTERVALS; i, lower, upper: INTEGER
 		do
 			create word_split.make (Text.lines_8.first, ' ')
-			across word_split as split loop
-				i := split.cursor_index
+			across word_split as word loop
+				i := @ word.cursor_index
 				lower := word_split.i_th_lower (i)
 				upper := word_split.i_th_upper (i)
-				assert ("same lower", split.item_lower = lower)
-				assert ("same upper", split.item_upper = upper)
-				if attached split.item as interval then
-					assert ("same lower", interval.lower = lower)
-					assert ("same upper", interval.upper = upper)
-				end
+				assert ("same lower", @ word.item_lower = lower)
+				assert ("same upper", @ word.item_upper = upper)
+				assert ("same lower", word.lower = lower)
+				assert ("same upper", word.upper = upper)
 			end
 		end
 
@@ -89,8 +87,8 @@ feature -- Tests
 			line_str := "one %N two %N three"
 			create line_split.make_adjusted (line_str, '%N', {EL_SIDE}.Both)
 			create list.make (3)
-			across line_split as split loop
-				list.extend (split.item_copy)
+			across line_split as line loop
+				list.extend (@ line.item_copy)
 			end
 			line_str.prune_all (' ')
 			assert_same_string (Void, line_str, list.joined_lines)
@@ -105,10 +103,10 @@ feature -- Tests
 			str := Text.Mixed_text
 			create str_32.make (str.count)
 			across str.split ('%N') as line loop
-				if line.cursor_index > 1 then
+				if @ line.cursor_index > 1 then
 					str_32.append_character ('%N')
 				end
-				line.append_item_to (str_32)
+				@ line.append_item_to (str_32)
 			end
 			assert_same_string (Void, str_32, Text.Mixed_text)
 		end
@@ -122,10 +120,10 @@ feature -- Tests
 		do
 			create joined.make_empty
 			across << Number.one, Empty_string_8, Number.two >> as entry loop
-				joined.append_string (entry.item)
+				joined.append_string (entry)
 			end
 			across << Number.one, Empty_string_8, Number.two >> as entry loop
-				assert_same_string (Void, joined.i_th (entry.cursor_index), entry.item)
+				assert_same_string (Void, joined.i_th (@ entry.cursor_index), entry)
 			end
 		end
 
@@ -161,20 +159,20 @@ feature -- Tests
 			end
 
 			across 1 |..| 2 as n loop
-				across string_32_list as list loop
-					i := list.cursor_index
-					assert_same_string ("same i_th " + i.out, list.item, compact_list [i])
+				across string_32_list as str_32 loop
+					i := @ str_32.cursor_index
+					assert_same_string ("same i_th " + i.out, str_32, compact_list [i])
 					compact_list.go_i_th (i)
-					assert ("index_of = 1", compact_list.item_index_of (list.item [1]) = 1)
+					assert ("index_of = 1", compact_list.item_index_of (str_32 [1]) = 1)
 				end
-				if n.item = 1 then
+				if n = 1 then
 					compact_list.sort (True)
 					string_32_list.sort (True)
 				end
 			end
-			across compact_list as list loop
-				i := list.cursor_index
-				assert_same_string ("same i_th " + i.out, list.item, string_32_list [i])
+			across compact_list as str loop
+				i := @ str.cursor_index
+				assert_same_string ("same i_th " + i.out, str, string_32_list [i])
 			end
 		end
 
@@ -246,8 +244,8 @@ feature -- Tests
 		local
 			pair: STRING_TEST
 		do
-			across Text.lines_32 as line loop
-				create pair.make (Current, line.item)
+			across Text.lines_32 as line_32 loop
+				create pair.make (Current, line_32)
 				assert ("occurrence edit OK", pair.occurrence_edit)
 			end
 		end
@@ -259,15 +257,15 @@ feature -- Tests
 		local
 			test: STRING_TEST; start_index, end_index, space_index: INTEGER
 		do
-			across Text.lines_32 as line loop
-				create test.make (Current, line.item)
+			across Text.lines_32 as line_32 loop
+				create test.make (Current, line_32)
 				space_index := test.s_32.index_of (' ', 1)
 				if space_index > 0 then
 					test.set_substrings (space_index, space_index)
 					test.occurrence_intervals
 				end
 				across test.all_word_interval_permutations as permutation loop
-					if attached permutation.item as list then
+					if attached permutation as list then
 						from list.start until list.after loop
 							start_index := list.item_lower; end_index := list.item_upper
 							test.set_substrings (start_index, end_index)
@@ -297,23 +295,20 @@ feature -- Tests
 
 	test_path_split
 		local
-			list: LIST [STRING]; split_8_path: EL_SPLIT_STRING_LIST [STRING]
-			split_path: EL_SPLIT_ZSTRING_LIST; l_path: STRING; i: INTEGER
-			item: STRING
+			path_steps: LIST [STRING]; split_8_path: EL_SPLIT_STRING_LIST [STRING]
+			split_path: EL_SPLIT_ZSTRING_LIST; l_path: STRING
 		do
-			list := Unix_path.split ('/')
+			path_steps := Unix_path.split ('/')
 			l_path := Unix_path.twin
 			across 1 |..| 2 as n loop
 				create split_path.make_by_string (l_path, "/")
-				across list as step loop
-					item := step.item; i := step.cursor_index
-					assert ("same step", item ~ split_path.i_th (i).to_string_8)
+				across path_steps as step loop
+					assert ("same step", step ~ split_path.i_th (@ step.cursor_index).to_string_8)
 				end
 
 				create split_8_path.make_by_string (l_path, "/")
-				across list as step loop
-					item := step.item; i := step.cursor_index
-					assert ("same step", item ~ split_path.i_th (i))
+				across path_steps as step loop
+					assert ("same step", step ~ split_path.i_th (@ step.cursor_index))
 				end
 				l_path.append_character ('/')
 			end
@@ -326,17 +321,16 @@ feature -- Tests
 				covers/{EL_ITERABLE_SPLIT_CURSOR}.item
 			]"
 		local
-			encodeable: EL_ENCODEABLE_AS_TEXT; name: STRING
+			encodeable: EL_ENCODEABLE_AS_TEXT
 		do
 			create encodeable.make_default
 			across << False, True >> as is_lower_case loop
-				across ("ISO-8859-1,UTF-8,WINDOWS-1252").split (',') as split loop
-					name := split.item
+				across ("ISO-8859-1,UTF-8,WINDOWS-1252").split (',') as name loop
 					if is_lower_case.item then
 						name.to_lower
 					end
 					encodeable.set_encoding_from_name (name)
-					inspect split.cursor_index
+					inspect @ name.cursor_index
 						when 1 then
 							assert ("is ISO-8859-1", encodeable.encoded_as_latin (1))
 						when 2 then
@@ -365,8 +359,8 @@ feature -- Tests
 
 			split_list.wipe_out
 			across character_split as split loop
-				if not split.item_is_empty then
-					split_list.extend (split.item_copy)
+				if not @ split.item_is_empty then
+					split_list.extend (@ split.item_copy)
 				end
 			end
 			assert ("same_list", same_list (split_list, "a,b,c"))
@@ -458,19 +452,19 @@ feature -- Tests
 			pair: STRING_TEST; start_index, end_index, space_index: INTEGER
 		do
 			across << False, True >> as test_immutables loop
-				across Text.lines_32 as line loop
+				across Text.lines_32 as line_32 loop
 					if test_immutables.item then
-						create {IMMUTABLE_STRING_TEST} pair.make (Current, line.item)
+						create {IMMUTABLE_STRING_TEST} pair.make (Current, line_32)
 					else
-						create pair.make (Current, line.item)
+						create pair.make (Current, line_32)
 					end
 					space_index := pair.s_32.index_of (' ', 1)
 					if space_index > 0 then
 						pair.set_substrings (space_index, space_index)
 						pair.split_intervals
 					end
-					across pair.all_word_interval_permutations as permutation loop
-						if attached permutation.item as list then
+					across pair.all_word_interval_permutations as interval_permutations loop
+						if attached interval_permutations as list then
 							from list.start until list.after loop
 								start_index := list.item_lower; end_index := list.item_upper
 								pair.set_substrings (start_index, end_index)
@@ -503,41 +497,39 @@ feature -- Tests
 		do
 			bracket_pair := "()"
 			across Comma_separated_variations as csv_list loop
-				if csv_list.item.has (' ') then
+				if csv_list.has (' ') then
 					adjustments := {EL_SIDE}.Both
 				else
 					adjustments := 0
 				end
-				create character_split.make_adjusted (csv_list.item, ',', adjustments)
+				create character_split.make_adjusted (csv_list, ',', adjustments)
 
-				str_list := csv_list.item.twin
+				str_list := csv_list.twin
 				str_list.replace_substring_all (",", bracket_pair)
 				create string_split.make_adjusted (str_list, bracket_pair, adjustments)
 
 				splitter_array := << string_split, character_split >>
 				across splitter_array as splitter loop
 					create split_list.make (5)
-					across splitter.item as split loop
-						if split.cursor_index = 1 then
-							first_item := split.item
+					across splitter as str loop
+						if @ str.cursor_index = 1 then
+							first_item := str
 						else
-							assert ("same string instance", first_item = split.item)
+							assert ("same string instance", first_item = str)
 						end
-						if attached split.item as str then
-							if str.count > 0 and then str [1] = 'a' then
-								assert ("has a", split.item_has ('a'))
-								assert ("same as a", split.item_same_as ("a"))
-								assert ("same as A", split.item_same_caseless_as ("A"))
-							else
-								assert ("zero implies empty item", str.count = 0 implies split.item_is_empty)
-								assert ("not has a", not split.item_has ('a'))
-								assert ("not same as a", not split.item_same_as ("a"))
-								assert ("not same as A", not split.item_same_caseless_as ("A"))
-							end
+						if str.count > 0 and then str [1] = 'a' then
+							assert ("has a", @ str.item_has ('a'))
+							assert ("same as a", @ str.item_same_as ("a"))
+							assert ("same as A", @ str.item_same_caseless_as ("A"))
+						else
+							assert ("zero implies empty item", str.count = 0 implies @ str.item_is_empty)
+							assert ("not has a", not @ str.item_has ('a'))
+							assert ("not same as a", not @ str.item_same_as ("a"))
+							assert ("not same as A", not @ str.item_same_caseless_as ("A"))
 						end
-						split_list.extend (split.item_copy)
+						split_list.extend (@ str.item_copy)
 					end
-					assert ("same_list", same_list (split_list, csv_list.item))
+					assert ("same_list", same_list (split_list, csv_list))
 				end
 			end
 		end
@@ -560,18 +552,18 @@ feature -- Tests
 			create split_list.make_by_string (csv_list, Comma_space)
 			create split_zstring_list.make_by_string (csv_list, Comma_space)
 			create copied_list.make (split_list.count)
-			across split_list as list loop
-				copied_list.extend (list.item_copy)
+			across split_list as str loop
+				copied_list.extend (@ str.item_copy)
 			end
 			copied_list.ascending_sort
 			split_list.sort (True)
-			across copied_list as list loop
-				assert ("same substring", list.item ~ split_list.i_th (list.cursor_index))
+			across copied_list as str loop
+				assert ("same substring", str ~ split_list.i_th (@ str.cursor_index))
 			end
 
 			split_zstring_list.sort (True)
-			across copied_list as list loop
-				assert ("same substring", list.item ~ split_zstring_list.i_th (list.cursor_index))
+			across copied_list as str loop
+				assert ("same substring", str ~ split_zstring_list.i_th (@ str.cursor_index))
 			end
 		end
 
@@ -583,8 +575,8 @@ feature -- Tests
 		do
 			create split_list.make_empty
 			across Comma_separated_variations as csv_list loop
-				create split_list.make_adjusted (csv_list.item, ',', {EL_SIDE}.Left)
-				str_split := csv_list.item.split (',')
+				create split_list.make_adjusted (csv_list, ',', {EL_SIDE}.Left)
+				str_split := csv_list.split (',')
 				if attached split_list as list then
 					from list.start until list.after loop
 						str_split.go_i_th (list.index)
@@ -614,24 +606,22 @@ feature -- Tests
 		local
 			test: STRING_TEST; word_list: EL_STRING_32_LIST
 		do
-			across Text.lines_32 as line loop
-				if attached line.item as str_32 then
-					create word_list.make_word_split (str_32)
-					create test.make (Current, str_32)
+			across Text.lines_32 as str_32 loop
+				create word_list.make_word_split (str_32)
+				create test.make (Current, str_32)
+				test.word_split_intervals (word_list)
+
+				test.set (new_whitespace_padded (word_list))
+				test.word_split_intervals (word_list)
+
+				if attached super_32 (str_32).substring_to (' ') as single_word then
+					word_list.wipe_out
+					word_list.extend (single_word)
+					test.set (single_word)
 					test.word_split_intervals (word_list)
 
-					test.set (new_whitespace_padded (word_list))
+					test.set (single_word + char (Text.Non_breaking_space).as_string_32 (2))
 					test.word_split_intervals (word_list)
-
-					if attached super_32 (str_32).substring_to (' ') as single_word then
-						word_list.wipe_out
-						word_list.extend (single_word)
-						test.set (single_word)
-						test.word_split_intervals (word_list)
-
-						test.set (single_word + char (Text.Non_breaking_space).as_string_32 (2))
-						test.word_split_intervals (word_list)
-					end
 				end
 			end
 		end
@@ -649,7 +639,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (word_list.character_count + word_list.count * 3)
 			across word_list as word loop
-				inspect word.cursor_index \\ 3
+				inspect @ word.cursor_index \\ 3
 					when 0 then
 						Result.append_string_general ("%T %N")
 					when 1 then
@@ -657,16 +647,16 @@ feature {NONE} -- Implementation
 					when 2 then
 						Result.append_character (' ')
 				end
-				Result.append (word.item)
+				Result.append (word)
 			end
 			Result.append_string_general ("%T")
 		end
 
-	same_list (split_list: EL_STRING_8_LIST; str: STRING): BOOLEAN
+	same_list (split_list: EL_STRING_8_LIST; a_str: STRING): BOOLEAN
 		do
-			if attached str.split (',') as str_split and then str_split.count = split_list.count then
+			if attached a_str.split (',') as str_split and then str_split.count = split_list.count then
 				str_split.do_all (agent {STRING}.adjust)
-				Result := across str_split as split all split.item ~ split_list [split.cursor_index]  end
+				Result := across str_split as str all str ~ split_list [@ str.cursor_index]  end
 			end
 		end
 

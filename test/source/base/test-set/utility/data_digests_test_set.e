@@ -87,7 +87,7 @@ feature -- Tests
 			zstr := Text.Mixed_text
 			create md5.make
 			across << zstr, Empty_string >> as str loop
-				md5.sink_string (str.item)
+				md5.sink_string (str)
 				assert_same_md5_digest ("All Russian and English", md5, "3XbFQvrHJALz0E89RUVykw==")
 			end
 
@@ -95,7 +95,7 @@ feature -- Tests
 			assert ("correct line", str_8.starts_with ("Wanting"))
 			md5.reset
 			across << str_8, Empty_string_8 >> as str loop
-				md5.sink_string_8 (str.item)
+				md5.sink_string_8 (str)
 				assert_same_md5_digest ("Wanting (line)", md5, "KgHgTIwmLrcVEKchvY+zRg==")
 			end
 		end

@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"; uuid = "FD551656-3F7D-11E6-A8AB-E76A8A33139A" 
+	configuration_ns = "1-23-0"; uuid = "FD551656-3F7D-11E6-A8AB-E76A8A33139A" 
 	name = EL_thread; library_target = EL_thread
 	description:
 		"""
@@ -21,9 +21,12 @@ system:
 		option:
 			namespace = "Eiffel-Loop.Library.Thread_and_logging"
 			syntax = standard; full_class_checking = false; void_safety = none
-			trace = false; debug=false; warning=true
+			trace = false; debug = false; warning = warning
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
+		capability:
+			concurrency:
+				support = thread; use = thread
 
 		# ISE libraries
 		libraries:

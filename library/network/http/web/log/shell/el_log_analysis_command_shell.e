@@ -69,8 +69,8 @@ feature {NONE} -- Implementation
 			create log_list.make (config.log_path)
 			create Result.make (log_list.count + 1)
 			Result.put (agent set_request_method, "Set HTTP request method filter")
-			across log_list as list loop
-				Result.put (agent analyse (list.item), list.item.description)
+			across log_list as log loop
+				Result.put (agent analyse (log), log.description)
 			end
 		end
 

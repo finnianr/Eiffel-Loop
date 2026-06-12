@@ -55,11 +55,9 @@ feature -- Basic operations
 				if process_list.count = 1 then
 					lio.put_line ("Only this application is running")
 				else
-					across process_list as list loop
-						if attached list.item as line then
-							line.left_adjust
-							display_process (line, line.substring_to (' '))
-						end
+					across process_list as line loop
+						line.left_adjust
+						display_process (line, line.substring_to (' '))
 					end
 				end
 			end

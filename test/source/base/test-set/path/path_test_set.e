@@ -230,13 +230,13 @@ feature -- Tests
 			dir_path := "base/kernel/reflection"
 			assert_same_string (Void, dir_path.parent.to_unix, "base/kernel")
 
-			across << String.boot_memtest, String.home_user >> as list loop
-				dir_path := list.item
+			across << String.boot_memtest, String.home_user >> as dir_string loop
+				dir_path := dir_string
 				c_root := "C:"
 				if is_windows then
 					c_root.extend (OS.separator)
 				end
-				root_name := if list.cursor_index = 1 then c_root else OS.separator.out end
+				root_name := if @ dir_string.cursor_index = 1 then c_root else OS.separator.out end
 				assert_same_string ("same root name", dir_path.parent.parent.to_string, root_name)
 				assert_same_string (Void, dir_path.parent.to_string + OS.separator.out, dir_path.parent_string (False))
 			end
@@ -263,10 +263,10 @@ feature -- Tests
 			dir_string_home := String.home_user
 			dir_home := dir_string_home
 			across String.home_eiffel.split ('/') as step loop
-				if step.cursor_index > 1 then
+				if @ step.cursor_index > 1 then
 					dir_string.append_character ('/')
 				end
-				dir_string.append_string_general (step.item)
+				dir_string.append_string_general (step)
 				dir := dir_string
 				is_parent := dir_string.starts_with (dir_string_home) and dir_string.count > dir_string_home.count
 				assert ("same result", is_parent ~ dir_home.is_parent_of (dir))
@@ -310,7 +310,7 @@ feature -- Tests
 			dir_path := String.home_eiffel
 			assert ("joe is 3rd step", dir_path.index_of ("joe", 1) = 3)
 			across dir_path.to_string.split (OS.separator) as step loop
-				assert ("same step", dir_path.i_th_same_as (step.cursor_index, step.item))
+				assert ("same step", dir_path.i_th_same_as (@ step.cursor_index, step))
 			end
 		end
 
@@ -385,13 +385,13 @@ feature -- Tests
 		local
 			path_1, p1, relative_path: FILE_PATH; path_2, p2: DIR_PATH
 		do
-			across OS.file_list (Eiffel_latin_1_sources.to_string, "*.e") as list loop
-				p1 := list.item.to_string
+			across OS.file_list (Eiffel_latin_1_sources.to_string, "*.e") as path loop
+				p1 := path.to_string
 				path_1 := p1.relative_path (Eiffel_latin_1_sources)
 				lio.put_labeled_string ("class", path_1.to_string)
 				lio.put_new_line
 				across OS.directory_list (Eiffel_latin_1_sources.to_string) as dir loop
-					p2 := dir.item.to_string
+					p2 := dir.to_string
 					if Eiffel_latin_1_sources.is_parent_of (p2) then
 						path_2 := p2.relative_path (Eiffel_latin_1_sources)
 						relative_path := path_1.universal_relative_path (path_2)
@@ -415,9 +415,9 @@ feature -- Tests
 		local
 			path: FILE_PATH
 		do
-			across << "myfile.mp3", "myfile.02.mp3", "myfile..mp3" >> as p loop
-				path := p.item
-				inspect p.cursor_index
+			across << "myfile.mp3", "myfile.02.mp3", "myfile..mp3" >> as mp3 loop
+				path := mp3
+				inspect @ mp3.cursor_index
 					when 1 then
 						assert ("no version", path.version_number = -1)
 					when 2 then

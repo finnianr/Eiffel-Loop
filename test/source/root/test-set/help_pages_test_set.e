@@ -14,9 +14,6 @@ deferred class
 
 inherit
 	EL_GENERATED_FILE_DATA_TEST_SET
-		redefine
-			file_path_list
-		end
 
 	EL_MODULE_FILE
 

@@ -34,7 +34,7 @@ class
 inherit
 	EL_BUILDABLE_FROM_PYXIS
 		redefine
-			make_default, make_from_file, building_action_table
+			make_default, make_from_file
 		end
 
 	EL_MODULE_FILE_SYSTEM
@@ -89,8 +89,8 @@ feature -- Basic operations
 
 	display_bad_paths (log: EL_LOGGABLE)
 		do
-			across bad_path_list as list loop
-				log.put_path_field ("Missing %S", list.item)
+			across bad_path_list as bad_path loop
+				log.put_path_field ("Missing %S", bad_path)
 				log.put_new_line
 			end
 		end
@@ -120,9 +120,9 @@ feature {NONE} -- Build from Pyxis
 						else
 							dir_list := File_system.files (parent_dir, True)
 						end
-						across dir_list as list loop
-							if list.item /~ manifest_path then
-								location_file_map_list.extend (location_dir, list.item)
+						across dir_list as dir loop
+							if dir /~ manifest_path then
+								location_file_map_list.extend (location_dir, dir)
 							end
 						end
 					else

@@ -18,7 +18,7 @@ class
 inherit
 	EL_MAKE_OPERAND_SETTER [HASH_TABLE [ANY, READABLE_STRING_GENERAL]]
 		redefine
-			try_put_operand, value
+			try_put_operand
 		end
 
 	EL_MODULE_CONVERT_STRING
@@ -41,11 +41,11 @@ feature {NONE} -- Implementation
 				table_operand.start
 				if not table_operand.after then
 					value_type := table_operand.item_for_iteration.generating_type
-					across table_operand as arg loop
-						if attached {READABLE_STRING_GENERAL} arg.key as key_general
+					across table_operand.current_keys as arg_key loop
+						if attached {READABLE_STRING_GENERAL} arg_key as key_general
 							and then command_line.has_value (key_general)
 						then
-							if attached command_line.value (arg.key) as string_value then
+							if attached command_line.value (arg_key) as string_value then
 								table_operand [key_general] := Convert_string.to_type (string_value, value_type)
 							end
 						end

@@ -17,7 +17,7 @@ deferred class
 inherit
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
 		redefine
-			is_path, is_latin_1, new_type_description, type
+			is_path, is_latin_1, type_description, type
 		end
 
 	EL_SHARED_ZSTRING_BUFFER_POOL
@@ -25,6 +25,20 @@ inherit
 feature -- Access
 
 	type: TYPE [EL_PATH]
+
+	type_description: STRING
+		-- terse English language description of type
+		once ("OBJECT")
+			if type ~ {DIR_PATH} then
+				Result := "directory path"
+
+			elseif type ~ {FILE_PATH} then
+				Result := "file path"
+
+			else
+				Result := "URL"
+			end
+		end
 
 feature -- Status query
 
@@ -54,22 +68,6 @@ feature -- Basic operations
 		-- put `value' at `index' position in `a_tuple'
 		do
 			a_tuple.put_reference (value, index)
-		end
-
-feature {NONE} -- Implementation
-
-	new_type_description: STRING
-		-- terse English language description of type
-		do
-			if type ~ {DIR_PATH} then
-				Result := "directory path"
-
-			elseif type ~ {FILE_PATH} then
-				Result := "file path"
-
-			else
-				Result := "URL"
-			end
 		end
 
 end

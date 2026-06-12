@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-16-0"
+	configuration_ns = "1-23-0"
 	name = EL_eros; library_target = EL_eros; uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" 
 	description:
 		"""
@@ -25,10 +25,14 @@ system:
 		root:
 			all_classes = true
 		option:
-			syntax = standard; full_class_checking = false; void_safety = none
-			trace = false; debug = false; warning = true
+			syntax = standard; full_class_checking = false; trace = false; debug = false; warning = warning
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
+		capability:
+			concurrency:
+				support = thread; use = thread
+			void_safety:
+				support = none
 
 		# ISE libraries
 		libraries:

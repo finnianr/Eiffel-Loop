@@ -61,12 +61,12 @@ feature -- Tests
 			create str_32.make_filled ('-', 3)
 			str_32 [3] := ' '
 
-			across Text.lines_32 as line loop
-				test := new_immutable_test (line.item)
+			across Text.lines_32 as line_32 loop
+				test := new_immutable_test (line_32)
 				if attached test.word_intervals as intervals then
 					str_32.keep_head (3)
 					intervals.go_i_th (2) -- go to 2nd word
-					str_32.append_substring (line.item, intervals.item_lower, intervals.item_upper)
+					str_32.append_substring (line_32, intervals.item_lower, intervals.item_upper)
 					test.append_substring_to_string_32 (str_32, intervals)
 				end
 			end
@@ -86,12 +86,12 @@ feature -- Tests
 			create str_8.make_filled ('-', 3)
 			str_8 [3] := ' '
 
-			across Text.latin_1_list as list loop
-				test := new_immutable_test (list.item)
+			across Text.latin_1_list as latin_1_str loop
+				test := new_immutable_test (latin_1_str)
 				if attached test.word_intervals as intervals then
 					str_8.keep_head (3)
 					intervals.go_i_th (2) -- go to 2nd word
-					str_8.append_substring (list.item, intervals.item_lower, intervals.item_upper)
+					str_8.append_substring (latin_1_str, intervals.item_lower, intervals.item_upper)
 					test.append_substring_to_string_8 (str_8, intervals)
 				end
 			end
@@ -109,11 +109,11 @@ feature -- Tests
 		local
 			test: IMMUTABLE_STRING_TEST; str_32: STRING_32; is_ascii_interval: BOOLEAN
 		do
-			across Text.lines_32 as line loop
-				test := new_immutable_test (line.item)
+			across Text.lines_32 as line_32 loop
+				test := new_immutable_test (line_32)
 				if attached test.word_intervals as interval then
 					from interval.start until interval.after loop
-						str_32 := line.item.substring (interval.item_lower, interval.item_upper)
+						str_32 := line_32.substring (interval.item_lower, interval.item_upper)
 						is_ascii_interval := across str_32 as uc all uc.item.code <= {ASCII}.Last_ascii end
 						test.is_ascii_substring (interval, is_ascii_interval)
 
@@ -143,15 +143,15 @@ feature -- Tests
 			content: READABLE_STRING_8
 		do
 			type_array := << {ARRAYED_LIST [INTEGER]}, {ARRAYED_LIST [CELL [INTEGER]]} >>
-			across type_array as array loop
+			across type_array as type loop
 				across << False, True >> as is_last loop
-					name := array.item.name
+					name := type.name
 					if is_last.item then
 						content := super_readable_8 (name).bracketed_last ('[')
 						name_2 := ({INTEGER}).name
 					else
 						content := super_readable_8 (name).bracketed ('[')
-						name_2 := if array.is_first then ({INTEGER}).name else ({CELL [INTEGER]}).name end
+						name_2 := if @ type.is_first then ({INTEGER}).name else ({CELL [INTEGER]}).name end
 					end
 					assert ("content is immutable", content.is_immutable)
 					assert_same_string (Void, content, name_2)
@@ -179,10 +179,10 @@ feature -- Tests
 			character_string := "%T - -"; character_string.extend (Text.Euro_symbol)
 			assert ("6 characters", character_string.count = 6)
 			across character_string as character loop
-					character_32 := character.item
+					character_32 := character
 					if attached padded_32 (character_32) as str then
 						z_str := str
-						inspect character.cursor_index
+						inspect @ character.cursor_index
 							when 1 then
 								assert ("is tab", character_32 = '%T')
 								if super_z (z_str).leading_occurrences (character_32) = 1 then
@@ -271,9 +271,9 @@ feature -- Tests
 		do
 			is_variable_reference := << True, False, True, False >>
 			across new_string_type_list ("$index, $in-dex, ${index}, index") as csv_list loop
-				across Convert_string.split_list (csv_list.item, ',', {EL_SIDE}.Left) as list loop
-					if attached list.item as str and then attached super_readable_general (str) as super_str then
-						i := list.cursor_index
+				across Convert_string.split_list (csv_list, ',', {EL_SIDE}.Left) as str loop
+					if attached super_readable_general (str) as super_str then
+						i := @ str.cursor_index
 						assert ("expected result", super_str.is_variable_reference = is_variable_reference [i])
 					end
 				end
@@ -306,19 +306,17 @@ feature -- Tests
 		local
 			expected_occurrences, occurrences: INTEGER; first: CHARACTER_32
 		do
-			across Text.lines as line loop
-				if attached line.item as str then
-					first := str [1]
-					occurrences := super_z (str).occurrences_in_bounds (first, 5, str.count - 5)
-					inspect line.cursor_index
-						when Line_cyrillic, Line_accented, Line_quattro then
-							expected_occurrences := 1
-						when Line_ascii, Line_latin_1, Line_latin_15, Line_euro then
-							expected_occurrences := 0
-					else
-					end
-					assert ("as expected", expected_occurrences = occurrences)
+			across Text.lines as str_32 loop
+				first := str_32 [1]
+				occurrences := super_z (str_32).occurrences_in_bounds (first, 5, str_32.count - 5)
+				inspect @ str_32.cursor_index
+					when Line_cyrillic, Line_accented, Line_quattro then
+						expected_occurrences := 1
+					when Line_ascii, Line_latin_1, Line_latin_15, Line_euro then
+						expected_occurrences := 0
+				else
 				end
+				assert ("as expected", expected_occurrences = occurrences)
 			end
 		end
 
@@ -332,7 +330,7 @@ feature -- Tests
 			]"
 		do
 			across new_string_type_list ("has_substring, has, has_8, chase:has:hash") as string_list loop
-				if attached string_list.item.split (':') as parts then
+				if attached string_list.split (':') as parts then
 					if attached {STRING_GENERAL} parts.first as csv_list
 						and then attached parts [2] as old_id
 						and then attached parts.last as new_id
@@ -354,14 +352,12 @@ feature -- Tests
 		local
 			index_space: INTEGER
 		do
-			across Text.lines_32 as line loop
-				across new_tests_with_immutable as list loop
-					if attached list.item as test and then attached line.item as str_32 then
-						test.set (str_32)
-						index_space := str_32.last_index_of (' ', str_32.count)
-						test.set_substrings (index_space + 1, str_32.count)
-						test.same_string
-					end
+			across Text.lines_32 as str_32 loop
+				across new_tests_with_immutable as test loop
+					test.set (str_32)
+					index_space := str_32.last_index_of (' ', str_32.count)
+					test.set_substrings (index_space + 1, str_32.count)
+					test.same_string
 				end
 			end
 		end
@@ -385,8 +381,8 @@ feature -- Tests
 				else
 					string.to_lower
 				end
-				across new_string_type_list (string.twin) as type_list loop
-					if attached {STRING_GENERAL} type_list.item as str
+				across new_string_type_list (string.twin) as general loop
+					if attached {STRING_GENERAL} general as str
 						and then attached super_general (str) as super
 					then
 						inspect case.item
@@ -451,14 +447,10 @@ feature -- Tests
 
 			string := "one; ${index} two%T patrick's"
 			across 1 |..| 2 as n loop
-				across new_string_type_list (string) as type_list loop
-					across type_list as list loop
-						if attached list.item as l_text then
-							word_intervals.fill (l_text)
-							word_count := word_intervals.word_count (l_text, True)
-							assert ("3 words", word_count = 3)
-						end
-					end
+				across new_string_type_list (string) as l_text loop
+					word_intervals.fill (l_text)
+					word_count := word_intervals.word_count (l_text, True)
+					assert ("3 words", word_count = 3)
 				end
 				string.prepend ("%N "); string.append ("%N ")
 			end

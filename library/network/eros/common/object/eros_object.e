@@ -23,13 +23,14 @@ feature {EROS_OBJECT} -- Factory
 
 	new_routine_table: EL_HASH_TABLE [EROS_ROUTINE, STRING]
 		local
-			table: EL_HASH_TABLE [ROUTINE, STRING]; routine: EROS_ROUTINE
+			eiffel_routine_table: EL_HASH_TABLE [ROUTINE, STRING]
 		do
-			create table.make_assignments (routines)
-			create Result.make (table.count)
-			across table as r loop
-				create routine.make (r.key, r.item)
-				Result.extend (routine, r.key)
+			create eiffel_routine_table.make_assignments (routines)
+			create Result.make (eiffel_routine_table.count)
+			across eiffel_routine_table as routine loop
+				if attached @ routine.key as name then
+					Result.extend (create {EROS_ROUTINE}.make (name, routine), name)
+				end
 			end
 		end
 

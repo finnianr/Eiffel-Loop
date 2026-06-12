@@ -78,14 +78,14 @@ feature -- Status query
 
 feature -- Basic operations
 
-	do_command (parts: ARRAY [STRING]; reply_out: STRING)
+	do_command (parts_array: ARRAY [STRING]; reply_out: STRING)
 		do
 			if attached Packet_buffer.empty as buffer and then attached Packet_data as data then
-				across parts as list loop
+				across parts_array as part loop
 					if buffer.count > 0 then
 						buffer.append_character (' ')
 					end
-					buffer.append (list.item)
+					buffer.append (part)
 				end
 				buffer.append (Carriage_return_new_line)
 				data.set_from_pointer (buffer.area.base_address, buffer.count)

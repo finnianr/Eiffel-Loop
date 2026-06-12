@@ -57,7 +57,7 @@ feature -- Appending tests
 			create test.make_empty (Current)
 			unicode := Encodings.Unicode
 		 	across Text.lines_32 as line loop
-		 		test.set (line.item)
+		 		test.set (line)
 				across Text.all_encodings as encoding loop
 					encoding_id := encoding.item
 					test.zs.wipe_out
@@ -75,10 +75,10 @@ feature -- Appending tests
 		 	assert ("82 not convertable", uncovertable_count = 82)
 
 		 	across Text.lines_32 as line loop
-		 		if line.item.is_valid_as_string_8 then
-			 		test.set (line.item)
+		 		test.set (line)
+		 		if attached test.s_8 as str_8 then
 			 		test.zs.wipe_out
-			 		test.zs.append_encoded (test.s_32.to_string_8, {EL_ENCODING_TYPE}.Latin_1)
+			 		test.zs.append_encoded (str_8, {EL_ENCODING_TYPE}.Latin_1)
 			 		assert ("same strings", test.is_same)
 		 		end
 		 	end
@@ -97,11 +97,11 @@ feature -- Appending tests
 			create zstr.make_empty
 			across 1 |..| 2 as n loop
 				str_32.wipe_out; zstr.wipe_out
-				across Text.lines_32 as list until list.cursor_index > 3 loop
+				across Text.lines_32 as text_line until @ text_line.cursor_index > 3 loop
 					if n.item = 2 then
-						line_32 := super_32 (list.item).enclosed (' ', ' ')
+						line_32 := super_32 (text_line).enclosed (' ', ' ')
 					else
-						line_32 := list.item
+						line_32 := text_line
 					end
 					line := line_32; str_32.append (line_32)
 					zstr.append_replaced (line, space, entity)
@@ -121,22 +121,20 @@ feature -- Appending tests
 		local
 			substring_size, start_index, end_index: INTEGER
 		do
-			across new_tests_with_immutable as list loop
-				if attached list.item as test then
-					across << 3, 5, 7 >> as n loop
-						substring_size := n.item
-						across Text.lines_32 as line loop
-							test.set (line.item)
-							test.zs.wipe_out
-							end_index := 0
-							from start_index := 1 until end_index = test.s_32.count loop
-								end_index := (start_index + substring_size - 1).min (test.s_32.count)
-								test.set_substrings (start_index, end_index)
-								assert ("append_string_general OK", test.append_string_general)
-								start_index := start_index + substring_size
-							end
-							assert ("same size strings", test.is_same_size)
+			across new_tests_with_immutable as test loop
+				across << 3, 5, 7 >> as n loop
+					substring_size := n.item
+					across Text.lines_32 as line loop
+						test.set (line)
+						test.zs.wipe_out
+						end_index := 0
+						from start_index := 1 until end_index = test.s_32.count loop
+							end_index := (start_index + substring_size - 1).min (test.s_32.count)
+							test.set_substrings (start_index, end_index)
+							assert ("append_string_general OK", test.append_string_general)
+							start_index := start_index + substring_size
 						end
+						assert ("same size strings", test.is_same_size)
 					end
 				end
 			end
@@ -149,23 +147,20 @@ feature -- Appending tests
 				covers/{EL_APPENDABLE_ZSTRING}.substring
 			]"
 		local
-			substring_size, start_index, end_index: INTEGER
+			start_index, end_index: INTEGER
 		do
-			across new_tests_with_immutable as list loop
-				if attached list.item as test then
-					across << 3, 5, 7 >> as n loop
-						substring_size := n.item
-						across Text.lines_32 as line loop
-							test.set (line.item)
-							test.zs.wipe_out
-							end_index := 0
-							from start_index := 1 until end_index = test.s_32.count loop
-								end_index := (start_index + substring_size - 1).min (test.s_32.count)
-								assert ("append_substring_general OK", test.append_substring_general (start_index, end_index))
-								start_index := start_index + substring_size
-							end
-							assert ("same size strings", test.is_same_size)
+			across new_tests_with_immutable as test loop
+				across << 3, 5, 7 >> as substring_size loop
+					across Text.lines_32 as line loop
+						test.set (line)
+						test.zs.wipe_out
+						end_index := 0
+						from start_index := 1 until end_index = test.s_32.count loop
+							end_index := (start_index + substring_size - 1).min (test.s_32.count)
+							assert ("append_substring_general OK", test.append_substring_general (start_index, end_index))
+							start_index := start_index + substring_size
 						end
+						assert ("same size strings", test.is_same_size)
 					end
 				end
 			end
@@ -179,7 +174,7 @@ feature -- Appending tests
 				covers/{EL_APPENDABLE_ZSTRING}.append_to_string_32
 			]"
 		local
-			str_32, word_32: STRING_32; word: ZSTRING
+			str_32: STRING_32; word: ZSTRING
 			str_32_str_8, zstr_str_8: STRING_8
 		do
 			across Text.lines_32 as line_32 loop
@@ -187,10 +182,9 @@ feature -- Appending tests
 				create str_32_str_8.make (0)
 				create zstr_str_8.make (0)
 
-				across line_32.item.split (' ') as list loop
-					word_32 := list.item
+				across line_32.split (' ') as word_32 loop
 					word := word_32
-					if list.cursor_index > 1 then
+					if @ word_32.cursor_index > 1 then
 						str_32.append_character (' ')
 						str_32_str_8.append_character (' ')
 						zstr_str_8.append_character (' ')
@@ -201,7 +195,7 @@ feature -- Appending tests
 						word.append_to_string_8 (zstr_str_8)
 					end
 				end
-				assert ("same string", str_32 ~ line_32.item)
+				assert ("same string", str_32 ~ line_32)
 				assert ("same appended STRING_8", str_32_str_8 ~ zstr_str_8)
 			end
 		end
@@ -225,12 +219,12 @@ feature -- Appending tests
 			create test.make_empty (Current)
 			across Text.lines_32 as line loop
 				test.wipe_out
-				across conv.string_32_to_utf_8_string_8 (line.item).split (' ') as utf_word loop
+				across conv.string_32_to_utf_8_string_8 (line).split (' ') as utf_word loop
 					if test.s_32.count > 0 then
 						test.append_character (' ')
 					end
-					test.zs.append_utf_8 (utf_word.item)
-					test.s_32.append (conv.utf_8_string_8_to_string_32 (utf_word.item))
+					test.zs.append_utf_8 (utf_word)
+					test.s_32.append (conv.utf_8_string_8_to_string_32 (utf_word))
 					assert ("same string", test.is_same)
 				end
 			end
@@ -253,22 +247,20 @@ feature -- Prepending tests
 		local
 			substring_size, start_index, end_index: INTEGER
 		do
-			across new_tests_with_immutable as list loop
-				if attached list.item as test then
-					across << 3, 5, 7 >> as n loop
-						substring_size := n.item
-						across Text.lines_32 as line loop
-							test.set (line.item)
-							test.zs.wipe_out
-							start_index := test.s_32.count
-							from end_index := test.s_32.count until start_index = 1 loop
-								start_index := (end_index - substring_size + 1).max (1)
-								test.set_substrings (start_index, end_index)
-								assert ("prepend_string_general OK", test.prepend_string_general)
-								end_index := end_index - substring_size
-							end
-							assert ("same size strings", test.is_same_size)
+			across new_tests_with_immutable as test loop
+				across << 3, 5, 7 >> as n loop
+					substring_size := n.item
+					across Text.lines_32 as line loop
+						test.set (line)
+						test.zs.wipe_out
+						start_index := test.s_32.count
+						from end_index := test.s_32.count until start_index = 1 loop
+							start_index := (end_index - substring_size + 1).max (1)
+							test.set_substrings (start_index, end_index)
+							assert ("prepend_string_general OK", test.prepend_string_general)
+							end_index := end_index - substring_size
 						end
+						assert ("same size strings", test.is_same_size)
 					end
 				end
 			end
@@ -276,24 +268,25 @@ feature -- Prepending tests
 
 	test_prepend_substring
 		local
-			test: STRING_TEST; line: ZSTRING
-			word_list: EL_OCCURRENCE_INTERVALS
+			test: STRING_TEST; line: ZSTRING; word_list: EL_OCCURRENCE_INTERVALS
 			start_index, end_index: INTEGER; s: EL_STRING_32_ROUTINES
 		do
 			across Text.lines_32 as line_32 loop
-				line := line_32.item
+				line := line_32
 				create test.make_empty (Current)
-				create word_list.make (line_32.item, ' ')
+				create word_list.make (line_32, ' ')
 				start_index := 1
-				from word_list.start until word_list.after loop
-					end_index := word_list.item_lower - 1
-					test.s_32.prepend_substring (line_32.item, start_index, end_index)
-					test.s_32.prepend_substring (line_32.item, word_list.item_lower, word_list.item_upper)
-					test.zs.prepend_substring (line, start_index, end_index)
-					test.zs.prepend_substring (line, word_list.item_lower, word_list.item_upper)
-					assert ("same string", test.is_same)
-					start_index := word_list.item_upper + 1
-					word_list.forth
+				if attached word_list as wl then
+					from wl.start until wl.after loop
+						end_index := wl.item_lower - 1
+						test.s_32.prepend_substring (line_32, start_index, end_index)
+						test.s_32.prepend_substring (line_32, wl.item_lower, wl.item_upper)
+						test.zs.prepend_substring (line, start_index, end_index)
+						test.zs.prepend_substring (line, wl.item_lower, wl.item_upper)
+						assert ("same string", test.is_same)
+						start_index := wl.item_upper + 1
+						wl.forth
+					end
 				end
 			end
 		end

@@ -88,10 +88,10 @@ feature -- Basic operations
 			File_system.make_directory (target_dir)
 			web := new_connection
 			across manifest.query_if (agent is_updated) as l_file loop
-				progress_listener.display.set_text (progress_template #$ [l_file.item.name])
-				file_path := target_dir + l_file.item.name
+				progress_listener.display.set_text (progress_template #$ [l_file.name])
+				file_path := target_dir + l_file.name
 				from i := 1; done := false until done or i > Maximum_tries loop
-					web.open (url_file_item (uri.encoded_path_element (l_file.item.name, True)))
+					web.open (url_file_item (uri.encoded_path_element (l_file.name, True)))
 					if is_lio_enabled then
 						lio.put_path_field ("Downloading %S", file_path)
 						lio.put_new_line
@@ -99,12 +99,12 @@ feature -- Basic operations
 					web.download (file_path)
 					web.close
 					if download_succeeded (file_path) then
-						File.set_modification_time (file_path, l_file.item.modification_time)
+						File.set_modification_time (file_path, l_file.modification_time)
 						done := True
 					end
 					i := i + 1
 				end
-				download_complete_action (l_file.item.name)
+				download_complete_action (l_file.name)
 			end
 			File_system.make_directory (date_file_path.parent)
 			File.write_text (date_file_path, server_manifest_date.out)
@@ -142,7 +142,6 @@ feature -- Basic operations
 	print_updated
 		local
 			updated_list: like manifest.query_if
-			l_file: EL_FILE_MANIFEST_ITEM
 		do
 			updated_list := manifest.query_if (agent is_updated)
 			lio.put_line ("UPDATED RESOURCES")
@@ -150,15 +149,16 @@ feature -- Basic operations
 			if updated_list.is_empty then
 				lio.put_line ("none")
 			else
-				across updated_list as list loop
-					l_file := list.item
-					lio.put_path_field ("%S", target_dir + l_file.name)
-					lio.put_new_line
-					print_date ("new modification_time", l_file.modification_time)
-					print_date ("existing modification_time", first_non_zero (agent l_file.named_path_modification_time))
-					lio.put_integer_field ("Size", l_file.byte_count)
-					lio.put_new_line
-					lio.put_new_line
+				across updated_list as updated loop
+					if attached updated as l_file then
+						lio.put_path_field ("%S", target_dir + l_file.name)
+						lio.put_new_line
+						print_date ("new modification_time", l_file.modification_time)
+						print_date ("existing modification_time", first_non_zero (agent l_file.named_path_modification_time))
+						lio.put_integer_field ("Size", l_file.byte_count)
+						lio.put_new_line
+						lio.put_new_line
+					end
 				end
 			end
 		end
@@ -179,8 +179,8 @@ feature {NONE} -- Implementation
 				and then attached manifest.name_set as name_set
 			then
 				across File_system.files_with_extension (target_dir, extension, False) as path loop
-					if not name_set.has (path.item.base) then
-						File_system.remove_file (path.item)
+					if not name_set.has (path.base) then
+						File_system.remove_file (path)
 					end
 				end
 			end
@@ -201,7 +201,7 @@ feature {NONE} -- Implementation
 		-- first `a_modification_time' that returns value > 0 for `location_options'
 		do
 			across location_options as dir until Result > 0 loop
-				Result := a_modification_time (dir.item)
+				Result := a_modification_time (dir)
 			end
 		end
 

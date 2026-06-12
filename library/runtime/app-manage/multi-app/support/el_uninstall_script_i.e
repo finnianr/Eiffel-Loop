@@ -127,8 +127,8 @@ feature {NONE} -- Implementation
 
 	write_remove_directory_lines (script: like new_script)
 		do
-			across System.user_permutation_list (Directory.app_all_list) as list loop
-				write_remove_directory (script, list.item)
+			across System.user_permutation_list (Directory.app_all_list) as user_permutation loop
+				write_remove_directory (script, user_permutation)
 			end
 			write_remove_directory (script, Directory.Application_installation)
 		end

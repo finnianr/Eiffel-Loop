@@ -15,7 +15,7 @@ class
 inherit
 	EL_MAKE_OPERAND_SETTER [G]
 		redefine
-			is_convertible, make, put_reference, value, value_description
+			is_convertible, make, put_reference, value_description
 		end
 
 	EL_MODULE_CONVERT_STRING

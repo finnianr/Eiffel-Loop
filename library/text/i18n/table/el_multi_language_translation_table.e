@@ -81,10 +81,10 @@ feature -- Access
 		do
 			create Result.make (0)
 			across key_list_for (Key_language) as key loop
-				if attached Buffer.copied (key.item) as buffer_key then
-					across language_set as set loop
-						if set.item /~ Key_language then
-							buffer_key.replace_substring_general (set.item, 1, 2)
+				if attached Buffer.copied (key) as buffer_key then
+					across language_set as set_item loop
+						if set_item /~ Key_language then
+							buffer_key.replace_substring_general (set_item, 1, 2)
 							if not has (buffer_key) then
 								Result.extend (buffer_key.twin)
 							end
@@ -128,9 +128,9 @@ feature -- Conversion
 					end
 					Result.append_character (':')
 					if item_for_iteration.has ('%N') then
-						across item_for_iteration.split ('%N') as list loop
+						across item_for_iteration.split ('%N') as line loop
 							Result.append (New_line_tab)
-							list.item.append_to_utf_8 (Result)
+							line.append_to_utf_8 (Result)
 						end
 					else
 						Result.append (New_line_tab)

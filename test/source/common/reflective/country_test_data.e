@@ -25,44 +25,42 @@ feature {NONE} -- Implementation
 
 	check_province_value (province: PROVINCE; table: EL_ZSTRING_TABLE)
 		local
-			field_name: IMMUTABLE_STRING_8; table_value, field_value: ZSTRING
+			table_value, field_value: ZSTRING
 		do
 			assert ("same field count", province.field_table.count = table.count)
 			across province.field_table as field loop
-				field_name := field.item.name
-				create field_value.make_from_general (field.item.to_string (province))
-				assert ("has field " + field_name, table.has_key (field_name))
+				create field_value.make_from_general (field.to_string (province))
+				assert ("has field " + field.name, table.has_key (field.name))
 				table_value := table.found_item
-				assert ("same value for " + field_name, table_value.same_string_general (field_value))
+				assert ("same value for " + field.name, table_value.same_string_general (field_value))
 			end
 		end
 
 	check_values_ireland (country: COUNTRY)
 		local
-			field_name: IMMUTABLE_STRING_8; table_value, field_value: ZSTRING
+			table_value, field_value: ZSTRING
 		do
 			assert ("same field count", country.field_count - 1 = Ireland_table.count)
 			-- country.name.count > 0 implies
 			assert ("valid photo data", country.valid_photo_data)
-			across country.field_table as table loop
-				field_name := table.item.name
-				if field_name.same_string ("province_list") then
+			across country.field_table as field loop
+				if field.name.same_string ("province_list") then
 					assert ("4 provinces", country.province_list.count = 4)
-					across country.province_list as list loop
-						check_province_value (list.item, Province_table_list [list.cursor_index])
+					across country.province_list as province loop
+						check_province_value (province, Province_table_list [@ province.cursor_index])
 					end
 				else
-					assert ("has field " + field_name, Ireland_table.has_key (field_name))
+					assert ("has field " + field.name, Ireland_table.has_key (field.name))
 					table_value := Ireland_table.found_item
-					if field_name.same_string ("currency") then
+					if field.name.same_string ("currency") then
 						field_value := country.currency_name
 					else
-						create field_value.make_from_general (table.item.to_string (country))
+						create field_value.make_from_general (field.to_string (country))
 					end
-					if field_name.same_string ("euro_zone_member") then
+					if field.name.same_string ("euro_zone_member") then
 						field_value.to_upper
 					end
-					assert ("same value for " + field_name, table_value.same_string_general (field_value))
+					assert ("same value for " + field.name, table_value.same_string_general (field_value))
 				end
 			end
 		end
@@ -72,8 +70,8 @@ feature {NONE} -- Implementation
 			inspect id
 				when Ireland then
 					create Result.make (Ireland_data)
-					across Province_table_list as list loop
-						Result.province_list.extend (create {PROVINCE}.make (list.item))
+					across Province_table_list as str loop
+						Result.province_list.extend (create {PROVINCE}.make (str))
 					end
 				when India then
 					create Result.make (India_data)
@@ -195,7 +193,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make (4)
 			across new_province_data as str loop
-				Result.extend (str.item)
+				Result.extend (str)
 			end
 		end
 

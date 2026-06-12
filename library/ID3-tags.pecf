@@ -33,7 +33,7 @@ system:
 			
 				export:
 					EXT_CPP_ID3LIB = $EIFFEL/external/C++/id3lib*
-					EL_CPP_ID3LIB $EIFFEL_LOOP/contrib/C++/id3lib
+					EL_CPP_ID3LIB = $EIFFEL_LOOP/contrib/C++/id3lib
 					EXT_C_ID3TAG = $EIFFEL/external/C/libid3tag*
 					EL_C_ID3TAG = $EIFFEL_LOOP/contrib/C/libid3tag
 					OS_SPEC = spec/$ISE_PLATFORM
@@ -64,21 +64,21 @@ system:
 			# For Unix: libid3 and libid3tag externals
 			external_include: 
 				location = "$(EXT_CPP_ID3LIB)/include"
-			external_object:
-				location = "-L$(EL_CPP_ID3LIB)/$(OS_SPEC) -lid3"
+			external_linker_flag:
+				value = "-L$(EL_CPP_ID3LIB)/$(OS_SPEC) -lid3"
 
 			external_include:
 				location = "$(EXT_C_ID3TAG)"
-			external_object:
-				location = "-L$(EL_C_ID3TAG)/$(OS_SPEC) -lid3tag"
+			external_linker_flag:
+				value = "-L$(EL_C_ID3TAG)/$(OS_SPEC) -lid3tag"
 				description: 
 					"""
 						WARNING: subtle bug
 						Only link against a static library. If linked against a shared object library
 						GetRawText() routine will return null for utf8 strings.
 					"""
-			external_object:
-				location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
+			external_linker_flag:
+				value = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
 
 		# ISE libraries
 		libraries:

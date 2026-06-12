@@ -105,10 +105,10 @@ feature -- Tests
 		do
 			list_1 := "zebra, pig, horse, dog, cat"
 			create list_2.make (list_1.count * 2)
-			across list_1 as list loop
-				list_2.extend (list.item)
-				if list.cursor_index \\ 2 = 0 then
-					list_2.extend (list.item)
+			across list_1 as str loop
+				list_2.extend (str)
+				if @ str.cursor_index \\ 2 = 0 then
+					list_2.extend (str)
 				end
 			end
 			list_2.unique_sort

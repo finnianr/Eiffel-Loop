@@ -17,6 +17,8 @@ config.set_export_paths ()
 
 build = FINALIZED_BUILD (config, project_py)
 
+build.print_c_libraries ()
+
 # config.print_export_path_dict ('var_names')
 var_names = {
 	'CAIRO_LIB' : 'Cairo',
@@ -28,7 +30,6 @@ var_names = {
 	'C_VTD2EIFFEL' : 'vtd2eiffel',
 	'C_VTD_XML' : 'VTD-XML',
 	'C_ZLIB' : 'zlib',
-	'LIB_CURL' : 'cURL',
 	'LIB_VISION2' : 'vision2',
 	'VISION2_IMP' : 'implementation'
 }

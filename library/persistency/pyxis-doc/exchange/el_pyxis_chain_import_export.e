@@ -46,8 +46,8 @@ feature -- Basic operations
 			file.set_encoding (a_encoding)
 			exporter.put_header (file, software_version)
 			across Current as list loop
-				if attached {EL_STORABLE} list.item as item implies not item.is_deleted then
-					exporter.put_item (list.item, file, 0)
+				if attached {EL_STORABLE} list as item implies not item.is_deleted then
+					exporter.put_item (list, file, 0)
 				end
 			end
 			file.close

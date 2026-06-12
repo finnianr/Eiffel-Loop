@@ -26,13 +26,13 @@ feature {NONE} -- Initialization
 		require
 			valid_line: line.occurrences (Quote) = 6
 		local
-			index, offset, field_index, qmark_index: INTEGER; part: STRING
+			index, offset, field_index, qmark_index: INTEGER
 			line_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
 		do
 			make_default
 			create line_split.make (line, Quote)
-			across line_split as split loop
-				part := split.item; field_index := split.cursor_index
+			across line_split as part loop
+				field_index := @ part.cursor_index
 				inspect field_index
 					when 1 then
 						index := part.index_of (' ', 1)
@@ -109,8 +109,8 @@ feature -- Status query
 
 	has_mobile_agent: BOOLEAN
 		do
-			Result := across Mobile_agents as list some
-				user_agent.has_substring (list.item)
+			Result := across Mobile_agents as agent_string some
+				user_agent.has_substring (agent_string)
 			end
 		end
 
@@ -230,10 +230,8 @@ feature -- Basic operations
 	reset_cache
 		-- reset field cache
 		do
-			across <<
-				Agent_word_set, Http_command_set, Referer_set, Request_uri_path_set, Word_part_set
-			>> as list loop
-				list.item.wipe_out
+			across << Agent_word_set, Http_command_set, Referer_set, Request_uri_path_set, Word_part_set >> as set loop
+				set.wipe_out
 			end
 		end
 

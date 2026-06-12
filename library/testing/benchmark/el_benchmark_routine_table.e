@@ -56,11 +56,11 @@ feature -- Basic operations
 			application_count_list.wipe_out
 			across Current as routine loop
 				if is_lio_enabled then
-					lio.put_labeled_string ("Repeating for " + trial_duration.out + " millisecs", routine.key)
+					lio.put_labeled_string ("Repeating for " + trial_duration.out + " millisecs", @ routine.key)
 					lio.put_new_line
 				end
-				l_count := benchmark.application_count (routine.item, trial_duration)
-				application_count_list.extend (routine.key, l_count)
+				l_count := benchmark.application_count (routine, trial_duration)
+				application_count_list.extend (@ routine.key, l_count)
 			end
 		end
 

@@ -107,21 +107,19 @@ feature -- Basic operations
 	print_to (log: EL_LOGGABLE)
 		do
 			if argument.count > 0 then
-				log.put_labeled_string ("OPTION -" + word_option, argument)
+				log.put_labeled_string ("OPTION -" + word_option.to_string_8, argument)
 			else
 				log.put_labeled_string (Error, hyphen + word_option + " option")
 			end
 			log.put_new_line
-			across Current as list loop
-				if attached list.item as l_line then
-					if l_line.starts_with (Error) and then l_line.count > Error.count
-						and then l_line [Error.count + 1] = ':'
-					then
-						log.put_labeled_string (Error, l_line.substring_end (Error.count + 3))
-						log.put_new_line
-					else
-						log.put_line (l_line)
-					end
+			across Current as l_line loop
+				if l_line.starts_with (Error) and then l_line.count > Error.count
+					and then l_line [Error.count + 1] = ':'
+				then
+					log.put_labeled_string (Error, l_line.substring_end (Error.count + 3))
+					log.put_new_line
+				else
+					log.put_line (l_line)
 				end
 			end
 		end

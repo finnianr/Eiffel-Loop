@@ -62,7 +62,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	input_file_path: FILE_NAME
+	input_file_path: FILE_PATH
 
 	net_socket: EL_NETWORK_STREAM_SOCKET
 

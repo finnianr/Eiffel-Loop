@@ -143,42 +143,29 @@ class EXTERNAL_OBJECT (LIBRARY):
 		value = ctx.attribute (self.Custom_value % 'shared')
 		if value:
 			self.is_shared = value.lower() == 'true'
+			
+		self.attribute_value = self.ctx.attribute (self._attribute_name ())
 
 # Access
-	def location (self):
-		result = self.ctx.attribute ('@location')
+
+	def expanded_value (self):
+		result = self.attribute_value
 		if result:
 			result = result.translate (str.maketrans ('', '', '()'))
 			result = path.expanded (result, self.export_table)
-				
 		else:
-			raise KeyError ("%s does not have @location" % self.ctx.name ())
+			raise KeyError (f"{self.ctx.name ()} does not have {self._attribute_name ()}")
 
 		return result
 
 	def library (self):
-		prefix = ''
-		result = self.location ()
-		if result:
-			for part in result.split():
-				lib = part.strip()
-				if lib.startswith ('-L'):
-					prefix = lib [2:]
-					prefix = prefix.strip ('"')
-				else:
-					if prefix:
-						result = path.expanded_translated (path.join (prefix, 'lib%s.a' % lib [2:]))
-					elif lib.startswith ('-l'):
-						result = lib
-					else:
-						result = path.expanded_translated (lib)
-		return result
+		return [self.expanded_value ()]
 
 	def shared_libraries (self):
 		result = []
 		value = self.ctx.attribute (self.Custom_value % 'copy')
 		if value == '$location':
-			result.append (path.expanded_translated (self.location ()))
+			result.append (self.expanded_value ())
 		elif value:
 			result.append (path.expanded_translated (value))
 
@@ -196,8 +183,58 @@ class EXTERNAL_OBJECT (LIBRARY):
 	def matches_multithreaded (self, platform):
 		result = self.platform == platform and self.is_multithreaded
 		return result
+		
+	def is_library (self):
+		return True
+
+# Implementation
+
+	def _attribute_name (self):
+		return '@location'
 
 # end EXTERNAL_OBJECT
+
+
+class EXTERNAL_LINKER_FLAG (EXTERNAL_OBJECT):
+
+# An EXTERNAL_OBJECT object that detects if value X in "<external_linker_flag value="X"/>"
+# defines a library path
+
+# Access
+
+	def library (self):
+		assert self.is_library (), "require is_library ()"
+		prefix = ''
+		result = []
+		if self.attribute_value:
+			for part in self.expanded_value ().split():
+				lib = part.strip()
+				if lib.startswith ('-L'):
+					prefix = lib [2:]
+					prefix = prefix.strip ('"')
+				else:
+					if prefix:
+						result.append (path.expanded_translated (path.join (prefix, 'lib%s.a' % lib [2:])))
+					elif lib.startswith ('-l'):
+						result.append (lib)
+		return result
+
+# Status query
+	def is_library (self):
+		value = self.attribute_value
+		if len (value) > 2:
+			result = value [0] == '-' and value [1] in 'Ll'
+		else:
+			result = False
+			
+		return result
+
+# Implementation
+
+	def _attribute_name (self):
+		return '@value'
+
+# end EXTERNAL_LINKER_FLAG
 
 class SYSTEM_INFO:
 
@@ -393,7 +430,7 @@ class EIFFEL_CONFIG_FILE:
 	def __external_libs (self):
 		result = []
 		for external in self.objects_list:
-			result.append (external.library ())
+			result.extend (external.library ())
 		return result
 
 	def __external_shared_objects (self):
@@ -468,10 +505,15 @@ class EIFFEL_CONFIG_FILE:
 
 	def __new_external_objects_list (self):
 		result = []
-		for ctx in self.target_ctx.context_list ('external_object'):
-			external = EXTERNAL_OBJECT (ctx, self.export_table)
-			if external.matches_multithreaded (self.platform):
-				result.append (external)
+		for element in ['external_object', 'external_linker_flag']:
+			for ctx in self.target_ctx.context_list (element):
+				if element.endswith ('_flag'):
+					external = EXTERNAL_LINKER_FLAG (ctx, self.export_table)
+				else:
+					external = EXTERNAL_OBJECT (ctx, self.export_table)
+					
+				if external.is_library () and external.matches_multithreaded (self.platform):
+					result.append (external)
 		return result
 
 # end EIFFEL_CONFIG_FILE

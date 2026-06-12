@@ -69,8 +69,8 @@ feature -- Contract Support
 		local
 			index: INTEGER
 		do
-			across << "$", "${" >> as list until Result loop
-				if attached list.item as symbol and then attached (symbol + name) as name_reference then
+			across << "$", "${" >> as symbol until Result loop
+				if attached (symbol + name) as name_reference then
 					index := template.substring_index (name_reference, 1)
 					if index > 0 then
 						index := index + name_reference.count
@@ -114,7 +114,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	display (lines: LIST [ZSTRING])
+	display (line_list: LIST [ZSTRING])
 			-- display word wrapped command
 		local
 			current_working_directory, printable_line, prompt, blank_prompt: ZSTRING
@@ -132,23 +132,23 @@ feature {NONE} -- Implementation
 			max_width := 100 - prompt.count  - 2
 
 			create printable_line.make (200)
-			across lines as line loop
-				line.item.replace_substring_all (current_working_directory, Variable_cwd)
-				line.item.left_adjust
+			across line_list as line loop
+				line.replace_substring_all (current_working_directory, Variable_cwd)
+				line.left_adjust
 
-				create words.make (line.item, ' ')
+				create words.make (line, ' ')
 				from words.start until words.after loop
 					if words.item_count > 0 then
 						if not printable_line.is_empty then
 							printable_line.append_character (' ')
 						end
-						printable_line.append_substring (line.item, words.item_lower, words.item_upper)
+						printable_line.append_substring (line, words.item_lower, words.item_upper)
 						if printable_line.count > max_width then
 							printable_line.remove_tail (words.item_count)
 							lio.put_labeled_string (prompt, printable_line)
 							lio.put_new_line
 							printable_line.wipe_out
-							printable_line.append_substring (line.item, words.item_lower, words.item_upper)
+							printable_line.append_substring (line, words.item_lower, words.item_upper)
 							prompt := blank_prompt
 						end
 					end
@@ -193,8 +193,8 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (11)
-			across field_list as list loop
-				if attached list.item as field and then not field.is_expanded then
+			across field_list as field loop
+				if not field.is_expanded then
 					if attached {EL_REFLECTED_PATH} field as path_field then
 						Result [field.name] := agent get_escaped_path (path_field)
 

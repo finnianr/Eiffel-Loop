@@ -51,8 +51,8 @@ feature -- Tests
 		do
 			string_list := << "manual/Journaleinträge.html", "manual/Journal entry.html#edit" >>
 			across string_list as str loop
-				uri_string := uri.to_uri_string (str.item)
-				if str.is_first then
+				uri_string := uri.to_uri_string (str)
+				if @ str.is_first then
 					assert ("type is EL_URI_STRING_8", uri_string.generating_type ~ {EL_URI_STRING_8})
 					assert_same_string (Void, uri_string, "manual/Journaleintr%%C3%%A4ge.html")
 				else
@@ -73,8 +73,8 @@ feature -- Tests
 			uri: EL_DIR_URI_PATH; str_32: STRING_32; dir_path: DIR_PATH
 			parts: EL_STRING_8_LIST; scheme, line: STRING; index_slash: INTEGER
 		do
-			across URI_list as list loop
-				line := list.item
+			across URI_list as str loop
+				line := str
 				create parts.make_split (line, '/')
 				scheme := parts [1]
 				scheme.remove_tail (1)
@@ -115,9 +115,9 @@ feature -- Tests
 			line, parent_string: STRING; index_slash: INTEGER
 			uri: EL_FILE_URI_PATH
 		do
-			across URI_list as list loop
-				line := list.item; uri := line
-				inspect list.cursor_index
+			across URI_list as str loop
+				line := str; uri := line
+				inspect @ str.cursor_index
 					when 2, 5 then
 						assert ("no parent", not uri.has_parent)
 				else
@@ -144,8 +144,8 @@ feature -- Tests
 			file_uri: EL_FILE_URI_PATH; index_slash: INTEGER; line: ZSTRING
 		do
 			-- test absolute joins
-			across URI_list as list loop
-				line := list.item
+			across URI_list as str loop
+				line := str
 				index_slash := line.linear_representation.index_of ('/', 3)
 				create uri.make (line.substring (1, index_slash - 1))
 				create dir_path.make (line.substring (index_slash, line.count))
@@ -161,8 +161,8 @@ feature -- Tests
 				end
 			end
 			-- test relative joins
-			across URI_list as list loop
-				line := list.item
+			across URI_list as str loop
+				line := str
 				if line.occurrences ('/') > 3 then
 					index_slash := line.linear_representation.index_of ('/', 4)
 					create uri.make (line.substring (1, index_slash - 1))
@@ -209,10 +209,10 @@ feature -- Tests
 		local
 			end_index, index: INTEGER; table: EL_URI_QUERY_ZSTRING_HASH_TABLE
 			url: EL_URL; scheme, authority, path, query, s, base_uri, uri_string: STRING
-			name, value: ZSTRING; trade_mark_path: STRING_32; uri_path: ZSTRING
+			trade_mark_path: STRING_32; uri_path: ZSTRING
 		do
 			across << "", "?name=ferret", "#nose", "?name=ferret#nose" >> as tail loop
-				uri_string := "foo://example.com:8042/over/there" + tail.item
+				uri_string := "foo://example.com:8042/over/there" + tail
 				url := uri_string
 				scheme := uri_string.substring (1, uri_string.index_of (':', 1) - 1)
 				assert ("scheme ok", url.scheme ~ scheme)
@@ -244,9 +244,10 @@ feature -- Tests
 					url.set_query_from_table (book_table)
 					table := url.query_table
 					assert ("same count", table.count = book_table.count)
-					across book_table as t loop
-						name := t.key; value := t.item
-						assert ("valid " + name, value ~ table.item (name))
+					across book_table as value loop
+						if attached @ value.key as name then
+							assert ("valid " + name, value ~ table.item (name))
+						end
 					end
 				end
 			end
@@ -273,7 +274,7 @@ feature -- Tests
 			if attached new_book_table (Book_data.values) as book_table then
 				create book.make_equal (book_table.count)
 				across book_table as info loop
-					book.set_string_general (info.key, info.item)
+					book.set_string_general (@ info.key, info)
 				end
 			end
 
@@ -284,11 +285,13 @@ feature -- Tests
 
 			create book.make_url (Book_data.encoded)
 			across new_book_table (Book_data.values) as info loop
-				assert ("valid " + info.key, book.item (info.key) ~ info.item)
-				if book.has_general_key (info.key) then
-					assert_same_string (Void, book.found_item, info.item)
-				else
-					failed ("has key")
+				if attached @ info.key as info_key then
+					assert ("valid " + info_key, book.item (info_key) ~ info)
+					if book.has_general_key (info_key) then
+						assert_same_string (Void, book.found_item, info)
+					else
+						failed ("has key")
+					end
 				end
 			end
 			book_query_string := book.url_query
@@ -301,12 +304,12 @@ feature -- Tests
 			url: EL_URL; currency_uri: EL_URI_STRING_8
 			symbol_32: STRING_32
 		do
-			across Escaped_currency_table as table loop
-				create symbol_32.make_filled (table.key, 1)
+			across Escaped_currency_table as currency loop
+				create symbol_32.make_filled (@ currency.key, 1)
 
 				create currency_uri.make (10)
 				currency_uri.append_general (symbol_32)
-				assert_same_string ("same sequence", table.item, currency_uri)
+				assert_same_string ("same sequence", currency, currency_uri)
 				url := currency_html + "?symbol=" + currency_uri
 				assert ("same string", symbol_32 ~ url.query_table.item ("symbol").to_string_32)
 			end
@@ -412,7 +415,7 @@ feature {NONE} -- Implementation
 		do
 			lio.put_line (name)
 			across string.split ('&') as part loop
-				lio.put_index_labeled_string (part, Void, part.item)
+				lio.put_index_labeled_string (part, Void, part)
 				lio.put_new_line
 			end
 			lio.put_new_line

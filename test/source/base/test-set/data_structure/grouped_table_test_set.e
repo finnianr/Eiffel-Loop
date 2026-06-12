@@ -40,8 +40,7 @@ feature -- Test
 				covers/{EL_GROUPED_LIST_TABLE_ITERATION_CURSOR}.item
 			]"
 		local
-			word_count_map: like new_word_count_map_list
-			word_list: LIST [STRING]; is_word_set: BOOLEAN
+			word_count_map: like new_word_count_map_list; is_word_set: BOOLEAN
 			list_counts: ARRAY [INTEGER]; word_size: INTEGER
 		do
 			word_count_map := new_word_count_map_list
@@ -51,10 +50,10 @@ feature -- Test
 				word_count_map.to_grouped_set_table
 			>> as grouped_table
 			loop
-				is_word_set := grouped_table.cursor_index = 2
-				if attached {EL_GROUPED_LIST_TABLE [STRING, INTEGER]} grouped_table.item as word_count_table then
-					across word_count_table as table loop
-						word_size := table.key; word_list := table.item
+				is_word_set := @ grouped_table.cursor_index = 2
+				if attached {EL_GROUPED_LIST_TABLE [STRING, INTEGER]} grouped_table as word_count_table then
+					across word_count_table as word_list loop
+						word_size := @ word_list.key
 						if is_word_set then
 							inspect word_size
 								when 1, 12, 14 then -- Respective examples: "a", "inexperience", "transformation"
@@ -64,7 +63,7 @@ feature -- Test
 								assert ("fewer set items", word_list.count < list_counts [word_size])
 							end
 						else
-							list_counts [word_size] := table.item_area.count
+							list_counts [word_size] := @ word_list.item_area.count
 						end
 					end
 				end
@@ -87,10 +86,10 @@ feature -- Test
 				and then attached new_grouped_word_set_table as set_table_2
 			then
 				assert ("same counts", set_table_1.count = set_table_2.count)
-				across set_table_1 as table_1 loop
-					word_size := table_1.key
+				across set_table_1 as str loop
+					word_size := @ str.key
 					if set_table_2.has_key (word_size) then
-						assert ("same list", table_1.item ~ set_table_2.found_set)
+						assert ("same list", str ~ set_table_2.found_set)
 					else
 						failed ("set_table_2 has word_size")
 					end
@@ -118,8 +117,8 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (Hexagram.English_titles.character_count // 6)
 			across Hexagram.English_titles as title loop
-				across title.item.split (' ') as word loop
-					Result.extend (word.item)
+				across title.split (' ') as word loop
+					Result.extend (word)
 					Result.last.to_lower
 				end
 			end

@@ -66,22 +66,22 @@ feature -- Basic operations
 				output.put_indent (tab_count); output.put_character_8 ('<')
 				output.put_string_8 (name)
 				across field_list as field loop
-					l_name := field.item.name
-					if attached {EL_REFLECTED_REFERENCE [EL_EIF_OBJ_BUILDER_CONTEXT]} field.item
-						or else attached {EL_REFLECTED_COLLECTION [ANY]} field.item
-						or else attached {EL_REFLECTED_COLLECTION [EL_EIF_OBJ_BUILDER_CONTEXT]} field.item
+					l_name := field.name
+					if attached {EL_REFLECTED_REFERENCE [EL_EIF_OBJ_BUILDER_CONTEXT]} field
+						or else attached {EL_REFLECTED_COLLECTION [ANY]} field
+						or else attached {EL_REFLECTED_COLLECTION [EL_EIF_OBJ_BUILDER_CONTEXT]} field
 					then
 						has_child_element := True
 					else
 						value.wipe_out
-						field.item.write (object, value)
+						field.write (object, value)
 						if not value.is_empty then
 							if attribute_count = 0 then
 								output.put_new_line
 							end
 							output.put_indent (tab_count + 1); output.put_string_8 (l_name)
 							output.put_string_8 (XML_string.attribute_start)
-							put_value (output, value, attached {EL_REFLECTED_STRING [STRING_GENERAL]} field.item)
+							put_value (output, value, attached {EL_REFLECTED_STRING [STRING_GENERAL]} field)
 							output.put_character_8 ('"')
 							output.put_new_line
 							attribute_count := attribute_count + 1
@@ -116,12 +116,12 @@ feature -- Basic operations
 
 			output.put_indent (tab_count); output.put_character_8 ('<')
 			output.put_string_8 (name)
-			across context.getter_functions as table loop
-				function := table.item
+			across context.getter_functions as context_function loop
+				function := context_function
 				if function.open_count = 0 then
 					function.set_target (context); function.apply
 					if attached {READABLE_STRING_GENERAL} function.last_result as value then
-						field_name := table.key
+						field_name := @ context_function.key
 						if is_xml_element (field_name, building_actions) then
 							element_table.extend (value, field_name)
 						else
@@ -143,10 +143,10 @@ feature -- Basic operations
 			if element_table.count > 0 then
 				output.put_character_8 ('>')
 				output.put_new_line
-				across element_table as table loop
-					field_name := table.key
+				across element_table as element loop
+					field_name := @ element.key
 					put_tag_open (output, field_name, tab_count + 1, Null)
-					put_value (output, table.item, True)
+					put_value (output, element, True)
 					put_tag_close (output, field_name, 0, Null)
 					output.put_new_line
 				end
@@ -162,8 +162,8 @@ feature {NONE} -- Implementation
 		local
 			xpath: STRING
 		do
-			across building_actions as table until Result loop
-				xpath := table.key
+			across building_actions as action until Result loop
+				xpath := @ action.key
 				if name.count + Text_node.count = xpath.count then
 					Result := xpath.starts_with (name) and then xpath.ends_with (Text_node)
 				end
@@ -177,8 +177,8 @@ feature {NONE} -- Implementation
 			needs_escaping: BOOLEAN; name: STRING; building_actions: EL_PROCEDURE_TABLE [STRING]
 		do
 			across field_list as field loop
-				name := field.item.name
-				if attached {EL_REFLECTED_REFERENCE [EL_EIF_OBJ_BUILDER_CONTEXT]} field.item as context_field then
+				name := field.name
+				if attached {EL_REFLECTED_REFERENCE [EL_EIF_OBJ_BUILDER_CONTEXT]} field as context_field then
 					if attached {EL_EIF_OBJ_BUILDER_CONTEXT} context_field.value (object) as context then
 						building_actions := context.building_actions
 
@@ -193,7 +193,7 @@ feature {NONE} -- Implementation
 						end
 					end
 
-				elseif attached {EL_REFLECTED_COLLECTION [EL_EIF_OBJ_BUILDER_CONTEXT]} field.item as collection_field then
+				elseif attached {EL_REFLECTED_COLLECTION [EL_EIF_OBJ_BUILDER_CONTEXT]} field as collection_field then
 					if attached {COLLECTION [EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT]}
 						collection_field.collection (object) as collection
 					then
@@ -210,13 +210,13 @@ feature {NONE} -- Implementation
 						end
 						put_tag_close (output, collection_field.name, tab_count + 1, New_line)
 					end
-				elseif attached {EL_REFLECTED_COLLECTION [ANY]} field.item as collection_field then
+				elseif attached {EL_REFLECTED_COLLECTION [ANY]} field as collection_field then
 					needs_escaping := collection_field.has_character_data
 					put_tag_open (output, collection_field.name, tab_count + 1, New_line)
 					across collection_field.to_string_list (object) as general loop
 						put_tag_open (output, Item_name, tab_count + 2, Null)
 						value.wipe_out
-						value.append_string_general (general.item)
+						value.append_string_general (general)
 						put_value (output, value, needs_escaping)
 						put_tag_close (output, Item_name, 0, New_line)
 					end

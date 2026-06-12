@@ -53,9 +53,9 @@ feature -- Basic operations
 			error: EL_ERROR_DESCRIPTION
 		do
 			create type_list.make_from_tuple (create {TYPES})
-			across type_list.non_conforming_list as list loop
+			across type_list.non_conforming_list as non_conforming loop
 				create error.make (Application.option_name)
-				error.set_lines (Non_comforming #$ [list.item.name])
+				error.set_lines (Non_comforming #$ [non_conforming.name])
 				a_application.put (error)
 			end
 		end

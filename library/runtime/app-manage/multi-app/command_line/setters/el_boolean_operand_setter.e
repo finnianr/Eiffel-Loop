@@ -15,7 +15,7 @@ class
 inherit
 	EL_MAKE_OPERAND_SETTER [BOOLEAN]
 		redefine
-			try_put_operand, value
+			try_put_operand
 		end
 
 	EL_ZSTRING_CONSTANTS

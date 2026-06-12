@@ -35,7 +35,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			camel_case_naming, do_with_lines, new_representations, reset,
+			camel_case_naming, new_representations, reset,
 			set_has_error, make
 		end
 
@@ -138,12 +138,12 @@ feature {NONE} -- Implementation
 		do
 			if attached field_export_table as export_table then
 				across line_list as list loop
-					if list.shared_item.starts_with (Name.exif) then
-						line := list.item_copy
+					if @ list.shared_item.starts_with (Name.exif) then
+						line := @ list.item_copy
 						line.remove_head (Name.exif.count + 1)
 						value_column := 56; found := False
 						across Name as part until found loop
-							if attached {ZSTRING} part.item as qualifier and then line.starts_with (qualifier) then
+							if attached {ZSTRING} part as qualifier and then line.starts_with (qualifier) then
 								if qualifier = Name.thumbnail then
 									line.remove (qualifier.count + 1) -- Remove dot
 									value_column := value_column - 1

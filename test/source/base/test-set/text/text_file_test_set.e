@@ -67,35 +67,33 @@ feature -- Tests
 			path: FILE_PATH; str, str_item: ZSTRING; str_8: detachable STRING
 		do
 			across << Windows_class, Latin_class, Utf_8 >> as encoding_type loop
-				across Text.lines_32 as list loop
-					if attached list.item as str_32 then
-						str := str_32
-						if str_32.is_valid_as_string_8 then
-							str_8 := str_32
-						else
-							str_8 := Void
-						end
-						encoding := Text.natural_encoding (str_32, encoding_type.item)
-						path := Work_area_dir + (encoding.encoding_name + ".txt")
-						create file_out.make_open_write (path)
-						file_out.set_encoding (encoding)
-						file_out.put_line (str)
+				across Text.lines_32 as str_32 loop
+					str := str_32
+					if str_32.is_valid_as_string_8 then
+						str_8 := str_32
+					else
+						str_8 := Void
+					end
+					encoding := Text.natural_encoding (str_32, encoding_type.item)
+					path := Work_area_dir + (encoding.encoding_name + ".txt")
+					create file_out.make_open_write (path)
+					file_out.set_encoding (encoding)
+					file_out.put_line (str)
+					if attached str_8 as s8 then
+						file_out.put_string_8 (s8)
+					else
+						file_out.put_line (str_32)
+					end
+					file_out.close
+					if attached open_lines (path, encoding.encoding).to_array as array then
+						assert ("two lines", array.count = 2)
+						str_item := array [1]
+						assert ("equal to ZSTRING", str ~ str_item)
 						if attached str_8 as s8 then
-							file_out.put_string_8 (s8)
+							assert ("is latin-1", array [2].is_valid_as_string_8)
+							assert ("equal to STRING_8", str_8 ~ array [2].to_string_8)
 						else
-							file_out.put_line (str_32)
-						end
-						file_out.close
-						if attached open_lines (path, encoding.encoding).to_array as array then
-							assert ("two lines", array.count = 2)
-							str_item := array [1]
-							assert ("equal to ZSTRING", str ~ str_item)
-							if attached str_8 as s8 then
-								assert ("is latin-1", array [2].is_valid_as_string_8)
-								assert ("equal to STRING_8", str_8 ~ array [2].to_string_8)
-							else
-								assert ("equal to STRING_32", str_32 ~ array [2].to_string_32)
-							end
+							assert ("equal to STRING_32", str_32 ~ array [2].to_string_32)
 						end
 					end
 				end
@@ -117,7 +115,7 @@ feature -- Tests
 
 			if attached open (help_path, Read) as help_file then
 				across help_file.decoded as decoded_line loop
-					if attached decoded_line.shared_item as line then
+					if attached @ decoded_line.shared_item as line then
 						if line.has (Text.Euro_symbol) then
 							lio.put_line (line)
 							euro_count := euro_count + 1
@@ -143,7 +141,7 @@ feature -- Tests
 			header_path := error_codes_path; output_path := error_table_path
 
 			if attached open_as (error_codes_path, Read, Latin_1) as header_file then
-				write_indented_codes (output_path, header_file, counter)
+				write_indented_codes (output_path, header_file.lines, counter)
 				assert ("close file", header_file.is_closed)
 				assert_same_digest (Plain_text, output_path, "5ivDTBX6P3UiElIR0O3KBw==")
 				assert ("132 items", counter.item = 132)
@@ -212,8 +210,8 @@ feature -- Tests
 			end
 			create last_line.make_empty
 			across File.plain_text_lines (header_path) as line loop
-				if line.is_last then
-					last_line := line.item
+				if @ line.is_last then
+					last_line := line
 				end
 			end
 			assert ("last line OK", last_line.ends_with ("/* State not recoverable */"))
@@ -241,11 +239,11 @@ feature {NONE} -- Implementation
 			if attached open (output_path, Write) as output then
 				output.set_latin_encoding (1)
 				across file_lines as line loop
-					across s.delimited_list (line.item.to_string_8, C_comment_mark) as list loop
-						part := list.item
+					across s.delimited_list (line.to_string_8, C_comment_mark) as str loop
+						part := str
 						if part.count > 0 then
 							part.adjust
-							if list.cursor_index = 1 then
+							if @ str.cursor_index = 1 then
 								code := super_8 (part).substring_to_reversed ('%T')
 								code.left_adjust
 							else

@@ -57,8 +57,8 @@ feature -- Test
 			create line.make_empty
 			create array.make_from_unencoded (line)
 			across 0 |..| 1 as n loop
-				across Text.cyrillic_line_32.split (' ') as split loop
-					word := split.item
+				across Text.cyrillic_line_32.split (' ') as str_32 loop
+					word := str_32
 					create word_array.make_from_unencoded (word)
 					shifted_array := word_array.shifted (line.count)
 					if n.item = 1 and not line.is_empty then
@@ -143,23 +143,23 @@ feature -- Test
 			create list.make (str_32.count)
 			across str_32 as uc loop
 				if uc.item.code > 1000 then
-					list.put_character (uc.item, uc.cursor_index)
+					list.put_character (uc, @ uc.cursor_index)
 				end
 			end
 			create array.make_from_area (list.to_substring_area)
 			create unencoded.make (array)
 --			forwards
 			across str_32 as uc loop
-				if uc.item.code > 1000 then
-					index := uc.cursor_index
-					assert ("same code", uc.item.natural_32_code = unencoded.code (index))
+				if uc.code > 1000 then
+					index := @ uc.cursor_index
+					assert ("same code", uc.natural_32_code = unencoded.code (index))
 				end
 			end
 --			in reverse
 			across str_32.new_cursor.reversed as uc loop
-				code := uc.item.natural_32_code
+				code := uc.natural_32_code
 				if code > 1000 then
-					index := str_32.count - uc.cursor_index + 1
+					index := str_32.count - @ uc.cursor_index + 1
 					assert ("same code", code = unencoded.code (index))
 				end
 			end
@@ -201,8 +201,8 @@ feature -- Test
 		do
 			create line.make_empty
 			across 0 |..| 1 as n loop
-				across Text.cyrillic_line_32.split (' ') as split loop
-					word := split.item
+				across Text.cyrillic_line_32.split (' ') as str_32 loop
+					word := str_32
 					word_unencoded := word
 					line_unencoded := line
 					line_unencoded.shift (word.count)
@@ -226,7 +226,7 @@ feature -- Test
 			uc := 'д'
 			across Text.cyrillic_line_32 as n loop
 				zstr := Text.cyrillic_line_32
-				index := n.cursor_index
+				index := @ n.cursor_index
 
 				unencoded := zstr
 				unencoded.put (uc, index)
@@ -244,7 +244,7 @@ feature -- Test
 			index: INTEGER
 		do
 			across Text.cyrillic_line_32 as c loop
-				index := c.cursor_index
+				index := @ c.cursor_index
 				zstr := Text.cyrillic_line_32
 				if c.item.natural_32_code > 1000 then
 					unencoded := zstr
@@ -327,18 +327,18 @@ feature -- Test
 			create str_32.make (50)
 			across Text.lines_32 as line loop
 				str_32.wipe_out
-				create list.make (line.item.count)
-				across line.item as uc loop
+				create list.make (line.count)
+				across line as uc loop
 					if uc.item.code > 127 then
-						list.put_character (uc.item, uc.cursor_index)
+						list.put_character (uc, @ uc.cursor_index)
 						str_32.extend (' ')
 					else
-						str_32.extend (uc.item)
+						str_32.extend (uc)
 					end
 				end
 				create array.make_from_area (list.to_substring_area)
 				array.write (str_32.area, 0)
-				assert ("same string", line.item ~ str_32)
+				assert ("same string", line ~ str_32)
 			end
 		end
 
@@ -433,8 +433,8 @@ feature {NONE} -- Implementation
 		local
 			zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32_I
 		do
-			across Text.lines_32 as line loop
-				zstr := line.item
+			across Text.lines_32 as str_32 loop
+				zstr := str_32
 				unencoded := zstr
 				test (zstr, unencoded)
 			end

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!---->
-<system name = "EL_network" library_target = "EL_network" uuid = "229b763c-09aa-11df-87c1-9fd182a2a60d" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
+<system name = "EL_network" library_target = "EL_network" uuid = "229b763c-09aa-11df-87c1-9fd182a2a60d" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-23-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-23-0 http://www.eiffel.com/developers/xml/configuration-1-23-0.xsd">
 	<description>
 Networking Common
 
@@ -17,9 +17,13 @@ export:
 	C_NET_ADAPTOR = $EIFFEL_LOOP/C_library/network-adapter
 		</description>
 		<root all_classes = "true"/>
-		<option namespace = "Eiffel-Loop.Library.net" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
+		<option namespace = "Eiffel-Loop.Library.net" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "warning">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
+		<capability>
+			<concurrency support="thread"/>
+			<void_safety support="none"/>
+		</capability>
 		<!--C externals-->
 		<external_include location = "$(C_NET_ADAPTOR)/source"/>
 		<external_object location = "$(C_NET_ADAPTOR)/spec/$(ISE_PLATFORM)/network-adapter.lib">
