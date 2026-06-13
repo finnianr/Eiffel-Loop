@@ -15,12 +15,6 @@ deferred class
 inherit
 	EL_BUILDABLE_FROM_FILE
 
-	EL_LAZY_ATTRIBUTE
-		rename
-			cached_item as actual_node_source,
-			new_item as new_node_source
-		end
-
 	EL_CREATEABLE_FROM_FILE
 
 feature {NONE} -- Initialization
@@ -99,13 +93,9 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	new_node_source: EL_DOCUMENT_NODE_SCAN_SOURCE
+	node_source: EL_DOCUMENT_NODE_SCAN_SOURCE
+		-- implement as once ("OBJECT")
 		deferred
-		end
-
-	node_source: like new_node_source
-		do
-			Result := lazy_item
 		end
 
 	parse_event_source_type: TYPE [EL_PARSE_EVENT_SOURCE]

@@ -32,21 +32,15 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-	EL_LAZY_ATTRIBUTE
-		rename
-			new_item as new_cpu_info
-		end
-
-	EL_LAZY_ATTRIBUTE_2
-		rename
-			new_item as new_user_list
-		end
-
 feature -- Access
 
-	cpu_info: like new_cpu_info
-		do
-			Result := lazy_item
+	cpu_info: TUPLE [processor_count: INTEGER; model_name: STRING]
+		local
+			info: EL_CPU_INFO_COMMAND_I
+		once ("OBJECT")
+			create {EL_CPU_INFO_COMMAND_IMP} info.make
+			-- make calls execute
+			Result := [info.processor_count, info.model_name]
 		end
 
 	processor_count: INTEGER
@@ -60,9 +54,13 @@ feature -- Access
 			Result := (Processor_count * cpu_percentage / 100).rounded
 		end
 
-	user_list: like new_user_list
-		do
-			Result := lazy_item_2
+	user_list: EL_ZSTRING_LIST
+		-- list of user names
+		local
+			info: EL_USERS_INFO_COMMAND_I
+		once ("OBJECT")
+			create {EL_USERS_INFO_COMMAND_IMP} info.make
+			Result := info.user_list
 		end
 
 	user_permutation_list (user_dir_list: ITERABLE [DIR_PATH]): EL_ARRAYED_LIST [DIR_PATH]
@@ -99,24 +97,6 @@ feature {NONE} -- Factory
 
 	new_cpu_model_name: STRING
 		deferred
-		end
-
-	new_cpu_info: TUPLE [processor_count: INTEGER; model_name: STRING]
-		local
-			info: EL_CPU_INFO_COMMAND_I
-		do
-			create {EL_CPU_INFO_COMMAND_IMP} info.make
-			-- make calls execute
-			Result := [info.processor_count, info.model_name]
-		end
-
-	new_user_list: EL_ZSTRING_LIST
-		-- list of user names
-		local
-			info: EL_USERS_INFO_COMMAND_I
-		do
-			create {EL_USERS_INFO_COMMAND_IMP} info.make
-			Result := info.user_list
 		end
 
 end

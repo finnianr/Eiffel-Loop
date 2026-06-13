@@ -1,0 +1,34 @@
+
+13th June 2026
+
+1. claude --resume d862d730-ea83-4dce-93c0-28e26beb2166
+Fix multiple-definition linker errors in the VTD-XML 2.7 C library located at contrib/C/VTD-XML-2.7/
+The problem is that header files in include/ define variables at file scope (without extern), causing multiple definition linker errors when multiple .c files include the same header. This worked on older Linux (Ubuntu 18.04 / ld pre-2.34) via common symbol merging but fails on Ubuntu 24.04. `*.c` files are in `source` directory and `*.h` are in `include`
+
+The fix pattern:
+
+In each offending header file — change bare variable definitions to extern declarations
+In the corresponding .c file that owns those variables — add the plain definitions at file scope (before any functions)
+
+Steps:
+
+Find all variable definitions in include/*.h that are not extern, static or #define — these are the offenders
+For each header, identify which .c file in source/ owns those variables (search for assignments to them)
+Apply the extern fix to the header
+Add the definitions to the owning .c file if not already present
+
+I can rebuild the library `C_library/vtd2eiffel/spec/linux-x86-64/libvtd-xml.a` which is an Eiffel bridge to vtd-xml,
+
+and confirm the build succeeds with no multiple definition errors.
+
+Already fixed: XMLChar.h — MASK_* variables and CHARS, Character, isReady, isCharacterReady have been made extern, with definitions added to XMLChar.c. Use this as the reference pattern.
+Current failing header: helper.h line 32 — ptr2 has multiple definition error. There are likely more.
+
+That gives it the pattern, the already-done example as reference, the current failure point, and a clear completion criterion.
+
+2. claude --resume 15e6cb69-39f6-4741-a7f2-8a148cb92179
+I was hand editing a lot of code in base folder and worried I might have accidently not pasted code back in after cutting it. Check all *.e files under base and looking specifically for across loops or if then blocks that contain no text. For example
+
+across Hash_table as table loop
+end
+

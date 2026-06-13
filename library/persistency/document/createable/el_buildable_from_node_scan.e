@@ -89,12 +89,6 @@ feature {EL_DOCUMENT_EIFFEL_OBJECT_BUILDER, EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, EL_
 			end
 		end
 
-	new_node_source: EL_DOCUMENT_EIFFEL_OBJECT_BUILDER
-			--
-		do
-			create Result.make (parse_event_source_type)
-		end
-
 feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_DOCUMENT_NODE_SCAN_SOURCE} -- Implementation
 
 	class_prefix_word_count: INTEGER
@@ -131,6 +125,12 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_DOCUMENT_NODE_SCAN_SOURCE} -- Internal a
 	PI_building_actions: like building_actions note option: transient attribute end
 
 feature {NONE} -- Constants
+
+	node_source: EL_DOCUMENT_EIFFEL_OBJECT_BUILDER
+			--
+		once ("OBJECT")
+			create Result.make (parse_event_source_type)
+		end
 
 	PI_building_actions_by_type: EL_FUNCTION_RESULT_TABLE [EL_BUILDABLE_FROM_NODE_SCAN, EL_PROCEDURE_TABLE [STRING]]
 			--

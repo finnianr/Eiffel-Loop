@@ -27,11 +27,6 @@ inherit
 
 feature {EL_XPATH_MATCH_SCAN_SOURCE} -- Implementation
 
-	new_node_source: EL_XPATH_MATCH_SCAN_SOURCE
-		do
-			create Result.make (parse_event_source_type)
-		end
-
 	set_last_node (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
@@ -45,7 +40,12 @@ feature {EL_XPATH_MATCH_SCAN_SOURCE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	last_node: EL_DOCUMENT_NODE_STRING;
+	last_node: EL_DOCUMENT_NODE_STRING
+
+	node_match_source: EL_XPATH_MATCH_SCAN_SOURCE
+		once ("OBJECT")
+			create Result.make (parse_event_source_type)
+		end
 
 note
 	notes: "[

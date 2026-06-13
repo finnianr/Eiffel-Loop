@@ -18,6 +18,23 @@
 #include "XMLChar.h"
 static void init_Character();
 
+/*
+	June 2026 FJR addition:
+	int MASK_*
+*/
+int MASK_VALID;
+int MASK_SPACE;
+int MASK_NAME_START;
+int MASK_NAME;
+int MASK_PUBID;
+int MASK_CONTENT;
+int MASK_NCNAME_START;
+int MASK_NCNAME;
+
+unsigned char CHARS[1<<16];
+char Character[1<<8];
+Boolean isReady;
+Boolean isCharacterReady;
 
 void XMLChar_init()
 {

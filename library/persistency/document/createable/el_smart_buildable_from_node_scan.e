@@ -26,7 +26,7 @@ class
 inherit
 	EL_BUILDABLE_FROM_NODE_SCAN
 		redefine
-			new_node_source
+			node_source
 		end
 
 create
@@ -68,12 +68,6 @@ feature {EL_DOCUMENT_EIFFEL_OBJECT_BUILDER} -- Implementation
 			create Result
 		end
 
-	new_node_source: EL_SMART_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
-			--
-		do
-			create Result.make (parse_event_source_type)
-		end
-
 	new_root_builder_context: EL_SMART_EIF_OBJ_ROOT_BUILDER_CONTEXT
 			--
 		do
@@ -81,6 +75,12 @@ feature {EL_DOCUMENT_EIFFEL_OBJECT_BUILDER} -- Implementation
 		end
 
 feature {EL_SMART_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Internal attributes
+
+	node_source: EL_SMART_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
+			--
+		once ("OBJECT")
+			create Result.make (parse_event_source_type)
+		end
 
 	parse_event_source_type: TYPE [EL_PARSE_EVENT_SOURCE]
 

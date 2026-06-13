@@ -23,7 +23,8 @@ inherit
 
 feature {NONE} -- Constants
 
-	New_instance_table: EL_FUNCTIONS_BY_RESULT_TYPE
+	New_instance_table_broken: EL_FUNCTIONS_BY_RESULT_TYPE
+		-- causes segmentation fault: https://support.eiffel.com/report_detail/20009
 		once
 			create Result.make (<<
 				-- Path types
@@ -32,6 +33,21 @@ feature {NONE} -- Constants
 				agent: MANAGED_POINTER do create Result.make (0) end,
 				agent: EL_QUANTITY_TEMPLATE do create Result.make end
 			>>)
+		end
+
+	New_instance_table: EL_FUNCTIONS_BY_RESULT_TYPE
+		-- workaround for segmentation fault
+		local
+			creator_array: ARRAY [FUNCTION [ANY]]
+		once
+			creator_array := <<
+				-- Path types
+				agent: EL_PATH do create {DIR_PATH} Result end,
+				-- Other
+				agent: MANAGED_POINTER do create Result.make (0) end,
+				agent: EL_QUANTITY_TEMPLATE do create Result.make end
+			>>
+			create Result.make (creator_array)
 		end
 
 end

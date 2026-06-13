@@ -18,6 +18,53 @@
 
 #include "decoder.h"
 
+int iso_8859_2_chars[256];
+int iso_8859_3_chars[256];
+int iso_8859_4_chars[256];
+int iso_8859_5_chars[256];
+int iso_8859_6_chars[256];
+int iso_8859_7_chars[256];
+int iso_8859_8_chars[256];
+int iso_8859_9_chars[256];
+int iso_8859_10_chars[256];
+int iso_8859_11_chars[256];
+int iso_8859_13_chars[256];
+int iso_8859_14_chars[256];
+int iso_8859_15_chars[256];
+int windows_1250_chars[256];
+int windows_1251_chars[256];
+int windows_1252_chars[256];
+int windows_1253_chars[256];
+int windows_1254_chars[256];
+int windows_1255_chars[256];
+int windows_1256_chars[256];
+int windows_1257_chars[256];
+int windows_1258_chars[256];
+
+Boolean iso_8859_2_chars_ready;
+Boolean iso_8859_3_chars_ready;
+Boolean iso_8859_4_chars_ready;
+Boolean iso_8859_5_chars_ready;
+Boolean iso_8859_6_chars_ready;
+Boolean iso_8859_7_chars_ready;
+Boolean iso_8859_8_chars_ready;
+Boolean iso_8859_9_chars_ready;
+Boolean iso_8859_10_chars_ready;
+Boolean iso_8859_11_chars_ready;
+Boolean iso_8859_13_chars_ready;
+Boolean iso_8859_14_chars_ready;
+Boolean iso_8859_15_chars_ready;
+
+Boolean windows_1250_chars_ready;
+Boolean windows_1251_chars_ready;
+Boolean windows_1252_chars_ready;
+Boolean windows_1253_chars_ready;
+Boolean windows_1254_chars_ready;
+Boolean windows_1255_chars_ready;
+Boolean windows_1256_chars_ready;
+Boolean windows_1257_chars_ready;
+Boolean windows_1258_chars_ready;
+
 void iso_8859_2_chars_init(){
 	int i;
 	if (iso_8859_2_chars_ready)

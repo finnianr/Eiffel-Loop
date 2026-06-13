@@ -17,6 +17,9 @@
  */
 #include "helper.h"
 
+struct obj *objList;
+struct obj *ptr1;
+struct obj *ptr2;
 
 void addObj(void *o){	
 	if (objList ==NULL){

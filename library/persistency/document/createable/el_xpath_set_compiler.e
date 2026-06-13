@@ -42,9 +42,8 @@ feature -- Access
 
 feature {NONE} -- Factory
 
-	new_node_source: EL_XPATH_SET_SCAN_SOURCE
-			--
-		do
+	node_source: EL_XPATH_SET_SCAN_SOURCE
+		once ("OBJECT")
 			create Result.make (parse_event_source_type)
 			Result.set_xpath_set (xpath_set)
 		end

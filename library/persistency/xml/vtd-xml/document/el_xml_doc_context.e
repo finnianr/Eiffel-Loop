@@ -23,11 +23,6 @@ inherit
 			namespace_table
 		end
 
-	EL_LAZY_ATTRIBUTE
-		rename
-			new_item as new_namespace_table
-		end
-
 	READABLE_INDEXABLE [INTEGER]
 		rename
 			item as token_type,
@@ -168,9 +163,35 @@ feature -- Access
 
 	last_exception: detachable EL_VTD_EXCEPTION
 
-	namespace_table: like new_namespace_table
-		do
-			Result := lazy_item
+	namespace_table: EL_HASH_TABLE [STRING, STRING]
+		local
+			stage, last_token: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
+		once ("OBJECT")
+			create Result.make_equal (3)
+			stage := 1
+			across Current as token until stage = 3 loop
+				inspect stage
+					when 1 then -- start element
+						stage := stage + @ token.is_element_open.to_integer
+
+					when 2 then -- root element attributes
+						if @ token.is_attribute_name_space then
+							if attached @ token.item_string_8 as ns_name then
+								if ns_name ~ XML.xmlns then
+									Result.put (create {STRING}.make_empty, Default_name)
+								else
+									Result.put (create {STRING}.make_empty, sg.super_8 (ns_name).substring_to_reversed (':'))
+								end
+							end
+
+						elseif @ token.is_attribute and last_token = Token_enum.attribute_name_space then
+							Result.found_item.share (@ token.item_string_8)
+						end
+						stage := stage + @ token.is_element_close.to_integer
+				else
+				end
+				last_token := token
+			end
 		end
 
 	processing_instruction (a_name: STRING): detachable STRING
@@ -246,37 +267,6 @@ feature -- Status query
 		end
 
 feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
-
-	new_namespace_table: EL_HASH_TABLE [STRING, STRING]
-		local
-			stage, last_token: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
-		do
-			create Result.make_equal (3)
-			stage := 1
-			across Current as token until stage = 3 loop
-				inspect stage
-					when 1 then -- start element
-						stage := stage + @ token.is_element_open.to_integer
-
-					when 2 then -- root element attributes
-						if @ token.is_attribute_name_space then
-							if attached @ token.item_string_8 as ns_name then
-								if ns_name ~ XML.xmlns then
-									Result.put (create {STRING}.make_empty, Default_name)
-								else
-									Result.put (create {STRING}.make_empty, sg.super_8 (ns_name).substring_to_reversed (':'))
-								end
-							end
-
-						elseif @ token.is_attribute and last_token = Token_enum.attribute_name_space then
-							Result.found_item.share (@ token.item_string_8)
-						end
-						stage := stage + @ token.is_element_close.to_integer
-				else
-				end
-				last_token := token
-			end
-		end
 
 	wide_string_at_index (index: INTEGER): EL_C_WIDE_CHARACTER_STRING
 			--

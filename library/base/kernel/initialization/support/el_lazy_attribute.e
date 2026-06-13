@@ -1,12 +1,15 @@
 note
-	description: "Detachable object attribute that is created only when needed"
+	description: "Detachable object attribute that is created only when needed (lazy evaluation)"
 	notes: "[
-		This class is a workaround for bug in ES version 16.05.9 for the "once per object" construct
+		More often than not, you can use a once per object routine for lazy evaluation.
 		
 			object: MY_CLASS
 				once ("OBJECT")
 					create Result
 				end
+				
+		But in rare cases where you need the ability to reassign the attribute, it makes more sense
+		to inherit from this class. For example: ${EL_NAMED_THREAD}.
 	]"
 
 	author: "Finnian Reilly"

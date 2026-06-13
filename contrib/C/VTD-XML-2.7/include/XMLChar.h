@@ -22,23 +22,27 @@
 
 #define LENGTH(x,y) (sizeof(x)/sizeof(y))
 
+/*
+	June 2026
+	FJR edit: int MASK_* -> extern int MASK_*
+*/
 
- int MASK_VALID;/*= 0x01;*/
- int MASK_SPACE; /*= 0x01<<1;*/
- int MASK_NAME_START; /*= 0x01<<2;*/
- int MASK_NAME; /*= 0x01<<3;*/
- int MASK_PUBID; /*= 0x01<<4;*/
- int MASK_CONTENT; /*= 0x01<<5;*/
- int MASK_NCNAME_START; /*= 0x01 << 6;*/
- int MASK_NCNAME;  /* = 0x01 << 7;*/
+extern int MASK_VALID;/*= 0x01;*/
+extern int MASK_SPACE; /*= 0x01<<1;*/
+extern int MASK_NAME_START; /*= 0x01<<2;*/
+extern int MASK_NAME; /*= 0x01<<3;*/
+extern int MASK_PUBID; /*= 0x01<<4;*/
+extern int MASK_CONTENT; /*= 0x01<<5;*/
+extern int MASK_NCNAME_START; /*= 0x01 << 6;*/
+extern int MASK_NCNAME;  /* = 0x01 << 7;*/
 
-unsigned char CHARS[1<<16];// = unsigned Byte[1<<16];
+extern unsigned char CHARS[1<<16];
 
-char Character[1<<8]; // = 
+extern char Character[1<<8];
 
-Boolean isReady;// = FALSE;
+extern Boolean isReady;
 
-Boolean isCharacterReady;
+extern Boolean isCharacterReady;
 
 void XMLChar_init();
    /**

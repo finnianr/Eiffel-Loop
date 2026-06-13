@@ -1,0 +1,98 @@
+EIFFEL_AUTOTEST_APP
+-eiffel_autotest -test_set all
+
+IMAGE_UTILS_AUTOTEST_APP
+-image_utils_autotest
+
+ECO_DB_AUTOTEST_APP
+-eco_db_autotest -test_set ECD_READER_WRITER_TEST_SET.read_write
+
+FOURIER_MATH_CLIENT_TEST_APP
+-fourier_math_client_test
+
+NETWORK_AUTOTEST_APP
+-network_autotest -test_set SECURITY_TEST_SET.test_banned_ip_table -pp WhoAmI10
+
+EROS_AUTOTEST_APP
+-eros_autotest
+
+AMAZON_INSTANT_ACCESS_AUTOTEST_APP
+
+
+ENCRYPTION_AUTOTEST_APP
+-encryption_autotest -test_set ENCRYPTION_TEST_SET
+
+BASE_AUTOTEST_APP
+-base_autotest -test_set CONTAINER_STRUCTURE_TEST_SET.key_indexed_arrayed_map_list
+
+XML_SCAN_AUTOTEST_APP
+-xml_scan_autotest -test_set CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET
+
+VTD_XML_AUTOTEST_APP
+-vtd_xml_autotest -test_set VTD_XML_TEST_SET
+
+OPEN_OFFICE_AUTOTEST_APP
+-open_office_autotest
+
+SEARCH_ENGINE_AUTOTEST_APP
+-search_engine_autotest -test_set SEARCH_ENGINE_TEST_SET
+
+PAYPAL_STANDARD_BUTTON_MANAGER_AUTOTEST_APP
+
+
+I18N_AUTOTEST_APP
+-i18n_autotest -test_set I18N_LOCALIZATION_TEST_SET.test_reflective_locale_texts
+
+MULTIMEDIA_AUTOTEST_APP
+-multimedia_autotest
+
+OS_COMMAND_AUTOTEST_APP
+-os_command_autotest -test_set OS_COMMAND_TEST_SET.get_gnome_setting_command
+
+TEXT_FORMATS_AUTOTEST_APP
+-text_formats_autotest -test_set all
+
+HTTP_CLIENT_AUTOTEST_APP
+-http_client_autotest -test_set HTTP_CONNECTION_TEST_SET
+
+COMPRESSION_AUTO_TEST_APP
+-compression_autotest -test_set COMPRESSION_TEST_SET
+
+EVOLICITY_AUTOTEST_APP
+-evolicity_autotest -test_set EVOLICITY_TEST_SET
+
+TEXT_PROCESS_AUTOTEST_APP
+-text_process_autotest -test_set PATTERN_MATCH_TEST_SET
+
+PYXIS_SCAN_AUTOTEST_APP
+-pyxis_scan_autotest -test_set PYXIS_TO_XML_TEST_SET.test_conversion_to_xml
+
+THUNDERBIRD_AUTOTEST_APP
+-thunderbird_autotest -test_set all
+
+PUBLIC_KEY_ENCRYPTION_AUTOTEST_APP
+-public_key_encryption_autotest
+
+CURRENCY_AUTOTEST_APP
+-currency_autotest -test_set CURRENCY_TEST_SET.currency_history_exchange_rates
+
+TAGLIB_AUTOTEST_APP
+-taglib_autotest -test_set all
+
+FILE_PROCESSING_AUTOTEST_APP
+-file_processing_autotest -test_set FILE_SYNC_MANAGER_TEST_SET
+
+FTP test
+-eiffel_autotest -test_set FILE_TEST_SET.test_ftp_directory_exists -ftp_url=ftp://eiffel-loop.com:WhoAmI0@ftp.eiffel-loop.com
+
+AUTOTEST_APP (call all apps in shell)
+-autotest -pp WhoAmI10 -from EIFFEL_AUTOTEST_APP
+
+VERSION_APP
+-version -help
+
+APP_MANAGE_AUTOTEST_APP
+-app_manage_autotest -test_set all
+
+HACKER_INTERCEPT_TEST_SERVICE_APP
+-hacker_intercept_test_service -logging -config "$HOME/.config/Hex 11 Software/myching-server/hacker_intercept_service/cc
