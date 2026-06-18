@@ -75,7 +75,7 @@ for lib in "${c_libs[@]}"; do
 		echo "ERROR: Cannot cd to $lib_path"
 		return 1
 	}
-	bash build.sh || {
+	source build.sh || {
 		echo "ERROR: build.sh failed in $lib_path"
 		return 1
 	}
