@@ -117,5 +117,11 @@ cd "$test_dir" || {
 	return 1
 }
 
+echo "NOTE: You may want to comment out the following line in test/project.py before proceeding:"
+echo ""
+echo "   os.environ ['GTK_THEME'] = 'Mint-X-Teal-Custom:light'"
+echo ""
+read -r -p "Press Enter to continue..."
+
 echo "Launching EiffelStudio with test.ecf..."
 launch_estudio test.ecf
