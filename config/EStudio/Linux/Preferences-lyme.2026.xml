@@ -5,8 +5,8 @@
 	<PREFERENCE NAME="general.internet_browser" VALUE="$ISE_EIFFEL/tools/spec/$ISE_PLATFORM/bin/estudio-open-url $url"/>
 	<PREFERENCE NAME="general.dynamic_library_window_height" VALUE="300"/>
 	<PREFERENCE NAME="general.dynamic_library_window_width" VALUE="450"/>
-	<PREFERENCE NAME="general.preference_window_height" VALUE="841"/>
-	<PREFERENCE NAME="general.preference_window_width" VALUE="1469"/>
+	<PREFERENCE NAME="general.preference_window_height" VALUE="919"/>
+	<PREFERENCE NAME="general.preference_window_width" VALUE="1205"/>
 	<PREFERENCE NAME="general.show_hidden_preferences" VALUE="False"/>
 	<PREFERENCE NAME="general.console_shell_command" VALUE="$ISE_EIFFEL/tools/spec/$ISE_PLATFORM/bin/estudio-terminal"/>
 	<PREFERENCE NAME="general.execute_in_console_shell_command" VALUE="$ISE_EIFFEL/tools/spec/$ISE_PLATFORM/bin/estudio-terminal-execution $command"/>
@@ -35,7 +35,7 @@
 	<PREFERENCE NAME="interface.dialogs.confirm_on_exit" VALUE="False"/>
 	<PREFERENCE NAME="interface.dialogs.confirm_finalize" VALUE="True"/>
 	<PREFERENCE NAME="interface.dialogs.confirm_freeze" VALUE="True"/>
-	<PREFERENCE NAME="interface.dialogs.confirm_save_before_compile" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_save_before_compile" VALUE="False"/>
 	<PREFERENCE NAME="interface.dialogs.confirm_save_before_reloading" VALUE="True"/>
 	<PREFERENCE NAME="interface.dialogs.confirm_save_before_prettifying" VALUE="True"/>
 	<PREFERENCE NAME="interface.dialogs.confirm_finalize_assertions" VALUE="True"/>
@@ -61,7 +61,7 @@
 	<PREFERENCE NAME="interface.dialogs.confirm_resource_change_needs_restart" VALUE="True"/>
 	<PREFERENCE NAME="interface.dialogs.generate_homonyms" VALUE="True"/>
 	<PREFERENCE NAME="interface.dialogs.stop_execution_when_compiling" VALUE="True"/>
-	<PREFERENCE NAME="interface.dialogs.confirm_kill" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_kill" VALUE="False"/>
 	<PREFERENCE NAME="interface.dialogs.confirm_kill_and_restart" VALUE="True"/>
 	<PREFERENCE NAME="interface.dialogs.dbg_confirm_detach" VALUE="True"/>
 	<PREFERENCE NAME="interface.dialogs.confirm_reload_execution_profile" VALUE="True"/>
@@ -105,11 +105,11 @@
 	<PREFERENCE NAME="tools.context_tool.default_dependency_formatter_index" VALUE="2"/>
 	<PREFERENCE NAME="debugger.last_saved_stack_path" VALUE=""/>
 	<PREFERENCE NAME="debugger.default_expanded_view_size" VALUE="500"/>
-	<PREFERENCE NAME="debugger.proportion" VALUE="0.5"/>
+	<PREFERENCE NAME="debugger.proportion" VALUE="0.11028"/>
 	<PREFERENCE NAME="debugger.left_debug_layout" VALUE="Features;closed;0;0;0;0;Clusters;closed;0;0;0;0;Properties;closed;0;0;0;0;Breakpoints;closed;0;0;0;0;Favorites;closed;0;0;0;0;Windows;closed;0;0;0;0;Threads;closed;0;0;0;38;Call Stack;visible;0;0;0;38"/>
 	<PREFERENCE NAME="debugger.right_debug_layout" VALUE="Search;closed;0;0;0;0;Editor;minimized;0;0;0;0;Context;visible;0;0;0;171;Debugging;visible;0;0;0;218"/>
 	<PREFERENCE NAME="debugger.colors.expanded_display_background_color" VALUE="216;224;199"/>
-	<PREFERENCE NAME="debugger.number_of_watch_tools" VALUE="1"/>
+	<PREFERENCE NAME="debugger.number_of_watch_tools" VALUE="2"/>
 	<PREFERENCE NAME="debugger.delay_before_cleaning_objects_grid" VALUE="500"/>
 	<PREFERENCE NAME="debugger.colors.row_highlight_background_color" VALUE="255;255;170"/>
 	<PREFERENCE NAME="debugger.colors.row_highlight_different_value_background_color" VALUE="255;210;210"/>
@@ -190,8 +190,8 @@
 	<PREFERENCE NAME="interface.development_window.is_force_debug_mode" VALUE="False"/>
 	<PREFERENCE NAME="interface.development_window.maximum_history_size" VALUE="20"/>
 	<PREFERENCE NAME="interface.development_window.remember_completion_list_size" VALUE="True"/>
-	<PREFERENCE NAME="interface.development_window.completion_list_height" VALUE="320"/>
-	<PREFERENCE NAME="interface.development_window.completion_list_width" VALUE="240"/>
+	<PREFERENCE NAME="interface.development_window.completion_list_height" VALUE="125"/>
+	<PREFERENCE NAME="interface.development_window.completion_list_width" VALUE="345"/>
 	<PREFERENCE NAME="interface.development_window.progress_bar_color" VALUE="0;0;128"/>
 	<PREFERENCE NAME="interface.development_window.ctrl_right_click_receiver" VALUE="[new_tab_editor];new_window;current_editor;context;external"/>
 	<PREFERENCE NAME="interface.development_window.override_tab_behavior" VALUE="[current_editor];new_tab_editor;new_tab_editor_if_edited"/>
@@ -221,8 +221,8 @@
 	<PREFERENCE NAME="interface.development_window.grid.non_focused_selection_color" VALUE="46;46;51"/>
 	<PREFERENCE NAME="interface.development_window.grid.separator_color" VALUE="210;210;210"/>
 	<PREFERENCE NAME="interface.development_window.grid.tree_node_connector_color" VALUE="0;0;0"/>
-	<PREFERENCE NAME="recent_projects.last_opened_projects" VALUE="eiffel_time_calendar.ecf&gt;classic;base.ecf&gt;el_base"/>
-	<PREFERENCE NAME="editor.general.smart_indentation" VALUE="False"/>
+	<PREFERENCE NAME="recent_projects.last_opened_projects" VALUE="xpact_example.ecf&gt;classic;eiffel_time_calendar.ecf&gt;classic;base.ecf&gt;el_base"/>
+	<PREFERENCE NAME="editor.general.smart_indentation" VALUE="True"/>
 	<PREFERENCE NAME="editor.general.tab_step" VALUE="3"/>
 	<PREFERENCE NAME="editor.general.left_margin_width" VALUE="8"/>
 	<PREFERENCE NAME="editor.general.colors.margin_background_color" VALUE="212;208;200"/>
@@ -248,11 +248,11 @@
 	<PREFERENCE NAME="editor.general.colors.focus_out_selection_background_color" VALUE="236;233;216"/>
 	<PREFERENCE NAME="editor.general.colors.string_text_color" VALUE="0;128;128"/>
 	<PREFERENCE NAME="editor.general.colors.string_background_color" VALUE="216;224;199"/>
-	<PREFERENCE NAME="editor.general.colors.keyword_text_color" VALUE="0;0;128"/>
+	<PREFERENCE NAME="editor.general.colors.keyword_text_color" VALUE="192;28;40"/>
 	<PREFERENCE NAME="editor.general.colors.keyword_background_color" VALUE="216;224;199"/>
 	<PREFERENCE NAME="editor.general.colors.spaces_text_color" VALUE="128;128;128"/>
 	<PREFERENCE NAME="editor.general.colors.spaces_background_color" VALUE="216;224;199"/>
-	<PREFERENCE NAME="editor.general.colors.comments_text_color" VALUE="128;0;0"/>
+	<PREFERENCE NAME="editor.general.colors.comments_text_color" VALUE="22;101;20"/>
 	<PREFERENCE NAME="editor.general.colors.comments_background_color" VALUE="216;224;199"/>
 	<PREFERENCE NAME="editor.general.colors.quoted_feature_text_color" VALUE="64;0;0"/>
 	<PREFERENCE NAME="editor.general.colors.quoted_feature_background_color" VALUE="216;224;199"/>
@@ -628,13 +628,13 @@
 	<PREFERENCE NAME="shortcuts.code_completion.next_completion_panel" VALUE="False+True+False+Space"/>
 	<PREFERENCE NAME="editor.eiffel.linked_token_editing_enabled" VALUE="False"/>
 	<PREFERENCE NAME="tools.search_tool.init_incremental" VALUE="True"/>
-	<PREFERENCE NAME="tools.search_tool.init_match_case" VALUE="False"/>
-	<PREFERENCE NAME="tools.search_tool.init_use_regular_expression" VALUE="True"/>
-	<PREFERENCE NAME="tools.search_tool.init_whole_word" VALUE="False"/>
+	<PREFERENCE NAME="tools.search_tool.init_match_case" VALUE="True"/>
+	<PREFERENCE NAME="tools.search_tool.init_use_regular_expression" VALUE="False"/>
+	<PREFERENCE NAME="tools.search_tool.init_whole_word" VALUE="True"/>
 	<PREFERENCE NAME="tools.search_tool.init_search_backwards" VALUE="False"/>
-	<PREFERENCE NAME="tools.search_tool.init_scope" VALUE="[Current Editor];Whole Project;Custom"/>
+	<PREFERENCE NAME="tools.search_tool.init_scope" VALUE="Current Editor;Whole Project;[Custom]"/>
 	<PREFERENCE NAME="tools.search_tool.init_only_compiled_classes" VALUE="False"/>
-	<PREFERENCE NAME="tools.search_tool.init_subclusters" VALUE="False"/>
+	<PREFERENCE NAME="tools.search_tool.init_subclusters" VALUE="True"/>
 	<PREFERENCE NAME="tools.search_tool.none_result_keyword_field_background_color" VALUE="255;175;138"/>
 	<PREFERENCE NAME="tools.class_browser.odd_row_background_color" VALUE="216;224;189"/>
 	<PREFERENCE NAME="tools.class_browser.even_row_background_color" VALUE="216;224;199"/>
@@ -801,4 +801,8 @@
 	<PREFERENCE NAME="tools.refactoring.feature_rename.new_feature_name" VALUE="new_name"/>
 	<PREFERENCE NAME="tools.refactoring.feature_rename.update_comments" VALUE="False"/>
 	<PREFERENCE NAME="tools.refactoring.feature_rename.update_strings" VALUE="False"/>
+	<PREFERENCE NAME="debugger.grid_column_layout_1" VALUE="1:True:False:203:Name:2:True:False:148:Value:3:True:False:198:Type:4:True:False:79:Address:0:False:False:30:SCOOP PID:5:False:False:80:Context ..."/>
+	<PREFERENCE NAME="debugger.grid_column_layout_2" VALUE="1:True:False:148:Name:2:True:False:148:Value:3:True:False:198:Type:4:True:False:79:Address:0:False:False:30:SCOOP PID:5:False:False:80:Context ..."/>
+	<PREFERENCE NAME="debugger.colors.customs.folder_row_fg_color" VALUE="60;60;190"/>
+	<PREFERENCE NAME="debugger.colors.customs.error_row_fg_color" VALUE="190;130;130"/>
 </EIFFEL_DOCUMENT>

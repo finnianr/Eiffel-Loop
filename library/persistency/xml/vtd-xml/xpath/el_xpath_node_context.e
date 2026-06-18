@@ -61,7 +61,7 @@ feature -- Access
 		require
 			exists: has_attribute (a_name)
 		do
-			Result := Shared_attribute
+			Result := Shared_element_attribute
 			Result.set_context (Current, a_name)
 		end
 
@@ -179,7 +179,7 @@ feature -- Status query
 	has_attribute (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if node element has attribute with `a_name'
 		do
-			if attached Shared_attribute as l_attribute then
+			if attached Shared_element_attribute as l_attribute then
 				l_attribute.set_context (Current, a_name)
 				Result := l_attribute.is_valid_name
 			end

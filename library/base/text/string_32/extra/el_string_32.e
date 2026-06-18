@@ -37,7 +37,7 @@ inherit
 		end
 
 create
-	make_empty
+	make_empty, make_from_string
 
 feature {NONE} -- Initialization
 

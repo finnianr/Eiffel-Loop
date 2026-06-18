@@ -36,7 +36,7 @@ def main():
 		# /w: wait until launched process exits (not sure about this)
 		cmd = ['estudio', '-project_path', build_path, '-config', ecf_path]
 		print(cmd)
-		subprocess.call (cmd)
+		subprocess.call (cmd, stderr=subprocess.DEVNULL)
 
 	else:
 		print ("USAGE: launch_estudio <project name>.(pecf|ecf)")

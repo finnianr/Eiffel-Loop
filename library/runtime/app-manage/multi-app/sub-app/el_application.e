@@ -284,16 +284,12 @@ feature {NONE} -- Implementation
 
 	io_put_header
 		local
-			build_version, test: STRING
+			build_version: STRING; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			lio.put_new_line
-			test := "test"
-			if App_option.test then
-				build_version := test
-			else
-				build_version := Software_version.out
-			end
-			lio.put_field_list (100, << ["Executable", Executable.name], ["Version", build_version] >>)
+			build_version := if App_option.test then "test" else Software_version.out end
+
+			lio.put_field_list (100, << ["Executable", sg.as_readable_general (Executable.name)], ["Version", build_version] >>)
 			lio.put_new_line
 			lio.put_field_list (100, << ["Class", generator], ["Option", option_name] >>)
 			lio.put_new_line

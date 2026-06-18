@@ -33,7 +33,7 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Shared_attribute: EL_ELEMENT_ATTRIBUTE
+	Shared_element_attribute: EL_ELEMENT_ATTRIBUTE
 		once
 			create Result.make
 		end

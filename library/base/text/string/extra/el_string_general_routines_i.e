@@ -33,6 +33,11 @@ feature {NONE} -- Implementation
 			create Result.make_from_general (general)
 		end
 
+	as_readable_general (general: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
+		do
+			Result := general
+		end
+
 	as_readable_string_32 (general: READABLE_STRING_GENERAL): READABLE_STRING_32
 		do
 			if general.is_string_32 and then attached {READABLE_STRING_32} general as str_32 then
