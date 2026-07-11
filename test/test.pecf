@@ -142,8 +142,6 @@ system:
 				file_rule:
 					exclude:
 						"/tl_musicbrainz_enum.e$"
-			sub_clusters:
-				xpact = "benchmark/source/xpact"
 
 		cluster_tree:
 			a_root = "source/root"

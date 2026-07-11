@@ -17,11 +17,6 @@ system:
 		"""
 	target:
 		name = EL_compression
-		description:
-			"""
-				export:
-					C_ZLIB = $ISE_LIBRARY/C_library/zlib
-			"""
 		option:
 			debug = false; full_class_checking = false; syntax = standard; trace = false; warning = warning
 			assertions:
@@ -34,26 +29,19 @@ system:
 		root:
 			all_classes = true
 				
-		external_include:
-			location = "$(C_ZLIB)"
-
-		external_linker_flag:
-			value = "-L$(C_ZLIB) -lz"
-			condition:
-				platform = unix
-
 		# ISE
 		libraries:
 			base = "$ISE_LIBRARY/library/base/base.ecf"
-			zlib = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
-			condition:
-				platform = windows
+
+		library:
+			name = c_zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
+
 
 		# Eiffel Loop
 		library:
 			EL_base = "base/base.ecf"
 
 		# Source code
-		cluster:
+		cluster_tree:
 			compression = "utility/compression"
 

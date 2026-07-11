@@ -191,8 +191,8 @@ feature -- Element change
 		local
 			i: INTEGER; l_area: like area_v2
 		do
-			i := count * 2 + 2
 			l_area := area_v2
+			i := l_area.count + 2
 			if i > l_area.capacity then
 				l_area := l_area.aliased_resized_area (i + additional_space)
 				area_v2 := l_area

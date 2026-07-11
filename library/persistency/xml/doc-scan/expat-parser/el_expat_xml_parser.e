@@ -349,18 +349,18 @@ feature {NONE} -- Expat callbacks
 		end
 
 	frozen on_start_tag_parsed (tag_name_ptr, attribute_array_ptr: POINTER)
-		local
-			l_cursor: like attribute_cursor
 		do
 			set_last_state (State_start_tag_call)
 			last_node_name.set_from_c (tag_name_ptr)
 			last_node.set_type (Type_element)
 
-			l_cursor := attribute_cursor; attribute_list.reset
-			from l_cursor.start (attribute_array_ptr) until l_cursor.after loop
-				attribute_list.extend
-				l_cursor.set_node (attribute_list.last)
-				l_cursor.forth
+			attribute_list.reset
+			if attached attribute_cursor as l_cursor then
+				from l_cursor.start (attribute_array_ptr) until l_cursor.after loop
+					attribute_list.extend
+					l_cursor.set_node (attribute_list.last)
+					l_cursor.forth
+				end
 			end
 			scanner.on_start_tag
 		end

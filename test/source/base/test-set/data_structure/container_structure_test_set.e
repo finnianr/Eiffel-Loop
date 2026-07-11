@@ -429,7 +429,6 @@ feature -- Test
 			]"
 		local
 			summator: EL_CONTAINER_ARITHMETIC [CHARACTER, INTEGER]
-			wrapper: EL_CONTAINER_WRAPPER [CHARACTER]
 		do
 			across new_character_containers as container loop
 				lio.put_labeled_string ("Type", container.generator)
@@ -578,7 +577,7 @@ feature -- Test
 			]"
 		local
 			abcd_list, cd_list: EL_ARRAYED_LIST [CHARACTER]
-			abcd: STRING; ab, cd, empty: SPECIAL [CHARACTER]
+			abcd: STRING; ab, empty: SPECIAL [CHARACTER]
 		do
 			abcd := "abcd"
 			create empty.make_empty (0)

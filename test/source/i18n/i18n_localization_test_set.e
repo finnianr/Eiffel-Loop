@@ -70,7 +70,7 @@ feature -- Tests
 				covers/{EL_PYXIS_PARSER}.parse_from_string
 			]"
 		do
-			do_test ("test_reading_from_file", 1037737418, agent test_reading, [agent new_table_from_file])
+			do_test ("test_reading_from_file", 3014361976, agent test_reading, [agent new_table_from_file])
 		end
 
 	test_reading_from_source
@@ -81,7 +81,7 @@ feature -- Tests
 				covers/{EL_PYXIS_PARSER}.parse_from_string
 			]"
 		do
-			do_test ("test_reading_from_source", 917823004, agent test_reading, [agent new_table_from_source])
+			do_test ("test_reading_from_source", 3252528583, agent test_reading, [agent new_table_from_source])
 		end
 
 	test_reading_from_xml
@@ -89,7 +89,7 @@ feature -- Tests
 		note
 			testing: "covers/{EL_TRANSLATION_TABLE}.make_from_xdoc"
 		do
-			do_test ("test_reading_from_xml", 629364466, agent test_reading, [agent new_table_from_xml])
+			do_test ("test_reading_from_xml", 3964003941, agent test_reading, [agent new_table_from_xml])
 		end
 
 	test_reflective_locale_texts
@@ -152,7 +152,7 @@ feature {NONE} -- Implementation
 		local
 			pyxis_file_path: FILE_PATH; table: EL_TRANSLATION_TABLE
 		do
-			across << "credits", "words", "phrases" >> as name loop
+			across << "credits", "words", "test_phrases_text" >> as name loop
 				pyxis_file_path := Localization_dir + (name.item + ".pyx")
 				lio.put_labeled_string ("Pyxis configuration file", pyxis_file_path.base)
 				lio.tab_right

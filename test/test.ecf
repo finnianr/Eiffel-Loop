@@ -89,9 +89,6 @@
 					<exclude>/tl_musicbrainz_enum.e$</exclude>
 				</file_rule>
 			</cluster>
-
-			<cluster name = "xpact" location = "$|benchmark/source/xpact"/>
-			
 		</cluster>
 		<cluster name = "app_root" location = "source/root" recursive = "true">
 			<file_rule>

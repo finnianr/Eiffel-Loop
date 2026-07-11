@@ -7,6 +7,12 @@ note
 		**BENCHMARKING RESULTS**
 
 		Passes over 1000 millisecs (each in descending order)
+		
+		RESULTS: indexed_item
+
+			C buffer indexed_item   :  788.0 times (100%)
+			C buffer indexed_string :  782.0 times (-0.8%)
+			SPECIAL indexed_item    :  780.0 times (-1.0%)
 
 		RESULTS: starts_with
 
@@ -50,9 +56,14 @@ feature -- Basic operations
 
 	execute
 		local
-			cache: PINNED_XML_NAME_CACHE
+			cache: C_NULLED_STRING_8_NAME_CACHE
 		do
 			if attached new_string_list as string_list and then attached new_c_string_list as c_string_list then
+				compare ("indexed_item", <<
+					["SPECIAL indexed_item",  agent special_indexed_item (string_list)],
+					["C buffer indexed_item", agent c_buffer_indexed_item (c_string_list)],
+					["C buffer indexed_string", agent c_buffer_indexed_string (c_string_list)]
+				>>)
 				compare ("starts_with", <<
 					["SPECIAL starts_with",	 agent special_starts_with (string_list, The)],
 					["C buffer starts_with", agent c_buffer_starts_with (c_string_list, C_the)]
@@ -68,7 +79,7 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Benchmark targets
+feature {NONE} -- Benchmark occurrences
 
 	c_buffer_occurrences (title_list: LIST [C_STRING_8]; c: CHARACTER_8)
 		local
@@ -77,30 +88,6 @@ feature {NONE} -- Benchmark targets
 			across 0 |..| 100 as n loop
 				across title_list as list loop
 					count := count + list.item.occurrences (c)
-				end
-			end
-		end
-
-	c_buffer_parse_csv (title_list: LIST [C_STRING_8])
-		local
-			count: INTEGER
-		do
-			across 0 |..| 100 as n loop
-				across title_list as list loop
-					count := count + new_c_string_csv_list (list.item).count
-				end
-			end
-		end
-
-	c_buffer_starts_with (title_list: LIST [C_STRING_8]; str: C_STRING_8)
-		local
-			count: INTEGER
-		do
-			across 0 |..| 100 as n loop
-				across title_list as list loop
-					if list.item.starts_with (str) then
-						count := count + 1
-					end
 				end
 			end
 		end
@@ -116,6 +103,74 @@ feature {NONE} -- Benchmark targets
 			end
 		end
 
+feature {NONE} -- Compare indexed item		
+
+	c_buffer_indexed_item (title_list: LIST [C_STRING_8])
+		local
+			count, i, i_final: INTEGER; area: POINTER
+		do
+			across 0 |..| 100 as n loop
+				across title_list as list loop
+					area := list.item.area
+					from i := 1; i_final := list.item.count until i = i_final loop
+						if char_at (area, i) = 'a' then
+							count := count + 1
+						end
+						i := i + 1
+					end
+				end
+			end
+		end
+
+	c_buffer_indexed_string (title_list: LIST [C_STRING_8])
+		local
+			count, i, i_final: INTEGER
+		do
+			across 0 |..| 100 as n loop
+				across title_list as list loop
+					if attached list.item as str then
+						from i := 1; i_final := list.item.count until i > i_final loop
+							if str [i] = 'a' then
+								count := count + 1
+							end
+							i := i + 1
+						end
+					end
+				end
+			end
+		end
+
+	special_indexed_item (title_list: LIST [STRING_8])
+		local
+			count, i, i_final: INTEGER; area: SPECIAL [CHARACTER]
+		do
+			across 0 |..| 100 as n loop
+				across title_list as list loop
+					area := list.item.area
+					from i := 0; i_final := list.item.count until i = i_final loop
+						if area [i] = 'a' then
+							count := count + 1
+						end
+						i := i + 1
+					end
+				end
+			end
+		end
+
+
+feature {NONE} -- Compare parse CSV
+
+	c_buffer_parse_csv (title_list: LIST [C_STRING_8])
+		local
+			count: INTEGER
+		do
+			across 0 |..| 100 as n loop
+				across title_list as list loop
+					count := count + new_c_string_csv_list (list.item).count
+				end
+			end
+		end
+
 	special_parse_csv (title_list: LIST [STRING_8])
 		local
 			count: INTEGER
@@ -123,6 +178,22 @@ feature {NONE} -- Benchmark targets
 			across 0 |..| 100 as n loop
 				across title_list as list loop
 					count := count + new_csv_list (list.item).count
+				end
+			end
+		end
+
+
+feature {NONE} -- Compare starts_with
+
+	c_buffer_starts_with (title_list: LIST [C_STRING_8]; str: C_STRING_8)
+		local
+			count: INTEGER
+		do
+			across 0 |..| 100 as n loop
+				across title_list as list loop
+					if list.item.starts_with (str) then
+						count := count + 1
+					end
 				end
 			end
 		end
@@ -208,6 +279,16 @@ feature {NONE} -- List factory
 	new_string_list: ARRAYED_LIST [STRING_8]
 		do
 			create Result.make_from_array (Hexagram.English_titles.to_array)
+		end
+
+feature {NONE} -- Implementation
+
+	frozen char_at (a_area: POINTER; i: INTEGER): CHARACTER_8
+			-- Character at offset `i' in buffer `a_area'.
+		external
+			"C inline"
+		alias
+			"return ((EIF_CHARACTER_8 *)$a_area)[$i];"
 		end
 
 feature {NONE} -- Constants

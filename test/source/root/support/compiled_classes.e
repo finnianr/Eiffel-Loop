@@ -40,6 +40,14 @@ feature {NONE} -- Compile extra
 			create Result
 		end
 
+	el_compression: TUPLE [
+		EL_CRC_32_DIGEST, EL_TRACEABLE_CRC_32_DIGEST
+	]
+		-- compression.ecf
+		do
+			create Result
+		end
+
 	el_fast_cgi: TUPLE [
 --		EL_DIVERGENT_SERVLET,
 --		EL_404_INTERCEPT_SERVICE,

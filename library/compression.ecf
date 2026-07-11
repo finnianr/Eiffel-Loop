@@ -7,10 +7,6 @@ An Eiffel interface to the [https://www.zlib.net/ zlib C library].
 The main class is ${EL_COMPRESSED_ARCHIVE_FILE} with a few helper classes.
 	</description>
 	<target name="el_compression">
-		<description>
-export:
-	C_ZLIB = $ISE_LIBRARY/C_library/zlib
-		</description>
 		<root all_classes="true"/>
 		<option trace="false" debug="false" warning="warning" full_class_checking="false" syntax="standard">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true"/>
@@ -19,19 +15,10 @@ export:
 			<concurrency support="thread"/>
 			<void_safety support="none"/>
 		</capability>
-		<external_include location="$(C_ZLIB)"/>
-		<external_linker_flag value="-L$(C_ZLIB) -lz">
-			<condition>
-				<platform value="unix"/>
-			</condition>
-		</external_linker_flag>
+		<library name="c_zlib" location="$ISE_LIBRARY\C_library\zlib\clibs_zlib.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="el_base" location="base\base.ecf"/>
-		<library name="zlib" location="$ISE_LIBRARY\C_library\zlib\clibs_zlib.ecf">
-			<condition>
-				<platform value="windows"/>
-			</condition>
-		</library>
-		<cluster name="compression" location="utility\compression\"/>
+		<library name="zlib" location="$ISE_LIBRARY\C_library\zlib\clibs_zlib.ecf"/>
+		<cluster name="compression" location="utility\compression\" recursive = "true"/>
 	</target>
 </system>

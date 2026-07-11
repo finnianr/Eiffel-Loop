@@ -2,19 +2,23 @@
 echo All edits on Eiffel Software classes by FJR
 echo
 
-file_paths=(
-    "$ISE_LIBRARY/library/base/elks/support/format_double.e"
-)
+pushd .
 
-for path in "${file_paths[@]}"; do
-    base_e=$(basename "$path")
-    class_name="${base_e%.*}"
-    class_name="${class_name^^}"
-    
-    echo "Source: $path"
-    echo $class_name edits\:
-    grep -F "FJR:" $path
-    echo
+cd $ISE_LIBRARY/library
+
+echo ISE version $ISE_VERSION libraries
+ls
+echo
+
+for name in console file format_double; do
+	path=$(find base -type f -name "$name.e")
+	base_e=$(basename "$path")
+	class_name="${base_e%.*}"
+	class_name="${class_name^^}"
+
+	echo Edits on $class_name\: $path
+	grep -F "FJR:" $path
+	echo
 done
 
-
+popd

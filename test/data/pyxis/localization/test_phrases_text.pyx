@@ -1,7 +1,7 @@
 pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
-# class TEST_PHRASES_TEXT
+# class TEST_PHRASES_TEXT 
 # Testing ISO-8859-1 encoding in EL_MERGED_PYXIS_LINE_LIST
 
 translations:

@@ -23,7 +23,7 @@ inherit
 		end
 
 create
-	make
+	make, make_shared, make_empty, make_from_c
 
 feature -- Initialization
 
@@ -37,6 +37,12 @@ feature -- Initialization
 			room_for_null: count = str.count + 1
 			null_terminated: item (count) = '%U'
 			same_string: str.to_string ~ to_string
+		end
+
+	make_from_c (ptr: POINTER)
+		-- make shared  from null terminated C string
+		do
+			make_shared (ptr, c_string_8_length (ptr))
 		end
 
 feature -- Duplication
