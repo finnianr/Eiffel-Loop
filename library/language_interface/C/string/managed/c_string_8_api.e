@@ -34,7 +34,7 @@ feature {NONE} -- C Externals
 		external
 			"C inline"
 		alias
-			"return ((EIF_INTEGER_32 *)strlen ($a_area));"
+			"return (EIF_INTEGER_32)strlen ((const char *)$a_area);"
 		end
 
 	frozen c_memory_compare (p1, p2: POINTER; n: INTEGER): BOOLEAN

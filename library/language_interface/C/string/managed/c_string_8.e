@@ -196,6 +196,19 @@ feature -- Measurement
 
 feature -- Status report
 
+	has_substring_at (other: STRING_8; index: INTEGER): BOOLEAN
+		-- `True' if characters of `other' occur at `index'
+		require
+			valid_index: valid_index (index)
+		local
+			other_count: INTEGER
+		do
+			other_count := other.count
+			if valid_index (index) and then valid_index (index + other_count - 1) then
+				Result := c_memory_compare (area + (index - 1), other.area.base_address, other_count)
+			end
+		end
+
 	same_characters (other: SPECIAL [CHARACTER_8]; offset: INTEGER): BOOLEAN
 		-- `True' if characters in `other' from `offset' match those in `Current'
 		local
