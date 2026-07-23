@@ -105,16 +105,6 @@ feature -- Comparison
 
 feature -- Access
 
-	item alias "[]" (i: INTEGER): CHARACTER_8
-		-- Character at position `i'.
-		require
-			valid_index: valid_index (i)
-		do
-			Result := c_read_character_8 (area, i - 1)
-		end
-
-feature -- Access
-
 	crc_32: NATURAL
 		-- CRC-32/ISO-HDLC
 		do
@@ -133,6 +123,14 @@ feature -- Access
 				value := a_value.to_natural_32
 			end
 			Result := c_crc_32 (value, area, count)
+		end
+
+	item alias "[]" (i: INTEGER): CHARACTER_8
+		-- Character at position `i'.
+		require
+			valid_index: valid_index (i)
+		do
+			Result := c_read_character_8 (area, i - 1)
 		end
 
 feature -- Measurement
@@ -195,6 +193,22 @@ feature -- Measurement
 		end
 
 feature -- Status report
+
+	is_whitespace: BOOLEAN
+		-- `True' if entire string is whitespace
+		local
+			i, l_count: INTEGER; l_area: POINTER
+		do
+			l_area := area; l_count := count
+			Result := True
+			from i := 0 until i = l_count or not Result loop
+				if c_read_character_8 (l_area, i).is_space then
+					i := i + 1
+				else
+					Result := False
+				end
+			end
+		end
 
 	has_substring_at (other: STRING_8; index: INTEGER): BOOLEAN
 		-- `True' if characters of `other' occur at `index'

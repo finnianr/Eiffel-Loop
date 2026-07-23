@@ -51,8 +51,8 @@ feature -- Element change
 			c_i, code: CHARACTER; i: INTEGER
 		do
 			Precursor (area, lower, upper)
-			put_digest_trace
 			if upper >= lower then
+				put_digest_trace
 				from i := lower until i > upper loop
 					c_i := area [i]
 					inspect c_i
