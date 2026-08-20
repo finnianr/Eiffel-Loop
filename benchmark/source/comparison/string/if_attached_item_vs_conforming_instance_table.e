@@ -55,8 +55,8 @@ feature -- Basic operations
 			create mixed_string_list.make (100)
 			-- even
 			across Text.words as list loop
-				if attached list.item as word_32 then
-					inspect list.cursor_index \\ 3
+				if attached list as word_32 then
+					inspect @ list.cursor_index \\ 3
 						when 0 then
 							if word_32.is_valid_as_string_8 then
 								word := word_32.to_string_8
@@ -90,7 +90,7 @@ feature {NONE} -- Target routines
 			super: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			across mixed_string_list as list loop
-				super := Extended_string_type_map.extended_string (list.item)
+				super := Extended_string_type_map.extended_string (list)
 			end
 		end
 
@@ -99,7 +99,7 @@ feature {NONE} -- Target routines
 			super: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]; sc: EL_STRING_GENERAL_ROUTINES
 		do
 			across mixed_string_list as list loop
-				super := sc.super_readable_general (list.item)
+				super := sc.super_readable_general (list)
 			end
 		end
 
@@ -108,7 +108,7 @@ feature {NONE} -- Target routines
 			super: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			across mixed_string_list as list loop
-				super := super_readable_elseif (list.item)
+				super := super_readable_elseif (list)
 			end
 		end
 
@@ -117,7 +117,7 @@ feature {NONE} -- Target routines
 			super: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			across mixed_string_list as list loop
-				super := super_readable_sorter_class (list.item)
+				super := super_readable_sorter_class (list)
 			end
 		end
 
@@ -126,7 +126,7 @@ feature {NONE} -- Target routines
 			super: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			across mixed_string_list as list loop
-				super := super_readable_tuple_assign (list.item)
+				super := super_readable_tuple_assign (list)
 			end
 		end
 
@@ -191,7 +191,7 @@ feature {NONE} -- Implementation
 			super: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			across mixed_string_list as list loop
-				super := String_cursor.shared (list.item)
+				super := String_cursor.shared (list)
 			end
 		end
 

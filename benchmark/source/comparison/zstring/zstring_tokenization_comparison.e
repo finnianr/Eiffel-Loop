@@ -31,7 +31,7 @@ feature -- Basic operations
 		do
 			create paragraph_list.make (64)
 			across Hexagram.String_arrays as array loop
-				create part_list.make_from_general (array.item)
+				create part_list.make_from_general (array)
 				paragraph_list.extend (part_list.joined (' '))
 			end
 

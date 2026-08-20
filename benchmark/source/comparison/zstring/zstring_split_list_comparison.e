@@ -56,7 +56,7 @@ feature {NONE} -- Operations
 			list: EL_ZSTRING_LIST
 		do
 			across string_list as str loop
-				create list.make_split (str.item, ' ')
+				create list.make_split (str, ' ')
 			end
 		end
 
@@ -65,7 +65,7 @@ feature {NONE} -- Operations
 			list: EL_ZSTRING_LIST
 		do
 			across string_list as str loop
-				list := str.item.split_list (' ')
+				list := str.split_list (' ')
 			end
 		end
 

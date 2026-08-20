@@ -61,7 +61,7 @@ feature {NONE} -- el_os_routines_i
 		do
 			create comma_split.make (csv_values, ',')
 			across comma_split as value loop
-				sum := sum + value.item.to_double
+				sum := sum + value.to_double
 			end
 		end
 
@@ -70,7 +70,7 @@ feature {NONE} -- el_os_routines_i
 			sum: DOUBLE
 		do
 			across csv_values.split (',') as value loop
-				sum := sum + value.item.to_double
+				sum := sum + value.to_double
 			end
 		end
 

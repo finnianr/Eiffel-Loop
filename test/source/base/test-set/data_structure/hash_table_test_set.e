@@ -74,7 +74,6 @@ feature -- General tests
 			]"
 		local
 			table: EL_CODE_TEXT_TABLE; unknown: ZSTRING
-			compressed_table: EL_COMPRESSED_CODE_TEXT_TABLE
 		do
 			unknown := "Unknown"
 			create table.make_with_default (unknown, Zlib_code_table)
@@ -124,7 +123,6 @@ feature -- General tests
 			]"
 		local
 			word_table: EL_HASH_TABLE [STRING, STRING]; word_list: EL_ARRAYED_LIST [STRING]
-			word_count: INTEGER
 		do
 			create word_table.make_equal (500)
 
@@ -358,7 +356,6 @@ feature -- General tests
 	test_string_general_table
 		-- HASH_TABLE_TEST_SET.test_string_general_table
 		local
-			key_list, search_key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
 			table: EL_STRING_GENERAL_TABLE [INTEGER]
 		do
 			create table.make (3)
@@ -578,7 +575,7 @@ feature -- Immutable string table tests
 		local
 			table_utf_8, currency_table_utf_8_reversed, currency_table_utf_8: EL_IMMUTABLE_UTF_8_TABLE
 			zstring_table: EL_ZSTRING_TABLE; currency_table: EL_IMMUTABLE_STRING_32_TABLE
-			euro_symbol, line: ZSTRING; euro_name: STRING
+			euro_symbol: ZSTRING; euro_name: STRING
 			key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
 		do
 			create table_utf_8.make ({EL_TABLE_FORMAT}.Indented_eiffel, Currency_manifest)

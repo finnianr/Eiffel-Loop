@@ -5,7 +5,7 @@ pyxis-doc:
 # readable supplement/substitute for XML configuration files.
 
 system:
-	configuration_ns = "1-16-0"; name = el_benchmark; uuid = "2F16B114-67AF-11EB-94F8-A7BEE388CA6C"
+	configuration_ns = "1-23-0"; name = el_benchmark; uuid = "2F16B114-67AF-11EB-94F8-A7BEE388CA6C"
 	description:
 		"""
 			Eiffel-Loop Code Performance Benchmarks
@@ -23,15 +23,20 @@ system:
 			copyright = "Finnian Reilly"
 
 		option:
-			syntax = standard; full_class_checking = false; void_safety = none
+			syntax = standard; full_class_checking = false
 			assertions:
 				precondition = true; postcondition = true; check = true
+		capability:
+			concurrency:
+				support = thread; use = thread
+			void_safety:
+				support = none
 
 		settings:
 			address_expression = false; array_optimization = false
 			check_vape = true; console_application = true
-			concurrency = thread; check_for_void_target = false
-			dead_code_removal = true; dynamic_runtime = false
+			check_for_void_target = false
+			dead_code_removal = all; dynamic_runtime = false
 			exception_trace = true
 			inlining = true; inlining_size = 15
 			line_generation = false

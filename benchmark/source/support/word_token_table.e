@@ -30,7 +30,7 @@ feature -- Conversion
 			Result := Once_token_list; Result.wipe_out
 			create word.make (12)
 			across paragraph_list as paragraph loop
-				str := paragraph.item
+				str := paragraph
 				if str.has_alpha_numeric then
 					if Result.count > 0 then
 						Result.extend (New_line_token)

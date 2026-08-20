@@ -115,9 +115,9 @@ feature {NONE} -- Constants
 			create Result.make (100)
 			across Hexagram.Name_list as chinese loop
 				Result.append_character (' ')
-				Result.append (chinese.item.pinyin)
+				Result.append (chinese.pinyin)
 				Result.append_character (' ')
-				Result.append (chinese.item.hanzi)
+				Result.append (chinese.hanzi)
 			end
 		end
 

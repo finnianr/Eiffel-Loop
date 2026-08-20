@@ -20,6 +20,11 @@ inherit
 
 feature {NONE} -- Implementation
 
+	compile: TUPLE [C_NULLED_STRING_8_NAME_CACHE_TEST_SET, NOTE_CONSTANTS]
+		do
+			create Result
+		end
+
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<

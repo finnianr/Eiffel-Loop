@@ -45,7 +45,7 @@ feature {NONE} -- append
 		do
 			create str.make (string_list.character_count)
 			across string_list as list loop
-				str.append (list.item)
+				str.append (list)
 			end
 		end
 
@@ -55,7 +55,7 @@ feature {NONE} -- append
 		do
 			create str.make (string_list.character_count)
 			across string_list as list loop
-				str.append_string_general (list.item)
+				str.append_string_general (list)
 			end
 		end
 

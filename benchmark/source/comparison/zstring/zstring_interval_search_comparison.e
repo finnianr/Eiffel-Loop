@@ -53,9 +53,9 @@ feature {NONE} -- Substring Index lists
 			end_string: ZSTRING; lower, upper: INTEGER
 		do
 			across lines as line loop
-				end_string := pattern_list [line.cursor_index]
-				across line.item.substring_index_list (end_string, False) as list loop
-					lower := list.item; upper := lower + end_string.count - 1
+				end_string := pattern_list [@ line.cursor_index]
+				across line.substring_index_list (end_string, False) as list loop
+					lower := list; upper := lower + end_string.count - 1
 				end
 			end
 		end
@@ -65,9 +65,9 @@ feature {NONE} -- Substring Index lists
 			end_string: READABLE_STRING_GENERAL; lower, upper: INTEGER
 		do
 			across lines as line loop
-				end_string := pattern_list [line.cursor_index]
-				across line.item.substring_index_list_general (end_string, False) as list loop
-					lower := list.item; upper := lower + end_string.count - 1
+				end_string := pattern_list [@ line.cursor_index]
+				across line.substring_index_list_general (end_string, False) as list loop
+					lower := list; upper := lower + end_string.count - 1
 				end
 			end
 		end
@@ -77,9 +77,9 @@ feature {NONE} -- Substring Index lists
 			end_string: READABLE_STRING_GENERAL; lower, upper: INTEGER
 		do
 			across lines as line loop
-				end_string := pattern_list [line.cursor_index]
-				across line.item.substring_intervals (end_string, False) as list loop
-					lower := list.item_lower; upper := list.item_upper
+				end_string := pattern_list [@ line.cursor_index]
+				across line.substring_intervals (end_string, False) as list loop
+					lower := @ list.item_lower; upper := @ list.item_upper
 				end
 			end
 		end
@@ -95,12 +95,12 @@ feature {NONE} -- Implementation
 				if use_space then
 					create {STRING_8} end_string.make_filled (' ', 1)
 				else
-					end_string := line.item.substring_to_reversed (' ').db
+					end_string := line.substring_to_reversed (' ').db
 				end
 				Result.extend (end_string)
 			end
 		end
-		
+
 	new_zstring_list (lines: EL_ZSTRING_LIST; use_space: BOOLEAN): EL_ZSTRING_LIST
 		local
 			end_string: ZSTRING
@@ -110,7 +110,7 @@ feature {NONE} -- Implementation
 				if use_space then
 					create end_string.make_filled (' ', 1)
 				else
-					end_string := line.item.substring_to_reversed (' ')
+					end_string := line.substring_to_reversed (' ')
 				end
 				Result.extend (end_string)
 			end

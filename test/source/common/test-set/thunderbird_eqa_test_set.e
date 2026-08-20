@@ -129,8 +129,6 @@ feature {NONE} -- Factory
 		end
 
 	new_metadata_name (name: STRING): STRING
-		local
-			XML: XML_ROUTINES
 		do
 			if name.ends_with ("-date") then
 				Result :=  super_8 (name).substring_to_reversed ('-')

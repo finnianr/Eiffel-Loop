@@ -59,12 +59,12 @@ feature {NONE} -- Implementation
 					when 1 then
 						create dir
 						across dir_step_list as list loop
-							dir := dir.plus_dir (list.item)
+							dir := dir.plus_dir (list)
 						end
 					when 2 then
 						create dir
 						across dir_step_list as list loop
-							dir := dir.plus_dir_path (list.item.as_string_32)
+							dir := dir.plus_dir_path (list.as_string_32)
 						end
 				end
 			end

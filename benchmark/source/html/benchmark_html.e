@@ -63,7 +63,7 @@ feature {NONE} -- Implemenation
 			path: FILE_PATH
 		do
 			path := a_path
-			Result := across words as word all path.base.has_substring (word.item) end
+			Result := across words as word all path.base.has_substring (word) end
 		end
 
 	data_rows: EL_ZSTRING_LIST
@@ -75,8 +75,8 @@ feature {NONE} -- Implemenation
 			create html_row.make (100)
 			across Hexagram.string_arrays as array loop
 				html_row.wipe_out
-				across array.item as l_string loop
-					create data_string.make_from_general (l_string.item)
+				across array as l_string loop
+					create data_string.make_from_general (l_string)
 					html_row.append (Html.table_data (data_string))
 				end
 				Result.extend (html_row.twin)
@@ -90,9 +90,9 @@ feature {NONE} -- Implemenation
 			create Result.make_equal (11)
 			has_string_or_benchmark := Filter.predicate (agent base_name_has_words (?, << "string", "benchmark" >>))
 			across OS.filtered_file_list ("source/benchmark", has_string_or_benchmark, "*.e") as path loop
-				name := path.item.base.as_upper
+				name := path.base.as_upper
 				name.remove_tail (2)
-				Result [name] := path.item.with_new_extension ("html")
+				Result [name] := path.with_new_extension ("html")
 			end
 		end
 

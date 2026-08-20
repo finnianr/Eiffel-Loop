@@ -207,7 +207,7 @@ feature -- Removal tests
 			testing: "covers/{ZSTRING}.remove_substring"
 		local
 			test: STRING_TEST; substring: STRING_32
-			l_interval: INTEGER_INTERVAL; i, lower, upper, offset: INTEGER
+			l_interval: INTEGER_INTERVAL; offset: INTEGER
 		do
 			create test.make_empty (Current)
 			across Text.word_intervals as interval loop
@@ -240,7 +240,7 @@ feature -- Element change tests
 		note
 			testing:	"covers/{ZSTRING}.insert_character"
 		local
-			str_32: STRING_32; word: ZSTRING; uc_1, uc_2: CHARACTER_32
+			word: ZSTRING; uc_1, uc_2: CHARACTER_32
 		do
 			across Text.words_32 as word_32 loop
 				if word_32.count > 1 then
@@ -428,7 +428,7 @@ feature -- Status query tests
 			testing: "covers/{EL_READABLE_ZSTRING}.has_between"
 		local
 			word_intervals: EL_SPLIT_INTERVALS; line: ZSTRING
-			i, start_index, lower, upper: INTEGER; uc: CHARACTER_32
+			start_index, lower, upper: INTEGER; uc: CHARACTER_32
 		do
 			across Text.lines_32 as line_32 loop
 				line := line_32
@@ -494,7 +494,7 @@ feature -- Status query tests
 		note
 			testing: "covers/{ZSTRING}.is_canonically_spaced"
 		local
-			str, line: ZSTRING; space_index: INTEGER
+			line: ZSTRING; space_index: INTEGER
 			canonically_spaced: STRING
 		do
 			canonically_spaced := "canonically spaced"
@@ -518,7 +518,6 @@ feature -- Status query tests
 			testing: "covers/{EL_READABLE_ZSTRING}.order_comparison"
 		local
 			list_32: EL_STRING_32_LIST; list: EL_ZSTRING_LIST
-			left_32, right_32: STRING_32; left, right: ZSTRING
 		do
 			list_32 := Text.words_32
 			create list.make_from_general (Text.words_32)
@@ -651,7 +650,7 @@ feature -- Access tests
 		note
 			testing:	"covers/{ZSTRING}.index_of"
 		local
-			test: STRING_TEST; index, index_32, i: INTEGER
+			test: STRING_TEST; i: INTEGER
 		do
 			create test.make_empty (Current)
 			across Text.lines_32 as line loop
@@ -669,7 +668,7 @@ feature -- Access tests
 		note
 			testing:	"covers/{ZSTRING}.last_index_of"
 		local
-			test: STRING_TEST; index, index_32, i: INTEGER
+			test: STRING_TEST; index_32, i: INTEGER
 		do
 			create test.make_empty (Current)
 			across Text.lines_32 as line loop
@@ -853,7 +852,7 @@ feature -- Duplication tests
 			]"
 		local
 			test: STRING_TEST; start_index, end_index: INTEGER
-			assertion_ok: STRING; str, padded_middle_word: ZSTRING; str_list: EL_ZSTRING_LIST
+			assertion_ok: STRING; padded_middle_word: ZSTRING; str_list: EL_ZSTRING_LIST
 		do
 			assertion_ok := "substring OK"
 			across Text.lines_32 as line_32 loop

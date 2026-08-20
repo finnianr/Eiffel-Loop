@@ -51,28 +51,28 @@ feature {NONE} -- Initialization
 				string_list_required := True
 				if routine_name ~ "append_utf_8" then
 					across l_string_list as list loop
-						utf_8_string_list.extend (conv.string_32_to_utf_8_string_8 (list.item.to_string_32))
+						utf_8_string_list.extend (conv.string_32_to_utf_8_string_8 (list.to_string_32))
 					end
 					string_list_required := False
 
 				elseif routine_name ~ "is_equal" then
 					across l_string_list as list loop
-						string_list_twin.extend (list.item.twin)
+						string_list_twin.extend (list.twin)
 					end
 
 				elseif routine_name ~ "replace_character" then
 					across l_string_list as list loop
-						character_set_list.extend (new_character_set (list.item))
+						character_set_list.extend (new_character_set (list))
 					end
 
 				elseif Search_string_tests.has (routine_name) then
 					across l_string_list as list loop
-						search_string_list.extend (new_search_strings (list.item))
+						search_string_list.extend (new_search_strings (list))
 					end
 
 				elseif Substring_tests.has (routine_name) then
 					across l_string_list as list loop
-						substring_list.extend (new_substrings (list.item))
+						substring_list.extend (new_substrings (list))
 						if routine_name ~ "translate" and then attached substring_list.last as last then
 							substitution_list.extend (new_substitution (last))
 						end
@@ -80,19 +80,19 @@ feature {NONE} -- Initialization
 
 				elseif Character_pair_tests.has (routine_name) then
 					across l_string_list as list loop
-						if attached list.item as str then
+						if attached list as str then
 							character_pair_list.extend ([str [1], str [str.count]])
 						end
 					end
 				end
 				if routine_name.starts_with ("ends") then
 					across l_string_list as list loop
-						tail_words_list.extend (new_tail_words (list.item))
+						tail_words_list.extend (new_tail_words (list))
 					end
 				end
 				if routine_name.starts_with ("starts") then
 					across l_string_list as list loop
-						head_words_list.extend (new_head_words (list.item))
+						head_words_list.extend (new_head_words (list))
 					end
 				end
 				if string_list_required then
@@ -204,9 +204,9 @@ feature {NONE} -- Factory
 		do
 			create Result.make (64)
 			across Hexagram.string_arrays as array loop
-				create parts_32.make (array.item.count)
-				from i := 1 until i > array.item.upper loop
-					parts_32.extend (new_filled (array.item [i]))
+				create parts_32.make (array.count)
+				from i := 1 until i > array.upper loop
+					parts_32.extend (new_filled (array [i]))
 					i := i + 1
 				end
 				Result.extend (parts_32.to_array)
@@ -230,11 +230,11 @@ feature {NONE} -- Factory
 			create l_array.make (4)
 			if a_format.has ('$') then
 				across a_format.split (' ') as str loop
-					l_array.extend (str.item [str.item.count])
+					l_array.extend (str [str.count])
 				end
 			else
 				across a_format.split (',') as str loop
-					l_array.extend (str.item [1])
+					l_array.extend (str [1])
 				end
 			end
 			create Result.make (1, l_array.count)
@@ -296,7 +296,7 @@ feature {NONE} -- Factory
 			across Hexagram.string_arrays as array loop
 				create parts_32.make (format_columns.count)
 				from i := 1 until i > format_columns.upper loop
-					parts_32.extend (new_filled (array.item [format_columns [i]]))
+					parts_32.extend (new_filled (array [format_columns [i]]))
 					i := i + 1
 				end
 				Result.extend (parts_32.as_word_string)
@@ -345,10 +345,10 @@ feature {NONE} -- Implementation
 			i: INTEGER
 		do
 			across string_list as string loop
-				routine.translate_general (string.item, " ", "\")
-				from i := string.item.index_of (Pinyin_u, 1) until i = 0 loop
-					routine.insert_character (string.item, Back_slash, i)
-					i := string.item.index_of (Pinyin_u, i + 2)
+				routine.translate_general (string, " ", "\")
+				from i := string.index_of (Pinyin_u, 1) until i = 0 loop
+					routine.insert_character (string, Back_slash, i)
+					i := string.index_of (Pinyin_u, i + 2)
 				end
 			end
 		end
@@ -357,9 +357,9 @@ feature {NONE} -- Implementation
 		do
 			across string_list as string loop
 				if across "BC" as letter some format_args.has (letter.item) end then
-					string.item.prepend (Ogham_padding); string.item.append (Ogham_padding)
+					string.prepend (Ogham_padding); string.append (Ogham_padding)
 				else
-					string.item.prepend (Space_padding); string.item.append (Space_padding)
+					string.prepend (Space_padding); string.append (Space_padding)
 				end
 			end
 		end
@@ -367,7 +367,7 @@ feature {NONE} -- Implementation
 	put_ampersands_input_strings
 		do
 			across string_list as string loop
-				routine.replace_character (string.item, ' ', '&')
+				routine.replace_character (string, ' ', '&')
 			end
 		end
 

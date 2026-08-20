@@ -124,9 +124,9 @@ feature {NONE} -- Concatenation
 					routine.wipe_out (str)
 					across test.format_columns as n loop
 						if appending then
-							routine.append (str, array.item [n.item])
+							routine.append (str, array [n.item])
 						else
-							routine.prepend (str, array.item [n.item])
+							routine.prepend (str, array [n.item])
 						end
 					end
 				end
@@ -147,9 +147,9 @@ feature {NONE} -- Concatenation
 					routine.wipe_out (str)
 					across test.format_columns as n loop
 						if appending then
-							routine.append_general (str, array.item [n.item])
+							routine.append_general (str, array [n.item])
 						else
-							routine.prepend_general (str, array.item [n.item])
+							routine.prepend_general (str, array [n.item])
 						end
 					end
 				end
@@ -167,7 +167,7 @@ feature {NONE} -- Concatenation
 			across test.utf_8_string_list as utf_8 loop
 				list_has_items := True
 				test.routine.wipe_out (str)
-				test.routine.append_utf_8 (str, utf_8.item)
+				test.routine.append_utf_8 (str, utf_8)
 			end
 			valid_test := list_has_items
 		end
@@ -182,8 +182,8 @@ feature {NONE} -- Mutation tests
 		do
 			across test.string_list as string loop
 				list_has_items := True
-				i := string.cursor_index
-				if attached string.item.twin as str then
+				i := @ string.cursor_index
+				if attached string.twin as str then
 					test.routine.insert_string (str, test.substring_list [i].last_word, str.count // 2)
 				end
 			end
@@ -196,7 +196,7 @@ feature {NONE} -- Mutation tests
 		do
 			across test.string_list as string loop
 				list_has_items := True
-				if attached string.item.twin as str then
+				if attached string.twin as str then
 					if left then
 						str.left_adjust
 					else
@@ -215,8 +215,8 @@ feature {NONE} -- Mutation tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				if attached list.item.twin as str then
-					test.routine.prune_all (str, test.character_pair_list [list.cursor_index].last_character)
+				if attached list.twin as str then
+					test.routine.prune_all (str, test.character_pair_list [@ list.cursor_index].last_character)
 					test.routine.prune_all (str, ' ')
 				end
 			end
@@ -231,8 +231,8 @@ feature {NONE} -- Mutation tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				str := list.item.twin
-				if attached test.character_set_list [list.cursor_index] as character_set then
+				str := list.twin
+				if attached test.character_set_list [@ list.cursor_index] as character_set then
 					across character_set as set loop
 						test.routine.replace_character (str, set.item, ' ')
 					end
@@ -247,7 +247,7 @@ feature {NONE} -- Mutation tests
 		do
 			across test.string_list as string loop
 				list_has_items := True
-				str := string.item.twin
+				str := string.twin
 				test.routine.remove_substring (str, str.count // 3, str.count * 2 // 3)
 			end
 			valid_test := list_has_items
@@ -261,11 +261,11 @@ feature {NONE} -- Mutation tests
 		do
 			across test.string_list as string loop
 				list_has_items := True
-				str := string.item.twin
+				str := string.twin
 				start_index := str.count // 2 - 1
 				end_index:= str.count // 2 + 1
 				test.routine.replace_substring (
-					str, test.substring_list [string.cursor_index].last_word, start_index, end_index
+					str, test.substring_list [@ string.cursor_index].last_word, start_index, end_index
 				)
 			end
 			valid_test := list_has_items
@@ -279,8 +279,8 @@ feature {NONE} -- Mutation tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				if attached test.substring_list [list.cursor_index] as substring then
-					test.routine.replace_substring_all (list.item.twin, substring.middle_word, substring.last_word)
+				if attached test.substring_list [@ list.cursor_index] as substring then
+					test.routine.replace_substring_all (list.twin, substring.middle_word, substring.last_word)
 				end
 			end
 			valid_test := list_has_items
@@ -292,7 +292,7 @@ feature {NONE} -- Mutation tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				if attached list.item.twin as str then
+				if attached list.twin as str then
 					if as_lower then
 						test.routine.to_lower (str)
 					else
@@ -313,9 +313,9 @@ feature {NONE} -- Mutation tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				old_characters := test.substitution_list [list.cursor_index].old_characters
-				new_characters := test.substitution_list [list.cursor_index].new_characters
-				if attached list.item.twin as str then
+				old_characters := test.substitution_list [@ list.cursor_index].old_characters
+				new_characters := test.substitution_list [@ list.cursor_index].new_characters
+				if attached list.twin as str then
 					test.routine.translate (str, old_characters, new_characters)
 				end
 			end
@@ -330,7 +330,7 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				if attached list.item.as_string_8 as str_8 then
+				if attached list.as_string_8 as str_8 then
 					do_nothing
 				end
 			end
@@ -343,7 +343,7 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				if attached list.item.as_string_32 then
+				if attached list.as_string_32 then
 					do_nothing
 				end
 			end
@@ -356,7 +356,7 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				str := list.item
+				str := list
 				from i := 1 until i > str.count loop
 					if str.code (i) = 0 then
 						do_nothing
@@ -376,13 +376,13 @@ feature {NONE} -- Query tests
 			if attached test.routine as routine then
 				across test.string_list as list loop
 					list_has_items := True
-					if attached test.tail_words_list [list.cursor_index] as tail_words then
+					if attached test.tail_words_list [@ list.cursor_index] as tail_words then
 						if general then
-							if routine.ends_with_general (list.item, tail_words.last_two_32) then
+							if routine.ends_with_general (list, tail_words.last_two_32) then
 								do_nothing
 							end
 						else
-							if routine.ends_with (list.item, tail_words.last_two) then
+							if routine.ends_with (list, tail_words.last_two) then
 								do_nothing
 							end
 						end
@@ -400,8 +400,8 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as str loop
 				list_has_items := True
-				uc := test.character_pair_list [str.cursor_index].last_character
-				if str.item.index_of (uc, 1) = 0 then
+				uc := test.character_pair_list [@ str.cursor_index].last_character
+				if str.index_of (uc, 1) = 0 then
 					do_nothing
 				end
 			end
@@ -414,7 +414,7 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				str := list.item
+				str := list
 				from i := 1 until i > str.count loop
 					call (str [i])
 					i := i + 1
@@ -431,7 +431,7 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as str loop
 				list_has_items := True
-				if str.item.is_equal (test.string_list_twin [str.cursor_index]) then
+				if str.is_equal (test.string_list_twin [@ str.cursor_index]) then
 					do_nothing
 				end
 			end
@@ -446,8 +446,8 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				str := list.item
-				uc := test.character_pair_list [list.cursor_index].first_character
+				str := list
+				uc := test.character_pair_list [@ list.cursor_index].first_character
 				call (str.last_index_of (uc, str.count))
 			end
 			valid_test := list_has_items
@@ -460,7 +460,7 @@ feature {NONE} -- Query tests
 			create sortable.make (test.string_list.count)
 			across test.string_list as list loop
 				list_has_items := True
-				sortable.extend (list.item)
+				sortable.extend (list)
 			end
 			sortable.ascending_sort
 			valid_test := list_has_items
@@ -472,7 +472,7 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				first := list.item
+				first := list
 				call (first.split (' '))
 			end
 			valid_test := list_has_items
@@ -486,13 +486,13 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				if attached test.head_words_list [list.cursor_index] as head_words then
+				if attached test.head_words_list [@ list.cursor_index] as head_words then
 					if general then
-						if list.item.starts_with (head_words.first_two_32) then
+						if list.starts_with (head_words.first_two_32) then
 							do_nothing
 						end
 					else
-						if list.item.starts_with (head_words.first_two) then
+						if list.starts_with (head_words.first_two) then
 							do_nothing
 						end
 					end
@@ -509,9 +509,9 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				if attached test.search_string_list [list.cursor_index] as search_list then
+				if attached test.search_string_list [@ list.cursor_index] as search_list then
 					across search_list as search loop
-						call (list.item.substring_index (search.item, 1))
+						call (list.substring_index (search, 1))
 					end
 				end
 			end
@@ -524,7 +524,7 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				call (test.routine.to_latin_1 (list.item))
+				call (test.routine.to_latin_1 (list))
 			end
 			valid_test := list_has_items
 		end
@@ -535,7 +535,7 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				call (test.routine.to_utf_8 (list.item))
+				call (test.routine.to_utf_8 (list))
 			end
 			valid_test := list_has_items
 		end
@@ -546,7 +546,7 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				str := test.unescaped (list.item)
+				str := test.unescaped (list)
 			end
 			valid_test := list_has_items
 		end
@@ -557,7 +557,7 @@ feature {NONE} -- Query tests
 		do
 			across test.string_list as list loop
 				list_has_items := True
-				if attached test.routine.xml_escaped (list.item.twin) as str then
+				if attached test.routine.xml_escaped (list.twin) as str then
 					do_nothing
 				end
 			end

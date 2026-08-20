@@ -38,7 +38,7 @@ feature {NONE} -- Constants
 		once
 			Result := << names.i_th_combined (1), names.i_th_combined (2) >>
 			across Result as list loop
-				list.item.keep_tail (3)
+				list.keep_tail (3)
 			end
 		end
 

@@ -34,10 +34,10 @@ feature -- Basic operations
 			create str.make_empty
 			create characters.make (100); create codes.make (100)
 			across Hexagram.Name_list as list loop
-				across << list.item.pinyin, list.item.hanzi >> as name loop
-					across name.item as c loop
-						characters.extend (c.item)
-						codes.extend (Codec.as_z_code (c.item))
+				across << list.pinyin, list.hanzi >> as name loop
+					across name as c loop
+						characters.extend (c)
+						codes.extend (Codec.as_z_code (c))
 					end
 				end
 			end

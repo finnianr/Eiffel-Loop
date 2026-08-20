@@ -58,8 +58,8 @@ feature {NONE} -- String append variations
 			n: INTEGER
 		do
 			across string_list as list loop
-				if integer_32_converter.is_convertible (list.item) then
-					n := integer_32_converter.as_type (list.item)
+				if integer_32_converter.is_convertible (list) then
+					n := integer_32_converter.as_type (list)
 				end
 			end
 		end
@@ -69,8 +69,8 @@ feature {NONE} -- String append variations
 			n: INTEGER
 		do
 			across string_list as list loop
-				if list.item.is_integer then
-					n := list.item.to_integer
+				if list.is_integer then
+					n := list.to_integer
 				end
 			end
 		end

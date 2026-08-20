@@ -124,7 +124,7 @@ feature -- Tests
 			]"
 		local
 			test: STRING_TEST; assertion_OK: STRING
-			index, start_index, end_index: INTEGER
+			start_index, end_index: INTEGER
 		do
 			across Text.lines_32 as line loop
 				test := new_test (line)

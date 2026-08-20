@@ -12,11 +12,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2026-06-29 15:50:02 GMT (Monday 29th June 2026)"
-	revision: "5"
+	date: "2026-07-30 07:48:00 GMT (Thursday 30th July 2026)"
+	revision: "6"
 
 class
-	C_STRING_8
+	EL_MANAGED_C_STRING_8
 
 inherit
 	MANAGED_POINTER
@@ -24,17 +24,12 @@ inherit
 			item as area,
 			share_from_pointer as make_shared
 		export
-			{NONE} all
-			{STRING_HANDLER} make_shared
-			{C_STRING_8} area
+			{EL_MANAGED_C_STRING_8} area
 			{ANY} count
+			{STRING_HANDLER} make_shared
+			{NONE} all
 		undefine
 			is_equal
-		end
-
-	COMPARABLE
-		undefine
-			copy
 		end
 
 	STRING_HANDLER
@@ -42,17 +37,17 @@ inherit
 			copy, is_equal
 		end
 
+	EL_STRING_H_C_API
+		undefine
+			copy, is_equal
+		end
+
+	COMPARABLE
+		undefine
+			copy
+		end
+
 	DEBUG_OUTPUT
-		undefine
-			copy, is_equal
-		end
-
-	C_STRING_8_API
-		undefine
-			copy, is_equal
-		end
-
-	EL_ZLIB_CRC_32_API
 		undefine
 			copy, is_equal
 		end
@@ -105,32 +100,12 @@ feature -- Comparison
 
 feature -- Access
 
-	crc_32: NATURAL
-		-- CRC-32/ISO-HDLC
-		do
-			Result := crc_32_continue (CRC_initial)
-		end
-
-	crc_32_continue (a_value: NATURAL_64): NATURAL
-		-- continue adding to a previously calculated CRC-32/ISO-HDLC `a_value'
-		local
-			value: NATURAL
-		do
-			inspect a_value
-				when CRC_initial then
-					value := c_crc_32_seed
-			else
-				value := a_value.to_natural_32
-			end
-			Result := c_crc_32 (value, area, count)
-		end
-
 	item alias "[]" (i: INTEGER): CHARACTER_8
 		-- Character at position `i'.
 		require
 			valid_index: valid_index (i)
 		do
-			Result := c_read_character_8 (area, i - 1)
+			Result := read_character_8 (area, i - 1)
 		end
 
 feature -- Measurement
@@ -146,7 +121,7 @@ feature -- Measurement
 		do
 			l_area := area; l_count := count
 			if start_index <= l_count then
-				from i := start_index - 1 until i = l_count or else c_read_character_8 (l_area, i) = c loop
+				from i := start_index - 1 until i = l_count or else read_character_8 (l_area, i) = c loop
 					i := i + 1
 				end
 				if i < l_count then
@@ -167,7 +142,7 @@ feature -- Measurement
 			l_count := count.min (other.count - offset)
 			l_area := area
 			from i := 0; until i = l_count loop
-				if c_read_character_8 (l_area, i) = other [offset + i] then
+				if read_character_8 (l_area, i) = other [offset + i] then
 					Result := Result + 1
 					i := i + 1
 				else
@@ -183,7 +158,7 @@ feature -- Measurement
 		do
 			l_area := area; l_count := count
 			from i := 0 until i = l_count loop
-				if c_read_character_8 (l_area, i) = c then
+				if read_character_8 (l_area, i) = c then
 					Result := Result + 1
 				end
 				i := i + 1
@@ -202,7 +177,7 @@ feature -- Status report
 			l_area := area; l_count := count
 			Result := True
 			from i := 0 until i = l_count or not Result loop
-				if c_read_character_8 (l_area, i).is_space then
+				if read_character_8 (l_area, i).is_space then
 					i := i + 1
 				else
 					Result := False
@@ -223,6 +198,21 @@ feature -- Status report
 			end
 		end
 
+	has_upper: BOOLEAN
+		-- `True' if string has uppercase character
+		local
+			i, l_count: INTEGER; l_area: POINTER
+		do
+			l_area := area; l_count := count
+			from i := 0 until i = l_count or Result loop
+				if read_character_8 (l_area, i).is_upper then
+					Result := True
+				else
+					i := i + 1
+				end
+			end
+		end
+
 	same_characters (other: SPECIAL [CHARACTER_8]; offset: INTEGER): BOOLEAN
 		-- `True' if characters in `other' from `offset' match those in `Current'
 		local
@@ -234,7 +224,7 @@ feature -- Status report
 			end
 		end
 
-	starts_with (other: C_STRING_8): BOOLEAN
+	starts_with (other: EL_MANAGED_C_STRING_8): BOOLEAN
 		-- Does `area' start with the same bytes as `other.area'?
 		do
 			if other.count <= count then
@@ -275,6 +265,18 @@ feature -- Basic operations
 			str.set_count (new_count)
 		end
 
+feature -- Removal
+
+	remove_head (n: INTEGER)
+		require
+			n_less_than_or_equal: n <= count
+		do
+			if is_shared and n <= count then
+				area := area + n
+				count := count - n
+			end
+		end
+
 feature -- Duplication
 
 	substring (start_index, end_index: INTEGER): like Current
@@ -297,7 +299,7 @@ feature -- Duplication
 
 	new_string (str: STRING_8): like Current
 		do
-			Result := str
+			create Result.make_from_string (str)
 		end
 
 feature {NONE} -- Implementation
@@ -310,9 +312,16 @@ feature {NONE} -- Implementation
 		do
 			l_area := area; l_count := count
 			from i := 0 until i = l_count loop
-				area_out [offset + i] := c_read_character_8 (l_area, i)
+				area_out [offset + i] := read_character_8 (l_area, i)
 				i := i + 1
 			end
+		end
+
+	frozen read_character_8 (a_area: POINTER; i: INTEGER): CHARACTER
+		require
+			valid_index: i < count
+		do
+			Result := c_read_character_8 (a_area, i)
 		end
 
 end

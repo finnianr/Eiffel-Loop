@@ -40,9 +40,9 @@ feature {NONE} -- String append variations
 	append_with_across_scope: STRING
 		do
 			across String_8_scope as scope loop
-				if attached scope.item as joined then
+				if attached scope as joined then
 					across Hexagram.English_titles as title loop
-						joined.append (title.item)
+						joined.append (title)
 					end
 					Result := joined.twin
 				end
@@ -53,7 +53,7 @@ feature {NONE} -- String append variations
 		do
 			if attached Once_buffer.empty as buffer then
 				across Hexagram.English_titles as title loop
-					buffer.append (title.item)
+					buffer.append (title)
 				end
 				Result := buffer.twin
 			end
@@ -63,7 +63,7 @@ feature {NONE} -- String append variations
 		do
 			create Result.make_empty
 			across Hexagram.English_titles as title loop
-				Result.append (title.item)
+				Result.append (title)
 			end
 			Result.trim
 		end

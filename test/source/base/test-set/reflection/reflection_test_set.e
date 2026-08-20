@@ -462,8 +462,8 @@ feature -- Tests
 	test_reflected_collection_factory
 		-- REFLECTION_TEST_SET.test_reflected_collection_factory
 		local
-			type_list: ARRAY [TYPE [ANY]]; type_id: INTEGER; factory_type: TYPE [ANY]
 			integer_factory: EL_REFLECTED_COLLECTION_FACTORY [INTEGER, EL_REFLECTED_COLLECTION [INTEGER]]
+			type_list: ARRAY [TYPE [ANY]]; type_id: INTEGER
 		do
 			create integer_factory -- {INTEGER} will fail without this
 

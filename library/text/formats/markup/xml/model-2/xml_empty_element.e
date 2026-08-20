@@ -93,8 +93,6 @@ feature -- Element change
 	set_attributes_from_pairs (nvp_list: ITERABLE [READABLE_STRING_GENERAL])
 		require
 			valid_attributes: across nvp_list as attrib all attrib.has ('=') end
-		local
-			new_list: like Empty_attribute_list
 		do
 			create attribute_list.make (Iterable.count (nvp_list))
 			across nvp_list as nvp loop

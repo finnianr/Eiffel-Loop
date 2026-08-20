@@ -39,7 +39,7 @@ feature -- Basic operations
 		do
 			create word_list.make (1000)
 			across Hexagram.English_titles as title loop
-				word_list.append_sequence (title.item.split (' '))
+				word_list.append_sequence (title.split (' '))
 			end
 			compare ("internal_search VS set_position", <<
 				["EL_HASH_SET [STRING]",	agent put_into_set (word_list)],
@@ -54,8 +54,8 @@ feature {NONE} -- Implementation
 			set: EL_HASH_SET [STRING]
 		do
 			create set.make_equal (word_list.count)
-			across word_list as list loop
-				set.put (list.item)
+			across word_list as word loop
+				set.put (word)
 			end
 		end
 
@@ -64,8 +64,8 @@ feature {NONE} -- Implementation
 			set: SEARCH_TABLE [STRING]
 		do
 			create set.make (word_list.count)
-			across word_list as list loop
-				set.put (list.item)
+			across word_list as word loop
+				set.put (word)
 			end
 		end
 end

@@ -48,8 +48,8 @@ feature {NONE} -- String append variations
 			parser: CSV_PROCEDURE_STATE_PARSER
 		do
 			create parser.make
-			across lines as l loop
-				parser.parse (l.item)
+			across lines as line loop
+				parser.parse (line)
 			end
 		end
 
@@ -58,8 +58,8 @@ feature {NONE} -- String append variations
 			parser: CSV_INTEGER_STATE_PARSER
 		do
 			create parser.make
-			across lines as l loop
-				parser.parse (l.item)
+			across lines as line loop
+				parser.parse (line)
 			end
 		end
 
@@ -68,8 +68,8 @@ feature {NONE} -- String append variations
 			parser: CSV_POINTER_STATE_PARSER
 		do
 			create parser.make
-			across lines as l loop
-				parser.parse (l.item)
+			across lines as line loop
+				parser.parse (line)
 			end
 		end
 

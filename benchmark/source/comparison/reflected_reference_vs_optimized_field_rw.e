@@ -31,19 +31,19 @@ feature -- Basic operations
 
 	execute
 		local
-			field: EL_REFLECTED_INTEGER_32
+			l_field: EL_REFLECTED_INTEGER_32
 		do
 			field_index := -1
-			across field_table as table until field_index >= 0 loop
-				if table.item.name.same_string ("integer_value")
-					and then attached {EL_REFLECTED_INTEGER_32} table.item as item
+			across field_table as field until field_index >= 0 loop
+				if field.name.same_string ("integer_value")
+					and then attached {EL_REFLECTED_INTEGER_32} field as item
 				then
-					field := item
-					field_index := field.index
+					l_field := item
+					field_index := l_field.index
 				end
 			end
 			compare ("Test get/set on integers 1 to 1000", <<
-				["class EL_REFLECTED_INTEGER_32", agent use_reflected_integer_field (field)],
+				["class EL_REFLECTED_INTEGER_32", agent use_reflected_integer_field (l_field)],
 				["Optimized get/set routine",		 agent use_optimized_field_setting]
 			>>)
 		end

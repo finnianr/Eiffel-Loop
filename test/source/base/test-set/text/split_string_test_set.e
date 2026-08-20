@@ -139,8 +139,7 @@ feature -- Tests
 				covers/{EL_COMPACT_ZSTRING_ITERATION_CURSOR}.item
 			]"
 		local
-			compact_list: EL_COMPACT_ZSTRING_LIST; s32: EL_STRING_32_ROUTINES
-			string_32_list: EL_STRING_32_LIST; i: INTEGER
+			compact_list: EL_COMPACT_ZSTRING_LIST; string_32_list: EL_STRING_32_LIST; i: INTEGER
 			sub_list: EL_ZSTRING_LIST
 		do
 			string_32_list := Text.symbol_32_list
@@ -571,7 +570,6 @@ feature -- Tests
 		-- SPLIT_STRING_TEST_SET.test_split_string_8
 		local
 			split_list: EL_SPLIT_READABLE_STRING_LIST [STRING]; str_split: LIST [STRING]
-			list_2: EL_SPLIT_STRING_LIST [STRING_32]
 		do
 			create split_list.make_empty
 			across Comma_separated_variations as csv_list loop

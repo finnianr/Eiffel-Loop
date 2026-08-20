@@ -39,8 +39,8 @@ feature -- Basic operations
 			standard_table: HASH_TABLE [STRING, STRING]
 		do
 			create standard_table.make_equal (Feature_expansion_table.count)
-			across Feature_expansion_table as table loop
-				standard_table.extend (table.item, table.key)
+			across Feature_expansion_table as expansion loop
+				standard_table.extend (expansion, @ expansion.key)
 			end
 			compare_memory ("HTTP status enumerations", << standard_table, Feature_expansion_table >>)
 		end

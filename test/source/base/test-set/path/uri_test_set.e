@@ -182,7 +182,7 @@ feature -- Tests
 	test_url
 		local
 			book_info: like new_book_info; url_string: ZSTRING; url: EL_URL
-			amazon_query, encoded_author_title, title_fragment: STRING; s: EL_STRING_8_ROUTINES
+			amazon_query, encoded_author_title, title_fragment: STRING
 		do
 			amazon_query := "http://www.amazon.com/query"
 			book_info := new_book_info (Book_data.values)

@@ -261,7 +261,7 @@ feature -- Tests
 		note
 			testing:	"covers/{EL_TRANSFORMABLE_ZSTRING}.replace_substring"
 		local
-			word_list_32: EL_STRING_32_LIST; index, start_index, end_index: INTEGER
+			word_list_32: EL_STRING_32_LIST; start_index, end_index: INTEGER
 			space_intervals: EL_OCCURRENCE_INTERVALS; test, word_pair: STRING_TEST
 			line_list: like Text.lines_32
 		do

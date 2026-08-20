@@ -40,7 +40,7 @@ feature -- Basic operations
 			ascii_string := Hexagram.English_titles.joined_lines
 
 			across << ascii_string, mixed_string >> as list loop
-				if attached list.item as str then
+				if attached list as str then
 					title := if str = mixed_string then "mixed encoding" else "ASCII" end
 					compare ("iterate over " + title + " area", <<
 						["if c [i] = Substitute",				 agent if_c_i_eq_substitute_then (str)],

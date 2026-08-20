@@ -55,7 +55,7 @@ feature {NONE} -- replace_substring_all
 			str_copy: STRING
 		do
 			across title_list as list loop
-				str_copy := Buffer.copied (list.item)
+				str_copy := Buffer.copied (list)
 			end
 		end
 
@@ -65,7 +65,7 @@ feature {NONE} -- replace_substring_all
 		do
 			across title_list as list loop
 				across String_8_scope as scope loop
-					str_copy := scope.copied_item (list.item)
+					str_copy := @ scope.copied_item (list)
 				end
 			end
 		end
@@ -76,7 +76,7 @@ feature {NONE} -- replace_substring_all
 		do
 			across title_list as list loop
 				if attached Buffer_pool.borrowed_item as l_buffer then
-					str_copy := l_buffer.copied (list.item)
+					str_copy := l_buffer.copied (list)
 					Buffer_pool.recycle (l_buffer)
 				end
 			end
@@ -88,7 +88,7 @@ feature {NONE} -- replace_substring_all
 		do
 			across title_list as list loop
 				if attached String_8_pool.borrowed_item as l_buffer then
-					str_copy := l_buffer.copied (list.item)
+					str_copy := l_buffer.copied (list)
 					l_buffer.return
 				end
 			end
@@ -99,7 +99,7 @@ feature {NONE} -- replace_substring_all
 			str_copy: STRING
 		do
 			across title_list as list loop
-				str_copy := list.item.twin
+				str_copy := list.twin
 			end
 		end
 

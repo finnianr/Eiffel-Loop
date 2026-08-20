@@ -196,7 +196,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.prepend", "covers/{EL_SUBSTRING_32_ARRAY}.shifted"
 		local
-			word, line: ZSTRING; count: INTEGER
+			word, line: ZSTRING
 			word_unencoded, line_unencoded: EL_COMPACT_SUBSTRINGS_32_I
 		do
 			create line.make_empty

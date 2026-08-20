@@ -87,7 +87,7 @@ feature {NONE} -- Benchmark occurrences
 		do
 			across 0 |..| 100 as n loop
 				across title_list as list loop
-					count := count + list.item.occurrences (c)
+					count := count + list.occurrences (c)
 				end
 			end
 		end
@@ -98,7 +98,7 @@ feature {NONE} -- Benchmark occurrences
 		do
 			across 0 |..| 100 as n loop
 				across title_list as list loop
-					count := count + list.item.occurrences (c)
+					count := count + list.occurrences (c)
 				end
 			end
 		end
@@ -111,8 +111,8 @@ feature {NONE} -- Compare indexed item
 		do
 			across 0 |..| 100 as n loop
 				across title_list as list loop
-					area := list.item.area
-					from i := 1; i_final := list.item.count until i = i_final loop
+					area := list.area
+					from i := 1; i_final := list.count until i = i_final loop
 						if char_at (area, i) = 'a' then
 							count := count + 1
 						end
@@ -128,8 +128,8 @@ feature {NONE} -- Compare indexed item
 		do
 			across 0 |..| 100 as n loop
 				across title_list as list loop
-					if attached list.item as str then
-						from i := 1; i_final := list.item.count until i > i_final loop
+					if attached list as str then
+						from i := 1; i_final := list.count until i > i_final loop
 							if str [i] = 'a' then
 								count := count + 1
 							end
@@ -146,8 +146,8 @@ feature {NONE} -- Compare indexed item
 		do
 			across 0 |..| 100 as n loop
 				across title_list as list loop
-					area := list.item.area
-					from i := 0; i_final := list.item.count until i = i_final loop
+					area := list.area
+					from i := 0; i_final := list.count until i = i_final loop
 						if area [i] = 'a' then
 							count := count + 1
 						end
@@ -166,7 +166,7 @@ feature {NONE} -- Compare parse CSV
 		do
 			across 0 |..| 100 as n loop
 				across title_list as list loop
-					count := count + new_c_string_csv_list (list.item).count
+					count := count + new_c_string_csv_list (list).count
 				end
 			end
 		end
@@ -177,7 +177,7 @@ feature {NONE} -- Compare parse CSV
 		do
 			across 0 |..| 100 as n loop
 				across title_list as list loop
-					count := count + new_csv_list (list.item).count
+					count := count + new_csv_list (list).count
 				end
 			end
 		end
@@ -191,7 +191,7 @@ feature {NONE} -- Compare starts_with
 		do
 			across 0 |..| 100 as n loop
 				across title_list as list loop
-					if list.item.starts_with (str) then
+					if list.starts_with (str) then
 						count := count + 1
 					end
 				end
@@ -204,7 +204,7 @@ feature {NONE} -- Compare starts_with
 		do
 			across 0 |..| 100 as n loop
 				across title_list as list loop
-					if list.item.starts_with (str) then
+					if list.starts_with (str) then
 						count := count + 1
 					end
 				end
@@ -239,7 +239,7 @@ feature {NONE} -- List factory
 		ensure
 			same_as_split:
 				across new_split_list (str.to_string, ',') as list all
-					list.item ~ Result [list.cursor_index].to_string
+					list ~ Result [@ list.cursor_index].to_string
 				end
 		end
 
@@ -248,13 +248,13 @@ feature {NONE} -- List factory
 			if attached new_string_list as string_list then
 				create Result.make (string_list.count)
 				across string_list as list loop
-					Result.extend (list.item)
+					Result.extend (list)
 				end
 			end
 		ensure
 			same_as_new_string_list:
 				across new_string_list as list all
-					Result [list.cursor_index].is_equal (list.item)
+					Result [@ list.cursor_index].is_equal (list)
 				end
 		end
 

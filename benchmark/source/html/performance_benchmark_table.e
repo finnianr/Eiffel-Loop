@@ -44,7 +44,7 @@ feature {NONE} -- Implementation
 			absolute_result := test_z.repetition_count.rounded.out
 
 			across << absolute_result, relative_result >> as string loop
-				row.append (Html.table_data (string.item))
+				row.append (Html.table_data (string))
 			end
 		end
 

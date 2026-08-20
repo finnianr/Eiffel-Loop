@@ -49,7 +49,6 @@ feature {NONE} -- Initialization
 				["circular_indexing",				agent test_circular_indexing],
 				["container_sum",						agent test_container_sum],
 				["file_line_source",					agent test_file_line_source],
-				["key_indexed_arrayed_map_list",	agent test_key_indexed_arrayed_map_list],
 				["make_filtered_array",				agent test_make_filtered_array],
 				["result_list_character",			agent test_result_list_character],
 				["result_list_string",				agent test_result_list_string],
@@ -477,33 +476,6 @@ feature -- Test
 			create add_step_count.make (agent add_path_step_count (?, counter))
 			split_list.do_for_all (add_step_count)
 			assert ("step count is ", counter.item = 12)
-		end
-
-	test_key_indexed_arrayed_map_list
-		-- CONTAINER_STRUCTURE_TEST_SET.key_indexed_arrayed_map_list
-		note
-			testing: "[
-				covers/{EL_KEY_INDEXED_ARRAYED_MAP_LIST}.binary_search,
-				covers/{C_NULLED_STRING_8_NAME_CACHE}.item
-			]"
-		local
-			cache: C_NULLED_STRING_8_NAME_CACHE
-			name: C_STRING_8; name_null_1, name_null_2: C_NULLED_STRING_8
-			name_str, dozen_a_words: STRING_8
-		do
-			create cache.make
-			dozen_a_words := "able,archery,android,anchor,average,ant,ancestor,anca,all,attached,artery,arc"
-			assert ("one dozen", dozen_a_words.occurrences (',') + 1 = 12)
-			across (dozen_a_words + ",Zig,zag,zebra").split (',') as word loop
-				name := word
-				name_null_1 := cache.item (name)
-				name_null_2 := cache.item (name)
-				assert ("same reference", name_null_1 = name_null_2)
-
-				create name_str.make_from_c (name_null_1.area) -- calls C function strlen
-				assert ("same name", name_str ~ word)
-			end
-			assert ("3 buckets have items", cache.used_count = 3)
 		end
 
 	test_make_filtered_array

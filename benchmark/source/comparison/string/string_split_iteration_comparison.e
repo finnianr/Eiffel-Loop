@@ -77,7 +77,7 @@ feature {NONE} -- String split iteration
 					end
 				when Op_find then
 					across character_split as split until found loop
-						found := split.item_same_as (Four_hundred)
+						found := @ split.item_same_as (Four_hundred)
 					end
 			end
 		end
@@ -113,7 +113,7 @@ feature {NONE} -- String split iteration
 					end
 				when Op_find then
 					across csv_string.split (',') as split until found loop
-						found := split.item ~ Four_hundred
+						found := split ~ Four_hundred
 					end
 			end
 		end

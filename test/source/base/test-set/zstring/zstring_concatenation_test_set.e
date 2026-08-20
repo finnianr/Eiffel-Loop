@@ -90,7 +90,6 @@ feature -- Appending tests
 			testing: "covers/{EL_APPENDABLE_ZSTRING}.append_replaced"
 		local
 			zstr, line, entity: ZSTRING; str_32, line_32, entity_32: STRING_32
-			s: EL_STRING_32_ROUTINES
 		do
 			entity_32 := "&nbsp;"; entity := entity_32
 			create str_32.make_empty

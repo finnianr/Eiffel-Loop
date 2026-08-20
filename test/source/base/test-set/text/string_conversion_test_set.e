@@ -161,7 +161,7 @@ feature -- Tests
 		-- STRING_CONVERSION_TEST_SET.test_encoding_conversion
 		local
 			buffer: EL_STRING_8_IO_MEDIUM; encoding: EL_ENCODING
-			zstr, name: ZSTRING; latin_id: INTEGER
+			zstr, name: ZSTRING
 		do
 			create buffer.make (100)
 			across Text.lines_32 as str_32 loop
@@ -215,7 +215,6 @@ feature -- Tests
 		local
 			padding, formatted: STRING; width: INTEGER
 			zero_padded: BOOLEAN; padding_character: CHARACTER
-			pi: DOUBLE
 		do
 --			Integer formatting
 			across << True, False >> as bool loop

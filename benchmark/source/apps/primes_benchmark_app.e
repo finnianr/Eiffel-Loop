@@ -39,8 +39,8 @@ feature -- Basic operations
 			method: like new_method_list.item; command: PRIME_NUMBER_COMMAND
 		do
 			create timer.make
-			across new_method_list as list loop
-				method := list.item
+			across new_method_list as new_method loop
+				method := new_method
 				create pass_count
 				timer.start
 				command := method (timer, pass_count)

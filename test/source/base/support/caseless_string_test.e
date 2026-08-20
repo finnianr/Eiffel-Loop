@@ -30,7 +30,7 @@ feature -- Test comparisons
 	same_caseless_characters (index: INTEGER): BOOLEAN
 		local
 			s_32_upper, s_32_substring_upper: STRING_32; zs_upper, zs_substring_upper: ZSTRING
-			s_8_upper: STRING; result_array: ARRAYED_LIST [BOOLEAN]
+			result_array: ARRAYED_LIST [BOOLEAN]
 		do
 			s_32_upper := s_32.as_upper; zs_upper := zs.as_upper
 			s_32_substring_upper := s_32_substring.as_upper

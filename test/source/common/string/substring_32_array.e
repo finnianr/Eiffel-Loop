@@ -171,7 +171,7 @@ feature {NONE} -- Implementation
 	substring_index (index: INTEGER): INTEGER
 		-- index of substring containing string index, -1 if not found
 		require
-			some_substring_has_index: across substring_array as array some has (index, array.item) end
+			some_substring_has_index: across substring_array as array some has (index, array) end
 		local
 			mid, lower, upper: INTEGER; found: BOOLEAN
 			substring_lower, substring_upper: like substring_area.item

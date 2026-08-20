@@ -91,7 +91,7 @@ feature -- s_32 intervals
 	split_word_intervals: EL_SPLIT_INTERVALS
 		-- intervals that go from mid-word to next mid-word for adjacent words greater than 3 in length
 		local
-			lower, next_lower, upper, l_count, next_count: INTEGER
+			lower, next_lower, l_count, next_count: INTEGER
 		do
 			if attached word_intervals as list then
 				create Result.make_sized (list.count)
@@ -388,7 +388,7 @@ feature -- Test splitting
 	word_split_intervals (word_list: EL_STRING_32_LIST)
 		local
 			interval_item: STRING_32; bounds_list: EL_SPLIT_WORD_INTERVALS; string_types: ARRAY [STRING_GENERAL]
-			start_index, end_index, first_index, last_index, delta: INTEGER; c32: EL_CHARACTER_32_ROUTINES
+			first_index, last_index: INTEGER; c32: EL_CHARACTER_32_ROUTINES
 		do
 			string_types := << s_32, zs >>
 			across string_types as str loop
