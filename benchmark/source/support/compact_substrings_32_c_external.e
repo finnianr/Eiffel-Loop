@@ -20,7 +20,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	put_integer_32 (value: INTEGER; integer_ptr: TYPED_POINTER [INTEGER])
+	put_integer_32 (integer_ptr: TYPED_POINTER [INTEGER]; value: INTEGER)
 		external
 			"C inline"
 		alias

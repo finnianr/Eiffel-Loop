@@ -28,6 +28,13 @@ inherit
 			default_create, copy, is_equal, out
 		end
 
+	PLATFORM
+		export
+			{NONE} all
+		undefine
+			default_create, copy, is_equal, out
+		end
+
 	STRING_HANDLER
 		undefine
 			default_create, copy, is_equal, out
@@ -67,6 +74,11 @@ feature -- Access
 
 feature -- Element change
 
+	add_boolean (flag: BOOLEAN)
+		do
+			add_bytes ($flag, Boolean_bytes)
+		end
+
 	add_bytes (byte_array: POINTER; count: INTEGER)
 		local
 			l_value: NATURAL
@@ -89,8 +101,18 @@ feature -- Element change
 			end
 		end
 
+	add_integer_32 (integer: INTEGER_32)
+		do
+			add_bytes ($integer, Integer_32_bytes)
+		end
+
 	add_string (str: STRING_8)
 		do
 			add_characters (str.area, 0, str.count - 1)
+		end
+
+	reset
+		do
+			set_item (Crc_initial)
 		end
 end

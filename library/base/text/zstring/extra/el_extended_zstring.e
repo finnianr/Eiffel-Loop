@@ -119,7 +119,7 @@ feature -- Measurement
 				end
 			end
 			if found and then not end_index_ptr.is_default_pointer then
-				put_integer_32 (i, end_index_ptr)
+				put_integer_32 (end_index_ptr, i)
 			end
 			found := False
 			from until i = 0 or found loop

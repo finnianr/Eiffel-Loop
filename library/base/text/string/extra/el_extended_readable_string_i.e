@@ -210,7 +210,7 @@ feature -- Access
 				start_index_from_end := 0
 			end
 			if not start_index_from_end_ptr.is_default_pointer then
-				put_integer_32 (start_index_from_end, start_index_from_end_ptr)
+				put_integer_32 (start_index_from_end_ptr, start_index_from_end)
 			end
 		end
 

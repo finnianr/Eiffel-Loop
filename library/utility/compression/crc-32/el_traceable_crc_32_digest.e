@@ -17,7 +17,7 @@ class
 inherit
 	EL_CRC_32_DIGEST
 		redefine
-			add_bytes, add_characters, default_create
+			add_boolean, add_characters, add_integer_32, default_create, reset
 		end
 
 create
@@ -38,12 +38,12 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	add_bytes (byte_array: POINTER; count: INTEGER)
+	add_boolean (flag: BOOLEAN)
 		do
-			Precursor (byte_array, count)
-			if count > 0 then
-				put_digest_trace
-			end
+			Precursor (flag)
+			put_digest_trace (False)
+			IO.put_boolean (flag)
+			IO.put_new_line
 		end
 
 	add_characters (area: SPECIAL [CHARACTER]; lower, upper: INTEGER)
@@ -52,7 +52,7 @@ feature -- Element change
 		do
 			Precursor (area, lower, upper)
 			if upper >= lower then
-				put_digest_trace
+				put_digest_trace (True)
 				from i := lower until i > upper loop
 					c_i := area [i]
 					inspect c_i
@@ -71,14 +71,22 @@ feature -- Element change
 					end
 					i := i + 1
 				end
-				io.put_character ('%"')
-				io.put_new_line
+				IO.put_character ('%"')
+				IO.put_new_line
 			end
+		end
+
+	add_integer_32 (integer: INTEGER_32)
+		do
+			Precursor (integer)
+			put_digest_trace (False)
+			IO.put_integer (integer)
+			IO.put_new_line
 		end
 
 feature {NONE} -- Implementation
 
-	put_digest_trace
+	put_digest_trace (is_string: BOOLEAN)
 		local
 			integer: EL_INTEGER_MATH
 		do
@@ -89,7 +97,16 @@ feature {NONE} -- Implementation
 			IO.put_integer (index)
 			IO.put_string (once " (")
 			IO.put_natural_64 (item)
-			IO.put_string (once "): %"")
+			IO.put_string (once "): ")
+			if is_string then
+				IO.put_character ('"')
+			end
+		end
+
+	reset
+		do
+			set_item (Crc_initial)
+			index := 0
 		end
 
 feature {NONE} -- Internal attributes

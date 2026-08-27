@@ -25,53 +25,60 @@ inherit
 
 feature {NONE} -- Write to memory
 
-	put_natural_64 (value: NATURAL_64; natural_64_ptr: TYPED_POINTER [NATURAL_64])
+	put_natural_64 (natural_64_ptr: TYPED_POINTER [NATURAL_64]; value: NATURAL_64)
 		external
-			"C inline use <eif_eiffel.h>"
+			"C inline use <eif_types.h>"
 		alias
 			"*$natural_64_ptr = $value;"
 		end
 
-	put_integer_32 (value: INTEGER; integer_ptr: TYPED_POINTER [INTEGER])
+	put_integer_32 (integer_ptr: TYPED_POINTER [INTEGER]; value: INTEGER)
 		external
-			"C inline use <eif_eiffel.h>"
+			"C inline use <eif_types.h>"
 		alias
 			"*$integer_ptr = $value;"
 		end
 
-	put_real_32 (value: REAL; real_ptr: TYPED_POINTER [REAL])
+	put_real_32 (real_ptr: TYPED_POINTER [REAL]; value: REAL)
 		external
-			"C inline use <eif_eiffel.h>"
+			"C inline use <eif_types.h>"
 		alias
 			"*$real_ptr = $value;"
 		end
 
-	put_boolean (value: BOOLEAN; boolean_ptr: TYPED_POINTER [BOOLEAN])
+	put_boolean (boolean_ptr: TYPED_POINTER [BOOLEAN]; value: BOOLEAN)
 		external
-			"C inline use <eif_eiffel.h>"
+			"C inline use <eif_types.h>"
 		alias
 			"*$boolean_ptr = $value;"
 		end
 
 feature {NONE} -- Read from memory
 
+	read_boolean (boolean_ptr: TYPED_POINTER [BOOLEAN]): BOOLEAN
+		external
+			"C inline use <eif_types.h>"
+		alias
+			"return *$boolean_ptr;"
+		end
+
 	read_integer_32 (integer_ptr: TYPED_POINTER [INTEGER]): INTEGER
 		external
-			"C inline use <eif_eiffel.h>"
+			"C inline use <eif_types.h>"
 		alias
 			"return *$integer_ptr;"
 		end
 
 	read_natural_64 (natural_64_ptr: TYPED_POINTER [NATURAL_64]): NATURAL_64
 		external
-			"C inline use <eif_eiffel.h>"
+			"C inline use <eif_types.h>"
 		alias
 			"return *$natural_64_ptr;"
 		end
 
 	read_real_32 (real_32_ptr: TYPED_POINTER [REAL]): INTEGER
 		external
-			"C inline use <eif_eiffel.h>"
+			"C inline use <eif_types.h>"
 		alias
 			"return *$real_32_ptr;"
 		end

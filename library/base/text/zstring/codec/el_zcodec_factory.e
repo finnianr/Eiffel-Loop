@@ -24,7 +24,7 @@ inherit
 
 	EL_SHARED_UTF_8_ZCODEC
 
-	EL_MODULE_EIFFEL; EL_MODULE_ENCODING
+	EL_MODULE_ENCODING
 
 	EL_ENCODING_TYPE
 		rename
@@ -102,8 +102,12 @@ feature {NONE} -- Factory
 					when Windows then
 						index := id - 1250 + Windows_1250_index
 				end
+				IO.put_new_line
+				IO.put_string ("Codec: " + Codec_type_array [index].out)
+				IO.put_new_line
+
 				if Codec_type_array.valid_index (index)
-					and then attached {EL_ZCODEC} Eiffel.new_object (Codec_type_array [index]) as new
+					and then attached {EL_ZCODEC} {ISE_RUNTIME}.new_instance_of (Codec_type_array [index].type_id) as new
 				then
 					Result := new; Result.make
 				else

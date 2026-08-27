@@ -81,7 +81,7 @@ feature {NONE} -- Reference types
 	Group_type_order_table: EL_HASH_TABLE [INTEGER, TYPE [ANY]]
 		-- Defines search order for matching `value_type' in groups
 		once
-			create Result.make_assignments (<<
+			create Result.make_assignments ({like Group_type_order_table.MANIFEST_ARRAY} <<
 				[{EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}, 16],
 				[{COLLECTION [ANY]}, 14],
 				[{EL_STORABLE}, 12],

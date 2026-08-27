@@ -168,6 +168,7 @@ memory block conforming to ${EL_MEMORY_READER_WRITER} (inherits ${SED_MEMORY_REA
 
 See doc/base.reflection.txt for details
 			</description>
+
 		</cluster>
 		<cluster name="runtime" location="runtime\" recursive="true">
 			<description>

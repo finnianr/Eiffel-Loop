@@ -104,7 +104,7 @@ feature -- Access
 					Result := assign_index + 2
 				end
 			end
-			put_integer_32 (l_end_index, end_index_ptr)
+			put_integer_32 (end_index_ptr, l_end_index)
 		end
 
 	string, str: STRING_X

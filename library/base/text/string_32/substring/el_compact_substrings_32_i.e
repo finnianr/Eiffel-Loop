@@ -268,7 +268,7 @@ feature -- Search index
 				end
 			end
 			if persistent_block_index then
-				put_integer_32 (i, block_index_ptr)
+				put_integer_32 (block_index_ptr, i)
 			end
 		end
 

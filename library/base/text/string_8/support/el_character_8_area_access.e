@@ -49,12 +49,12 @@ feature -- Access
 
 	get_lower (str: READABLE_STRING_8; index_lower_ptr: TYPED_POINTER [INTEGER]): like area
 		do
-			Result := str.area; put_integer_32 (str.area_lower, index_lower_ptr)
+			Result := str.area; put_integer_32 (index_lower_ptr, str.area_lower)
 		end
 
 	get (str: READABLE_STRING_8; index_lower_ptr, index_upper_ptr: TYPED_POINTER [INTEGER]): like area
 		do
-			Result := str.area; put_integer_32 (str.area_lower, index_lower_ptr)
-			put_integer_32 (str.area_upper, index_upper_ptr)
+			Result := str.area; put_integer_32 (index_lower_ptr, str.area_lower)
+			put_integer_32 (index_upper_ptr, str.area_upper)
 		end
 end

@@ -59,7 +59,7 @@ feature -- Access
 			i := read_integer_32 (block_index_ptr)
 			lower := area [i].code
 			if start_index < lower then
-				put_integer_32 (0, block_index_ptr)
+				put_integer_32 (block_index_ptr, 0)
 				i := 0
 			end
 			from until found or else i = area.count loop
@@ -84,9 +84,9 @@ feature -- Access
 					end
 				end
 				if i = area.count then
-					put_integer_32 (0, block_index_ptr)
+					put_integer_32 (block_index_ptr, 0)
 				else
-					put_integer_32 (i, block_index_ptr)
+					put_integer_32 (block_index_ptr, i)
 				end
 			end
 		ensure
@@ -119,7 +119,7 @@ feature -- Access
 					end
 				end
 --				write new block index back to calling routine local
-				put_integer_32 (block_index, block_index_ptr)
+				put_integer_32 (block_index_ptr, block_index)
 			end
 			Result := area [block_index + 2 + index - lower]
 		end

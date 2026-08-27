@@ -827,11 +827,11 @@ feature {NONE} -- Implementation
 			inspect state_alpha
 				when 1 then
 					if not is_alpha_item then
-						p.put_integer_32 (0, state_alpha_ptr)
+						p.put_integer_32 (state_alpha_ptr, 0)
 					end
 				when 0 then
 					if is_alpha_item then
-						p.put_integer_32 (1, state_alpha_ptr)
+						p.put_integer_32 (state_alpha_ptr, 1)
 						Result := True
 					end
 			end

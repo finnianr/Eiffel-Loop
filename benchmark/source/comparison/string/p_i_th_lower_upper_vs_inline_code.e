@@ -91,7 +91,7 @@ feature {NONE} -- Implemenatation
 			j := (i - 1) * 2; k := j + 1
 			if k < a_area.count then
 				Result := area [j]
-				put_integer_32 (a_area [k], upper_ptr)
+				put_integer_32 (upper_ptr, a_area [k])
 			else
 				Result := 1
 			end

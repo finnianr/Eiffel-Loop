@@ -526,7 +526,7 @@ feature -- Substrings
 				start_index := count + 1
 			end
 			if not start_index_int32_ptr.is_default_pointer then
-				put_integer_32 (start_index, start_index_int32_ptr)
+				put_integer_32 (start_index_int32_ptr, start_index)
 			end
 		end
 
@@ -556,7 +556,7 @@ feature -- Substrings
 				start_index_from_end := 0
 			end
 			if not start_index_from_end_ptr.is_default_pointer then
-				put_integer_32 (start_index_from_end, start_index_from_end_ptr)
+				put_integer_32 (start_index_from_end_ptr, start_index_from_end)
 			end
 		end
 
