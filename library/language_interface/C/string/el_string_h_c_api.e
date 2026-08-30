@@ -1,5 +1,5 @@
 note
-	description: "C routines from C header `<string.h>'"
+	description: "String and memory related C externals from header `<string.h>'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2026 Finnian Reilly"
@@ -18,7 +18,7 @@ inherit
 
 feature {NONE} -- C Externals
 
-	frozen c_strcmp_n (p1: POINTER; n1: INTEGER; p2: POINTER; n2: INTEGER): INTEGER
+	frozen c_string_8_compare (p1: POINTER; n1: INTEGER; p2: POINTER; n2: INTEGER): INTEGER
 			-- Lexicographic comparison of `n1' bytes at `p1' with `n2' bytes at `p2'.
 			-- Returns negative if p1 < p2, zero if equal, positive if p1 > p2.
 		external
@@ -48,6 +48,40 @@ feature {NONE} -- C Externals
 			"return (memcmp ($p1, $p2, $n) == 0);"
 		end
 
+	c_memory_copy (a_destination: POINTER; a_source: POINTER; a_count: INTEGER)
+			-- Copy `a_count` bytes from `a_source` to `a_destination`.
+			-- Regions MUST NOT overlap; behavior is undefined otherwise.
+		require
+			destination_not_void: not a_destination.is_default_pointer
+			source_not_void: not a_source.is_default_pointer
+			non_negative_count: a_count >= 0
+		external
+			"C inline use <string.h>"
+		alias
+			"memcpy ($a_destination, $a_source, (size_t) $a_count);"
+		end
+
+	c_memory_move (a_destination: POINTER; a_source: POINTER; a_count: INTEGER)
+			-- Copy `a_count` bytes from `a_source` to `a_destination`.
+			-- Safe when regions overlap.
+		require
+			destination_not_void: not a_destination.is_default_pointer
+			source_not_void: not a_source.is_default_pointer
+			non_negative_count: a_count >= 0
+		external
+			"C inline use <string.h>"
+		alias
+			"memmove ($a_destination, $a_source, (size_t) $a_count);"
+		end
+
+	frozen c_put_character_8 (a_area: POINTER; c: CHARACTER_8; i: INTEGER)
+			-- Character at offset `i' in buffer `a_area'.
+		external
+			"C inline"
+		alias
+			"((EIF_CHARACTER_8 *)$a_area)[$i] = $c;"
+		end
+
 	frozen c_read_character_8 (a_area: POINTER; i: INTEGER): CHARACTER_8
 			-- Character at offset `i' in buffer `a_area'.
 		external
@@ -56,23 +90,4 @@ feature {NONE} -- C Externals
 			"return ((EIF_CHARACTER_8 *)$a_area)[$i];"
 		end
 
-	frozen c_read_natural_16 (a_area: POINTER; i: INTEGER): NATURAL_16
-			-- 16 bit unsigned integer at offset `i' in buffer `a_area'.
-		external
-			"C inline"
-		alias
-			"return ((EIF_NATURAL_16 *)$a_area)[$i];"
-		end
-
-	frozen c_read_natural_64 (a_area: POINTER; i: INTEGER): NATURAL_64
-			-- 64 bit unsigned integer at byte offset `i' in buffer `a_area'.
-		external
-			"C inline use <string.h>"
-		alias
-			"[
-				EIF_NATURAL_64 result;
-				memcpy (&result, (const char *) $a_area + $i, 8);
-				return result;
-			]"
-		end
 end

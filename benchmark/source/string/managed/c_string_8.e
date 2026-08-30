@@ -47,7 +47,7 @@ inherit
 			copy, is_equal
 		end
 
-	C_STRING_8_API
+	EL_STRING_H_C_API
 		undefine
 			copy, is_equal
 		end
@@ -95,7 +95,7 @@ feature -- Comparison
 	is_less alias "<" (other: like Current): BOOLEAN
 			-- Is current string lexicographically less than `other'?
 		do
-			Result := c_strcmp_n (area, count, other.area, other.count) < 0
+			Result := c_string_8_compare (area, count, other.area, other.count) < 0
 		end
 
 	item alias "[]" (i: INTEGER): CHARACTER_8

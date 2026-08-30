@@ -3,18 +3,21 @@ note
 		Benchmark some typical string operations for ${STRING_8} and an equivalent C orientated string class
 		using a managed C buffer `area' instead of a ${SPECIAL [CHARACTER]} `area'.
 	]"
-	notes: "See end of class"
+	notes: "[
+		**BENCHMARKING RESULTS**
+		
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2026-06-01 10:28:47 GMT (Monday 1st June 2026)"
-	revision: "3"
+	date: "2026-08-27 09:45:00 GMT (Thursday 27th August 2026)"
+	revision: "1"
 
 class
-	STRING_8_VS_C_STRING_8
+	STRING_8_VS_MANAGED_C_STRING_8
 
 inherit
 	STRING_BENCHMARK_COMPARISON
@@ -24,7 +27,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "STRING_8 VS C_STRING_8 basic routines"
+	Description: STRING = "STRING_8 VS EL_MANAGED_C_STRING_8 basic routines"
 
 feature -- Basic operations
 
@@ -53,7 +56,7 @@ feature -- Basic operations
 
 feature {NONE} -- Benchmark occurrences
 
-	c_buffer_occurrences (title_list: LIST [C_STRING_8]; c: CHARACTER_8)
+	c_buffer_occurrences (title_list: LIST [EL_MANAGED_C_STRING_8]; c: CHARACTER_8)
 		local
 			count: INTEGER
 		do
@@ -77,7 +80,7 @@ feature {NONE} -- Benchmark occurrences
 
 feature {NONE} -- Compare indexed item		
 
-	c_buffer_indexed_item (title_list: LIST [C_STRING_8])
+	c_buffer_indexed_item (title_list: LIST [EL_MANAGED_C_STRING_8])
 		local
 			count, i, i_final: INTEGER; area: POINTER
 		do
@@ -94,7 +97,7 @@ feature {NONE} -- Compare indexed item
 			end
 		end
 
-	c_buffer_indexed_string (title_list: LIST [C_STRING_8])
+	c_buffer_indexed_string (title_list: LIST [EL_MANAGED_C_STRING_8])
 		local
 			count, i, i_final: INTEGER
 		do
@@ -129,9 +132,10 @@ feature {NONE} -- Compare indexed item
 			end
 		end
 
+
 feature {NONE} -- Compare parse CSV
 
-	c_buffer_parse_csv (title_list: LIST [C_STRING_8])
+	c_buffer_parse_csv (title_list: LIST [EL_MANAGED_C_STRING_8])
 		local
 			count: INTEGER
 		do
@@ -156,7 +160,7 @@ feature {NONE} -- Compare parse CSV
 
 feature {NONE} -- Compare starts_with
 
-	c_buffer_starts_with (title_list: LIST [C_STRING_8]; str: C_STRING_8)
+	c_buffer_starts_with (title_list: LIST [EL_MANAGED_C_STRING_8]; str: EL_MANAGED_C_STRING_8)
 		local
 			count: INTEGER
 		do
@@ -193,7 +197,7 @@ feature {NONE} -- Contract Support
 
 feature {NONE} -- List factory
 
-	new_c_string_csv_list (str: C_STRING_8): ARRAYED_LIST [C_STRING_8]
+	new_c_string_csv_list (str: EL_MANAGED_C_STRING_8): ARRAYED_LIST [EL_MANAGED_C_STRING_8]
 		local
 			prev_i, next_i: INTEGER
 		do
@@ -214,7 +218,7 @@ feature {NONE} -- List factory
 				end
 		end
 
-	new_c_string_list: ARRAYED_LIST [C_STRING_8]
+	new_c_string_list: ARRAYED_LIST [EL_MANAGED_C_STRING_8]
 		do
 			if attached new_string_list as string_list then
 				create Result.make (string_list.count)
@@ -264,7 +268,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	C_the: C_STRING_8
+	C_the: EL_MANAGED_C_STRING_8
 		once
 			Result := The.string
 		ensure
@@ -275,15 +279,11 @@ feature {NONE} -- Constants
 		once
 			Result := "The"
 		end
-
 note
-
 	notes: "[
 		**BENCHMARKING RESULTS**
 
-		Compiler version: 16.05
-
-		Passes over 1000 millisecs (each in descending order)
+		Compiler version 16.05 (Mac Mini 2012)
 
 			RESULTS: indexed_item
 
@@ -306,32 +306,27 @@ note
 				C buffer parse_csv :  65.0 times (100%)
 				SPECIAL parse_csv  :  52.0 times (-20.0%)
 
-		Compiler version: 25.12
-
-			Passes over 1000 millisecs (in descending order)
+		Compiler version: 25.12 (Lenovo ThinkCentre M90a Pro Gen6 2025)
 
 			RESULTS: indexed_item
-
-				C buffer indexed_item   :  5893.0 times (100%)
-				SPECIAL indexed_item    :  1520.0 times (-74.2%)
-				C buffer indexed_string :   453.0 times (-92.3%)
+				C buffer indexed_item   :  5689.0 times (100%)
+				SPECIAL indexed_item    :  1434.0 times (-74.8%)
+				C buffer indexed_string :   232.0 times (-95.9%)
 
 			RESULTS: starts_with
 
-				C buffer starts_with :  5283.0 times (100%)
-				SPECIAL starts_with  :  2689.0 times (-49.1%)
+				C buffer starts_with :  5199.0 times (100%)
+				SPECIAL starts_with  :  2666.0 times (-48.7%)
 
 			RESULTS: occurrences
 
-				C buffer occurrences :  3503.0 times (100%)
-				SPECIAL occurrences  :  1392.0 times (-60.3%)
+				SPECIAL occurrences  : 1377.0 times (100%)
+				C buffer occurrences :  441.0 times (-68.0%)
 
-			RESULTS: CSV line parsing
+			BENCHMARKING: CSV line parsing
 
-				C buffer parse_csv : 193.0 times (100%)
-				SPECIAL parse_csv  : 126.0 times (-34.7%)
+				SPECIAL parse_csv  : 127.0 times (100%)
+				C buffer parse_csv : 107.0 times (-15.7%)
 
 	]"
-
-
 end

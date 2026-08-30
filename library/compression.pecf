@@ -34,7 +34,7 @@ system:
 			base = "$ISE_LIBRARY/library/base/base.ecf"
 
 		library:
-			name = c_zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
+			name = zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
 
 
 		# Eiffel Loop
@@ -43,5 +43,5 @@ system:
 
 		# Source code
 		cluster_tree:
-			compression = "utility/compression"
+			EL_compression = "utility/compression"
 

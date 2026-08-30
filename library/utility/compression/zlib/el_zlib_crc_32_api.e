@@ -16,24 +16,6 @@ class
 inherit
 	EL_C_API
 
-	EL_CRC_32_CONSTANTS
-
-feature -- Access
-
-	characters_crc_32 (a_value: NATURAL_64; area: SPECIAL [CHARACTER]; lower, upper: INTEGER): NATURAL
-		-- continue adding to a previously calculated CRC-32/ISO-HDLC `value'
-		local
-			value: NATURAL
-		do
-			inspect a_value
-				when CRC_initial then
-					value := c_crc_32_seed
-			else
-				value := a_value.to_natural_32
-			end
-			Result := c_crc_32 (value, area.item_address (lower), upper - lower + 1)
-		end
-
 feature {NONE} -- C Externals
 
 	frozen c_crc_32 (value: NATURAL_32; byte_array: POINTER; a_count: INTEGER): NATURAL_32

@@ -17,7 +17,7 @@ class
 inherit
 	EL_CRC_32_DIGEST
 		redefine
-			add_boolean, add_characters, add_integer_32, default_create, reset
+			add_boolean, add_character_buffer, add_characters, add_integer_32, default_create, reset
 		end
 
 create
@@ -51,29 +51,13 @@ feature -- Element change
 			c_i, code: CHARACTER; i: INTEGER
 		do
 			Precursor (area, lower, upper)
-			if upper >= lower then
-				put_digest_trace (True)
-				from i := lower until i > upper loop
-					c_i := area [i]
-					inspect c_i
-						when '%N' then
-							code := 'N'
-						when '%R' then
-							code := 'R'
-						when '%T' then
-							code := 'T'
-					else
-						code := '%U'
-						io.put_character (c_i)
-					end
-					if code > '%U' then
-						io.put_character ('%%'); io.put_character (code)
-					end
-					i := i + 1
-				end
-				IO.put_character ('%"')
-				IO.put_new_line
-			end
+			put_indexable (area, lower, upper)
+		end
+
+	add_character_buffer (buffer: EL_CHARACTER_8_BUFFER; lower, upper: INTEGER)
+		do
+			Precursor (buffer, lower, upper)
+			put_indexable (buffer, lower, upper)
 		end
 
 	add_integer_32 (integer: INTEGER_32)
@@ -100,6 +84,35 @@ feature {NONE} -- Implementation
 			IO.put_string (once "): ")
 			if is_string then
 				IO.put_character ('"')
+			end
+		end
+
+	put_indexable (area: READABLE_INDEXABLE [CHARACTER]; lower, upper: INTEGER)
+		local
+			c_i, code: CHARACTER; i: INTEGER
+		do
+			if upper >= lower then
+				put_digest_trace (True)
+				from i := lower until i > upper loop
+					c_i := area [i]
+					inspect c_i
+						when '%N' then
+							code := 'N'
+						when '%R' then
+							code := 'R'
+						when '%T' then
+							code := 'T'
+					else
+						code := '%U'
+						io.put_character (c_i)
+					end
+					if code > '%U' then
+						io.put_character ('%%'); io.put_character (code)
+					end
+					i := i + 1
+				end
+				IO.put_character ('%"')
+				IO.put_new_line
 			end
 		end
 

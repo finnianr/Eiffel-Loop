@@ -93,7 +93,7 @@ feature -- Tests
 		-- COMPRESSION_TEST_SET.test_zlib_compress
 		do
 			across File_system.files (work_area_data_dir, True) as path loop
-				test_zlib_with_file (path.item)
+				test_zlib_with_file (path)
 			end
 		end
 

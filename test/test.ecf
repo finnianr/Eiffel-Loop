@@ -126,6 +126,13 @@ Common Classes
 See doc/test.common.txt for details
 			</description>
 		</cluster>
+		<cluster name = "compression" location = "source/compression" recursive = "true">
+			<description>
+compression.ecf
+
+See class ${COMPRESSION_TEST_APP}
+			</description>
+		</cluster>
 		<cluster name = "eco_db" location = "source/Eco-DB" recursive = "true">
 			<description>
 Eco-DB.ecf

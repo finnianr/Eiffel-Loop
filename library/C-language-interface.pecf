@@ -35,7 +35,7 @@ system:
 			EL_compression = "compression.ecf"
 
 		cluster_tree:
-			C_API = "language_interface/C"
+			EL_c_lang = "language_interface/C"
 			description: 
 				"""
 					C and C++

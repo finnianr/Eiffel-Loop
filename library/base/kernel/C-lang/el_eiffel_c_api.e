@@ -123,4 +123,21 @@ feature {NONE} -- Directory
 			"C signature (EIF_POINTER, EIF_FILENAME): EIF_POINTER use %"eif_dir.h%""
 		end
 
+feature {NONE} -- Read natural numbers
+
+	frozen eif_read_natural_16 (ptr: POINTER; i: INTEGER): NATURAL_16
+			-- 16 bit unsigned integer at offset `i' from `ptr'.
+		external
+			"C inline"
+		alias
+			"return ((EIF_NATURAL_16 *)$ptr)[$i];"
+		end
+
+	frozen eif_read_natural_64 (ptr: POINTER; i: INTEGER): NATURAL_64
+			-- 64 bit unsigned integer at offset `i' from `ptr'.
+		external
+			"C inline use <string.h>"
+		alias
+			"return ((EIF_NATURAL_64 *)$ptr)[$i];"
+		end
 end

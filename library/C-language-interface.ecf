@@ -21,7 +21,7 @@ Create Eiffel interfaces to C/C++ API&apos;s
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_compression" location = "compression.ecf"/>
-		<cluster name = "C_API" location = "language_interface/C" recursive = "true">
+		<cluster name = "EL_c_lang" location = "language_interface/C" recursive = "true">
 			<description>
 C and C++
 

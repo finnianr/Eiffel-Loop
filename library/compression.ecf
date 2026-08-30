@@ -15,10 +15,9 @@ The main class is ${EL_COMPRESSED_ARCHIVE_FILE} with a few helper classes.
 			<concurrency support="thread"/>
 			<void_safety support="none"/>
 		</capability>
-		<library name="c_zlib" location="$ISE_LIBRARY\C_library\zlib\clibs_zlib.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
-		<library name="el_base" location="base\base.ecf"/>
 		<library name="zlib" location="$ISE_LIBRARY\C_library\zlib\clibs_zlib.ecf"/>
-		<cluster name="compression" location="utility\compression\" recursive = "true"/>
+		<library name="el_base" location="base\base.ecf"/>
+		<cluster name="el_compression" location="utility\compression\" recursive = "true"/>
 	</target>
 </system>

@@ -3,7 +3,7 @@
 	<description>
 Eiffel-Loop Code Performance Benchmarks
 
-See doc/benchmark.txt for details
+See doc/benchmark.txt for details.
 	</description>
 	<target name="classic">
 		<root class="APPLICATION_ROOT" feature="make"/>

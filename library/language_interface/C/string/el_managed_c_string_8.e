@@ -19,37 +19,14 @@ class
 	EL_MANAGED_C_STRING_8
 
 inherit
-	MANAGED_POINTER
+	EL_CHARACTER_8_BUFFER
 		rename
-			item as area,
-			share_from_pointer as make_shared
+			index_of as index_of_between,
+			valid_index as valid_zero_index
 		export
-			{EL_MANAGED_C_STRING_8} area
-			{ANY} count
-			{STRING_HANDLER} make_shared
 			{NONE} all
-		undefine
-			is_equal
-		end
-
-	STRING_HANDLER
-		undefine
-			copy, is_equal
-		end
-
-	EL_STRING_H_C_API
-		undefine
-			copy, is_equal
-		end
-
-	COMPARABLE
-		undefine
-			copy
-		end
-
-	DEBUG_OUTPUT
-		undefine
-			copy, is_equal
+		redefine
+			item
 		end
 
 create
@@ -58,52 +35,10 @@ create
 convert
 	make_from_string ({STRING_8})
 
-feature {NONE} -- Initialization
-
-	make_empty
-		do
-			make (0)
-		end
-
-	make_filled (c: CHARACTER_8; n: INTEGER)
-			-- Create string of length `n' filled with `c'.
-		require
-			valid_count: n >= 0
-		local
-			i: INTEGER
-		do
-			make (n)
-			from until i = n loop
-				put_character (c, i)
-				i := i + 1
-			end
-		ensure
-			count_set: count = n
-			filled: occurrences (c) = count
-		end
-
-	make_from_string (s: STRING_8)
-		-- Initialize buffer with the contents of `s'.
-		do
-			make_from_pointer (s.area.base_address, s.count)
-		ensure
-			count_set: count = s.count
-		end
-
-feature -- Comparison
-
-	is_less alias "<" (other: like Current): BOOLEAN
-			-- Is current string lexicographically less than `other'?
-		do
-			Result := c_strcmp_n (area, count, other.area, other.count) < 0
-		end
-
 feature -- Access
 
 	item alias "[]" (i: INTEGER): CHARACTER_8
 		-- Character at position `i'.
-		require
-			valid_index: valid_index (i)
 		do
 			Result := read_character_8 (area, i - 1)
 		end
@@ -133,57 +68,7 @@ feature -- Measurement
 			same_as_string_8: Result = to_string.index_of (c, start_index)
 		end
 
-
-	match_count (other: SPECIAL [CHARACTER_8]; offset: INTEGER): INTEGER
-		-- count of characters in `other' from `offset' matching those in `area'
-		local
-			i, l_count: INTEGER; l_area: POINTER
-		do
-			l_count := count.min (other.count - offset)
-			l_area := area
-			from i := 0; until i = l_count loop
-				if read_character_8 (l_area, i) = other [offset + i] then
-					Result := Result + 1
-					i := i + 1
-				else
-					i := l_count -- break
-				end
-			end
-		end
-
-	occurrences (c: CHARACTER_8): INTEGER
-		-- Number of times `c' appears in `area'
-		local
-			i, l_count: INTEGER; l_area: POINTER
-		do
-			l_area := area; l_count := count
-			from i := 0 until i = l_count loop
-				if read_character_8 (l_area, i) = c then
-					Result := Result + 1
-				end
-				i := i + 1
-			end
-		ensure
-			same_as_string_8: Result = to_string.occurrences (c)
-		end
-
-feature -- Status report
-
-	is_whitespace: BOOLEAN
-		-- `True' if entire string is whitespace
-		local
-			i, l_count: INTEGER; l_area: POINTER
-		do
-			l_area := area; l_count := count
-			Result := True
-			from i := 0 until i = l_count or not Result loop
-				if read_character_8 (l_area, i).is_space then
-					i := i + 1
-				else
-					Result := False
-				end
-			end
-		end
+feature -- Status query
 
 	has_substring_at (other: STRING_8; index: INTEGER): BOOLEAN
 		-- `True' if characters of `other' occur at `index'
@@ -198,83 +83,10 @@ feature -- Status report
 			end
 		end
 
-	has_upper: BOOLEAN
-		-- `True' if string has uppercase character
-		local
-			i, l_count: INTEGER; l_area: POINTER
-		do
-			l_area := area; l_count := count
-			from i := 0 until i = l_count or Result loop
-				if read_character_8 (l_area, i).is_upper then
-					Result := True
-				else
-					i := i + 1
-				end
-			end
-		end
-
-	same_characters (other: SPECIAL [CHARACTER_8]; offset: INTEGER): BOOLEAN
-		-- `True' if characters in `other' from `offset' match those in `Current'
-		local
-			l_count: INTEGER
-		do
-			l_count := count
-			if other.valid_index (offset + l_count - 1) then
-				Result := c_memory_compare (area, other.item_address (offset), l_count)
-			end
-		end
-
-	starts_with (other: EL_MANAGED_C_STRING_8): BOOLEAN
-		-- Does `area' start with the same bytes as `other.area'?
-		do
-			if other.count <= count then
-				Result := c_memory_compare (area, other.area, other.count)
-			end
-		ensure
-			same_as_string: Result = to_string.starts_with (other.to_string)
-		end
-
 	valid_index (i: INTEGER): BOOLEAN
 		-- Is `i' within the bounds of the string?
 		do
-			Result := (i > 0) and (i <= count)
-		ensure
-			definition: Result = (1 <= i and i <= count)
-		end
-
-feature -- Conversion
-
-	to_string, debug_output: STRING_8
-		do
-			create Result.make (count)
-			append_to_string_area (Result.area, 0)
-			Result.set_count (count)
-		ensure then
-			round_trip: is_equal (new_string (Result))
-		end
-
-feature -- Basic operations
-
-	append_to_string_8 (str: STRING_8)
-		local
-			new_count: INTEGER
-		do
-			new_count := str.count + count
-			str.grow (new_count)
-			append_to_string_area (str.area, str.count)
-			str.set_count (new_count)
-		end
-
-feature -- Removal
-
-	remove_head (n: INTEGER)
-		require
-			n_less_than_or_equal: n <= count
-		do
-			if is_shared and n <= count then
-				area := area + n
-				count := count - n
-			end
+			Result := 1 <= i and i <= count
 		end
 
 feature -- Duplication
@@ -295,33 +107,6 @@ feature -- Duplication
 			substring_count: Result.count = end_index - start_index + 1 or Result.count = 0
 			first_code: Result.count > 0 implies Result [1] = item (start_index)
 			recurse: Result.count > 0 implies Result.substring (2, Result.count) ~ substring (start_index + 1, end_index)
-		end
-
-	new_string (str: STRING_8): like Current
-		do
-			create Result.make_from_string (str)
-		end
-
-feature {NONE} -- Implementation
-
-	append_to_string_area (area_out: SPECIAL [CHARACTER]; offset: INTEGER)
-		require
-			big_enough_str: offset + count <= area_out.capacity - 1
-		local
-			i, l_count: INTEGER; l_area: POINTER
-		do
-			l_area := area; l_count := count
-			from i := 0 until i = l_count loop
-				area_out [offset + i] := read_character_8 (l_area, i)
-				i := i + 1
-			end
-		end
-
-	frozen read_character_8 (a_area: POINTER; i: INTEGER): CHARACTER
-		require
-			valid_index: i < count
-		do
-			Result := c_read_character_8 (a_area, i)
 		end
 
 end

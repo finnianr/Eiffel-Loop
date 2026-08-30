@@ -40,6 +40,8 @@ inherit
 			default_create, copy, is_equal, out
 		end
 
+	EL_CRC_32_CONSTANTS
+
 create
 	default_create
 
@@ -101,6 +103,18 @@ feature -- Element change
 			end
 		end
 
+	add_character_buffer (buffer: EL_CHARACTER_8_BUFFER; lower, upper: INTEGER)
+		do
+			add_managed_pointer (buffer, lower, upper)
+		end
+
+	add_managed_pointer (area: MANAGED_POINTER; lower, upper: INTEGER)
+		do
+			if upper >= lower then
+				set_item (managed_pointer_crc_32 (item, area, lower, upper))
+			end
+		end
+
 	add_integer_32 (integer: INTEGER_32)
 		do
 			add_bytes ($integer, Integer_32_bytes)
@@ -115,4 +129,45 @@ feature -- Element change
 		do
 			set_item (Crc_initial)
 		end
+
+feature {NONE} -- Implementation
+
+	characters_crc_32 (a_value: NATURAL_64; area: SPECIAL [CHARACTER]; lower, upper: INTEGER): NATURAL
+		-- continue adding to a previously calculated CRC-32/ISO-HDLC `value'
+		require
+			lower_non_negative: lower >= 0
+			lower_in_bound: lower < area.count
+			lower_not_too_big: lower <= upper + 1
+			upper_valid: upper < area.count
+		local
+			l_value: NATURAL
+		do
+			inspect a_value
+				when CRC_initial then
+					l_value := c_crc_32_seed
+			else
+				l_value := a_value.to_natural_32
+			end
+			Result := c_crc_32 (l_value, area.item_address (lower), upper - lower + 1)
+		end
+
+	managed_pointer_crc_32 (a_value: NATURAL_64; memory: MANAGED_POINTER; lower, upper: INTEGER): NATURAL
+		-- continue adding to a previously calculated CRC-32/ISO-HDLC `value'
+		require
+			lower_non_negative: lower >= 0
+			lower_in_bound: lower < memory.count
+			lower_not_too_big: lower <= upper + 1
+			upper_valid: upper < memory.count
+		local
+			l_value: NATURAL
+		do
+			inspect a_value
+				when CRC_initial then
+					l_value := c_crc_32_seed
+			else
+				l_value := a_value.to_natural_32
+			end
+			Result := c_crc_32 (l_value, memory.item + lower, upper - lower + 1)
+		end
+
 end

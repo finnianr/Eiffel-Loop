@@ -36,11 +36,11 @@ system:
 			address_expression = false; array_optimization = false
 			check_vape = true; console_application = true
 			check_for_void_target = false
-			dead_code_removal = all; dynamic_runtime = false
+			dead_code_removal = none; dynamic_runtime = false
 			exception_trace = true
 			inlining = true; inlining_size = 15
 			line_generation = false
-
+			
 		precompile:
 			precompile = "$ISE_PRECOMP/EL/console-application.ecf"
 

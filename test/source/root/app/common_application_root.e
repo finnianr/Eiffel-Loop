@@ -30,13 +30,13 @@ inherit
 	-- APP_MANAGE_AUTOTEST_APP,
 
 	-- Test base.ecf
-		BASE_AUTOTEST_APP
+		BASE_AUTOTEST_APP,
 
 	-- Test C-language-interface.ecf	
 	-- C_LANGUAGE_INTERFACE_AUTOTEST_APP,
 
 	-- Test compression.ecf
-	-- COMPRESSION_AUTOTEST_APP,
+	 	COMPRESSION_AUTOTEST_APP
 
 	-- Test currency.ecf	
 	-- CURRENCY_AUTOTEST_APP,

@@ -10,8 +10,11 @@ note
 	date: "2026-06-29 6:31:14 GMT (Monday 29th June 2026)"
 	revision: "1"
 
-class
+deferred class
 	EL_CRC_32_CONSTANTS
+
+inherit
+	EL_ANY_SHARED
 
 feature -- Constants
 
