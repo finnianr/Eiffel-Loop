@@ -5,7 +5,7 @@ note
 	]"
 	notes: "[
 		**BENCHMARKING RESULTS**
-		
+
 	]"
 
 	author: "Finnian Reilly"
@@ -99,17 +99,16 @@ feature {NONE} -- Compare indexed item
 
 	c_buffer_indexed_string (title_list: LIST [EL_MANAGED_C_STRING_8])
 		local
-			count, i, i_final: INTEGER
+			count, i, i_final: INTEGER; str: EL_MANAGED_C_STRING_8
 		do
 			across 0 |..| 100 as n loop
 				across title_list as list loop
-					if attached list as str then
-						from i := 1; i_final := list.count until i > i_final loop
-							if str [i] = 'a' then
-								count := count + 1
-							end
-							i := i + 1
+					str := list
+					from i := 1; i_final := list.count until i > i_final loop
+						if str [i] = 'a' then
+							count := count + 1
 						end
+						i := i + 1
 					end
 				end
 			end
@@ -131,7 +130,6 @@ feature {NONE} -- Compare indexed item
 				end
 			end
 		end
-
 
 feature {NONE} -- Compare parse CSV
 

@@ -21,6 +21,7 @@ script_names = [
 	'ec_open_directory',
 	'ec_write_set_environ',
 	'ec_write_software_version',
+	'gedit_github_version',
 	'toggle_display_settings'
 ]
 
