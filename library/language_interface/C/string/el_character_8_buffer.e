@@ -30,6 +30,8 @@ inherit
 		end
 
 	READABLE_INDEXABLE [CHARACTER]
+		rename
+			valid_index as valid_item_index
 		undefine
 			copy, is_equal
 		end
@@ -271,7 +273,7 @@ feature -- Status query
 			end
 		end
 
-	valid_index (i: INTEGER): BOOLEAN
+	valid_index, valid_item_index (i: INTEGER): BOOLEAN
 			-- Is `i' within the bounds of Current?
 		do
 			Result := 0 <= i and i < count

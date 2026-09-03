@@ -19,7 +19,7 @@ See doc/benchmark.txt for details.
 		<setting name="dynamic_runtime" value="false"/>
 		<setting name="exception_trace" value="true"/>
 		<setting name="inlining" value="true"/>
-		<setting name="inlining_size" value="15"/>
+		<setting name="inlining_size" value="5"/>
 		<setting name="line_generation" value="false"/>
 		<setting name="dead_code_removal" value="none"/>
 		<capability>

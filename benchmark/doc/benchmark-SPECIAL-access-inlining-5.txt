@@ -1,0 +1,52 @@
+Performed September 2nd 2026 at 16:00 GMT
+
+Inlining = 5 (previously 15)
+
+Compiler version 16.05 + gcc v4.8.4 on Linux Mint 19 (Mac Mini 2012)
+
+RESULTS: indexed_item
+
+	C buffer indexed_item   : 1553.0 times (100%)
+	SPECIAL indexed_item    : 1545.0 times (-0.5%)
+	C buffer indexed_string : 1541.0 times (-0.8%)
+
+RESULTS: starts_with
+
+	C buffer starts_with : 1547.0 times (100%)
+	SPECIAL starts_with  :  833.0 times (-46.2%)
+
+
+RESULTS: occurrences
+
+	C buffer occurrences :  973.0 times (100%)
+	SPECIAL occurrences  :  846.0 times (-13.1%)
+
+
+RESULTS: CSV line parsing
+
+	C buffer parse_csv :  58.0 times (100%)
+	SPECIAL parse_csv  :  51.0 times (-12.1%)
+
+Compiler version: 25.12 + gcc v13.3.0 on Linux Mint 22.2 (Lenovo ThinkCentre M90a Pro Gen6 2025)
+
+RESULTS: indexed_item
+
+	C buffer indexed_item   :  5854.0 times (100%)
+	SPECIAL indexed_item    :  1533.0 times (-73.8%)
+	C buffer indexed_string :   238.0 times (-95.9%)
+
+RESULTS: starts_with
+
+	C buffer starts_with :  5235.0 times (100%)
+	SPECIAL starts_with  :  2712.0 times (-48.2%)
+
+RESULTS: occurrences
+
+	SPECIAL occurrences  : 1402.0 times (100%)
+	C buffer occurrences :  453.0 times (-67.7%)
+
+RESULTS: CSV line parsing
+
+	SPECIAL parse_csv  : 127.0 times (100%)
+	C buffer parse_csv : 108.0 times (-15.0%)
+

@@ -22,11 +22,12 @@ inherit
 	EL_CHARACTER_8_BUFFER
 		rename
 			index_of as index_of_between,
-			valid_index as valid_zero_index
+			valid_index as valid_zero_index,
+			valid_item_index as valid_index
 		export
 			{NONE} all
 		redefine
-			item
+			item, valid_index
 		end
 
 create

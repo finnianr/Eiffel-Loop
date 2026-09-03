@@ -99,12 +99,12 @@ feature {NONE} -- Compare indexed item
 
 	c_buffer_indexed_string (title_list: LIST [EL_MANAGED_C_STRING_8])
 		local
-			count, i, i_final: INTEGER; str: EL_MANAGED_C_STRING_8
+			count, i, str_count: INTEGER; str: EL_MANAGED_C_STRING_8
 		do
 			across 0 |..| 100 as n loop
 				across title_list as list loop
 					str := list
-					from i := 1; i_final := list.count until i > i_final loop
+					from i := 1; str_count := str.count until i > str_count loop
 						if str [i] = 'a' then
 							count := count + 1
 						end
@@ -121,7 +121,7 @@ feature {NONE} -- Compare indexed item
 			across 0 |..| 100 as n loop
 				across title_list as list loop
 					area := list.area
-					from i := 0; i_final := list.count until i = i_final loop
+					from i := 0; i_final := area.count - 1 until i = i_final loop
 						if area [i] = 'a' then
 							count := count + 1
 						end
