@@ -41,7 +41,7 @@ feature -- Access
 	item alias "[]" (i: INTEGER): CHARACTER_8
 		-- Character at position `i'.
 		do
-			Result := read_character_8 (area, i - 1)
+			Result := c_read_character_8 (area, i - 1)
 		end
 
 feature -- Measurement
@@ -57,7 +57,7 @@ feature -- Measurement
 		do
 			l_area := area; l_count := count
 			if start_index <= l_count then
-				from i := start_index - 1 until i = l_count or else read_character_8 (l_area, i) = c loop
+				from i := start_index - 1 until i = l_count or else c_read_character_8 (l_area, i) = c loop
 					i := i + 1
 				end
 				if i < l_count then

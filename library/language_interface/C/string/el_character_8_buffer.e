@@ -101,7 +101,7 @@ feature -- Access
 	item alias "[]" (i: INTEGER): CHARACTER_8 assign put
 		-- character at position `i' (indices begin at 0)
 		do
-			Result := read_character_8 (area, i)
+			Result := c_read_character_8 (area, i)
 		end
 
 feature -- Element change
@@ -109,7 +109,7 @@ feature -- Element change
 	put (c: CHARACTER; i: INTEGER)
 		-- Replace `i'-th item by `v' (Indices begin at 0)
 		do
-			put_character_8 (area, c, i)
+			c_put_character_8 (area, c, i)
 		ensure
 			inserted: item (i) = c
 			same_count: count = old count
@@ -129,7 +129,7 @@ feature -- Measurement
 		do
 			l_area := area
 			from i := start_index until i > end_index loop
-				if read_character_8 (l_area, i).is_space then
+				if c_read_character_8 (l_area, i).is_space then
 					Result := Result + 1; i := i + 1
 				else
 					i := end_index + 1 -- break
@@ -151,7 +151,7 @@ feature -- Measurement
 		do
 			l_area := area
 			i_upper := (count - 1).min (end_index).max (0)
-			from i := start_index until i > i_upper or else read_character_8 (l_area, i) = c loop
+			from i := start_index until i > i_upper or else c_read_character_8 (l_area, i) = c loop
 				i := i + 1
 			end
 			if i > end_index then
@@ -172,7 +172,7 @@ feature -- Measurement
 			l_area := area; string_area := string.area
 			i_final := string_area.count.min (count - offset).max (0)
 			from i := 0; until i = i_final loop
-				if read_character_8 (l_area, i + offset) = string_area [i] then
+				if c_read_character_8 (l_area, i + offset) = string_area [i] then
 					Result := Result + 1
 					i := i + 1
 				else
@@ -188,7 +188,7 @@ feature -- Measurement
 		do
 			l_area := area; l_count := count
 			from i := 0 until i = l_count loop
-				if read_character_8 (l_area, i) = c then
+				if c_read_character_8 (l_area, i) = c then
 					Result := Result + 1
 				end
 				i := i + 1
@@ -212,7 +212,7 @@ feature -- Status query
 		do
 			Result := True; l_area := area
 			from i := start_index until i > end_index or not Result loop
-				Result := read_character_8 (l_area, i) = c
+				Result := c_read_character_8 (l_area, i) = c
 				i := i + 1
 			end
 		end
@@ -224,7 +224,7 @@ feature -- Status query
 		do
 			l_area := area; l_count := count
 			from i := 0 until i = l_count or Result loop
-				if read_character_8 (l_area, i).is_upper then
+				if c_read_character_8 (l_area, i).is_upper then
 					Result := True
 				else
 					i := i + 1
@@ -245,7 +245,7 @@ feature -- Status query
 			l_area := area; l_count := count
 			Result := True
 			from i := 0 until i = l_count or not Result loop
-				if read_character_8 (l_area, i).is_space then
+				if c_read_character_8 (l_area, i).is_space then
 					i := i + 1
 				else
 					Result := False
@@ -264,7 +264,7 @@ feature -- Status query
 			Result := True
 			i_upper := (count - 1).min (end_index)
 			from i := start_index until i > i_upper loop
-				if read_character_8 (l_area, i).is_space then
+				if c_read_character_8 (l_area, i).is_space then
 					i := i + 1
 				else
 					Result := False
@@ -320,7 +320,7 @@ feature -- String comparison
 				l_area := area
 				Result := True
 				from i := start_index until i > end_index loop
-					c_i := read_character_8 (l_area, i); c_j := string_area [j]
+					c_i := c_read_character_8 (l_area, i); c_j := string_area [j]
 					if c_i = c_j or else c_i.as_lower =  c_j.as_lower then
 						i := i + 1
 						j := j + 1
@@ -556,25 +556,9 @@ feature {NONE} -- Implementation
 		do
 			l_area := area; l_count := count
 			from i := 0 until i = l_count loop
-				area_out [offset + i] := read_character_8 (l_area, i)
+				area_out [offset + i] := c_read_character_8 (l_area, i)
 				i := i + 1
 			end
-		end
-
-	frozen read_character_8 (a_area: POINTER; i: INTEGER): CHARACTER
-		require
-			index_large_enough: i >= 0
-			index_small_enough: i < count
-		do
-			Result := c_read_character_8 (a_area, i)
-		end
-
-	frozen put_character_8 (a_area: POINTER; c: CHARACTER; i: INTEGER)
-		require
-			index_large_enough: i >= 0
-			index_small_enough: i < count
-		do
-			c_put_character_8 (a_area, c, i)
 		end
 
 end
