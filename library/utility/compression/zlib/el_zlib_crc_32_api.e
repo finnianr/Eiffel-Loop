@@ -25,9 +25,9 @@ feature {NONE} -- C Externals
 			"C inline use <zlib.h>"
 		alias
 			"[
-				return (EIF_NATURAL_32) crc32 (
+				(EIF_NATURAL_32) crc32 (
 					(unsigned long) $value, (const unsigned char *) $byte_array, (unsigned int) $a_count
-				);
+				)
 			]"
 		end
 
@@ -36,7 +36,7 @@ feature {NONE} -- C Externals
 		external
 			"C inline use <zlib.h>"
 		alias
-			"return (EIF_NATURAL_32) crc32(0L, Z_NULL, 0);"
+			"(EIF_NATURAL_32) crc32 (0L, Z_NULL, 0)"
 		end
 
 end

@@ -104,18 +104,6 @@ feature -- Access
 			Result := c_read_character_8 (area, i)
 		end
 
-feature -- Element change
-
-	put (c: CHARACTER; i: INTEGER)
-		-- Replace `i'-th item by `v' (Indices begin at 0)
-		do
-			c_put_character_8 (area, c, i)
-		ensure
-			inserted: item (i) = c
-			same_count: count = old count
-			same_capacity: capacity = old capacity
-		end
-
 feature -- Measurement
 
 	count: INTEGER
@@ -370,7 +358,7 @@ feature -- String comparison
 			same_as_string: Result = to_string.starts_with (other.to_string)
 		end
 
-	starts_with_string (start_index: INTEGER; str: STRING_8): BOOLEAN
+	starts_with_string (str: STRING_8; start_index: INTEGER): BOOLEAN
 		-- Does `area' start with the same bytes as `str' from `start_index' ?
 		require
 			valid_index: valid_index (start_index)
@@ -536,6 +524,16 @@ feature -- Element change
 				and then s_32.count = 1 and then s_32.code (1) = cp.to_natural_32
 		end
 
+	put (c: CHARACTER; i: INTEGER)
+		-- Replace `i'-th item by `v' (Indices begin at 0)
+		do
+			c_put_character_8 (area, c, i)
+		ensure
+			inserted: item (i) = c
+			same_count: count = old count
+			same_capacity: capacity = old capacity
+		end
+
 	remove_head (n: INTEGER)
 		require
 			n_less_than_or_equal: n <= count
@@ -544,6 +542,14 @@ feature -- Element change
 				area := area + n
 				count := count - n
 			end
+		end
+
+	read_file (file: RAW_FILE; n: INTEGER)
+		require
+			big_enough: n <= capacity
+		do
+			file.read_to_managed_pointer (Current, 0, n)
+			count := file.bytes_read
 		end
 
 feature {NONE} -- Implementation

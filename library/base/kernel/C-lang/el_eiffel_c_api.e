@@ -130,7 +130,7 @@ feature {NONE} -- Read natural numbers
 		external
 			"C inline"
 		alias
-			"return ((EIF_NATURAL_16 *)$ptr)[$i];"
+			"((EIF_NATURAL_16 *)$ptr)[$i]"
 		end
 
 	frozen eif_read_natural_64 (ptr: POINTER; i: INTEGER): NATURAL_64
@@ -138,6 +138,6 @@ feature {NONE} -- Read natural numbers
 		external
 			"C inline use <string.h>"
 		alias
-			"return ((EIF_NATURAL_64 *)$ptr)[$i];"
+			"((EIF_NATURAL_64 *)$ptr)[$i]"
 		end
 end
