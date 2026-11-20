@@ -44,9 +44,9 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			target_dir := a_target_dir
 			create names_list.make (24)
-			across << long_months_text, months_text >> as array loop
-				across array.item as list loop
-					names_list.extend (list.item)
+			across << long_months_text, months_text >> as text_array loop
+				across text_array as text loop
+					names_list.extend (text)
 					names_list.last.to_proper
 				end
 			end
@@ -57,7 +57,7 @@ feature -- Basic operations
 	execute
 		do
 			across OS.directory_list (target_dir) as path loop
-				check_dir (path.item)
+				check_dir (path)
 			end
 			if not item_renamed then
 				lio.put_line ("All month names normalized for chronological sort")

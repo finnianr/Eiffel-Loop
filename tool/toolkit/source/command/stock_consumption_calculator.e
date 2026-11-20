@@ -54,7 +54,7 @@ feature -- Basic operations
 	execute
 		local
 			import_list: CSV_IMPORTABLE_ARRAYED_LIST [STOCK_ORDER]
-			monthly_use_list: EL_ARRAYED_MAP_LIST [DATE, REAL]; last_order, order: STOCK_ORDER
+			monthly_use_list: EL_ARRAYED_MAP_LIST [DATE, REAL]; last_order: STOCK_ORDER
 			date: DATE; average: REAL; found_first: BOOLEAN; day_count: INTEGER
 		do
 			create import_list.make (50)
@@ -63,8 +63,7 @@ feature -- Basic operations
 
 			import_list.order_by (agent {STOCK_ORDER}.date, True)
 			create monthly_use_list.make ((import_list.last.date.days - import_list.first.date.days + 1) // 30)
-			across import_list as list loop
-				order := list.item
+			across import_list as order loop
 				if attached last_order as last then
 					average := (last_order.count / (order.date.days - last_order.date.days)).truncated_to_real
 					from create date.make_by_days (last.date.days) until date ~ order.date loop
@@ -89,7 +88,7 @@ feature -- Basic operations
 			end
 			if attached open (output_path, Write) as file then
 				across monthly_use_list as list loop
-					file.put_line (Line_template #$ [list.key.year, list.key.month, list.value])
+					file.put_line (Line_template #$ [@ list.key.year, @ list.key.month, @ list.value])
 				end
 				file.close
 			end

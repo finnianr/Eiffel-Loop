@@ -53,11 +53,11 @@ feature {NONE} -- State handlers
 			if pair.name ~ Field.name then
 				names.wipe_out
 				across pair.value.split (';') as part loop
-					inspect part.cursor_index
+					inspect @ part.cursor_index
 						when 1 then
-							names.extend (part.item)
+							names.extend (part)
 						when 2 then
-							names.put_front (part.item)
+							names.put_front (part)
 					else
 					end
 				end

@@ -15,7 +15,7 @@ class
 inherit
 	EVC_SERIALIZEABLE_AS_XML
 		redefine
-			make_from_file, make_default, getter_function_table, Template
+			make_from_file, make_default
 		end
 
 create

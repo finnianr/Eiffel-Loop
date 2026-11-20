@@ -15,9 +15,6 @@ class
 
 inherit
 	EL_APPLICATION_COMMAND
-		redefine
-			description
-		end
 
 	EL_MODULE_LIO
 
@@ -53,10 +50,10 @@ feature -- Basic operations
 			create out_file.make_open_write (output_path)
 
 			across File.plain_text_lines (source_path) as line loop
-				if line.cursor_index <= 2 then
-					out_file.put_string (line.item)
-				elseif not line.item.is_empty then
-					out_file.put_string (encrypter.base_64_encrypted (line.item))
+				if @ line.cursor_index <= 2 then
+					out_file.put_string (line)
+				elseif not line.is_empty then
+					out_file.put_string (encrypter.base_64_encrypted (line))
 				end
 				out_file.put_new_line
 			end

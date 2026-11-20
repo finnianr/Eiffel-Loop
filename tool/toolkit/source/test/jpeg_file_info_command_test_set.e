@@ -38,10 +38,9 @@ feature -- Tests
 	test_jpeg_info
 		-- JPEG_FILE_INFO_COMMAND_TEST_SET.test_jpeg_info
 		local
-			jpeg_path: FILE_PATH; meta_data_count: INTEGER
+			meta_data_count: INTEGER
 		do
-			across file_list as path loop
-				jpeg_path := path.item
+			across file_list as jpeg_path loop
 				Jpeg_info.set_file_path (jpeg_path)
 				if Jpeg_info.has_meta_data then
 					lio.put_labeled_string ("File", jpeg_path.base)
@@ -64,19 +63,18 @@ feature -- Tests
 	test_undated_photo_finder
 		local
 			finder: UNDATED_PHOTO_FINDER; undated_set: EL_HASH_SET [FILE_PATH]
-			output_path, jpeg_path: FILE_PATH; dated_count: INTEGER
+			output_path: FILE_PATH; dated_count: INTEGER
 		do
 			output_path := work_area_dir + "undated-photos.txt"
 			create finder.make (work_area_dir, output_path)
 			finder.execute
 			create undated_set.make_equal (20)
 			across File.plain_text_lines (output_path) as line loop
-				undated_set.put (line.item)
+				undated_set.put (line)
 			end
 
 			assert ("at least 30 undated", undated_set.count > 30)
-			across file_list as path loop
-				jpeg_path := path.item
+			across file_list as jpeg_path loop
 				Jpeg_info.set_file_path (jpeg_path)
 
 				if undated_set.has (jpeg_path) then

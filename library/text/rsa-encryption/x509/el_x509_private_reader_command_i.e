@@ -20,7 +20,7 @@ inherit
 			make as make_file_command,
 			find_public_key as find_private_key
 		redefine
-			do_command, do_with_lines
+			do_command
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT

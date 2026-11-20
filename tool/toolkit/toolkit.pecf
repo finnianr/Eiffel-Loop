@@ -9,7 +9,7 @@ pyxis-doc:
 # cosmetics, trinkets or jewellery. 
 
 system:
-	configuration_ns = "1-16-0"
+	configuration_ns = "1-23-0"
 	name = el_toolkit; uuid = "7B1312E8-019E-4B01-B160-744B3B2E1915"
 	description:
 		"""
@@ -27,24 +27,29 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 13; release = 8; build = 676
+			major = 1; minor = 14; release = 0; build = 680
 			company = "Eiffel-Loop"; product = "toolkit"
 			copyright = "Finnian Reilly"
 
 		option: 
-			syntax = standard; full_class_checking = false; void_safety = none
-			trace = false; debug = false; warning = true
+			syntax = standard; full_class_checking = false
+			trace = false; debug = false; warning = warning
 
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = false
 
 		settings:
 			address_expression = false; array_optimization = false
-			check_vape = true; console_application = true; concurrency = thread
-			dead_code_removal = true; dynamic_runtime = false
+			check_vape = true; console_application = true
+			dead_code_removal = none; dynamic_runtime = false
 			exception_trace = false
 			inlining = true; inlining_size = 3
 			line_generation = false
+		capability:
+			concurrency:
+				support = thread; use = thread
+			void_safety:
+				support = none
 
 		precompile: 
 			precompile = "$ISE_PRECOMP/EL/console-application.ecf"
@@ -67,7 +72,7 @@ system:
 
 		# Eiffel-Loop contributions
 		libraries:
-			nel_fft_math = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
+			nel_fft_math = "$EIFFEL_LOOP/contrib/Eiffel/fft-math.ecf"
 
 		# Eiffel-Loop
 		writeable_libraries:

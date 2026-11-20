@@ -50,8 +50,8 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		currency_list: EL_STRING_8_LIST
 	)
 		do
-			output_path := a_output_path; date_format := a_date_format
-			create rate_grid.make (year, base_currency, currency_list)
+			date_format := a_date_format
+			create rate_grid.make (a_output_path, year, base_currency, currency_list)
 		end
 
 feature -- Constants
@@ -62,8 +62,8 @@ feature -- Basic operations
 
 	execute
 		do
-			lio.put_path_field ("Writing CSV %S", output_path)
-			rate_grid.export_to_csv (output_path, date_format)
+			lio.put_path_field ("Writing CSV %S", rate_grid.output_path)
+			rate_grid.export_to_csv (date_format)
 			lio.put_new_line
 		end
 
@@ -78,7 +78,5 @@ feature {NONE} -- Internal attributes
 	rate_grid: EL_EXCHANGE_RATE_HISTORY_GRID
 
 	date_format: STRING
-
-	output_path: FILE_PATH
 
 end

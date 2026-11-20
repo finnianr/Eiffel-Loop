@@ -5,12 +5,13 @@ echo
 pushd .
 
 cd $ISE_LIBRARY/library
+#cd /home/finnian/Dev/Eiffel/ISE_library/25.12/library
 
 echo ISE version $ISE_VERSION libraries
 ls
 echo
 
-for name in console file format_double; do
+for name in format_double; do
 	path=$(find base -type f -name "$name.e")
 	base_e=$(basename "$path")
 	class_name="${base_e%.*}"

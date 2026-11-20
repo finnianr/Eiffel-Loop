@@ -56,15 +56,15 @@ feature -- Tests
 			create pyxis_table.make_from_file (file_path)
 
 			across << "en", "de" >> as language loop
-				create decrypted_table.make_from_table (language.item, decrypted_pyxis_table)
-				create table.make_from_table (language.item, pyxis_table)
+				create decrypted_table.make_from_table (language, decrypted_pyxis_table)
+				create table.make_from_table (language, pyxis_table)
 
 				assert ("same size", decrypted_table.count = table.count)
 				across table as translation loop
-					if decrypted_table.has_key (translation.key) then
-						assert ("same value", translation.item ~ decrypted_table.found_item)
+					if decrypted_table.has_key (@ translation.key) then
+						assert ("same value", translation ~ decrypted_table.found_item)
 					else
-						assert_32 (translation.key + " found", False)
+						assert_32 (@ translation.key + " found", False)
 					end
 				end
 			end

@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			share_from_pointer (default_pointer, 0)
+			make_shared (default_pointer, 0)
 		end
 
 feature -- Element change
@@ -45,7 +45,7 @@ feature -- Element change
 		require
 			not_null: is_attached (array_ptr)
 		do
-			share_from_pointer (array_ptr, Size_of_attribute_struct)
+			make_shared (array_ptr, Size_of_attribute_struct)
 		end
 
 feature -- Status query

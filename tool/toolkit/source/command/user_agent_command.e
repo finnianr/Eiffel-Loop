@@ -54,7 +54,7 @@ feature -- Basic operations
 			if attached user_agent_set.to_list as list then
 				list.ascending_sort
 				across list as name loop
-					lio.put_line (name.item)
+					lio.put_line (name)
 				end
 			end
 		end

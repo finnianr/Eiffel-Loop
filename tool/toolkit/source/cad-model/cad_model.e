@@ -9,7 +9,7 @@ note
 		1. The data is all on one line
 		2. the arrays are delimited with `"], ["'
 		3. the `p' and `q' sections are delimited with `[[' and `]]'
-		
+
 		This method is significantly faster than using a full JSON parser. (by at least an order of magnitude)
 	]"
 
@@ -72,7 +72,7 @@ feature {NONE} -- Initialization
 		do
 			make (other.polygon_list.query_if (included))
 			across other.polygon_list.query_if (agent {CAD_POLYGON}.is_wet_and_dry) as polygon loop
-				polygon_list.extend (new_part (polygon.item))
+				polygon_list.extend (new_part (polygon))
 			end
 		end
 
@@ -107,16 +107,16 @@ feature -- Access
 				Result.append (Double_brackets.left)
 --					[[
 					across polygon_list as polygon loop
-						if not polygon.is_first then
+						if not @ polygon.is_first then
 --							], [
 							Result.append (Tuple_delimiter)
 						end
-						across polygon.item as coord loop
-							if not coord.is_first then
+						across polygon as coord loop
+							if not @ coord.is_first then
 --								,
 								Result.append (Comma_space)
 							end
-							Result.append_integer (vertice_index [coord.item])
+							Result.append_integer (vertice_index [coord])
 						end
 					end
 					Result.append (Double_brackets.right)
@@ -127,11 +127,11 @@ feature -- Access
 --					[[
 					Result.append (Double_brackets.left)
 					across vertice_index.key_list as coord loop
-						if not coord.is_first then
+						if not @ coord.is_first then
 --							], [
 							Result.append (Tuple_delimiter)
 						end
-						coord.item.append_to_string (Result)
+						coord.append_to_string (Result)
 					end
 					Result.append (Double_brackets.right)
 --					]]
@@ -158,9 +158,9 @@ feature -- Basic operations
 	print_to (lio: EL_LOGGABLE)
 		do
 			across polygon_list as polygon loop
-				lio.put_integer_field ("Polygon", polygon.cursor_index)
+				lio.put_integer_field ("Polygon", @ polygon.cursor_index)
 				lio.put_character (' ')
-				polygon.item.print_to (lio)
+				polygon.print_to (lio)
 				lio.put_new_line
 			end
 		end
@@ -171,8 +171,8 @@ feature -- Comparison
 		do
 			if polygon_list.count = other.polygon_list.count then
 				Result := across polygon_list as polygon all
-					polygon.item.is_approximately_equal (other.polygon_list [polygon.cursor_index], precision)
-					end
+					polygon.is_approximately_equal (other.polygon_list [@ polygon.cursor_index], precision)
+				end
 			end
 		end
 
@@ -210,8 +210,8 @@ feature {NONE} -- Factory
 		do
 			create Result.make (polygon_list.count * 4)
 			across polygon_list as polygon loop
-				across polygon.item as coord loop
-					Result.put (Result.count, coord.item)
+				across polygon as coord loop
+					Result.put (Result.count, coord)
 				end
 			end
 		end

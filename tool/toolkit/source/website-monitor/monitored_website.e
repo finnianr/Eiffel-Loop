@@ -64,12 +64,10 @@ feature -- Basic operations
 			lio.put_labeled_string ("CHECKING SITE", base_url)
 			lio.put_new_line_x2
 			timed_out_page := Void
-			across page_list as list until has_fault loop
-				if attached list.item as page then
-					page.check_url (Current)
-					if page.has_fault then
-						timed_out_page := page
-					end
+			across page_list as page until has_fault loop
+				page.check_url (Current)
+				if page.has_fault then
+					timed_out_page := page
 				end
 			end
 			lio.put_new_line

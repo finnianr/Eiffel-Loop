@@ -44,9 +44,9 @@ feature {NONE} -- Implementation
 					cmd.execute
 
 					across cmd.path_list as found_path loop
-						path_steps := found_path.item
+						path_steps := found_path
 						path_steps.remove_tail (1)
-						path_steps.extend (found_path.item.base)
+						path_steps.extend (found_path.base)
 						if path_steps.first ~ Short_directory_current then
 							path_steps.remove_head (1)
 						end

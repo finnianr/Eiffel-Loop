@@ -102,7 +102,7 @@ feature {NONE} -- Build from XML
 			parent_dir := target_dir.base #+ [Operating_environ.Directory_separator]
 
 			across exclude_files_list as file loop
-				file.item.prepend_string (parent_dir)
+				file.prepend_string (parent_dir)
 			end
 		end
 
@@ -122,7 +122,7 @@ feature {NONE} -- Build from XML
 
 			>>)
 			across << Protocol.ftp, Protocol.file, Protocol.ssh >> as type loop
-				Result [type.item + "-mirror"] := agent extend_mirror_list (type.item)
+				Result [type + "-mirror"] := agent extend_mirror_list (type)
 			end
 		end
 

@@ -45,8 +45,8 @@ feature -- Tests
 				create splitter.make (contacts_path)
 				splitter.execute
 				across OS.file_list (Work_area_dir #+ "contacts", "*.vcf") as path loop
-					split_text := File.plain_text (path.item)
-					id := path.item.base_name
+					split_text := File.plain_text (path)
+					id := path.base_name
 					index := split_text.substring_index (id, 1)
 					assert ("id", index > 0)
 					index := split_text.substring_index ("N:", index)
@@ -72,11 +72,11 @@ feature -- Tests
 				contacts_2_path := contacts_path.with_new_extension ("2.vcf")
 				assert ("output generated", contacts_2_path.exists)
 				across File.plain_text_lines (contacts_2_path) as line loop
-					if line.item.starts_with ("N:") then
-						last_name := super_8 (line.item).substring_to (';')
+					if line.starts_with ("N:") then
+						last_name := super_8 (line).substring_to (';')
 						last_name.remove_head (2)
-					elseif line.item.starts_with ("FN:") then
-						assert ("names reversed", line.item.ends_with (" " + last_name))
+					elseif line.starts_with ("FN:") then
+						assert ("names reversed", line.ends_with (" " + last_name))
 						count := count + 1
 					end
 				end

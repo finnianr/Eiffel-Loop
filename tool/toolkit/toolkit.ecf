@@ -7,7 +7,7 @@
 	It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold
 	cosmetics, trinkets or jewellery.
 -->
-<system name = "el_toolkit" uuid = "7B1312E8-019E-4B01-B160-744B3B2E1915" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
+<system name = "el_toolkit" uuid = "7B1312E8-019E-4B01-B160-744B3B2E1915" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-23-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-23-0 http://www.eiffel.com/developers/xml/configuration-1-23-0.xsd">
 	<description>
 Utilities Toolkit
 
@@ -18,21 +18,25 @@ See doc/toolkit.txt for details.
 	<!--&quot;Swiss army knife&quot; toolkit containing a suite of command line tools for Eiffel development-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "1" minor = "13" release = "8" build = "676" company = "Eiffel-Loop" product = "toolkit" copyright = "Finnian Reilly"/>
-		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
+		<version major = "1" minor = "14" release = "0" build = "680" company = "Eiffel-Loop" product = "toolkit" copyright = "Finnian Reilly"/>
+		<option syntax = "standard" full_class_checking = "false" trace = "false" debug = "false" warning = "warning">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>
 		</option>
 		<setting name = "address_expression" value = "false"/>
 		<setting name = "array_optimization" value = "false"/>
 		<setting name = "check_vape" value = "true"/>
 		<setting name = "console_application" value = "true"/>
-		<setting name = "concurrency" value = "thread"/>
-		<setting name = "dead_code_removal" value = "true"/>
+		<setting name = "dead_code_removal" value = "none"/>
 		<setting name = "dynamic_runtime" value = "false"/>
 		<setting name = "exception_trace" value = "false"/>
 		<setting name = "inlining" value = "true"/>
 		<setting name = "inlining_size" value = "3"/>
 		<setting name = "line_generation" value = "false"/>
+		<capability>
+			<concurrency support="thread"/>
+			<void_safety support="none"/>
+		</capability>
+		
 		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
 		<!--ISE libraries-->
 		<library name = "ise_base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
@@ -44,7 +48,7 @@ See doc/toolkit.txt for details.
 		<library name = "ise_integer_x" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
 		<library name = "ise_encryption" location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"/>
 		<!--Eiffel-Loop contributions-->
-		<library name = "nel_fft_math" location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"/>
+		<library name = "nel_fft_math" location = "$EIFFEL_LOOP/contrib/Eiffel/fft-math.ecf"/>
 		<!--Eiffel-Loop-->
 		<library name = "EL_app_license_keys" location = "$EIFFEL_LOOP/library/app-license-keys.ecf" readonly = "false"/>
 		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false"/>

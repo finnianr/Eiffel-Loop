@@ -36,10 +36,10 @@ feature -- Basic operations
 		local
 			backup: DUPLICITY_BACKUP
 		do
-			across config_list as list loop
-				lio.put_labeled_string ("Reading configuration", list.item.base)
+			across config_list as config loop
+				lio.put_labeled_string ("Reading configuration", config.base)
 				lio.put_new_line
-				create backup.make (list.item)
+				create backup.make (config)
 				backup.execute
 			end
 		end

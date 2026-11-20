@@ -22,7 +22,7 @@ inherit
 			make as make_command,
 			tree_dir as jpeg_tree_dir
 		redefine
-			execute, file_extensions
+			execute
 		end
 
 	EL_MODULE_FILE; EL_MODULE_LIO

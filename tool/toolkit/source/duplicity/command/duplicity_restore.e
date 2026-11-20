@@ -24,9 +24,6 @@ inherit
 		end
 
 	EL_APPLICATION_COMMAND
-		redefine
-			description
-		end
 
 	EL_STRING_GENERAL_ROUTINES_I
 
@@ -90,11 +87,11 @@ feature {NONE} -- Implementation
 			create path_list.make (cmd.path_list.count)
 			path_list.extend (target_dir_base)
 			across cmd.path_list as path loop
-				path_list.extend (path.item)
+				path_list.extend (path)
 			end
 			padding_format := char ('9') * integer.digit_count (path_list.count)
 			across path_list as path loop
-				lio.put_index_labeled_string (path, padding_format, path.item)
+				lio.put_index_labeled_string (path, padding_format, path)
 				lio.put_new_line
 			end
 			lio.put_new_line
@@ -125,7 +122,7 @@ feature {NONE} -- Factory
 	new_date_time (str: ZSTRING): DATE_TIME
 		-- DATE_TIME formatting is broken so we need to do time and date separately
 		local
-			parts: EL_ZSTRING_LIST; time: TIME; l_date: DATE
+			parts: EL_STRING_8_LIST; time: TIME; l_date: DATE
 		do
 			create parts.make_word_split (str.as_canonically_spaced)
 			create time.make_from_string (parts.i_th (3), Format.time)
@@ -150,9 +147,9 @@ feature {NONE} -- Factory
 					Result := new_backup_shell (collection.backup_list)
 			else
 				create item_table.make (year_group_table.count)
-				across year_group_table as table loop
-					backup_shell := new_backup_shell (table.item)
-					item_table [table.key] := agent backup_shell.run_command_loop
+				across year_group_table as year_group loop
+					backup_shell := new_backup_shell (year_group)
+					item_table [@ year_group.key] := agent backup_shell.run_command_loop
 				end
 				create Result.make ("BACKUPS BY YEAR", item_table, 10)
 			end
@@ -164,11 +161,11 @@ feature {NONE} -- Factory
 		do
 			create item_table.make (date_list.count)
 			year := if date_list.is_empty then ZSTRING ("0000") else year_string (date_list.first) end
-			across date_list as list loop
-				if list.is_last then
-					item_table [list.item] := agent restore_date (Time_now)
+			across date_list as l_date loop
+				if @ l_date.is_last then
+					item_table [l_date] := agent restore_date (Time_now)
 				else
-					item_table [list.item] := agent restore_date (new_date_time (list.item))
+					item_table [l_date] := agent restore_date (new_date_time (l_date))
 				end
 			end
 			create Result.make ("BACKUPS for " + year, item_table, 30)

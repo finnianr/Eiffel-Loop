@@ -63,9 +63,10 @@ feature {NONE} -- Implementation
 		end
 
 	put_file_specifier (file_specifier: ZSTRING)
-			--
+		require
+			is_latin_1: file_specifier.is_valid_as_string_8
 		do
-			put_string (file_specifier)
+			put_string (file_specifier.to_latin_1)
 			put_new_line
 		end
 
@@ -77,7 +78,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			across specifier_list as specifier loop
-				put_file_specifier (specifier.item)
+				put_file_specifier (specifier)
 			end
 		end
 

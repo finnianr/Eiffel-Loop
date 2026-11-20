@@ -29,10 +29,10 @@ feature -- Basic operations
 			lio.put_labeled_string ("Home", Directory.home)
 			lio.put_new_line
 			across << Directory.desktop, Directory.desktop_common >> as desktop loop
-				lio.put_path_field ("XML files", desktop.item)
+				lio.put_path_field ("XML files", desktop)
 				lio.put_new_line
-				across File_system.files_with_extension (desktop.item, "xml", False) as path loop
-					lio.put_index_labeled_string (path, Void, path.item.to_string)
+				across File_system.files_with_extension (desktop, "xml", False) as path loop
+					lio.put_index_labeled_string (path, Void, path.to_string)
 					lio.put_new_line
 				end
 				lio.put_new_line

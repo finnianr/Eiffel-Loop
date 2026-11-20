@@ -25,7 +25,8 @@ inherit
 	MANAGED_POINTER
 		rename
 			make as make_with_size,
-			item as self_ptr
+			item as self_ptr,
+			share_from_pointer as make_shared
 		export
 			{NONE} all
 		redefine

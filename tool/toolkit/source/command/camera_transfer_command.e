@@ -66,8 +66,8 @@ feature -- Basic operations
 			create volume.make (alias_name, device.name, device.is_windows_format)
 			volume.set_date_string_offset (date_string_offset)
 			if volume.is_mounted then
-				across extensions.split (';') as list loop
-					volume.do_collated_transfer (source_dir, destination_dir, list.item)
+				across extensions.split (';') as extension loop
+					volume.do_collated_transfer (source_dir, destination_dir, extension)
 				end
 			else
 				lio.put_line ("Device is not mounted")

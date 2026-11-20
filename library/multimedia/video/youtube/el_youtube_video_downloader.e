@@ -25,9 +25,6 @@ class
 
 inherit
 	EL_APPLICATION_COMMAND
-		redefine
-			description
-		end
 
 	EL_MODULE_LIO; EL_MODULE_USER_INPUT
 

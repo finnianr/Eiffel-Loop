@@ -51,29 +51,29 @@ feature -- Basic operations
 	execute
 		local
 			link_path: FILE_PATH; counter_table: EL_COUNTER_TABLE [DIR_PATH]
-			size: STRING
+			size_string: STRING
 		do
 			fill_size_table
 
 			OS.File_system.make_directory (output_dir)
 			create counter_table.make (size_table.count // 10)
-			across size_table as list loop
-				counter_table.put (list.key.parent)
+			across size_table as table loop
+				counter_table.put (@ table.key.parent)
 			end
 			lio.put_integer_field ("Creating links", size_table.count)
 			lio.put_new_line
-			across size_table as list loop
-				if counter_table.has_key (list.key.parent) and then counter_table.found_count.item <= 2 then
-					link_path := (output_dir #+ "other") + list.key.base
+			across size_table as table loop
+				if counter_table.has_key (@ table.key.parent) and then counter_table.found_count.item <= 2 then
+					link_path := (output_dir #+ "other") + @ table.key.base
 				else
-					link_path := output_dir + list.key
+					link_path := output_dir + @ table.key
 				end
-				size := Dimensions #$ [list.item.width, list.item.height]
-				lio.put_index_labeled_string (list, "%S. " + size, list.key.to_string)
+				size_string := Dimensions #$ [table.width, table.height]
+				lio.put_index_labeled_string (@ table, "%S. " + size_string, @ table.key.to_string)
 				lio.put_new_line
 				OS.File_system.make_directory (link_path.parent)
 				if not link_path.exists
-					and then attached Command.new_link_file (list.item.file_path, link_path) as cmd
+					and then attached Command.new_link_file (table.file_path, link_path) as cmd
 				then
 					cmd.execute
 				end
@@ -116,26 +116,25 @@ feature {NONE} -- Implementation
 
 	iterate_directories (path_list: EL_ARRAYED_LIST [DIR_PATH])
 		local
-			index: INTEGER; png_path: FILE_PATH; str, size: ZSTRING
+			index: INTEGER; png_path: FILE_PATH; size: ZSTRING
 		do
-			across path_list as list loop
+			across path_list as path loop
 				if attached Png_info_command as info_cmd then
-					info_cmd.put_path (Var_path, list.item + "*.png")
+					info_cmd.put_path (Var_path, path + "*.png")
 					info_cmd.execute
 					across info_cmd.lines as line loop
-						str := line.item
 						index := 1
-						index := str.substring_index (Dot_png, index)
+						index := line.substring_index (Dot_png, index)
 						if index > 0 then
 							index := index + Dot_png.count - 1
-							png_path := str.substring (1, index)
+							png_path := line.substring (1, index)
 							if png_path.exists and then not File.is_symlink (png_path)
-								and then across exclude_list as step all not png_path.has_step (step.item) end
-								and then attached str.substring_to_from ('G', $index)
+								and then across exclude_list as step all not png_path.has_step (step) end
+								and then attached line.substring_to_from ('G', $index)
 							then
 								index := index + 1
 --								lio.put_line (png_path)
-								size := str.substring_to_from (' ', $index)
+								size := line.substring_to_from (' ', $index)
 								extend_size_table (png_path, size)
 							end
 						end
@@ -187,8 +186,8 @@ feature {NONE} -- Implementation
 	path_has_small_size_step (path: ZSTRING): BOOLEAN
 		do
 			Result := False
-			across path.split ('/') as split until Result loop
-				if attached split.item as step and then attached new_png_info (Empty_path, step) as png
+			across path.split ('/') as step until Result loop
+				if attached new_png_info (Empty_path, step) as png
 					and then (png.width > 0 and png.width = png.height)
 					and then png.width < minimum_width
 				then

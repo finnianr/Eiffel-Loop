@@ -70,7 +70,7 @@ feature {NONE} -- Implementation
 				if not exclusions.is_empty then
 					exclusions.append_character (' ')
 				end
-				exclusions.append_string (Exclude_template #$ [exclusion.item])
+				exclusions.append_string (Exclude_template #$ [exclusion])
 			end
 		end
 

@@ -44,11 +44,10 @@ feature -- Basic operations
 
 	run
 		local
-			binary: STRING; code, code_part: INTEGER
+			code, code_part: INTEGER
 		do
 			-- split the file text based on the space character and iterate across each number
-			across file_text.split (' ') as list loop
-				binary := list.item -- assign binary number string to `binary'
+			across file_text.split (' ') as binary loop -- assign binary number string to `binary'
 				if binary.is_empty then
 					-- two consectutive spaces will result in an empty string in the list
 					-- so skip empty strings

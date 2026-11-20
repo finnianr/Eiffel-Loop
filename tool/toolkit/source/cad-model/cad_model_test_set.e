@@ -41,8 +41,8 @@ feature -- Test
 		do
 			create model_1.make_from_json (JSON_model_data)
 			across << "DDDD", "WDDW", "WWWW" >> as code loop
-				i := code.cursor_index
-				assert ("[" + i.out + "] is " + code.item, model_1.polygon_list.i_th (i).out ~ code.item)
+				i := @ code.cursor_index
+				assert ("[" + i.out + "] is " + code, model_1.polygon_list.i_th (i).out ~ code)
 			end
 			create model_2.make_from_json (model_1.as_json (False))
 			assert ("approximately equal", model_1.is_approximately_equal (model_2, 0.1e-16))
@@ -62,8 +62,8 @@ feature -- Test
 
 			names := ("FULL,DRY,WET").split (',')
 			across << model, model_dry, model_wet >> as l_model loop
-				lio.put_labeled_string ("Model", names [l_model.cursor_index]); lio.put_new_line
-				l_model.item.print_to (lio)
+				lio.put_labeled_string ("Model", names [@ l_model.cursor_index]); lio.put_new_line
+				l_model.print_to (lio)
 				lio.put_new_line_x2
 			end
 

@@ -22,9 +22,6 @@ inherit
 		end
 
 	EL_APPLICATION_COMMAND
-		redefine
-			description
-		end
 
 	EL_SHARED_DATE_FORMAT
 create
@@ -69,7 +66,7 @@ feature -- Basic operations
 					mirror_list.do_all (agent {EL_MIRROR_BACKUP}.authenticate)
 
 					across preparation_list as command loop
-						create cmd.make (command.item)
+						create cmd.make (command)
 						if cmd.has_variable (Var_target_dir) then
 						-- This will work on Unix but not on Windows because of possible quoted path
 							cmd.put_path (Var_target_dir, target_dir)
@@ -95,8 +92,8 @@ feature -- Basic operations
 					lio.put_new_line
 				end
 				across mirror_list as mirror loop
-					if mirror.item.is_mounted then
-						lio.put_labeled_string ("Not mounted", mirror.item.backup_dir)
+					if mirror.is_mounted then
+						lio.put_labeled_string ("Not mounted", mirror.backup_dir)
 						lio.put_new_line
 					end
 				end
@@ -106,14 +103,14 @@ feature -- Basic operations
 	mirror_backup
 		do
 			across mirror_list as mirror loop
-				mirror.item.transfer (backup_dir #+ target_dir_base)
+				mirror.transfer (backup_dir #+ target_dir_base)
 				lio.put_new_line
 			end
 			across mirror_list as mirror loop
-				if mirror.item.has_error then
-					lio.put_labeled_string ("MIRROR ERROR", mirror.item.to_string)
+				if mirror.has_error then
+					lio.put_labeled_string ("MIRROR ERROR", mirror.to_string)
 					lio.put_new_line
-					mirror.item.print_errors (lio)
+					mirror.print_errors (lio)
 					User_input.press_enter
 				end
 				lio.put_new_line

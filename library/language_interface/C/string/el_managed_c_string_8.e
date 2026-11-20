@@ -31,7 +31,7 @@ inherit
 		end
 
 create
-	make, make_filled, make_from_string, make_shared, make_empty
+	make, make_filled, make_from_string, make_shared, make_empty, make_null_terminated
 
 convert
 	make_from_string ({STRING_8})

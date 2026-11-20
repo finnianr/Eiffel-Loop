@@ -84,10 +84,10 @@ feature {NONE} -- Implementation
 				lio.put_substitution ("Reading %S %S file checksums", [file_list.count, extension.as_upper])
 				lio.put_new_line_x2
 
-				across file_list as list loop
-					lio.put_index_labeled_string (list, "Score [%S]", list.item.base)
+				across file_list as path loop
+					lio.put_index_labeled_string (@ path, "Score [%S]", path.base)
 					lio.put_new_line
-					create sync_item.make (source_dir, device.name, list.item, crc_block_size)
+					create sync_item.make (source_dir, device.name, path, crc_block_size)
 					Result.put (sync_item)
 				end
 				lio.put_new_line

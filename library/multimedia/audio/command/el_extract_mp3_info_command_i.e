@@ -24,7 +24,7 @@ inherit
 		undefine
 			getter_function_table, new_transient_fields
 		redefine
-			make_default, do_with_lines
+			make_default
 		end
 
 feature {NONE} -- Initialization

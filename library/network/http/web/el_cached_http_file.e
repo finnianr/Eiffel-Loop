@@ -43,8 +43,7 @@ feature {NONE} -- Initialization
 
 	make (a_url: READABLE_STRING_GENERAL; refresh_period_hours: REAL)
 		local
-			part_list: EL_ZSTRING_LIST; part: ZSTRING
-			url_path: FILE_PATH
+			part_list: EL_ZSTRING_LIST; part: ZSTRING; url_path: FILE_PATH
 		do
 			url := a_url
 			create part_list.make_adjusted_split (a_url, '/', 0)

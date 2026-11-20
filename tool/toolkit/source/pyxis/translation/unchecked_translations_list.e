@@ -23,7 +23,7 @@ inherit
 		undefine
 			is_equal, copy, default_create
 		redefine
-			make_default, building_action_table
+			make_default
 		end
 
 	EL_MODULE_LIO

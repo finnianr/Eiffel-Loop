@@ -14,9 +14,6 @@ class
 
 inherit
 	EL_APPLICATION_COMMAND
-		redefine
-			description
-		end
 
 	EL_MODULE_LOG
 
@@ -47,10 +44,10 @@ feature -- Basic operations
 			log.enter ("execute")
 			log.set_timer
 			across << "dry", "wet" >> as qualifer loop
-				file_path := qualified_path (qualifer.item)
+				file_path := qualified_path (qualifer)
 				lio.put_path_field ("Writing", file_path)
 				lio.put_new_line
-				if qualifer.cursor_index = 1 then
+				if @ qualifer.cursor_index = 1 then
 					model.dry_part.store_as (file_path)
 				else
 					model.wet_part.store_as (file_path)

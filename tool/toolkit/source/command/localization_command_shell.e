@@ -61,11 +61,11 @@ feature -- Basic operations
 			unchecked_translations.wipe_out
 			file_list.do_all (agent add_unchecked (language, ?))
 			across unchecked_translations as unchecked loop
-				lio.put_path_field ("Pyxis", unchecked.item.file_path)
+				lio.put_path_field ("Pyxis", unchecked.file_path)
 				lio.tab_right
 				lio.put_new_line
-				across unchecked.item as name loop
-					lio.put_line (name.item)
+				across unchecked as name loop
+					lio.put_line (name)
 				end
 				lio.tab_left
 				lio.put_new_line
@@ -80,7 +80,7 @@ feature {EQA_TEST_SET} -- Implementation
 
 		local
 			line_list: EL_ZSTRING_LIST; encoding: NATURAL
-			line, adjusted: ZSTRING
+			adjusted: ZSTRING
 		do
 			lio.put_path_field ("add_check_attribute", file_path)
 			lio.put_new_line
@@ -88,8 +88,8 @@ feature {EQA_TEST_SET} -- Implementation
 			encoding := Pyxis.encoding (file_path)
 
 			line_list := open_lines (file_path, encoding).as_list
-			across line_list as list loop
-				line := list.item; adjusted := line.adjusted
+			across line_list as line loop
+				adjusted := line.adjusted
 				if adjusted.starts_with (Lang_equals)
 					and then not adjusted.has_substring ("check") and then not adjusted.ends_with (EN)
 				then

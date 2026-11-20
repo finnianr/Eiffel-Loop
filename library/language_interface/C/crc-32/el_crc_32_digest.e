@@ -76,6 +76,13 @@ feature -- Access
 
 feature -- Element change
 
+	add_attached_string (a_str: detachable STRING_8)
+		do
+			if attached a_str as str then
+				add_characters (str.area, 0, str.count - 1)
+			end
+		end
+
 	add_boolean (flag: BOOLEAN)
 		do
 			add_bytes ($flag, Boolean_bytes)

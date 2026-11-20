@@ -68,25 +68,23 @@ feature -- Basic operations
 			site_ok: BOOLEAN; next_time: EL_TIME
 		do
 			from until False loop
-				across website_list as list loop
-					if attached list.item as website then
-						from site_ok := False until site_ok loop
-							website.check_pages
-							if website.has_fault then
-								lio.put_labeled_string ("FAULT DETECTED", website.domain)
-								lio.put_new_line
-								if attached Notification_command as cmd then
-									cmd.put_string (cmd.var.error, website.domain)
-									cmd.put_string (cmd.var.urgency, cmd.Urgency.critical)
-									if attached website.timed_out_page as page then
-										cmd.put_string (cmd.var.message, page.url)
-									end
-									cmd.execute
+				across website_list as website loop
+					from site_ok := False until site_ok loop
+						website.check_pages
+						if website.has_fault then
+							lio.put_labeled_string ("FAULT DETECTED", website.domain)
+							lio.put_new_line
+							if attached Notification_command as cmd then
+								cmd.put_string (cmd.var.error, website.domain)
+								cmd.put_string (cmd.var.urgency, cmd.Urgency.critical)
+								if attached website.timed_out_page as page then
+									cmd.put_string (cmd.var.message, page.url)
 								end
-								User_input.press_enter
-							else
-								site_ok := True
+								cmd.execute
 							end
+							User_input.press_enter
+						else
+							site_ok := True
 						end
 					end
 				end

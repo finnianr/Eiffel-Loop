@@ -34,6 +34,7 @@ def main():
 			dir_util.mkpath (build_path)
 
 		# /w: wait until launched process exits (not sure about this)
+		# estudio_cmd = path.expanded ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin/estudio')
 		cmd = ['estudio', '-project_path', build_path, '-config', ecf_path]
 		print(cmd)
 		subprocess.call (cmd)

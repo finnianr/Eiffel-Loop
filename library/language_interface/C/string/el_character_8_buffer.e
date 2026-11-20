@@ -52,7 +52,7 @@ inherit
 		end
 
 create
-	make, make_empty, make_filled, make_filled_default, make_from_string, make_shared
+	make, make_empty, make_filled, make_filled_default, make_from_string, make_shared, make_null_terminated
 
 feature {NONE} -- Initialization
 
@@ -81,19 +81,36 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_string (s: STRING_8)
-		-- Initialize buffer with the contents of `s' and null terminate
+		-- Initialize buffer with the contents of `s' with no null terminator
 		do
-			make (s.count)
-			area.memory_copy (s.area.base_address, s.count)
-			count := s.count
-		ensure
-			same_characters: to_string ~ s
+			make_possiblely_terminated (s, False)
 		end
 
 	make_shared (a_ptr: POINTER; n: INTEGER)
 		do
 			Precursor (a_ptr, n)
 			count := n
+		end
+
+	make_possiblely_terminated (s: STRING_8; add_null: BOOLEAN)
+		-- Initialize buffer with the contents of `s' adding NULL terminator if `add_null' is true.
+		do
+			make (s.count + add_null.to_integer)
+			area.memory_copy (s.area.base_address, s.count)
+			if add_null then
+				c_put_character_8 (area, '%U', s.count)
+			end
+			count := s.count
+		ensure
+			same_characters: to_string ~ s
+			null_terminated: add_null implies is_null_terminated
+			not_null_terminated: not add_null implies capacity = count
+		end
+
+	make_null_terminated (s: STRING_8)
+		-- Initialize buffer with the contents of `s' adding a NULL terminator
+		do
+			make_possiblely_terminated (s, True)
 		end
 
 feature -- Access

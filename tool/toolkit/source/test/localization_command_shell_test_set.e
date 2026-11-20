@@ -42,7 +42,7 @@ feature -- Tests
 			create list.make_empty
 			shell.file_list.do_all (agent shell.add_unchecked ("de", ?))
 			across shell.unchecked_translations as unchecked loop
-				list.append (unchecked.item)
+				list.append (unchecked)
 			end
 			assert ("Same set", list.count = Unchecked_de_list.count and then list.for_all (agent Unchecked_de_list.has))
 		end

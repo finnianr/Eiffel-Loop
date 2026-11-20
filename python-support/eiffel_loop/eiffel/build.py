@@ -190,7 +190,8 @@ class FREEZE_BUILD:
 	
 	def compile (self):
 		# Will automatically do precompile if needed
-		cmd = ['ec', '-batch'] + self.compilation_options () + ['-config', self.ecf_path, '-project_path', self.project_path ()]
+		ec_path = path.expanded ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin/ec')
+		cmd = [ec_path, '-batch'] + self.compilation_options () + ['-config', self.ecf_path, '-project_path', self.project_path ()]
 		self.write_io_line (' '.join (cmd))
 		ret_code = call (cmd)
 

@@ -80,8 +80,8 @@ feature {NONE} -- Implementation
 		do
 			List_archive_cmd.put_path (Tar.file_path, tar_path)
 			List_archive_cmd.execute
-			across path_list as list loop
-				path := list.item
+			across path_list as l_path loop
+				path := l_path
 				if has then
 					assert ("includes " + path.to_latin_1, List_archive_cmd.lines.has (path))
 				else

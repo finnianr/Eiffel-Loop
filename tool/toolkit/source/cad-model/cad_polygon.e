@@ -57,10 +57,10 @@ feature -- Access
 		do
 			create Result.make_filled ('D', count)
 			across Current as coord loop
-				if is_wet_point (coord.item) then
-					Result [coord.cursor_index] := 'W'
-				elseif is_surface_point (coord.item) then
-					Result [coord.cursor_index] := 'B'
+				if is_wet_point (coord) then
+					Result [@ coord.cursor_index] := 'W'
+				elseif is_surface_point (coord) then
+					Result [@ coord.cursor_index] := 'B'
 				end
 			end
 		end
@@ -76,12 +76,12 @@ feature -- Status query
 
 	is_dry: BOOLEAN
 		do
-			Result := across Current as coord all coord.item.z >= 0 end
+			Result := across Current as coord all coord.z >= 0 end
 		end
 
 	is_wet: BOOLEAN
 		do
-			Result := across Current as coord all coord.item.z <= 0 end
+			Result := across Current as coord all coord.z <= 0 end
 		end
 
 	is_wet_and_dry: BOOLEAN
@@ -95,7 +95,7 @@ feature -- Comparison
 		do
 			if count = other.count then
 				Result := across Current as coord all
-					coord.item.is_approximately_equal (other [coord.cursor_index], precision)
+					coord.is_approximately_equal (other [@ coord.cursor_index], precision)
 				end
 			end
 		end
@@ -110,8 +110,8 @@ feature -- Basic operations
 			lio.put_new_line
 			across Current as coord loop
 				str := buffer.empty
-				coord.item.append_to_string (str)
-				lio.put_labeled_substitution ("Coord", "[%S] = [%S]", [coord.cursor_index, str])
+				coord.append_to_string (str)
+				lio.put_labeled_substitution ("Coord", "[%S] = [%S]", [@ coord.cursor_index, str])
 				lio.put_new_line
 			end
 		end

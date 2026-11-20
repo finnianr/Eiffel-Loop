@@ -68,7 +68,7 @@ feature -- Basic operations
 			archive_upload_list.wipe_out
 
 			across backup_list as backup loop
-				backup.item.create_archive (archive_upload_list)
+				backup.create_archive (archive_upload_list)
 			end
 			sum_mega_bytes := backup_list.sum_real (agent {FTP_BACKUP}.size_megabytes)
 

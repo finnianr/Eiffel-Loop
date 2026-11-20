@@ -41,9 +41,6 @@ class
 
 inherit
 	EL_APPLICATION_COMMAND
-		redefine
-			description
-		end
 
 	EL_FILE_TREE_TRANSFORMER
 		rename
@@ -54,7 +51,7 @@ inherit
 
 	EL_BUILDABLE_FROM_PYXIS
 		redefine
-			make_default, building_action_table
+			make_default
 		end
 
 create
@@ -94,8 +91,8 @@ feature -- Basic operations
 		do
 			has_parameters := True
 			across Template_parameters as param until not has_parameters loop
-				if not command_template.has_substring (param.item) then
-					lio.put_labeled_string ("ERROR - Missing command parameter",  param.item)
+				if not command_template.has_substring (param) then
+					lio.put_labeled_string ("ERROR - Missing command parameter",  param)
 					lio.put_new_line
 					has_parameters := False
 				end

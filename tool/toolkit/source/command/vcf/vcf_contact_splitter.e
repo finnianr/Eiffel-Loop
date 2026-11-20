@@ -74,7 +74,7 @@ feature {NONE} -- State handlers
 					lio.put_new_line
 					create file_out.make_open_write (output_path)
 					across record_lines as record loop
-						file_out.put_string (record.item)
+						file_out.put_string (record)
 						if {PLATFORM}.is_unix then
 							file_out.put_character ('%R')
 						end
@@ -90,11 +90,11 @@ feature {NONE} -- State handlers
 			elseif pair.name ~ Field.name then
 				last_name.wipe_out; first_name.wipe_out
 				across pair.value.split (';') as part loop
-					inspect part.cursor_index
+					inspect @ part.cursor_index
 						when 1 then
-							last_name := part.item
+							last_name := part
 						when 2 then
-							first_name := part.item
+							first_name := part
 					else
 					end
 				end

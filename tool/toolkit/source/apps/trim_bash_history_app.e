@@ -47,12 +47,10 @@ feature -- Basic operations
 				lio.put_line ("HISTORY")
 				lio.put_integer_field ("Line count", Iterable.count (history_lines))
 				across history_lines as line loop
-					if attached line.item as ln then
-						if ln.count > 4 and then not line_set.has (ln) then
-							line_set.put (ln)
-							file_out.put_encoded_string_8 (ln)
-							file_out.put_new_line
-						end
+					if line.count > 4 and then not line_set.has (line) then
+						line_set.put (line)
+						file_out.put_encoded_string_8 (line)
+						file_out.put_new_line
 					end
 				end
 				file_out.close

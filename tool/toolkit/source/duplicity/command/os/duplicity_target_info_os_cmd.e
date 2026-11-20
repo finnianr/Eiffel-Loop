@@ -76,12 +76,12 @@ feature -- Basic operations
 				lio.put_new_line
 			end
 			across backup_statistics as stat loop
-				pos_space := stat.item.index_of (' ', 1)
-				if stat.cursor_index > 1 and pos_space > 1 then
-					lio.put_labeled_string (stat.item.substring (1, pos_space - 1), stat.item.substring_end (pos_space + 1))
+				pos_space := stat.index_of (' ', 1)
+				if @ stat.cursor_index > 1 and pos_space > 1 then
+					lio.put_labeled_string (stat.substring (1, pos_space - 1), stat.substring_end (pos_space + 1))
 					lio.put_new_line
 				else
-					lio.put_line (stat.item)
+					lio.put_line (stat)
 				end
 			end
 		end
