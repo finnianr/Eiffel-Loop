@@ -37,9 +37,9 @@ feature {NONE} -- Initialization
 			l_file_path := output_dir + class_name.as_lower
 			l_file_path.add_extension ("e")
 			create field_list.make (a_generator.field_table.count)
-			across a_generator.field_table as table loop
-				if attached s.joined_with_string (table.item, Empty_string_8) as code then
-					field_list.extend (new_context (code, table.key))
+			across a_generator.field_table as field loop
+				if attached s.joined_with_string (field, Empty_string_8) as code then
+					field_list.extend (new_context (code, @field.key))
 				end
 			end
 			make_from_file (l_file_path)

@@ -39,9 +39,9 @@ feature -- Tests
 			command.execute
 			lio.put_new_line
 			if command.changed_class_list.count > 0 then
-				across command.changed_class_list as list loop
-					lio.put_path_field ("Changed %S", list.item.output_path)
-					lio.put_natural_field (" actual checksum", list.item.actual_checksum)
+				across command.changed_class_list as changed_class loop
+					lio.put_path_field ("Changed %S", changed_class.output_path)
+					lio.put_natural_field (" actual checksum", changed_class.actual_checksum)
 					lio.put_new_line
 				end
 				failed ("No changes")

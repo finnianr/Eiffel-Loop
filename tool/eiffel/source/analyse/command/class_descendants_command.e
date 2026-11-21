@@ -119,9 +119,9 @@ feature {NONE} -- Implementation
 			-- 	EL_STRING_EDITOR [S -> ${STRING_GENERAL} create make end]*
 				eif.enclose_class_parameters (line)
 				across << Dollor_left_brace, char ('}') * 1 >> as str loop
-					index := line.substring_index (str.item, 1)
+					index := line.substring_index (str, 1)
 					if index > 0 then
-						line.remove_substring (index, index + str.item.count - 1)
+						line.remove_substring (index, index + str.count - 1)
 					end
 				end
 			end
@@ -140,8 +140,8 @@ feature {NONE} -- Implementation
 					"%Tdescendants: %"["
 				>>)
 				file_out.put_new_line
-				across text_lines as text loop
-					line := text.item
+				across text_lines as list loop
+					line := list
 					tab_count := line.leading_occurrences ('%T')
 					if line.count > tab_count then
 						count := count + 1
@@ -163,7 +163,7 @@ feature {NONE} -- Implementation
 				cmd.execute
 
 				across cmd.path_list as path until not ecf_path.is_empty loop
-					do_once_with_file_lines (agent find_target_name (?, path.item), open_lines (path.item, Latin_1))
+					do_once_with_file_lines (agent find_target_name (?, path), open_lines (path, Latin_1))
 				end
 			end
 		end

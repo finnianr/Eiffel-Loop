@@ -57,7 +57,7 @@ feature {NONE} -- Events
 			Precursor
 			if attached open (File_path, Write) as f then
 				across Type_array as type loop
-					f.put_string (Inherits_template #$ [type.item.descendant.name, type.item.base.name])
+					f.put_string (Inherits_template #$ [type.descendant.name, type.base.name])
 					f.new_line
 				end
 				f.close
@@ -74,8 +74,8 @@ feature {NONE} -- Implementation
 			web_url := publisher.config.web_address
 			blog_text := File.plain_text (publisher.expanded_file_path)
 			across Type_array as array loop
-				across << array.item.base, array.item.descendant >> as type loop
-					name := type.item.name
+				across << array.base, array.descendant >> as type loop
+					name := type.name
 					if Class_table.has_class (name) then
 						class_url := web_url + Class_table.found_html_path
 						count := count + 1

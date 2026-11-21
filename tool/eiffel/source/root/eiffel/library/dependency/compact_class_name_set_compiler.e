@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 		do
 			create table.make_assignments (File.plain_text (assignments_path))
 			across table as t loop
-				Alias_table.extend (t.item, t.key)
+				Alias_table.extend (t, @ t.key)
 			end
 			create class_name_set.make_equal (1)
 		end

@@ -44,7 +44,7 @@ feature {NONE} -- Implementation
 
 	set_variables (nvp: ECF_NAME_VALUE_PAIR)
 		do
-			if across Element_list as list some nvp.name.same_string (list.item) end then
+			if across Element_list as element some nvp.name.same_string (element) end then
 				template := Element_template
 				template.put (Var.element, nvp.name)
 			else

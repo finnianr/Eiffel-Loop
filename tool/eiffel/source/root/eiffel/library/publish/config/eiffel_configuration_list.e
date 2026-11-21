@@ -32,12 +32,11 @@ feature {NONE} -- Initialization
 
 	make (a_config: like config)
 		local
-			ecf_path: FILE_PATH; ecf: ECF_INFO; xdoc: EL_XML_DOC_CONTEXT; has_error: BOOLEAN
+			ecf_path: FILE_PATH; xdoc: EL_XML_DOC_CONTEXT; has_error: BOOLEAN
 		do
 			config := a_config
 			make_list (a_config.ecf_list.count)
-			across config.ecf_list as list loop
-				ecf := list.item
+			across config.ecf_list as ecf loop
 				ecf_path := config.root_dir.plus_file (ecf.path)
 				if ecf_path.exists then
 					check_pecf_source (ecf_path)
@@ -81,9 +80,9 @@ feature -- Access
 			create Result.make (count)
 			across Current as tree loop
 				if config.test_mode then
-					create {EIFFEL_CONFIGURATION_INDEX_TEST_PAGE} index_page.make (config, tree.item)
+					create {EIFFEL_CONFIGURATION_INDEX_TEST_PAGE} index_page.make (config, tree)
 				else
-					create index_page.make (config, tree.item)
+					create index_page.make (config, tree)
 				end
 				Result.extend (index_page)
 			end
@@ -102,9 +101,9 @@ feature -- Access
 			-- Add metrics	to sitemap
 				if attached sitemap.metrics as metrics then
 					across Current as tree loop
-						across tree.item.directory_list as directory loop
-							across directory.item.class_list as e_class loop
-								metrics.add_metrics (e_class.item.metrics)
+						across tree.directory_list as directory loop
+							across directory.class_list as e_class loop
+								metrics.add_metrics (e_class.metrics)
 							end
 						end
 					end
@@ -126,9 +125,9 @@ feature -- Basic operations
 	get_sync_items (current_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM])
 		do
 			across Current as tree loop
-				across tree.item.directory_list as directory loop
-					across directory.item.class_list as e_class loop
-						current_set.put (e_class.item)
+				across tree.directory_list as directory loop
+					across directory.class_list as e_class loop
+						current_set.put (e_class)
 					end
 				end
 			end
@@ -137,13 +136,11 @@ feature -- Basic operations
 	display_modified (name_stem: STRING)
 		do
 			across Current as tree loop
-				lio.put_labeled_string (tree.item.category, tree.item.name)
+				lio.put_labeled_string (tree.category, tree.name)
 				lio.put_new_line
-				across tree.item.directory_list as directory loop
-					across directory.item.class_list as list loop
-						if attached list.item as e_class and then e_class.is_modified
-							and then e_class.name.starts_with_general (name_stem)
-						then
+				across tree.directory_list as directory loop
+					across directory.class_list as e_class loop
+						if e_class.is_modified and then e_class.name.starts_with_general (name_stem) then
 							lio.put_natural_field (e_class.name + ": previous", e_class.previous_digest)
 							lio.put_natural_field (" current", e_class.current_digest)
 							lio.put_new_line
@@ -158,21 +155,19 @@ feature -- Basic operations
 			parser: EIFFEL_CLASS_PARSER
 		do
 			create parser.make (cpu_percentage)
-			across Current as list loop
-				list.item.read_class_source (parser)
+			across Current as config_file loop
+				config_file.read_class_source (parser)
 			end
 			parser.apply_final
 		end
 
 	serialize_modified (current_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM])
 		do
-			across to_html_page_list as list loop
-				if attached list.item as page then
-					if page.is_modified then
-						page.serialize
-					end
-					current_set.put (page)
+			across to_html_page_list as page loop
+				if page.is_modified then
+					page.serialize
 				end
+				current_set.put (page)
 			end
 		end
 
@@ -182,9 +177,9 @@ feature -- Basic operations
 			lio.put_line ("Setting client examples for library classes")
 			if attached Class_table.example_class_list as class_list then
 				across Current as tree loop
-					across tree.item.directory_list as directory loop
-						across directory.item.class_list as e_class loop
-							e_class.item.set_client_examples (class_list)
+					across tree.directory_list as directory loop
+						across directory.class_list as e_class loop
+							e_class.set_client_examples (class_list)
 						end
 					end
 				end
@@ -199,11 +194,11 @@ feature -- Basic operations
 			)
 			lio.put_new_line
 			across Current as tree loop
-				lio.put_labeled_string (tree.item.category, tree.item.name)
+				lio.put_labeled_string (tree.category, tree.name)
 				lio.put_new_line
-				across tree.item.directory_list as directory loop
-					across directory.item.class_list as e_class loop
-						e_class.item.sink_source_substitutions
+				across tree.directory_list as directory loop
+					across directory.class_list as e_class loop
+						e_class.sink_source_substitutions
 					end
 				end
 			end
@@ -214,8 +209,8 @@ feature -- Basic operations
 			checker: EIFFEL_CLASS_UPDATE_CHECKER
 		do
 			create checker.make (cpu_percentage)
-			across Current as list loop
-				list.item.update_source_files (checker)
+			across Current as config_file loop
+				config_file.update_source_files (checker)
 			end
 			checker.apply_final
 		end

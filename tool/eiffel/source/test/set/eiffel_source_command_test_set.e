@@ -16,8 +16,6 @@ inherit
 	COPIED_SOURCES_TEST_SET
 		rename
 			selected_files as no_selected_files
-		redefine
-			make
 		end
 
 	EL_SHARED_IMMUTABLE_8_MANAGER
@@ -61,7 +59,7 @@ feature -- Tests
 			]"
 		local
 			reader: TEST_SOURCE_READER; hexadecimal_count, integer_count: INTEGER
-			number: STRING; char_string: ZSTRING
+			char_string: ZSTRING
 		do
 			create reader.make_from_file (Source.utf_8_dir + "test_el_astring.e")
 			assert_same_string ("parsed percent character '%%'", reader.quoted_character_list [2], "%%%%")
@@ -79,8 +77,7 @@ feature -- Tests
 				assert_same_string ("first number", numeric_list.first, "10")
 				assert_same_string ("last number", numeric_list.last, "0xFF")
 
-				across reader.numeric_constant_list as list loop
-					number := list.item
+				across reader.numeric_constant_list as number loop
 					if number.is_natural then
 						integer_count := integer_count + 1
 
@@ -104,9 +101,9 @@ feature -- Tests
 			if attached reader.quoted_character_list as quoted_character_list then
 				assert ("total quoted characters is 95", quoted_character_list.count = 95)
 				across << quoted_character_list.first, quoted_character_list.last >> as str loop
-					create char_string.make_from_utf_8 (str.item)
+					create char_string.make_from_utf_8 (str)
 					if char_string.count = 1 then
-						inspect str.cursor_index
+						inspect @ str.cursor_index
 							when 1 then
 								assert ("is NBSP", char_string [1].natural_32_code = 0xA0)
 
@@ -155,15 +152,15 @@ feature -- Tests
 		do
 			create command.make (Manifest_path, "INTEGER =", Integer_32_type)
 			command.execute
-			across file_list as list loop
-				plain_text_lines := File.plain_text_lines (list.item)
+			across file_list as path loop
+				plain_text_lines := File.plain_text_lines (path)
 				if plain_text_lines.target.has_substring (Integer_32_type) then
 					across plain_text_lines as line loop
-						replace_count := replace_count + line.item.has_substring (Integer_32_type).to_integer
+						replace_count := replace_count + line.has_substring (Integer_32_type).to_integer
 					end
 				end
-				if across Encoding_sample_list as sample some sample.item ~ list.item.base end then
-					assert ("has replacement", File.plain_text (list.item).has_substring (Integer_32_type))
+				if across Encoding_sample_list as sample some sample ~ path.base end then
+					assert ("has replacement", File.plain_text (path).has_substring (Integer_32_type))
 					sample_count := sample_count + 1
 				end
 			end
@@ -181,8 +178,8 @@ feature -- Tests
 			create cleaner.make (Manifest_path)
 			cleaner.execute
 			assert ("expect edition count", cleaner.edited_list.count = Cleaned_file_table.count)
-			across cleaner.edited_list as list loop
-				assert_same_digest (Plain_text, list.item, Cleaned_file_table [list.item.base_name])
+			across cleaner.edited_list as edited loop
+				assert_same_digest (Plain_text, edited, Cleaned_file_table [edited.base_name])
 			end
 		end
 

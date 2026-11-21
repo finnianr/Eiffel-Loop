@@ -60,7 +60,7 @@ feature -- Basic operations
 			-- Check for _IMP file if class ends with "_I"
 			if old_name.ends_with ("_I") and new_name.ends_with ("_I") then
 				old_imp_base_name := old_name.as_lower + "mp.e"
-				if across manifest.file_list as list some list.item.same_base (old_imp_base_name) end then
+				if across manifest.file_list as file_path some file_path.same_base (old_imp_base_name) end then
 					new_name.append_string_general ("MP")
 					old_name.append_string_general ("MP")
 				end

@@ -35,20 +35,19 @@ feature -- Tests
 
 	test_renaming
 		local
-			command: CLASS_FILE_NAME_NORMALIZER; name: ZSTRING
+			command: CLASS_FILE_NAME_NORMALIZER
 		do
 			create command.make (Manifest_path)
 			command.execute
 			assert ("renamed 6", command.renamed_table.count = 6)
-			if attached OS.file_list (Work_area_dir, "*.e") as list then
-				across command.renamed_table as table loop
-					name := table.item
-					list.find_first_base (name)
-					assert ("renamed exists", list.found)
+			if attached OS.file_list (Work_area_dir, "*.e") as source_path_list then
+				across command.renamed_table as name loop
+					source_path_list.find_first_base (name)
+					assert ("renamed exists", source_path_list.found)
 				end
-				across command.renamed_table as table loop
-					list.find_first_base (table.key)
-					assert ("old name no longer exists", list.after)
+				across command.renamed_table as name loop
+					source_path_list.find_first_base (@ name.key)
+					assert ("old name no longer exists", source_path_list.after)
 				end
 			end
 		end

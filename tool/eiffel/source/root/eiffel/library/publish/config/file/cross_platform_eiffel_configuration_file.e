@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 			Precursor (a_config, ecf, root)
 			create cluster_list.make (source_dir_list.count)
 			across source_dir_list as source_dir loop
-				cluster_list.extend (create {CROSS_PLATFORM_CLUSTER}.make (source_dir.item, path_list, ecf))
+				cluster_list.extend (create {CROSS_PLATFORM_CLUSTER}.make (source_dir, path_list, ecf))
 			end
 		end
 
@@ -48,8 +48,8 @@ feature -- Basic operations
 		-- normalize location of classes with file-names ending with "_imp.e"
 		do
 			across cluster_list as cluster loop
-				if not cluster.item.is_empty then
-					cluster.item.normalize_locations
+				if not cluster.is_empty then
+					cluster.normalize_locations
 				end
 			end
 		end
@@ -63,10 +63,10 @@ feature {NONE} -- Factory
 			across Wildcards as wildcard loop
 				across source_dir_list as path loop
 					if attached Result then
-						list := OS.file_list (path.item, wildcard.item)
+						list := OS.file_list (path, wildcard)
 						Result.append (list)
 					else
-						Result := OS.file_list (path.item, wildcard.item)
+						Result := OS.file_list (path, wildcard)
 					end
 				end
 			end

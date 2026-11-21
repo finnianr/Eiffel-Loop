@@ -100,7 +100,7 @@ feature {NONE} -- Implementation
 					if assignment_code.count > 3 then
 						assignment_code.append (Assignment_separator)
 					end
-					assignment_code.append (Assignment_template #$ [variable.item, variable.item])
+					assignment_code.append (Assignment_template #$ [variable, variable])
 				end
 				lines.back
 				lines.put_right (assignment_code)

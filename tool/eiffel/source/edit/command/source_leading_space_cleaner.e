@@ -52,8 +52,8 @@ feature -- Basic operations
 			else
 				lio.put_substitution ("Cleaned %S files", edited_list.count)
 				lio.put_new_line
-				across edited_list as list loop
-					lio.put_index_labeled_string (list, Void, list.item.relative_path (Directory.working).to_string)
+				across edited_list as edited loop
+					lio.put_index_labeled_string (edited, Void, edited.relative_path (Directory.working).to_string)
 					lio.put_new_line
 				end
 				lio.put_new_line

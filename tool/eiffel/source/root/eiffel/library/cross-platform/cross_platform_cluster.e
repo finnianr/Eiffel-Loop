@@ -57,9 +57,9 @@ feature {NONE} -- Initialization
 			create implementation_list.make (5)
 			implementation_list.compare_objects
 
-			across path_list as source loop
-				if cluster_dir.is_parent_of (source.item) then
-					relative_path := source.item.relative_path (cluster_dir)
+			across path_list as source_path loop
+				if cluster_dir.is_parent_of (source_path) then
+					relative_path := source_path.relative_path (cluster_dir)
 					if relative_path.base.ends_with (Interface_ending) then
 						interface_list.extend (relative_path)
 					elseif relative_path.base.ends_with (Implementation_ending) then
@@ -88,26 +88,26 @@ feature -- Basic operations
 			lio.put_path_field ("Cluster", cluster_dir)
 			lio.put_new_line
 			across implementation_list as path loop
-				lio.put_path_field ("Imp", path.item)
+				lio.put_path_field ("Imp", path)
 				lio.put_new_line
 			end
 			lio.put_new_line
 			across interface_list as path loop
-				lio.put_path_field ("Source", path.item)
+				lio.put_path_field ("Source", path)
 				lio.put_new_line
-				actual_list := selected_implementation_list (path.item)
+				actual_list := selected_implementation_list (path)
 				across actual_list as imp_path loop
-					lio.put_path_field ("Actual", imp_path.item)
+					lio.put_path_field ("Actual", imp_path)
 					lio.put_new_line
 				end
 				if actual_list.count = 1 and then is_implementation (Common_imp, actual_list.first_path) then
-					copy_if_different (actual_list.first_path, target_implementation (Common_imp, path.item))
+					copy_if_different (actual_list.first_path, target_implementation (Common_imp, path))
 				else
 					across actual_list as actual_imp loop
 						found := False
 						across Unix_and_windows_imp as imp_steps until found loop
-							if is_implementation (imp_steps.item, actual_imp.item) then
-								copy_if_different (actual_imp.item, target_implementation (imp_steps.item, path.item))
+							if is_implementation (imp_steps, actual_imp) then
+								copy_if_different (actual_imp, target_implementation (imp_steps, path))
 								found := True
 							end
 						end
@@ -153,11 +153,11 @@ feature {NONE} -- Implementation
 			interface_name := interface_path.base_name
 			create Result.make (2)
 			across implementation_list as path loop
-				imp_name := path.item.base_name
+				imp_name := path.base_name
 				if imp_name.starts_with (interface_name)
 					and then imp_name.substring_end (interface_name.count + 1) ~ MP_ending
 				then
-					Result.extend (path.item)
+					Result.extend (path)
 				end
 			end
 		end

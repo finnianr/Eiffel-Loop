@@ -114,10 +114,10 @@ feature -- Basic operations
 			lio.put_labeled_string ("Updating", name)
 			lio.put_new_line
 			across eiffel_config.directory_list as l_directory loop
-				l_directory.item.read_class_notes
-				if l_directory.item.is_modified then
+				l_directory.read_class_notes
+				if l_directory.is_modified then
 					lio.put_character ('.')
-					l_directory.item.write_class_html
+					l_directory.write_class_html
 				end
 			end
 			lio.put_new_line
@@ -141,10 +141,10 @@ feature {NONE} -- Implementation
 			crc.add_file (content_template)
 			crc.add_string (eiffel_config.name)
 			across eiffel_config.description_lines as line loop
-				crc.add_string (line.item)
+				crc.add_string (line)
 			end
 			across eiffel_config.sorted_class_list as list loop
-				crc.add_natural (list.item.current_digest)
+				crc.add_natural (list.current_digest)
 			end
 		end
 

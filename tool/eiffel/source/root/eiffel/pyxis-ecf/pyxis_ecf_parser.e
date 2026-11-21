@@ -67,7 +67,7 @@ feature {NONE} -- Implemenatation
 					Precursor (line)
 					Platform_condition_lines.set (c_platform, line.indent_count)
 					across Platform_condition_lines as ln loop
-						Precursor (ln.item)
+						Precursor (ln)
 					end
 				else
 					if a_line /= line and then line.indent_count > 0 then
@@ -83,7 +83,7 @@ feature {NONE} -- Implemenatation
 				group.set_indent (line.indent_count)
 				group.set_from_line (line)
 				across group as ln loop
-					Precursor (ln.item)
+					Precursor (ln)
 				end
 
 			elseif grouped_lines_stack.count > 0 and then attached grouped_lines_stack.item as grouped then
@@ -100,7 +100,7 @@ feature {NONE} -- Implemenatation
 					grouped.set_from_line (a_line) -- use argument `a_line' here
 					if grouped.count > 0 then
 						across grouped as ln loop
-							Precursor (ln.item)
+							Precursor (ln)
 						end
 						if attached {SYSTEM_ECF_LINES} grouped then
 							group_exit
@@ -232,8 +232,8 @@ feature {NONE} -- Constants
 				[Name.writeable_libraries, create {WRITEABLE_LIBRARIES_ECF_LINES}.make],
 				[Name.warnings,				create {WARNING_OPTION_ECF_LINES}.make]
 			>>)
-			across Result as table loop
-				table.item.enable_truncation
+			across Result as grouped_ecf_lines loop
+				grouped_ecf_lines.enable_truncation
 			end
 		end
 
@@ -241,8 +241,8 @@ feature {NONE} -- Constants
 		once
 			if attached new_name_value_list as name_value_list then
 				create Result.make (name_value_list.count)
-				across name_value_list as list loop
-					Result.extend (list.item, list.item.tag_name)
+				across name_value_list as name_value loop
+					Result.extend (name_value, name_value.tag_name)
 				end
 			end
 		end

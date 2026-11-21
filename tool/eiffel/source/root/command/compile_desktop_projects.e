@@ -51,10 +51,10 @@ feature -- Basic operations
 			project_set: EL_HASH_SET [FILE_PATH]
 		do
 			create project_set.make_equal (20)
-			across OS.file_list (search_dir, "*.desktop") as list loop
-				if attached new_launcher (list.item) as launcher and then launcher.is_valid then
+			across OS.file_list (search_dir, "*.desktop") as desktop_path loop
+				if attached new_launcher (desktop_path) as launcher and then launcher.is_valid then
 					if not project_set.has (launcher.ecf_path) then
-						lio.put_path_field ("Launcher", list.item.relative_path (Directory.home))
+						lio.put_path_field ("Launcher", desktop_path.relative_path (Directory.home))
 						lio.put_new_line
 						lio.put_path_field ("Project", launcher.ecf_path.relative_path (root_dir))
 						lio.put_new_line

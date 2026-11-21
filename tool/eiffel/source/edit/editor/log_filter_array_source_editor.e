@@ -174,10 +174,10 @@ feature {NONE} -- Parsing actions
 			put_string ("[{")
 			put_string (class_name + "}")
 			across feature_names as name loop
-				if name.cursor_index = 1 then
-					put_string (", %"" + name.item)
+				if @ name.cursor_index = 1 then
+					put_string (", %"" + name)
 				else
-					put_string (", " + name.item)
+					put_string (", " + name)
 				end
 			end
 			put_string ("%"]")

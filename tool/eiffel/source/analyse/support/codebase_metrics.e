@@ -155,8 +155,8 @@ feature -- Basic operations
 			semicolon_lines: ARRAY [INTEGER]
 		do
 			semicolon_lines := << 1, 2, 3, 5 >>
-			across stats_table as table loop
-				if table.cursor_index = 2 then
+			across stats_table as l_count loop
+				if @ l_count.cursor_index = 2 then
 					if byte_count < 100000 then
 						lio.put_integer_field ("Total bytes (excluding BOM)", byte_count)
 					else
@@ -164,8 +164,8 @@ feature -- Basic operations
 					end
 					lio.put_new_line_x2
 				end
-				lio.put_integer_field (table.key, table.item)
-				if semicolon_lines.has (table.cursor_index) then
+				lio.put_integer_field (@ l_count.key, l_count)
+				if semicolon_lines.has (@ l_count.cursor_index) then
 					lio.put_string ("; ")
 				else
 					lio.put_new_line
@@ -175,8 +175,8 @@ feature -- Basic operations
 			lio.put_new_line_x2
 			lio.put_line ("Routine count class distribution")
 			lio.put_new_line
-			across routine_count_band_table as table loop
-				lio.put_integer_field (table.key, table.item); lio.put_character ('%%')
+			across routine_count_band_table as routine_count_band loop
+				lio.put_integer_field (@ routine_count_band.key, routine_count_band); lio.put_character ('%%')
 				lio.put_new_line
 			end
 		end

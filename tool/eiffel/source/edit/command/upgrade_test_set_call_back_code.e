@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 			across 1 |..| 2 as scan loop
 				feature_block_split.fill_by_string (source_text, Feature_marker, 0)
 				if attached feature_block_split as list then
-					if scan.cursor_index = 1 then
+					if @ scan.cursor_index = 1 then
 						from list.start until found or else list.after loop
 							if list.item_has_substring (Code.evaluator_arg) then
 								start_index := list.item_lower; end_index := list.item_upper
@@ -85,12 +85,11 @@ feature {NONE} -- Implementation
 
 	new_make_routine_code (old_code: STRING): STRING
 		local
-			code_lines: EL_STRING_8_LIST; line: STRING; editing_routine: BOOLEAN
+			code_lines: EL_STRING_8_LIST; editing_routine: BOOLEAN
 			do_line_index, end_line_index, index: INTEGER;
 		do
 			create code_lines.make_with_lines (old_code)
-			across code_lines as list until end_line_index > 0 loop
-				line := list.item
+			across code_lines as line until end_line_index > 0 loop
 				line.right_adjust
 				if line.has_substring (Code.basic_ops) then
 					line.share (" {NONE} -- Initialization")
@@ -105,7 +104,7 @@ feature {NONE} -- Implementation
 						line.replace_substring ("initialize `test_table'", index + 3, line.count)
 
 					elseif line.ends_with (Code.do_) then
-						do_line_index := list.cursor_index
+						do_line_index := @ line.cursor_index
 
 					elseif line.has_substring (Code.eval_call) then
 						index := line.substring_index (Code.eval_call, 1)
@@ -113,7 +112,7 @@ feature {NONE} -- Implementation
 						line.replace_substring ("],", line.count, line.count)
 
 					elseif line.ends_with (Code.end_) then
-						end_line_index := list.cursor_index
+						end_line_index := @ line.cursor_index
 					end
 				end
 			end

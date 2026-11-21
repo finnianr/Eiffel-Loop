@@ -47,8 +47,8 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create path_table.make_equal (file_list.count)
-			across file_list  as list loop
-				path_table.extend (list.item, list.item.base_name)
+			across file_list  as path loop
+				path_table.extend (path, path.base_name)
 			end
 		end
 
@@ -65,8 +65,8 @@ feature -- Tests
 				covers/{CLASS_FEATURE}.adjust_manifest_tuple_tabs
 			]"
 		do
-			across to_list (Tuple_manifest_file) as list loop
-				do_test ("edit_file", Checksum_table [list.item], agent edit_file, [list.item])
+			across to_list (Tuple_manifest_file) as l_name loop
+				do_test ("edit_file", Checksum_table [l_name], agent edit_file, [l_name])
 			end
 		end
 
@@ -81,8 +81,8 @@ feature -- Tests
 	test_file_editing
 		-- FEATURE_EDITOR_COMMAND_TEST_SET.file_editing
 		do
-			across to_list (Name) as list loop
-				do_test ("edit_file", Checksum_table [list.item], agent edit_file, [list.item])
+			across to_list (Name) as l_name loop
+				do_test ("edit_file", Checksum_table [l_name], agent edit_file, [l_name])
 			end
 		end
 
@@ -159,7 +159,7 @@ feature {NONE} -- File sets
 		end
 
 	Name: TUPLE [copy_file_impl, job_duration_parser, os_command_test_set: ZSTRING]
-		do
+		once
 			create Result
 			Tuple.fill (Result, "el_copy_file_impl, job_duration_parser, os_command_test_set")
 		end

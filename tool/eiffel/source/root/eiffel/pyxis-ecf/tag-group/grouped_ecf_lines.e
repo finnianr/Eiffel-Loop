@@ -121,8 +121,8 @@ feature -- Factory
 			if attached Once_name_value_list as list then
 				list.wipe_out
 				across pair_splitter as split loop
-					if split.item_has ('=') then
-						create nvp.make (split.item)
+					if @ split.item_has ('=') then
+						create nvp.make (split)
 						adjust_value (nvp.value)
 						list.extend (nvp)
 					end
@@ -153,8 +153,8 @@ feature {NONE} -- Implementation
 
 	set_from_pair_list (nvp_list: like Once_name_value_list)
 		do
-			across nvp_list as list loop
-				set_variables (list.item)
+			across nvp_list as nvp loop
+				set_variables (nvp)
 				if target.count > 0 then
 					target.append_character ('%N')
 				end

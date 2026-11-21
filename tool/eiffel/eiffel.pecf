@@ -5,7 +5,7 @@ pyxis-doc:
 # readable supplement/substitute for XML configuration files.
 
 system:
-	configuration_ns = "1-16-0"
+	configuration_ns = "1-23-0"
 	name = el_eiffel; uuid = "EEA36E90-5A49-11E7-8290-A34D58BF65CD"
 	description:
 		"""
@@ -24,18 +24,22 @@ system:
 			copyright = "Finnian Reilly"
 
 		option:
-			syntax = standard; full_class_checking = false; void_safety = none
-			trace = false; debug = false; warning = true
+			syntax = standard; full_class_checking = false; trace = false; debug = false; warning = warning
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
 		settings:
 			address_expression = false; array_optimization = false
-			check_vape = true; console_application = true; concurrency = thread
-			dead_code_removal = true; dynamic_runtime = false
+			check_vape = true; console_application = true; 
+			dead_code_removal = none; dynamic_runtime = false
 			exception_trace = false
 			inlining = true; inlining_size = 3
 			line_generation = false
+		capability:
+			concurrency:
+				support = thread; use = thread
+			void_safety:
+				support = none
 
 		precompile: 
 			precompile = "$ISE_PRECOMP/EL/console-application.ecf"

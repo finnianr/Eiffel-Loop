@@ -44,15 +44,14 @@ feature -- Tests
 				covers/{EL_OS_COMMAND_I}.set_output_encoding
 			]"
 		local
-			cmd: EIFFEL_GREP_COMMAND; count: INTEGER; line: ZSTRING
+			cmd: EIFFEL_GREP_COMMAND; count: INTEGER
 		do
 			if {PLATFORM}.is_unix then
 				create cmd.make
 				cmd.set_working_directory (eiffel_loop_dir #+ "test/source")
 				cmd.set_options ("assert_same_string")
 				cmd.execute
-				across cmd.lines as list loop
-					line := list.item
+				across cmd.lines as line loop
 					if line.has_substring (Line_tag.book_info) then
 						assert (Line_tag.book_info + " has euro symbol", line.has (Text.Euro_symbol))
 						count := count + 1

@@ -217,8 +217,8 @@ feature {NONE} -- Implementation
 
 	is_case_changeable (latin: LATIN_CHARACTER): BOOLEAN
 		do
-			Result := across lower_case_offsets as set some set.item.has_character (latin) end
-							or else across upper_case_offsets as set some set.item.has_character (latin) end
+			Result := across lower_case_offsets as set some set.has_character (latin) end
+							or else across upper_case_offsets as set some set.has_character (latin) end
 		end
 
 	latin_1_disjoint_set: STRING
@@ -232,7 +232,7 @@ feature {NONE} -- Implementation
 				create intervals.make (50)
 				if attached differing_unicodes as code_list then
 					across code_list as list loop
-						intervals.extend_upper (list.item.code.to_integer_32)
+						intervals.extend_upper (list.code.to_integer_32)
 					end
 					from intervals.start until intervals.after loop
 						item := quoted_manifest (intervals.item_lower)
@@ -318,12 +318,12 @@ feature {NONE} -- Evolicity fields
 		-- alpha characters which are only available in a single case
 		do
 			create Result.make_empty
-			across latin_table as lc loop
-				if lc.item.is_alpha and then not is_case_changeable (lc.item) then
+			across latin_table as latin_char loop
+				if latin_char.is_alpha and then not is_case_changeable (latin_char) then
 					if not Result.is_empty then
 						Result.append (", ")
 					end
-					Result.append_natural_32 (lc.item.code)
+					Result.append_natural_32 (latin_char.code)
 				end
 			end
 		end

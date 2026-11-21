@@ -68,8 +68,8 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (20)
 			across feature_group_list as group loop
-				across group.item.features as list loop
-					if attached {TEST_PROCEDURE} list.item as procedure then
+				across group.features as l_feature loop
+					if attached {TEST_PROCEDURE} l_feature as procedure then
 						Result.extend (procedure.test_name)
 					end
 				end

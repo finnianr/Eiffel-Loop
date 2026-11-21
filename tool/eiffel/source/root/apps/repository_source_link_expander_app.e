@@ -15,7 +15,7 @@ class
 inherit
 	REPOSITORY_PUBLISHER_APPLICATION [REPOSITORY_SOURCE_LINK_EXPANDER]
 		redefine
-			default_make, Option_name, argument_list
+			Option_name, argument_list
 		end
 
 	EL_ZSTRING_CONSTANTS

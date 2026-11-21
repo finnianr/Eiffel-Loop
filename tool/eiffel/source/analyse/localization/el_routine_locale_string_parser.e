@@ -160,8 +160,8 @@ feature {NONE} -- Event handlers
 					quantity_interval := 0 |..| 2
 				end
 				across Number_suffix as suffix loop
-					if quantity_interval.has (suffix.cursor_index - 1) then
-						locale_keys.extend (source_substring (start_index, end_index, False) + suffix.item)
+					if quantity_interval.has (@ suffix.cursor_index - 1) then
+						locale_keys.extend (source_substring (start_index, end_index, False) + suffix)
 					end
 				end
 

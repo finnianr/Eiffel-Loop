@@ -57,8 +57,8 @@ feature -- Basic operations
 			Precursor
 			if renamed_table.count > 0 then
 				lio.put_line ("RENAMED")
-				across renamed_table as table loop
-					lio.put_labeled_string (table.key, "as " + table.item)
+				across renamed_table as name loop
+					lio.put_labeled_string (@ name.key, "as " + name)
 					lio.put_new_line
 				end
 			end

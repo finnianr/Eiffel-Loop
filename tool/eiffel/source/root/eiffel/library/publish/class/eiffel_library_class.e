@@ -50,17 +50,15 @@ feature -- Element change
 			if attached Class_buffer_table as table then
 				table.wipe_out
 				max_count := config.max_useage_examples_count
-				across class_list as list until table.count = max_count loop
-					if attached list.item as example then
-					-- use class alias in preference to actual name
-						if attached alias_name as l_alias then
-							class_name := l_alias.to_shared_immutable_8
-						else
-							class_name := name.to_shared_immutable_8
-						end
-						if example.class_use_set.has (class_name) then
-							table.put (example, example.name)
-						end
+				across class_list as example until table.count = max_count loop
+				-- use class alias in preference to actual name
+					if attached alias_name as l_alias then
+						class_name := l_alias.to_shared_immutable_8
+					else
+						class_name := name.to_shared_immutable_8
+					end
+					if example.class_use_set.has (class_name) then
+						table.put (example, example.name)
 					end
 				end
 				if table.count > 0 then
@@ -77,7 +75,7 @@ feature -- Element change
 			Precursor -- crc is reset in precursor
 			if client_examples.count > 0 and then attached Once_crc_generator as crc then
 				across client_examples as example loop
-					crc.add_path (example.item.relative_source_path)
+					crc.add_path (example.relative_source_path)
 				end
 				current_digest := crc.checksum
 			end

@@ -66,7 +66,7 @@ feature -- Status query
 	has_invalid_class: BOOLEAN
 		-- `True' if at least one item entry has class_category = Unknown_class
 		do
-			Result := across Current as link some not link.item.is_valid end
+			Result := across Current as link some not link.is_valid end
 		end
 
 feature -- Measurement
@@ -97,8 +97,8 @@ feature -- Measurement
 			from start until after loop
 				class_link := item
 				if class_link.has_parameters then
-					across expanded_list (class_link) as list loop
-						relative_path := list.item.relative_path (relative_page_dir)
+					across expanded_list (class_link) as expanded_link loop
+						relative_path := expanded_link.relative_path (relative_page_dir)
 						Result := Result + template_count + relative_path.count
 					end
 				else
@@ -138,8 +138,8 @@ feature -- Basic operations
 			from start until after loop
 				class_link := item
 				if class_link.has_parameters then
-					across expanded_list (class_link) as list loop
-						crc.add_path (list.item.path)
+					across expanded_list (class_link) as expanded_link loop
+						crc.add_path (expanded_link.path)
 					end
 				else
 					crc.add_path (class_link.path)
@@ -154,9 +154,9 @@ feature -- Basic operations
 		do
 			create key_list.make (10)
 			if attached link_intervals.class_link_table as class_link_table then
-				across class_link_table as table loop
-					if table.item.eiffel_class = eiffel_class then
-						key_list.extend (table.key)
+				across class_link_table as class_link loop
+					if class_link.eiffel_class = eiffel_class then
+						key_list.extend (@ class_link.key)
 					end
 				end
 				key_list.do_all (agent class_link_table.remove)
@@ -165,9 +165,9 @@ feature -- Basic operations
 
 	replace_class (old_class, new_class: EIFFEL_CLASS)
 		do
-			across link_intervals.class_link_table as table loop
-				if table.item.eiffel_class = old_class then
-					table.item.set_eiffel_class (new_class)
+			across link_intervals.class_link_table as class_link loop
+				if class_link.eiffel_class = old_class then
+					class_link.set_eiffel_class (new_class)
 				end
 			end
 		end

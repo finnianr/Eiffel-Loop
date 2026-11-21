@@ -35,23 +35,23 @@ feature -- Access
 	as_html (markdown: ZSTRING): ZSTRING
 		do
 			Result := markdown.twin
-			across Escaped_square_brackets as table loop
-				Result.replace_substring_all (table.key, table.item)
+			across Escaped_square_brackets as square_brackets loop
+				Result.replace_substring_all (@ square_brackets.key, square_brackets)
 			end
-			across Markup_substitutions as list loop
-				list.item.substitute_html (Result)
+			across Markup_substitutions as markup loop
+				markup.substitute_html (Result)
 			end
-			across Link_substitutions as list loop
-				if list.item.has_link (Result) then
-					list.item.set_relative_page_dir (relative_page_dir)
-					list.item.substitute_html (Result)
+			across Link_substitutions as link loop
+				if link.has_link (Result) then
+					link.set_relative_page_dir (relative_page_dir)
+					link.substitute_html (Result)
 				end
 			end
 			Result.escape (Xml_escaper)
 
 		-- "\lsqb;" -> "&lsqb;"
-			across Escaped_square_brackets as table loop
-				across Result.substring_index_list (table.item, False) as i loop
+			across Escaped_square_brackets as square_brackets loop
+				across Result.substring_index_list (square_brackets, False) as i loop
 					Result [i.item] := '&'
 				end
 			end
@@ -75,8 +75,8 @@ feature {NONE} -- Factory
 	new_link_substitutions: EL_ARRAYED_LIST [HYPERLINK_SUBSTITUTION]
 		do
 			create Result.make (3)
-			across << "[http://", "[https://", "[./" >> as list loop
-				Result.extend (new_hyperlink_substitution (list.item))
+			across << "[http://", "[https://", "[./" >> as text loop
+				Result.extend (new_hyperlink_substitution (text))
 			end
 		end
 

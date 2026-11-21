@@ -182,12 +182,11 @@ feature {NONE} -- Implementation
 
 	wrapped_lines: EL_ZSTRING_LIST
 		local
-			excess_count: INTEGER; short_enough: BOOLEAN; spaces, line: ZSTRING
+			excess_count: INTEGER; short_enough: BOOLEAN; spaces: ZSTRING
 		do
 			create Result.make (lines.count)
 			if attached Word_list as words then
-				across lines as list loop
-					line := list.item
+				across lines as line loop
 					Result.extend (line)
 					if line.count > Maximum_code_width then
 						excess_count := line.count - Maximum_code_width

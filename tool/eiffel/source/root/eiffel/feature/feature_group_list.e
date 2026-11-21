@@ -32,12 +32,10 @@ feature -- Access
 			push_cursor
 			create Result.make_empty
 			from start until after or found_attribute loop
-				across item.features as list until found_attribute loop
-					if attached {ROUTINE_FEATURE} list.item as l_feature then
-						if l_feature.name ~ name and then l_feature.is_attribute then
-							Result.share (list.item.attribute_type)
-							found_attribute := True
-						end
+				across item.features as l_feature until found_attribute loop
+					if l_feature.name ~ name and then l_feature.is_attribute then
+						Result.share (l_feature.attribute_type)
+						found_attribute := True
 					end
 				end
 				forth

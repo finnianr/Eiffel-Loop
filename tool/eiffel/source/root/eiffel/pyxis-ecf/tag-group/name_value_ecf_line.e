@@ -54,7 +54,7 @@ feature -- Element change
 
 	is_first_name_reserved (a_line: EL_PYXIS_LINE; equal_index: INTEGER): BOOLEAN
 		do
-			Result := across reserved_names as reserved some a_line.first_name_matches (reserved.item, equal_index) end
+			Result := across reserved_names as reserved some a_line.first_name_matches (reserved, equal_index) end
 		end
 
 feature {NONE} -- Implementation

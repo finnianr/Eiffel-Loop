@@ -66,8 +66,8 @@ feature {NONE} -- Commands
 					git commit -m "#"
 				]"
 				template.substitute_tuple ([comment])
-				across template.split ('%N') as list loop
-					create cmd.make (list.item)
+				across template.split ('%N') as line loop
+					create cmd.make (line)
 					cmd.set_working_directory (config.github_dir)
 --					cmd.dry_run.enable
 					cmd.execute
@@ -101,7 +101,7 @@ feature {NONE} -- Commands
 
 	git_log
 		local
-			day_count: INTEGER; date: EL_DATE; template, date_string, line: ZSTRING
+			day_count: INTEGER; date: EL_DATE; template, date_string: ZSTRING
 			log_cmd: EL_CAPTURED_OS_COMMAND; index: INTEGER
 		do
 			template := "git --no-pager log --after='%S' --date=short --pretty=format:'%%ad %%s'"
@@ -117,8 +117,8 @@ feature {NONE} -- Commands
 					lio.put_line ("Command error")
 				else
 					lio.put_new_line
-					across log_cmd.lines as list loop
-						line := list.item; index := 1
+					across log_cmd.lines as line loop
+						index := 1
 						date_string := line.substring_to_from (' ', $index)
 						lio.put_labeled_string (date_string, line.substring_end (index))
 						lio.put_new_line
@@ -165,8 +165,10 @@ feature {NONE} -- Commands
 			if source_change_table.sum_count = 0 and deletion_count = 0 then
 				lio.put_line ("No project or source changes found")
 			else
-				across source_change_table as table loop
-					lio.put_labeled_substitution ("Changes to", "%"*.%S%" files = %S", [table.key, table.item.item])
+				across source_change_table as change_count loop
+					lio.put_labeled_substitution (
+						"Changes to", "%"*.%S%" files = %S", [@ change_count.key, change_count.item]
+					)
 					lio.put_new_line
 				end
 				lio.put_integer_field ("Deleted count", deletion_count)
@@ -196,7 +198,7 @@ feature {NONE} -- Commands
 			lio.put_labeled_string ("Cut and paste lines", "")
 			lio.put_new_line
 			across pyxis_fragment.lines as line loop
-				lio.put_line (line.item)
+				lio.put_line (line)
 			end
 			lio.put_new_line
 			lio.put_line ("Restart github manager")
@@ -221,12 +223,11 @@ feature {NONE} -- Implementation
 
 	edit_notes (source_path: FILE_PATH)
 		local
-			found: BOOLEAN; source_dir: DIR_PATH
-			editor: NOTE_EDITOR
+			found: BOOLEAN; source_dir: DIR_PATH; editor: NOTE_EDITOR
 		do
 			if source_path.exists and then attached manifest.notes_table as table then
 				across table.key_list as key until found loop
-					source_dir := key.item
+					source_dir := key
 					if source_dir.is_parent_of (source_path) then
 						found := True
 					end
@@ -260,7 +261,7 @@ feature {NONE} -- Implementation
 	update_notes
 		local
 			rsync_cmd: EL_CAPTURED_OS_COMMAND; path: FILE_PATH
-			valid_arguments: BOOLEAN_REF; line: ZSTRING; deleted: BOOLEAN
+			valid_arguments: BOOLEAN_REF; deleted: BOOLEAN
 		do
 			source_change_table.wipe_out
 			deletion_count := 0
@@ -270,8 +271,7 @@ feature {NONE} -- Implementation
 			set_rsync_arguments (rsync_cmd, "--dry-run", valid_arguments)
 			if valid_arguments.item then
 				rsync_cmd.execute
-				across rsync_cmd.lines as list loop
-					line := list.item
+				across rsync_cmd.lines as line loop
 					if not line.has_substring (Dry_run) then
 						deleted := line.starts_with (Deleting)
 						if deleted then

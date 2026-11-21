@@ -40,8 +40,8 @@ feature -- Basic operations
 				lio.put_labeled_string ("Dry run modified text", source_path.without_extension.base.as_upper)
 				lio.put_new_line
 			 	across edited_lines as line loop
-			 		line.item.expand_tabs (3)
-			 		lio.put_line (line.item)
+			 		line.expand_tabs (3)
+			 		lio.put_line (line)
 			 	end
 			else
 				write_edited_lines (source_path)
@@ -60,9 +60,9 @@ feature {NONE} -- Implementation
 
 	edit_feature_group (feature_list: EL_ARRAYED_LIST [CLASS_FEATURE])
 		do
-			across feature_list as list loop
-				list.item.expand_shorthand
-				Alignment_editor.edit (list.item.lines) -- Right justify tuple items in array
+			across feature_list as l_feature loop
+				l_feature.expand_shorthand
+				Alignment_editor.edit (l_feature.lines) -- Right justify tuple items in array
 			end
 			feature_list.order_by (agent {CLASS_FEATURE}.name, True)
 		end

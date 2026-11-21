@@ -114,7 +114,7 @@ feature -- Basic operations
 						sign_tool.set_exe_path (Directory.current_working + relative_exe_path)
 						sign_tool.sign_exe (Current, dry_run)
 						across language_list as lang until has_build_error loop
-							build_installer (Locale.in (lang.item))
+							build_installer (Locale.in (lang))
 						end
 					end
 				end
@@ -140,8 +140,8 @@ feature -- Status query
 		local
 			c: EL_CHARACTER_8_ROUTINES
 		do
-			Result := across language_list as list all
-				attached list.item as s and then s.count = 2 and then (c.is_a_to_z_lower (s [1]) and c.is_a_to_z_lower (s [2]))
+			Result := across language_list as language all
+				language.count = 2 and then (c.is_a_to_z_lower (language [1]) and c.is_a_to_z_lower (language [2]))
 			end
 		end
 
@@ -277,10 +277,12 @@ feature {NONE} -- Implementation
 		end
 
 	scons_cmd: STRING
+		require
+			latin_1_compatible: root_class_path.escaped.is_valid_as_string_8
 		do
 			Result := "scons action=finalize"
 			if bit_count = 64 and then has_alternative_root_class then
-				Result.append (" root_class=" + root_class_path.escaped)
+				Result.append (" root_class=" + root_class_path.escaped.to_latin_1)
 			end
 		end
 

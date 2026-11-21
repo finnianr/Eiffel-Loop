@@ -234,7 +234,7 @@ feature {NONE} -- Implementation
 	class_begin_index: INTEGER
 		do
 			across Class_begin_strings as string until Result > 0 loop
-				Result := code_text.substring_index (string.item, 1)
+				Result := code_text.substring_index (string, 1)
 			end
 		end
 

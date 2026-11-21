@@ -45,8 +45,8 @@ feature -- Basic operations
 		do
 			File_system.make_directory (output_dir)
 			changed_class_list.wipe_out
-			across editor_type_list as list loop
-				if attached {OVERRIDE_FEATURE_EDITOR} Makeable_factory.new_item_from_type (list.item) as editor then
+			across editor_type_list as editor_type loop
+				if attached {OVERRIDE_FEATURE_EDITOR} Makeable_factory.new_item_from_type (editor_type) as editor then
 					write_override (editor)
 				end
 			end

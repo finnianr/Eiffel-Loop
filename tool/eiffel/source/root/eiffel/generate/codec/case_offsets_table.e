@@ -40,10 +40,10 @@ feature -- Conversion
 		do
 			create Result.make (80)
 			across to_string_table as case_set loop
-				if case_set.cursor_index > 1 then
+				if @ case_set.cursor_index > 1 then
 					Result.append (", ")
 				end
-				Result.append (case_set.item)
+				Result.append (case_set)
 			end
 		end
 
@@ -51,8 +51,8 @@ feature -- Conversion
 			-- Eg. {32: "97..122, 224..246, 248..254"}
 		do
 			create Result.make (count)
-			across Current as table loop
-				Result [table.key.to_integer_32.to_reference] := table.item.to_string
+			across Current as interval_list loop
+				Result [@ interval_list.key.to_integer_32.to_reference] := interval_list.to_string
 			end
 		end
 

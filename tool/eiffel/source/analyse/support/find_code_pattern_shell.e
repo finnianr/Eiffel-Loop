@@ -62,12 +62,12 @@ feature {NONE} -- Commands
 			found: BOOLEAN
 		do
 			if attached Occurrence_intervals as intervals_list then
-				across source_lines as list loop
-					line := list.shared_item
+				across source_lines as lines loop
+					line := @ lines.shared_item
 					intervals_list.fill_by_string (line, Dollor_brace, 0)
 					found := False
 					across intervals_list as interval until found loop
-						start_index := interval.item_lower
+						start_index := @ interval.item_lower
 						end_index := line.index_of ('}', start_index + 2)
 						if end_index > 0 then
 							right_index := line.index_of (']', start_index + 2)
@@ -83,7 +83,7 @@ feature {NONE} -- Commands
 
 	find_if_else_end (source_lines: EL_PLAIN_TEXT_LINE_SOURCE)
 		local
-			line, word: ZSTRING; match_list: like Once_match_list; done: BOOLEAN_REF
+			line: ZSTRING; match_list: like Once_match_list; done: BOOLEAN_REF
 			match_list_count, tab_count: INTEGER
 		do
 			match_list := Once_match_list; match_list.wipe_out
@@ -91,12 +91,12 @@ feature {NONE} -- Commands
 
 			if attached Word_split as split_list then
 				across source_lines as list loop
-					line := list.shared_item
+					line := @ list.shared_item
 					split_list.set_target (line)
 					done.set_item (False); match_list_count := match_list.count
-					across split_list as split until done.item loop
-						word := split.item; word.left_adjust
-						match_list.extend (line.twin, word, split.cursor_index, done)
+					across split_list as word until done.item loop
+						word.left_adjust
+						match_list.extend (line.twin, word, @ word.cursor_index, done)
 					end
 					if match_list_count + 1 /= match_list.count then
 						match_list.wipe_out
@@ -106,8 +106,8 @@ feature {NONE} -- Commands
 						if tab_count > 0 then
 							match_list.unindent (tab_count)
 						end
-						across match_list as m_list loop
-							match_table.extend (source_lines.file_path, m_list.item)
+						across match_list as match loop
+							match_table.extend (source_lines.file_path, match)
 						end
 						match_list.wipe_out
 					end
@@ -135,11 +135,11 @@ feature {NONE} -- Implementation
 		do
 			find := a_find
 			read_sources
-			across match_table as table loop
-				lio.put_labeled_string ("Source", table.key)
+			across match_table as match_group loop
+				lio.put_labeled_string ("Source", @ match_group.key)
 				lio.put_new_line
-				across table.item as list loop
-					lio.put_line (list.item)
+				across match_group as match loop
+					lio.put_line (match)
 				end
 				lio.put_new_line
 			end

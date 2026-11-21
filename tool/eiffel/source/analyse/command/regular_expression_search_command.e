@@ -72,7 +72,7 @@ feature -- Basic operations
 			lio.put_new_line_x2
 			lio.put_line ("TIPS")
 			across Tip_list as tip loop
-				lio.put_index_labeled_string (tip, Void, tip.item)
+				lio.put_index_labeled_string (tip, Void, tip)
 				lio.put_new_line
 			end
 			create grep_options.make_empty
@@ -137,14 +137,14 @@ feature {NONE} -- Implementation
 
 	iterate_source_trees
 		do
-			across manifest.source_tree_list as list until has_error loop
-				grep_command.set_working_directory (list.item.dir_path)
+			across manifest.source_tree_list as source_tree until has_error loop
+				grep_command.set_working_directory (source_tree.dir_path)
 				grep_command.execute
 				if grep_command.has_error then
 					has_error := True
 				else
 					across grep_command.lines as line loop
-						results_list.extend (grep_command.working_directory, line.item)
+						results_list.extend (grep_command.working_directory, line)
 					end
 					Track.progress_listener.notify_tick
 				end

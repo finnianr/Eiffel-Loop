@@ -78,9 +78,9 @@ feature -- Basic operations
 			error: EL_ERROR_DESCRIPTION; missing_list: EL_ZSTRING_LIST
 		do
 			create missing_list.make (5)
-			across manifest.source_tree_list as list loop
-				if not list.item.dir_path.exists then
-					missing_list.extend (list.item.dir_path)
+			across manifest.source_tree_list as source_tree loop
+				if not source_tree.dir_path.exists then
+					missing_list.extend (source_tree.dir_path)
 					missing_list.last.prepend (space * 2)
 				end
 			end
@@ -97,11 +97,11 @@ feature -- Basic operations
 		do
 			read_manifest_files
 
-			across manifest.source_tree_list as location loop
-				if location.item.dir_path.exists then
-					lio.put_line (location.item.dir_path)
+			across manifest.source_tree_list as source_tree loop
+				if source_tree.dir_path.exists then
+					lio.put_line (source_tree.dir_path)
 				else
-					lio.put_labeled_string ("Not found", location.item.dir_path)
+					lio.put_labeled_string ("Not found", source_tree.dir_path)
 					lio.put_new_line
 				end
 			end

@@ -17,7 +17,7 @@ inherit
 		undefine
 			new_lio
 		redefine
-			on_prepare, selected_files
+			on_prepare
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -89,30 +89,30 @@ feature -- Tests
 			assert ("valid license", manifest.notes.license.starts_with_general ("MIT"))
 
 			across file_list as path loop
-				restore_default_fields (path.item)
+				restore_default_fields (path)
 
-				encoding := encoding_name (path.item); crc := crc_32 (path.item)
-				lio.put_labeled_string ("Encoding " + path.item.base, encoding)
+				encoding := encoding_name (path); crc := crc_32 (path)
+				lio.put_labeled_string ("Encoding " + path.base, encoding)
 				lio.put_new_line
-				editor.set_file_path (path.item)
+				editor.set_file_path (path)
 				editor.edit
-				assert_valid_checksum (path.item)
+				assert_valid_checksum (path)
 
-				encoding_after := encoding_name (path.item)
+				encoding_after := encoding_name (path)
 				lio.put_labeled_string ("Encoding after edit", encoding_after)
 				lio.put_new_line
 				assert ("encoding has not changed", encoding.is_equal (encoding_after))
-				assert ("code has not changed", crc = crc_32 (path.item))
+				assert ("code has not changed", crc = crc_32 (path))
 
-				store_checksum (path.item)
+				store_checksum (path)
 				editor.edit
-				assert ("not file changed", not has_changed (path.item))
+				assert ("not file changed", not has_changed (path))
 
 				create old_revision; create new_revision
 				across << old_revision, new_revision >> as revision loop
-					do_once_with_file_lines (agent get_revision (?, revision.item), open_lines (path.item, Latin_1))
-					if revision.cursor_index = 1 then
-						if attached open (path.item, Closed) as l_file then
+					do_once_with_file_lines (agent get_revision (?, revision), open_lines (path, Latin_1))
+					if @ revision.cursor_index = 1 then
+						if attached open (path, Closed) as l_file then
 							l_file.stamp (time.unix_now (True) + 5)
 							editor.edit
 						end
@@ -194,8 +194,8 @@ feature {NONE} -- Implementation
 		do
 			if attached crc_generator as crc then
 				across File.plain_text_lines (file_path) as line loop
-					if not line.item.starts_with (Date_pattern) then
-						crc.add_string_8 (line.item)
+					if not line.starts_with (Date_pattern) then
+						crc.add_string_8 (line)
 					end
 				end
 				Result := crc.checksum

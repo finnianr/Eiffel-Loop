@@ -166,8 +166,10 @@ feature -- Basic operations
 --				Find version information line
 				from until found or list.after loop
 					item := list.item
-					if item.occurrences ('=') = 4
-						and then across Version_parts as part all item.has_substring (part.item) end
+					if item.occurrences ('=') = 4 and then
+						across Version_parts as part all
+							item.has_substring (part)
+						end
 					then
 						found := True
 					else
@@ -196,8 +198,8 @@ feature {NONE} -- Implementation
 		do
 			steps := base_dir
 			steps.remove_tail (2)
-			across << company, product >> as list loop
-				steps.extend (list.item)
+			across << company, product >> as name loop
+				steps.extend (name)
 			end
 			Result := steps.to_dir_path
 		end

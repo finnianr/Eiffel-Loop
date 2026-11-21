@@ -18,7 +18,7 @@ class
 inherit
 	EL_BUILDABLE_FROM_PYXIS
 		redefine
-			make_default, make_from_file, building_action_table
+			make_default, make_from_file
 		end
 
 	EL_MODULE_LIO
@@ -64,8 +64,8 @@ feature -- Access
 			source_trees_read: source_trees_read
 		do
 			create Result.make (file_count)
-			across source_tree_list as list loop
-				Result.append_sequence (list.item.path_list)
+			across source_tree_list as source_tree loop
+				Result.append_sequence (source_tree.path_list)
 			end
 		end
 
@@ -101,8 +101,8 @@ feature -- Basic operations
 
 	read_source_trees
 		do
-			across source_tree_list as list loop
-				list.item.read_file_list
+			across source_tree_list as source_tree loop
+				source_tree.read_file_list
 			end
 			file_count := source_tree_list.sum_integer (agent {SOURCE_TREE}.file_count)
 		end

@@ -33,8 +33,8 @@ feature {NONE} -- Initialization
 		do
 			make (a_lines.first)
 			across a_lines as line loop
-				if line.cursor_index > 1 then
-					lines.extend (line.item)
+				if @ line.cursor_index > 1 then
+					lines.extend (line)
 				end
 			end
 			lines.start

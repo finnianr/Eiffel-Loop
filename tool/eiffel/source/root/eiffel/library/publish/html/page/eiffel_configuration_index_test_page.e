@@ -25,13 +25,12 @@ feature {NONE} -- Implementation
 
 	sink_content (crc: like crc_generator)
 		local
-			same_count: BOOLEAN; e_class: EIFFEL_CLASS; mismatch_found: BOOLEAN
-			checksum_list: EL_ARRAYED_LIST [NATURAL]
+			same_count: BOOLEAN; mismatch_found: BOOLEAN; checksum_list: EL_ARRAYED_LIST [NATURAL]
 		do
 			crc.add_file (content_template)
 			crc.add_string (eiffel_config.name)
 			across eiffel_config.description_lines as line loop
-				crc.add_string (line.item)
+				crc.add_string (line)
 			end
 --			lio.put_natural_field (eiffel_config.html_index_path.base, crc.checksum)
 --			lio.put_new_line
@@ -56,11 +55,10 @@ feature {NONE} -- Implementation
 					checksum_list.extend (crc.checksum)
 					Checksum_list_table.extend_area (checksum_list.area, eiffel_config.html_index_path)
 				end
-				across class_list as list loop
-					e_class := list.item
+				across class_list as e_class loop
 					crc.add_natural (e_class.current_digest)
 					if same_count then
-						if checksum_list [list.cursor_index + 1] /= crc.checksum then
+						if checksum_list [@ e_class.cursor_index + 1] /= crc.checksum then
 							if not mismatch_found then
 								lio.put_labeled_string (Checksum_differs, e_class.name)
 								lio.put_new_line

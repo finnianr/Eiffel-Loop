@@ -41,9 +41,9 @@ feature -- Basic operations
 			lio.put_line ("Checking ${CLASS_NAME} links")
 			across ecf_list as tree loop
 				lio.put_character ('.')
-				across tree.item.directory_list as directory loop
-					across directory.item.class_list as eiffel_class loop
-						eiffel_class.item.check_class_references
+				across tree.directory_list as directory loop
+					across directory.class_list as eiffel_class loop
+						eiffel_class.check_class_references
 					end
 				end
 			end
@@ -56,12 +56,12 @@ feature -- Basic operations
 				create file_out.make_open_write (config.invalid_names_output_path)
 				file_out.byte_order_mark.enable
 
-				across Invalid_source_name_table as table loop
-					file_out.put_line ("class " + table.key.base_name.as_upper)
-					file_out.put_line (Source_file_comment + table.key.to_unix)
+				across Invalid_source_name_table as invalid_source_name loop
+					file_out.put_line ("class " + @ invalid_source_name.key.base_name.as_upper)
+					file_out.put_line (Source_file_comment + @ invalid_source_name.key.to_unix)
 					file_out.put_line (Invalid_references_comment)
-					across table.item as class_name loop
-						file_out.put_line (Source_reference #$ [class_name.item])
+					across invalid_source_name as class_name loop
+						file_out.put_line (Source_reference #$ [class_name])
 					end
 					file_out.put_new_line
 				end

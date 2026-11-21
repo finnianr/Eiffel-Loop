@@ -81,14 +81,14 @@ feature {NONE} -- Implementation
 			create category.make_empty
 			create list.make (0)
 			across ecf_pages as page loop
-				if category /~ page.item.category_index_title then
-					category := page.item.category_index_title
+				if category /~ page.category_index_title then
+					category := page.category_index_title
 					list.ascending_sort
 					create list.make (10)
-					create context.make ([page.item.category_id, category, list], once "id, name, page_list")
+					create context.make ([page.category_id, category, list], once "id, name, page_list")
 					Result.extend (context)
 				end
-				list.extend (page.item)
+				list.extend (page)
 			end
 		end
 
@@ -101,7 +101,7 @@ feature {NONE} -- Implementation
 		do
 			crc.add_file (template_path)
 			across ecf_pages as page loop
-				crc.add_natural (page.item.current_digest)
+				crc.add_natural (page.current_digest)
 			end
 		end
 

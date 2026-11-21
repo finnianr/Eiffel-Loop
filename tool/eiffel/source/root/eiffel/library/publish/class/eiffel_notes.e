@@ -68,8 +68,8 @@ feature -- Access
 			create Result.make (fields.count)
 			across fields as l_field loop
 				create element_list.make (l_field.item, relative_class_dir)
-				create context.make ([element_list, l_field.key], once "element_list, title")
-				if l_field.key ~ Field_description then
+				create context.make ([element_list, @ l_field.key], once "element_list, title")
+				if @ l_field.key ~ Field_description then
 					Result.put_front (context)
 				else
 					Result.extend (context)
@@ -82,8 +82,8 @@ feature -- Access
 		do
 			create Result.make_empty
 			across fields as l_field loop
-				if l_field.key /~ Field_description then
-					Result.extend (new_title (l_field.key))
+				if @ l_field.key /~ Field_description then
+					Result.extend (new_title (@ l_field.key))
 				end
 			end
 		end
@@ -105,7 +105,7 @@ feature -- Status query
 
 	has_other_field_titles: BOOLEAN
 		do
-			Result := across fields as l_field some l_field.key /~ Field_description end
+			Result := across fields as l_field some @ l_field.key /~ Field_description end
 		end
 
 feature -- Basic operations
@@ -128,8 +128,8 @@ feature -- Basic operations
 			-- prune empty fields
 			key_list := note_lines; key_list.wipe_out
 			across fields as f loop
-				if f.item.is_empty then
-					key_list.extend (f.key)
+				if f.is_empty then
+					key_list.extend (@ f.key)
 				end
 			end
 			key_list.do_all (agent fields.remove)
@@ -190,7 +190,7 @@ feature {NONE} -- Line states
 
 	find_note_section (line: ZSTRING)
 		do
-			if across Indexing_keywords as l_word some line.starts_with (l_word.item) end then
+			if across Indexing_keywords as l_word some line.starts_with (l_word) end then
 				state := agent find_note_section_end
 			end
 		end

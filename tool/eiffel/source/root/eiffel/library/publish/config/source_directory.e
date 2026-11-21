@@ -77,13 +77,10 @@ feature -- Access
 	relative_dir: DIR_PATH
 
 	sorted_class_list: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CLASS]
-		local
-			l_class: EIFFEL_CLASS
 		do
 			create Result.make (class_list.count)
-			across class_list as c loop
-				l_class := c.item
-				Result.extend (l_class.twin)
+			across class_list as e_class loop
+				Result.extend (e_class.twin)
 				Result.last.notes.set_relative_class_dir (library_ecf.html_index_path.parent)
 			end
 			Result.ascending_sort
@@ -105,7 +102,7 @@ feature -- Status query
 
 	is_modified: BOOLEAN
 		do
-			Result := across class_list as l_class some l_class.item.is_modified end
+			Result := across class_list as e_class some e_class.is_modified end
 		end
 
 feature -- Basic operations
@@ -117,8 +114,8 @@ feature -- Basic operations
 
 	write_class_html
 		do
-			across class_list as list loop
-				if attached list.item as e_class and then e_class.is_modified then
+			across class_list as e_class loop
+				if e_class.is_modified then
 					e_class.serialize
 				end
 			end

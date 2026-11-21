@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 			html_index_path := ecf.html_index_path
 			ecf_dir := ecf_path.parent
 			across root.context_list (Xpath_mapping) as map loop
-				extend_alias_table (map.node)
+				extend_alias_table (@ map.node)
 			end
 			if attached new_source_dir_map_list (root.context_list (ecf.cluster_xpath), ecf_dir) as list then
 				source_dir_list.grow (list.count)
@@ -61,11 +61,11 @@ feature {NONE} -- Initialization
 					list.forth
 				end
 			end
-			across source_dir_list as path loop
-				if path.is_first then
-					dir_path := path.item
-				elseif not dir_path.is_parent_of (path.item) then
-					dir_path := path.item.parent
+			across source_dir_list as source_path loop
+				if @ source_path.is_first then
+					dir_path := source_path
+				elseif not dir_path.is_parent_of (source_path) then
+					dir_path := source_path.parent
 				end
 			end
 			path_list := new_path_list; sub_category := new_sub_category
@@ -123,7 +123,7 @@ feature -- Access
 	class_count: INTEGER
 		do
 			across directory_list as source_dir loop
-				Result := Result + source_dir.item.class_list.count
+				Result := Result + source_dir.class_list.count
 			end
 		end
 
@@ -159,8 +159,8 @@ feature -- Access
 		do
 			create Result.make (directory_list.sum_integer (agent {SOURCE_DIRECTORY}.count))
 			across directory_list as dir loop
-				across dir.item.class_list as list loop
-					Result.extend (list.item)
+				across dir.class_list as l_class loop
+					Result.extend (l_class)
 				end
 			end
 			Result.order_by (agent {EIFFEL_CLASS}.relative_source_path, True)
@@ -181,17 +181,17 @@ feature -- Element change
 		local
 			source_directory: SOURCE_DIRECTORY
 		do
-			across group_table as table loop
-				directory_list.find_first_equal (table.key, agent {SOURCE_DIRECTORY}.dir_path)
+			across group_table as group loop
+				directory_list.find_first_equal (@ group.key, agent {SOURCE_DIRECTORY}.dir_path)
 				if directory_list.found then
 					source_directory := directory_list.item
 				else
 					create source_directory.make (Current, directory_list.count + 1)
 					directory_list.extend (source_directory)
 				end
-				across table.item as path loop
+				across group as path loop
 					lio.put_character ('.')
-					add_class (source_directory, new_class (path.item))
+					add_class (source_directory, new_class (path))
 				end
 			end
 		end
@@ -242,12 +242,12 @@ feature -- Basic operations
 				create source_directory.make (Current, group.item.count)
 				directory_list.extend (source_directory)
 				file_count := file_count + 1
-				across group.item as path loop
+				across group as path loop
 					lio.put_character ('.')
-					if file_count \\ 80 = 0 or (directory_list.full and then path.is_last) then
+					if file_count \\ 80 = 0 or (directory_list.full and then @ path.is_last) then
 						lio.put_new_line
 					end
-					parser.queue (agent add_class (source_directory, ?), path.item)
+					parser.queue (agent add_class (source_directory, ?), path)
 				end
 				parser.apply
 			end
@@ -266,9 +266,9 @@ feature -- Basic operations
 			lio.put_new_line
 
 			-- remove existing classes from `group_table'
-			across directory_list as list loop
-				if attached list.item.class_list as class_list and then class_list.count > 0 then
-					source_dir := list.item.dir_path
+			across directory_list as l_directory loop
+				if attached l_directory.class_list as class_list and then class_list.count > 0 then
+					source_dir := l_directory.dir_path
 					group_table.search (source_dir)
 					if group_table.found then
 						new_source_set := group_table.found_set
@@ -290,7 +290,7 @@ feature -- Basic operations
 							Class_link_list.remove_class (e_class)
 							class_list.remove
 						end
-						if file_count \\ 80 = 0 or (list.is_last and class_list.islast) then
+						if file_count \\ 80 = 0 or (@ l_directory.is_last and class_list.islast) then
 							lio.put_new_line
 						end
 					end
@@ -322,13 +322,13 @@ feature -- Factory
 			file_list: EL_FILE_PATH_LIST; not_excluded: EL_PREDICATE_QUERY_CONDITION [FILE_PATH]
 		do
 			across source_dir_list as path loop
-				if excluded_dir_table.has_key (path.item) then
+				if excluded_dir_table.has_key (path) then
 					not_excluded := agent not_excluded_path (excluded_dir_table.found_item, ?)
-					create file_list.make_from_list (OS.file_list (path.item, Symbol.star_dot_e).query (not_excluded))
+					create file_list.make_from_list (OS.file_list (path, Symbol.star_dot_e).query (not_excluded))
 				else
-					file_list := OS.file_list (path.item, Symbol.star_dot_e)
+					file_list := OS.file_list (path, Symbol.star_dot_e)
 				end
-				if path.cursor_index = 1 then
+				if @ path.cursor_index = 1 then
 					Result := file_list
 				else
 					Result.append (file_list)
@@ -359,9 +359,9 @@ feature -- Factory
 		do
 			create Result.make (cluster_nodes.count)
 			across cluster_nodes as cluster loop
-				location := cluster.node [Attribute_location]
-				if cluster.node.has_attribute (Attribute_recursive) then
-					is_recursive := cluster.node [Attribute_recursive]
+				location := @ cluster.node [Attribute_location]
+				if @ cluster.node.has_attribute (Attribute_recursive) then
+					is_recursive := @ cluster.node [Attribute_recursive]
 				end
 				if location.starts_with (Symbol.parent_dir) then
 					source_dir := parent_dir.parent #+ location.substring_end (4)
@@ -373,15 +373,15 @@ feature -- Factory
 					source_dir := parent_dir #+ location
 				end
 				if is_recursive then
-					Result.extend (source_dir, new_excluded_dir_list (cluster.node, source_dir))
+					Result.extend (source_dir, new_excluded_dir_list (@ cluster.node, source_dir))
 				else
-					sub_cluster_nodes := cluster.node.context_list (Element_cluster)
+					sub_cluster_nodes := @ cluster.node.context_list (Element_cluster)
 					if sub_cluster_nodes.count = 0 then
 						Result.extend (source_dir, Empty_dir_list)
 					else
 						-- Recursive call
-						across new_source_dir_map_list (sub_cluster_nodes, source_dir) as list loop
-							Result.extend (list.key, list.value)
+						across new_source_dir_map_list (sub_cluster_nodes, source_dir) as source_dir_map loop
+							Result.extend (@ source_dir_map.key, @ source_dir_map.value)
 						end
 					end
 				end
@@ -392,7 +392,7 @@ feature -- Factory
 		do
 			Result := Empty_dir_list
 			across cluster.context_list (Xpath_file_exclude) as file_rule loop
-				if attached file_rule.node.as_string as step then
+				if attached @ file_rule.node.as_string as step then
 					if step.starts_with_character ('/') and then step.ends_with_character ('$')
 						and then not step.ends_with_general (once ".e$")
 					then
@@ -432,8 +432,8 @@ feature {NONE} -- Implementation
 
 	not_excluded_path (excluded_dir_list: like Empty_dir_list; source_path: FILE_PATH): BOOLEAN
 		do
-			Result := across excluded_dir_list as list all
-				not list.item.is_parent_of (source_path)
+			Result := across excluded_dir_list as excluded_dir all
+				not excluded_dir.is_parent_of (source_path)
 			end
 		end
 

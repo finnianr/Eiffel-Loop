@@ -71,8 +71,11 @@ feature {NONE} -- Line states
 						fields.extend (verbatim_field)
 						state := agent find_verbatim_string_end (?, verbatim_field)
 					else
-						if name ~ Description
-							and then (value.is_empty or across Description_defaults as l some value.starts_with (l.item) end)
+						if name ~ Description and then (value.is_empty or
+							across Description_defaults as l_description some
+								value.starts_with (l_description)
+							end
+						)
 						then
 							value := default_description
 						end

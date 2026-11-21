@@ -28,7 +28,7 @@ feature -- Status query
 
 	is_empty: BOOLEAN
 		do
-			Result := across << author, contact, copyright, license >> as field all field.item.is_empty end
+			Result := across << author, contact, copyright, license >> as field all field.is_empty end
 		end
 
 feature -- Access

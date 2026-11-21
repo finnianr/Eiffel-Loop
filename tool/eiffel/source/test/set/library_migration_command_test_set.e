@@ -46,8 +46,8 @@ feature -- Tests
 			command.execute
 
 			across OS.file_list (work_area_data_dir, "*.e") as path loop
-				if not path.item.has_step (Excluded_imp_step [{PLATFORM}.is_unix]) then
-					relative_path := path.item.relative_path (home_dir)
+				if not path.has_step (Excluded_imp_step [{PLATFORM}.is_unix]) then
+					relative_path := path.relative_path (home_dir)
 					assert ("destination exists", (destination_dir + relative_path).exists)
 				end
 			end

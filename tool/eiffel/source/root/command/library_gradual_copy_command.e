@@ -125,17 +125,18 @@ feature {NONE} -- Implementation
 	new_dependency_count_map_list: EL_ARRAYED_MAP_LIST [IMMUTABLE_STRING_8, INTEGER]
 		do
 			create Result.make (class_table.count)
-			across class_table as table loop
-				if table.cursor_index \\ 100 = 0 then
+			across class_table as l_class loop
+				if @ l_class.cursor_index \\ 100 = 0 then
 					lio.put_character ('.')
 				end
-				Result.extend (table.key, table.item.dependency_count (class_table))
+				Result.extend (@ l_class.key, l_class.dependency_count (class_table))
 			end
 			Result.sort_by_value (True)
 		end
 
 	new_big_dependency_count_group_table (
 		list: like new_dependency_count_map_list; threshold_count: INTEGER
+		
 	): EL_GROUPED_LIST_TABLE [IMMUTABLE_STRING_8, INTEGER]
 		require
 			valid_item: not list.off
@@ -166,9 +167,9 @@ feature {NONE} -- Implementation
 	reduce_class_table (level: INTEGER)
 		do
 			class_list.wipe_out
-			across class_table.key_list as list loop
-				if attached list.item as key and then class_table.has_key (key) then
-					if across class_table.found_item.dependency_set as set all not class_table.has (set.item) end then
+			across class_table.key_list as key loop
+				if class_table.has_key (key) then
+					if across class_table.found_item.dependency_set as set all not class_table.has (set) end then
 						class_list.extend (key)
 						class_table.remove (key)
 					end

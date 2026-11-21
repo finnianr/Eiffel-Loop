@@ -39,8 +39,8 @@ feature -- Basic operations
 			reset
 			create notes.make (input_lines, default_values)
 			across notes.original_lines as line until is_revised loop
-				if line.item.starts_with (Date_line_start) and then is_misformed (line.item) then
-					correct (line.item)
+				if line.starts_with (Date_line_start) and then is_misformed (line) then
+					correct (line)
 					is_revised := True
 				end
 			end

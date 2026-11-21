@@ -56,10 +56,10 @@ feature {NONE} -- Implementation
 			Result.append (class_notes)
 			Result.append (class_header)
 			across feature_group_list as group loop
-				Result.append (group.item.header)
-				edit_feature_group (group.item.features)
-				across group.item.features as l_feature loop
-					Result.append (l_feature.item.lines)
+				Result.append (group.header)
+				edit_feature_group (group.features)
+				across group.features as l_feature loop
+					Result.append (l_feature.lines)
 				end
 			end
 			Result.append (class_footer)

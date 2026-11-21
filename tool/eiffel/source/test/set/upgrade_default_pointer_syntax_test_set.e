@@ -41,8 +41,8 @@ feature -- Tests
 			command.execute
 
 			across file_list as path loop
-				if path.item.base_matches ("el_application_mutex_impl", False) then
-					assert_same_digest (Plain_text, path.item, "tD/I28G5sVUFFyGKMJ6Lew==")
+				if path.base_matches ("el_application_mutex_impl", False) then
+					assert_same_digest (Plain_text, path, "tD/I28G5sVUFFyGKMJ6Lew==")
 				end
 			end
 		end

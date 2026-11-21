@@ -41,8 +41,8 @@ feature {NONE} -- Initialization
 			make_equal (50)
 			ise_chart_template := a_ise_chart_template; github_base := a_github_base
 			across << "library", "contrib" >> as dir loop
-				create dir_path.make_expanded ("$ISE_EIFFEL/" + dir.item)
-				if dir.cursor_index = 1 then
+				create dir_path.make_expanded ("$ISE_EIFFEL/" + dir)
+				if @ dir.cursor_index = 1 then
 					ise_library_path := dir_path
 				else
 					ise_contrib_path := dir_path
@@ -67,13 +67,13 @@ feature -- Status query
 				file_name.to_lower
 
 				across ise_directories as dir_path until Result loop
-					finder.set_dir_path (dir_path.item)
+					finder.set_dir_path (dir_path)
 					finder.set_name_pattern (file_name)
 					finder.execute
 					if finder.path_list.count > 0 then
-						relative_source_path := finder.path_list.first_path.relative_path (dir_path.item)
+						relative_source_path := finder.path_list.first_path.relative_path (dir_path)
 					-- Need to put `name.twin' as `name' might be a shared buffer string
-						if dir_path.item = ise_library_path then
+						if dir_path = ise_library_path then
 							put (ise_chart_template #$ [relative_source_path.first_step, name.as_lower], name.twin)
 						else
 							put (github_base + relative_source_path.to_string, name.twin)

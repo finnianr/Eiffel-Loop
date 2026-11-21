@@ -53,11 +53,11 @@ feature -- Access
 			else
 			-- create expression: cluster[not (@name='a' or @name='b' or ..)]
 				across ignored_clusters as name loop
-					if name.cursor_index = 1 then
-						exclusions := Name_equals #$ [name.item]
+					if @ name.cursor_index = 1 then
+						exclusions := Name_equals #$ [name]
 						exclusions.remove_head (Name_equals.index_of ('@', 1) - 1)
 					else
-						exclusions := exclusions + Name_equals #$ [name.item]
+						exclusions := exclusions + Name_equals #$ [name]
 					end
 				end
 				Result := Xpath_selected_cluster #$ [exclusions]

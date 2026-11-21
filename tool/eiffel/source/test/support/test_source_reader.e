@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 				comment_list
 
 			>> as list loop
-				list.item.compare_objects
+				list.compare_objects
 			end
 		end
 

@@ -15,7 +15,7 @@ class
 inherit
 	EVC_SERIALIZEABLE
 		redefine
-			getter_function_table, make_default
+			make_default
 		end
 
 create

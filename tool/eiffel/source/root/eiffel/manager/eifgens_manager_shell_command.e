@@ -82,8 +82,8 @@ feature {NONE} -- Commands
 			if gdb_txt_path.exists then
 				lio.put_line ("Creating Eiffel function lookup table from F_code *.c")
 				if attached new_eiffel_name_table as name_table then
-					across File.plain_text_lines (gdb_txt_path) as list loop
-						line := list.item_copy
+					across File.plain_text_lines (gdb_txt_path) as file_line loop
+						line := @ file_line.item_copy
 						if line.count > 25 then
 							line.remove_substring (4, 25) -- remove pointer address
 							f_marker_index := line.substring_index (f_marker, 1)
@@ -113,8 +113,8 @@ feature {NONE} -- Commands
 		local
 			target_dir: DIR_PATH; count: INTEGER
 		do
-			across Platform_list as list loop
-				target_dir := EIFGENs_path_template #$ [list.item]
+			across Platform_list as l_platform loop
+				target_dir := EIFGENs_path_template #$ [l_platform]
 				if target_dir.exists then
 					count := count + 1
 					lio.put_labeled_string ("Remove", target_dir.to_string)
@@ -178,8 +178,8 @@ feature {NONE} -- Implementation
 
 				comment_end := " */"
 				across OS.file_list (F_code_dir, "*.c") as src loop
-					print_progress (src.cursor_index.to_natural_32)
-					source := File.plain_text (src.item)
+					print_progress (@ src.cursor_index.to_natural_32)
+					source := File.plain_text (src)
 					if attached s.occurrence_intervals (source, "/* {", False) as list then
 						from list.start until list.after loop
 							end_index := source.substring_index (comment_end, list.item_upper + 1)

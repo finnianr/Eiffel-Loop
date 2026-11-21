@@ -43,16 +43,16 @@ feature {NONE} -- Implementation
 		-- Make sure encoding samples are written correctly
 		do
 			across file_list as path loop
-				if path.item.base ~ Encoding_sample.utf_8 then
+				if path.base ~ Encoding_sample.utf_8 then
 					assert ("correct utf-8 for 0xA1",
-						across File.plain_text_lines (path.item) as line some
-							has_utf_8_for_0xA1 (line.item)
+						across File.plain_text_lines (path) as line some
+							has_utf_8_for_0xA1 (line)
 						end
 					)
-				elseif path.item.base ~ Encoding_sample.latin_1 then
+				elseif path.base ~ Encoding_sample.latin_1 then
 					assert ("correct latin-1 for año",
-						across File.plain_text_lines (path.item) as line some
-							has_latin_1_for_ano (line.item)
+						across File.plain_text_lines (path) as line some
+							has_latin_1_for_ano (line)
 						end
 					)
 				end
@@ -93,8 +93,8 @@ feature {NONE} -- Implementation
 			else
 				new_file_list := agent OS.file_list (?, Star_dot_e)
 			end
-			across sources_list as list loop
-				Result.append (new_file_list (list.item))
+			across sources_list as sources loop
+				Result.append (new_file_list (sources))
 			end
 		end
 
@@ -124,8 +124,8 @@ feature {NONE} -- Path constants
 		once
 			create Result
 			across ("feature-edits, latin-1, utf-8").split (',') as name loop
-				name.item.left_adjust
-				Result.put_reference (Sources_dir #+ name.item, name.cursor_index)
+				name.left_adjust
+				Result.put_reference (Sources_dir #+ name, @ name.cursor_index)
 			end
 		end
 

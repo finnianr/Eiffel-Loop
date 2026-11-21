@@ -88,7 +88,7 @@ feature -- Tests
 
 				from table.start until found or else table.after loop
 					if table.key_for_iteration.same_base ("el_solitary.e") then
-						if across note_descendants as list all table.item_for_iteration.has (list.item) end then
+						if across note_descendants as descendant all table.item_for_iteration.has (descendant) end then
 							found := True
 						else
 							failed ("descendant not in test libraries")
@@ -105,7 +105,7 @@ feature -- Tests
 				and then attached crc_generator as crc
 			then
 				across line_list as list loop
-					if attached list.shared_item as line
+					if attached @ list.shared_item as line
 					 	and then (line.starts_with_general ("class") or line.has_substring ("Source"))
 					 	and then attached line.split_list (' ') as parts
 					 then
@@ -162,7 +162,7 @@ feature -- Tests
 			then
 				cmd.execute
 				across cmd.path_list as path loop
-					relative_path := path.item.relative_path (config.output_dir)
+					relative_path := path.relative_path (config.output_dir)
 					crc_path := new_crc_sync_dir (config.output_dir, config.ftp_host) + relative_path
 					crc_path.replace_extension (Crc_extension)
 					File_system.remove_file (crc_path)
@@ -172,8 +172,8 @@ feature -- Tests
 
 				if attached String_8.new_list ("base.kernel, index, " + broadcaster_path.base_name) as base_list then
 					create base_name_list.make (base_list.count)
-					across base_list as list loop
-						base_name_list.extend (list.item + ".html")
+					across base_list as base loop
+						base_name_list.extend (base + ".html")
 					end
 				end
 				base_name_list.append (sorted_base_names (cmd.path_list))
@@ -185,7 +185,7 @@ feature -- Tests
 				publisher.execute
 
 				across cmd.path_list as path loop
-					assert ("removed regenerated", path.item.exists)
+					assert ("removed regenerated", path.exists)
 				end
 			end
 			assert ("el_event_processor regenerated", el_event_processor_path.exists)
@@ -214,9 +214,9 @@ feature {NONE} -- Events
 			OS.copy_file ("test-data/publish/config-1.pyx", Work_dir.doc_config)
 			if attached String_8.new_list ("dummy, images, css, js") as www_name_list then
 				across << Work_dir.doc, Work_dir.ftp_doc >> as destination_dir loop
-					across www_name_list as list loop
-						dir_path := eiffel_loop_dir.joined_dir_steps (<< "doc", list.item >>)
-						OS.copy_tree (dir_path, destination_dir.item)
+					across www_name_list as www_name loop
+						dir_path := eiffel_loop_dir.joined_dir_steps (<< "doc", www_name >>)
+						OS.copy_tree (dir_path, destination_dir)
 					end
 				end
 			end
@@ -230,15 +230,15 @@ feature {NONE} -- Events
 			copy_ecf_files (Work_dir.library, "base/base.ecf, Eco-DB.ecf, public-key-encryption.ecf")
 
 			across << Work_dir.library, Work_dir.library #+ "base", Work_dir.library #+ "doc" >> as dir loop
-				File_system.make_directory (dir.item)
-				inspect dir.cursor_index
+				File_system.make_directory (dir)
+				inspect @ dir.cursor_index
 					when 1 , 2 then
 						extension := "pecf"
 				else
 					extension := "txt"
 				end
-				across Shared_directory.named (el_source_dir (dir.item)).files_with_extension (extension) as path loop
-					OS.copy_file (path.item, dir.item)
+				across Shared_directory.named (el_source_dir (dir)).files_with_extension (extension) as path loop
+					OS.copy_file (path, dir)
 				end
 			end
 		end
@@ -251,8 +251,8 @@ feature {NONE} -- Implementation
 		do
 			root_dir := publisher.config.root_dir
 			across publisher.ecf_list as tree loop
-				across tree.item.path_list as path loop
-					html_file_path := Work_dir.doc + path.item.relative_path (root_dir).with_new_extension ("html")
+				across tree.path_list as path loop
+					html_file_path := Work_dir.doc + path.relative_path (root_dir).with_new_extension ("html")
 					assert ("html exists", html_file_path.exists)
 				end
 			end
@@ -268,8 +268,8 @@ feature {NONE} -- Implementation
 
 			contents_md_path := Work_area_dir + "doc/Contents.md"
 			if contents_md_path.exists and then attached File.plain_text (contents_md_path) as markdown then
-				across Markdown_link_table as table loop
-					md_name := "[]"; md_name.insert_string (table.key, 2)
+				across Markdown_link_table as markdown_link loop
+					md_name := "[]"; md_name.insert_string (@ markdown_link.key, 2)
 					link_index := markdown.substring_index (md_name, 1)
 					if link_index > 0 then
 						index_left_bracket := link_index + md_name.count
@@ -277,16 +277,16 @@ feature {NONE} -- Implementation
 						index_right_bracket := markdown.index_of (')', index_left_bracket)
 						if index_right_bracket > 0 then
 							url := markdown.substring (index_left_bracket + 1, index_right_bracket - 1)
-							if table.is_first then
-								assert_same_string (Void, url, table.item)
+							if @ markdown_link.is_first then
+								assert_same_string (Void, url, markdown_link)
 							else
-								assert_same_string (Void, url, (github_url + table.item))
+								assert_same_string (Void, url, (github_url + markdown_link))
 							end
 						else
 							failed ("found matching )")
 						end
 					else
-						failed ("Found link " + table.key)
+						failed ("Found link " + @ markdown_link.key)
 					end
 				end
 			else
@@ -297,8 +297,8 @@ feature {NONE} -- Implementation
 	copy_ecf_files (workarea_sub_dir: DIR_PATH; directory_list: STRING)
 		do
 			if attached String_8.new_list (directory_list) as library_list then
-				across library_list as list loop
-					if attached (workarea_sub_dir + list.item) as file_path then
+				across library_list as ecf_path loop
+					if attached (workarea_sub_dir + ecf_path) as file_path then
 						OS.copy_file (el_source_path (file_path), file_path.parent)
 					end
 				end
@@ -308,11 +308,11 @@ feature {NONE} -- Implementation
 	copy_source_trees (workarea_sub_dir: DIR_PATH; directory_list: STRING)
 		do
 			if attached String_8.new_list (directory_list) as source_list then
-				across source_list as list loop
-					File_system.make_directory (workarea_sub_dir #+ list.item)
+				across source_list as source_path loop
+					File_system.make_directory (workarea_sub_dir #+ source_path)
 				end
-				across source_list as list loop
-					if attached (workarea_sub_dir #+ list.item) as dir_path then
+				across source_list as source_path loop
+					if attached (workarea_sub_dir #+ source_path) as dir_path then
 						OS.copy_tree (el_source_dir (dir_path), dir_path.parent)
 					end
 				end
@@ -335,7 +335,7 @@ feature {NONE} -- Implementation
 		do
 			crc := crc_generator
 			across generated_files as html loop
-				crc.add_file (html.item)
+				crc.add_file (html)
 			end
 			Result := crc.checksum
 		end
@@ -347,7 +347,7 @@ feature {NONE} -- Implementation
 		do
 			crc := crc_generator
 			across OS.file_list (Work_dir.doc, "*.html") as html loop
-				modification_time := Date_time.modification_time (html.item)
+				modification_time := Date_time.modification_time (html)
 				crc.add_integer (modification_time.date.ordered_compact_date)
 				crc.add_integer (modification_time.time.compact_time)
 			end
@@ -385,7 +385,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (list.count)
 			across list as path loop
-				Result.extend (path.item.base)
+				Result.extend (path.base)
 			end
 			Result.ascending_sort
 		end

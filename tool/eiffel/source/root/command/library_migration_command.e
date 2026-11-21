@@ -2,7 +2,7 @@ note
 	description: "[
 		Tool to migrate librares to newer compiler version by copying classes one by one to new library structure
 		starting with classes that do not depend on other classes within the library
-		
+
 	]"
 	notes: "[
 		**OBSOLETE**
@@ -85,18 +85,18 @@ feature -- Basic operations
 				i := i + 1
 				print_iteration (i)
 				removal_set.wipe_out
-				across class_list as list loop
-					dependency_set := list.item.dependency_set
+				across class_list as l_class loop
+					dependency_set := l_class.dependency_set
 					dependency_set.intersect (library_set)
-					print_class_heading (list.item.name)
+					print_class_heading (l_class.name)
 					if dependency_set.count = 0 then
 						print_line ("No dependencies")
-						name_array := << list.item.name >>
+						name_array := << l_class.name >>
 						prompt_user (name_array)
 						if not is_dry_run then
 							across name_array as name loop
-								removal_set.put (name.item)
-								source_path := class_path_table [name.item]
+								removal_set.put (name)
+								source_path := class_path_table [name]
 								destination_path := destination_dir + source_path.relative_path (home_dir)
 								File_system.make_directory (destination_path.parent)
 								OS.copy_file (source_path, destination_path)

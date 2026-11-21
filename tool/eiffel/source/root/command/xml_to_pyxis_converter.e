@@ -21,8 +21,6 @@ inherit
 	EL_FILE_PROCESSING_COMMAND
 		rename
 			set_file_path as set_source_path
-		redefine
-			set_source_path
 		end
 
 create

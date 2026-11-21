@@ -46,9 +46,9 @@ feature -- Basic operations
 			string_list: EL_STRING_8_LIST; source_path: FILE_PATH
 		do
 			Precursor
-			across file_encoding_table as table loop
-				create string_list.make_from_array (table.item.to_array)
-				source_path := table.key
+			across file_encoding_table as file_encoding loop
+				create string_list.make_from_array (file_encoding.to_array)
+				source_path := @ file_encoding.key
 				if Directory.current_working.is_parent_of (source_path) then
 					source_path := source_path.relative_path (Directory.current_working)
 				end

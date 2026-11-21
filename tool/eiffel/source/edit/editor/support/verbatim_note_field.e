@@ -37,7 +37,7 @@ feature -- Access
 			create Result.make (text.occurrences ('%N') + 3)
 			Result.extend (Verbatim_field #$ [name])
 			across text.split ('%N') as split loop
-				Result.extend (split.item_copy)
+				Result.extend (@ split.item_copy)
 			end
 			Result.extend (Verbatim_string_end.twin)
 		end

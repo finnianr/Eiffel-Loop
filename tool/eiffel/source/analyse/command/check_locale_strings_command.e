@@ -30,7 +30,7 @@ inherit
 
 	EL_BUILDABLE_FROM_PYXIS
 		redefine
-			make_default, building_action_table
+			make_default
 		end
 
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -95,16 +95,16 @@ feature -- Basic operations
 			localized_file_name_list.do_all (agent do_with_localizeable_file (?, 2))
 			localized_www_body_path_list.do_all (agent do_with_localizeable_file (?, 3))
 
-			across additional_keys_table as list loop
-				source_path := list.key
-				check_keys (list.item)
-				save_missing_keys (list.key)
+			across additional_keys_table as additional_keys loop
+				source_path := @ additional_keys.key
+				check_keys (additional_keys)
+				save_missing_keys (@ additional_keys.key)
 			end
 
 			across evolicity_parser_list as evolicity_parser loop
-				evolicity_parser.item.find_all (Void)
-				source_path := evolicity_parser.item.source_file_path
-				check_keys (evolicity_parser.item.locale_keys)
+				evolicity_parser.find_all (Void)
+				source_path := evolicity_parser.source_file_path
+				check_keys (evolicity_parser.locale_keys)
 			end
 
 			l_unreferenced_items := unreferenced_items
@@ -112,7 +112,7 @@ feature -- Basic operations
 				lio.put_new_line
 				lio.put_line ("UNREFERENCED ITEMS")
 				across l_unreferenced_items as id loop
-					lio.put_string_field ("id", id.item)
+					lio.put_string_field ("id", id)
 					lio.put_new_line
 				end
 			end
@@ -137,7 +137,7 @@ feature {NONE} -- State handlers
 				routine_lines.wipe_out
 				state := agent find_routine_end
 			elseif tab_count = 1
-				and then across English_prefixes as l_prefix some code_line.starts_with (l_prefix.item) end
+				and then across English_prefixes as l_prefix some code_line.starts_with (l_prefix) end
 			then
 				if code_line [code_line.count] = '"' then
 					-- eg: English_name: STRING = "&Backup"
@@ -185,15 +185,15 @@ feature {NONE} -- Implementation
 	check_keys (locale_keys: EL_ZSTRING_LIST)
 		do
 			across locale_keys as key loop
-				if translations.has (key.item) then
-					referenced_keys.put (key.item)
+				if translations.has (key) then
+					referenced_keys.put (key)
 				else
 					if missing_keys.is_empty then
 						lio.put_path_field ("Source %S", source_path)
 						lio.put_new_line
 					end
-					missing_keys.extend (key.item)
-					lio.put_string_field ("id", key.item)
+					missing_keys.extend (key)
+					lio.put_string_field ("id", key)
 					lio.put_string (" MISSING")
 					lio.put_new_line
 				end
@@ -249,8 +249,8 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_empty
 			across translations.key_list as key loop
-				if not referenced_keys.has (key.item) then
-					Result.extend (key.item)
+				if not referenced_keys.has (key) then
+					Result.extend (key)
 				end
 			end
 		end
@@ -362,7 +362,7 @@ feature {NONE} -- Build from Pyxis
 			dir_path := node.to_expanded_dir_path
 			if dir_path.exists then
 				across File_system.files_with_extension (dir_path, Body_extension, True) as file_path loop
-					menu_name := file_path.item.parent.base
+					menu_name := file_path.parent.base
 					additional_keys_table.search (Web_menu)
 					if additional_keys_table.found then
 						web_menu_list := additional_keys_table.found_item
@@ -373,7 +373,7 @@ feature {NONE} -- Build from Pyxis
 					if not web_menu_list.has (menu_name) then
 						web_menu_list.extend (menu_name)
 					end
-					localized_www_body_path_list.extend (file_path.item)
+					localized_www_body_path_list.extend (file_path)
 				end
 			else
 				put_node_directory_error ("localized-www-content", dir_path)

@@ -123,7 +123,7 @@ feature {NONE} -- Line state handlers
 			feature_list: EL_SPLIT_ZSTRING_LIST
 		do
 			create feature_list.make_adjusted (code_line, ',', {EL_SIDE}.Left)
-			if across feature_list as list all Common_undefines.has (list.item) end then
+			if across feature_list as l_feature all Common_undefines.has (l_feature) end then
 				pattern_count := pattern_count + 1
 			end
 			state := agent expect_end

@@ -164,7 +164,7 @@ feature {NONE} -- Implementation
 			create Result.make (10)
 			create set.make_equal (10)
 			across ecf_list as tree loop
-				relative_path := tree.item.relative_dir_path
+				relative_path := tree.relative_dir_path
 				first_step := relative_path.first_step
 				set.put (first_step)
 				if set.inserted then

@@ -175,7 +175,7 @@ feature {NONE} -- Implementation
 		-- change [http://address.com click here] to [click here](http://address.com)
 		-- in order to be compatible with Github markdown
 			across Link_types as type loop
-				text.edit (type.item, char (']'), agent to_github_link)
+				text.edit (type, char (']'), agent to_github_link)
 			end
 			variable_substitution.substitute_links (text)
 			replace_apostrophes (text); text.replace_substring_all ("''", "*")

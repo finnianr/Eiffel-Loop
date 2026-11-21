@@ -54,7 +54,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make (3)
 			across Class_declaration_keywords as l_word loop
-				Result.extend (new_line * 1 + l_word.item)
+				Result.extend (new_line * 1 + l_word)
 			end
 		end
 

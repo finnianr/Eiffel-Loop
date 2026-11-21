@@ -53,8 +53,8 @@ feature -- Basic operations
 
 			create path_list.make (2)
 			-- write two fields as temporary text files
-			across package.field_table as table loop
-				if attached {EL_REFLECTED_ZSTRING} table.item as field
+			across package.field_table as any_field loop
+				if attached {EL_REFLECTED_ZSTRING} any_field as field
 					and then field.name.starts_with ("text_")
 				then
 					path_list.extend (Directory.temporary + File_name #$ [field.name])
@@ -64,7 +64,7 @@ feature -- Basic operations
 			end
 			Precursor -- execute
 			across path_list as path loop
-				File_system.remove_file (path.item)
+				File_system.remove_file (path)
 			end
 		end
 

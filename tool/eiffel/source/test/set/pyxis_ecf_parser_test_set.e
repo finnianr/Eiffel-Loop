@@ -59,7 +59,7 @@ feature -- Tests
 			across ecf_xdoc.context_list (Xpath.external_object #$ [condition]) as target loop
 				count := count + 1
 				if count = 2 then
-					location := target.node ["location"]
+					location := @ target.node ["location"]
 				end
 			end
 			assert ("valid_location", count = 2 and location.ends_with ("libcairo-2.dll"))
@@ -68,16 +68,16 @@ feature -- Tests
 			count := 0
 			across ecf_xdoc.context_list (l_xpath) as external_object loop
 				count := count + 1
-				lio.put_labeled_string ("Description", external_object.node.query ("description").as_string)
+				lio.put_labeled_string ("Description", @ external_object.node.query ("description").as_string)
 				lio.put_new_line
-				copy_value := external_object.node.query (Xpath.custom_value #$ ["copy"])
+				copy_value := @ external_object.node.query (Xpath.custom_value #$ ["copy"])
 				inspect count
 					when 1, 3 then
 						assert ("copy is $location", copy_value ~ "$location")
 					when 2 then
 						assert ("copy is $location", copy_value ~ "$EL_C_CAIRO/spec/$ISE_PLATFORM/*.dll")
 				end
-				platform := external_object.node.query ("condition/platform/@value")
+				platform := @ external_object.node.query ("condition/platform/@value")
 				inspect count
 					when 1, 2 then
 						assert ("platform is windows", platform ~ "windows")
@@ -91,7 +91,7 @@ feature -- Tests
 			across ecf_xdoc.context_list (Xpath.external_include #$ ["unix"]) as target loop
 				count := count + 1
 				if count = 4 then
-					location := target.node ["location"]
+					location := @ target.node ["location"]
 				end
 			end
 			assert ("valid_location", count = 4 and location.ends_with ("glib-2.0/include"))
@@ -118,15 +118,15 @@ feature -- Tests
 
 			create library_target.make_empty
 			across ecf_xdoc.context_list ("/system[@name='EL_eiffel2java']") as system loop
-				library_target := system.node ["library_target"]
+				library_target := @ system.node ["library_target"]
 				assert ("library_target = EL_eiffel2java", library_target ~ "EL_eiffel2java")
 			end
 			assert ("library_target found", library_target.count > 0)
 
 			assert ("6 libraries", library_count (ecf_xdoc) = 6)
 			across ecf_xdoc.context_list ("//file_rule") as rule loop
-				platform_value := rule.node.query ("condition/platform/@value")
-				exclude_value := rule.node.query ("exclude/text()")
+				platform_value := @ rule.node.query ("condition/platform/@value")
+				exclude_value := @ rule.node.query ("exclude/text()")
 				assert ("valid platform", Valid_platforms.has (platform_value))
 				assert ("valid unix exclude", platform_value ~ "unix" implies exclude_value ~ "/imp_mswin$")
 				assert ("valid windows exclude", platform_value ~ "windows" implies exclude_value ~ "/imp_unix$")
@@ -135,14 +135,14 @@ feature -- Tests
 			assert ("file rule count", file_rule_count = 2)
 
 			across ecf_xdoc.context_list ("//library [condition/platform/@value='windows']") as library loop
-				assert ("WEL regedit", library.node.query ("@name").as_string_8 ~ "EL_wel_regedit")
+				assert ("WEL regedit", @ library.node.query ("@name").as_string_8 ~ "EL_wel_regedit")
 				windows_count := windows_count + 1
 			end
 			assert ("windows platform condition count", windows_count = 1)
 
 			if attached ecf_xdoc.find_node ("//library [@name='eiffel2java']") as library then
-				across Renaming_table as table loop
-					assert ("valid new_name", library.query (Xpath.renaming_new_name #$ [table.key]).as_string_8 ~ table.item)
+				across Renaming_table as class_alias loop
+					assert ("valid new_name", library.query (Xpath.renaming_new_name #$ [@ class_alias.key]).as_string_8 ~ class_alias)
 				end
 				assert ("is eiffel2java", library ["name"].as_string ~ "eiffel2java")
 			else
@@ -174,17 +174,17 @@ feature -- Tests
 				assert ("4 recursive", list.count = 4)
 			end
 			across ecf_xdoc.context_list ("/system/target/cluster [@name='Test_common']") as cluster loop
-				across cluster.node.context_list ("cluster") as sub_cluster loop
-					name := sub_cluster.node ["name"]
-					location := sub_cluster.node ["location"]
+				across @ cluster.node.context_list ("cluster") as sub_cluster loop
+					name := @ sub_cluster.node ["name"]
+					location := @ sub_cluster.node ["location"]
 					assert ("valid sub cluster", location.ends_with (name) and location.starts_with ("$|"))
 					sub_cluster_count := sub_cluster_count + 1
 				end
 			end
 			assert ("2 sub clusters", sub_cluster_count = 2)
 			across ecf_xdoc.context_list ("//library[@readonly='false']") as writeable loop
-				if writeable.node ["name"].as_string_8 ~ "EL_i18n" then
-					assert ("precondition true", writeable.node.query ("option/assertions/@precondition").as_string_8 ~ "true")
+				if @ writeable.node ["name"].as_string_8 ~ "EL_i18n" then
+					assert ("precondition true", @ writeable.node.query ("option/assertions/@precondition").as_string_8 ~ "true")
 					has_i18n := True
 				end
 				writeable_count := writeable_count + 1
@@ -208,57 +208,57 @@ feature -- Tests
 	test_excluded_value_conditions
 		-- override/ES-cURL.ecf
 		local
-			ecf_xdoc: EL_XML_DOC_CONTEXT; condition: STRING
+			ecf_xdoc: EL_XML_DOC_CONTEXT; attribute_test: STRING
 			count: INTEGER
 		do
 			ecf_xdoc := new_ecf_xdoc ("library/override/ES-cURL.pecf")
 			assert_parsed_xdoc (ecf_xdoc)
 
-			across Condition_table as table loop
-				condition := table.key; count := 0
-				across ecf_xdoc.context_list (Xpath.external_object #$ [condition]) as list loop
+			across Condition_count_table as condition_count loop
+				attribute_test := @ condition_count.key; count := 0
+				across ecf_xdoc.context_list (Xpath.external_object #$ [attribute_test]) as list loop
 					count := count + 1
 				end
-				lio.put_integer_field (condition, count)
+				lio.put_integer_field (attribute_test, count)
 				lio.put_new_line
-				assert ("valid count " + condition, count = table.item)
+				assert ("valid count " + attribute_test, count = condition_count)
 			end
 		end
 
 	test_graphical_pecf
 		local
-			ecf_xdoc: EL_XML_DOC_CONTEXT; name, l_xpath: STRING
+			ecf_xdoc: EL_XML_DOC_CONTEXT; l_xpath: STRING
 			location_steps: EL_PATH_STEPS
 		do
 			ecf_xdoc := new_ecf_xdoc ("example/graphical/graphical.pecf")
 			assert_parsed_xdoc (ecf_xdoc)
 
 			assert ("20 libraries", library_count (ecf_xdoc) = 20)
-			across ("__unnamed_debug__, wel_gdi_references, win_dispatcher").split (',') as list loop
-				name := list.item; name.left_adjust
+			across ("__unnamed_debug__, wel_gdi_references, win_dispatcher").split (',') as name loop
+				name.left_adjust
 				assert ("debug false", ecf_xdoc.query (Xpath.named_option #$ ["debug", name]).as_string_8 ~ "false")
 			end
-			across ("export_class_missing, vjrv").split (',') as list loop
-				name := list.item; name.left_adjust
+			across ("export_class_missing, vjrv").split (',') as name loop
+				name.left_adjust
 				assert ("warning false", ecf_xdoc.query (Xpath.named_option #$ ["warning", name]).as_string_8 ~ "false")
 			end
 			across <<
 				"address_expression", "array_optimization", "dynamic_runtime",
-				"exception_trace", "inlining", "line_generation" >> as list
+				"exception_trace", "inlining", "line_generation" >> as name
 			loop
-				assert ("false", ecf_xdoc.query (Xpath.setting #$ [list.item]).as_string_8 ~ "false")
+				assert ("false", ecf_xdoc.query (Xpath.setting #$ [name]).as_string_8 ~ "false")
 			end
-			across ("check_vape, dead_code_removal, console_application").split (',') as list loop
-				name := list.item; name.left_adjust
+			across ("check_vape, dead_code_removal, console_application").split (',') as name loop
+				name.left_adjust
 				assert ("true", ecf_xdoc.query (Xpath.setting #$ [name]).as_string_8 ~ "true")
 			end
 			assert ("true", ecf_xdoc.query (Xpath.setting #$ ["concurrency"]).as_string_8 ~ "thread")
 
-			across Library_table as table loop
-				l_xpath := Xpath.library_location #$ [table.key]
+			across Library_table as ecf_name loop
+				l_xpath := Xpath.library_location #$ [@ ecf_name.key]
 				location_steps := ecf_xdoc.query (l_xpath).as_file_path
 				assert ("is library path", location_steps.item (2).same_string_general ("library"))
-				assert (table.key, location_steps.base.same_string_general (table.item))
+				assert (@ ecf_name.key, location_steps.base.same_string_general (ecf_name))
 			end
 			assert ("is GUI-application.ecf", has_precompile (ecf_xdoc, "GUI-application.ecf"))
 		end
@@ -293,7 +293,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Condition_table: EL_HASH_TABLE [INTEGER, STRING]
+	Condition_count_table: EL_HASH_TABLE [INTEGER, STRING]
 		once
 			create Result.make_assignments (<<
 				["condition/platform/@value='windows'", 4],

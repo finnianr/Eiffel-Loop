@@ -42,7 +42,7 @@ feature -- Access
 		-- count of dependency classes in `a_class_table' with `dependency_count' > `threshold_count'
 		do
 			across dependency_set as set loop
-				if a_class_table.has_key (set.item)
+				if a_class_table.has_key (set)
 					and then a_class_table.found_item.dependency_count (a_class_table) > threshold_count
 				then
 					Result := Result + 1
@@ -75,7 +75,7 @@ feature {CLASS_DEPENDENCIES} -- Implementation
 			if is_counted_set.inserted then
 				Result := 1
 				across dependency_set as set loop
-					if a_class_table.has_key (set.item) then
+					if a_class_table.has_key (set) then
 						Result := Result + a_class_table.found_item.internal_dependency_count (a_class_table, is_counted_set)
 					end
 				end

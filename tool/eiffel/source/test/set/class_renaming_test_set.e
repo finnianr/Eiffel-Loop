@@ -51,10 +51,8 @@ feature -- Tests
 			create string_8_counter.make (File.plain_text (file_list.path), "STRING_8")
 			assert ("13 items counted", string_8_counter.count - 1 = 13)
 
-			across file_list as list loop
-				if attached list.item as source_path
-					and then not source_path.base.starts_with_general ("el_text_item")
-				then
+			across file_list as source_path loop
+				if not source_path.base.starts_with_general ("el_text_item") then
 					assert_same_digest_hexadecimal (Plain_text, source_path, digest_table [source_path].to_hex_string)
 				end
 			end

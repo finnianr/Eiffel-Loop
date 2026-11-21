@@ -58,12 +58,9 @@ feature -- Element change
 
 	append_alias (alias_table: EL_ZSTRING_HASH_TABLE [ZSTRING])
 		-- Add alias names like `ZSTRING' to `Class_path_table'
-		local
-			actual_name, alias_name: ZSTRING
 		do
-			across alias_table as table loop
-				alias_name := table.key; actual_name := table.item
-				if has_class (actual_name) then
+			across alias_table as actual_name loop
+				if has_class (actual_name) and then attached @ actual_name.key as alias_name then
 					put (found_item, alias_name)
 					found_item.set_alias_name (alias_name)
 				end

@@ -83,9 +83,9 @@ feature {NONE} -- Implementation
 	edit_feature_group (feature_list: EL_ARRAYED_LIST [CLASS_FEATURE])
 		do
 			across feature_list as l_feature loop
-				feature_edit_actions.search (l_feature.item.name)
+				feature_edit_actions.search (l_feature.name)
 				if feature_edit_actions.found then
-					feature_edit_actions.found_item.call ([l_feature.item])
+					feature_edit_actions.found_item.call ([l_feature])
 				end
 			end
 		end

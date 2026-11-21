@@ -88,11 +88,11 @@ feature {NONE} -- Implementation
 			l_editor: NOTE_EDITOR
 		do
 			across manifest.source_tree_list as tree loop
-				if manifest.notes_table.has_key (tree.item.dir_path) then
-					across tree.item.path_list as list loop
+				if manifest.notes_table.has_key (tree.dir_path) then
+					across tree.path_list as path loop
 						l_editor := editor_pool.borrowed_item
 						l_editor.set_default_values (manifest.notes_table.found_item)
-						l_editor.set_file_path (list.item)
+						l_editor.set_file_path (path)
 
 						distributer.wait_apply (agent l_editor.edit)
 					end

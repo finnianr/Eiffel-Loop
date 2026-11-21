@@ -54,14 +54,14 @@ feature -- Basic operations
 			code_class: ID3_CODE_CLASS
 		do
 			across os.file_list (id3v2_include_dir, "*.txt") as path loop
-				if not path.item.base.has_substring ("structure") then
-					create parts.make (path.item.base, '.')
+				if not path.base.has_substring ("structure") then
+					create parts.make (path.base, '.')
 					parts.go_i_th (2)
 					version := parts.integer_item
 
-					lio.put_labeled_string ("SPECIFICATION", path.item.base)
+					lio.put_labeled_string ("SPECIFICATION", path.base)
 					lio.put_new_line_x2
-					do_once_with_file_lines (agent find_frames_list (?, version), open_lines (path.item, Utf_8))
+					do_once_with_file_lines (agent find_frames_list (?, version), open_lines (path, Utf_8))
 					lio.put_new_line_x2
 					create code_class.make (Current, version, "workarea")
 					code_class.serialize
@@ -152,14 +152,14 @@ feature {NONE} -- Implementation
 		do
 			Result := buffer.empty
 			across code_array as code loop
-				if not code.item.is_empty then
+				if not code.is_empty then
 					if not Result.is_empty then
 						Result.append (", ")
 					end
 					Result.append ("2.")
-					Result.append_integer (code.cursor_index + 1)
+					Result.append_integer (@ code.cursor_index + 1)
 					Result.append (": %"")
-					Result.append (code.item)
+					Result.append (code)
 					Result.append_character ('"')
 				end
 			end

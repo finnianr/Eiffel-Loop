@@ -142,14 +142,14 @@ feature {NONE} -- Line states
 					state := final
 				end
 			else
-				across field_table as table until found loop
-					if line.starts_with_general (table.item.name) then
-						pos_equal := line.index_of ('=', table.item.name.count + 1)
+				across field_table as field until found loop
+					if line.starts_with_general (field.name) then
+						pos_equal := line.index_of ('=', field.name.count + 1)
 						if pos_equal > 0 then
 							across once "%"'" as quote until found loop
 								if line.occurrences (quote.item) = 2 then
 									pos_quote := line.index_of (quote.item, pos_equal + 1)
-									table.item.set_from_string (Current, line.substring (pos_quote + 1, line.count - 1))
+									field.set_from_string (Current, line.substring (pos_quote + 1, line.count - 1))
 									found := True
 								end
 							end

@@ -112,8 +112,8 @@ feature {NONE} -- Commands
 			if suffix_count > 0 or prefix_count > 0 then
 				read_manifest_files
 				across manifest.source_tree_list as tree until break loop
-					across tree.item.path_list as list until break loop
-						if attached list.item.base_name as base_name and then base_name.matches_wildcard (old_pattern) then
+					across tree.path_list as path until break loop
+						if attached path.base_name as base_name and then base_name.matches_wildcard (old_pattern) then
 							old_name.wipe_out
 							base_name.append_to_string_8 (old_name)
 							old_name.to_upper

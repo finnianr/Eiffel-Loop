@@ -39,14 +39,14 @@ feature {NONE} -- Initialization
 			-- Add default values for missing fields
 			if default_values.has_key (Field.author) and then is_owned (default_values.found_item) then
 				across default_values as value loop
-					fields.find (value.key)
+					fields.find (@ value.key)
 					if fields.found then
-						if fields.item.text /~ value.item then
-							fields.item.set_text (value.item)
-							updated_fields.extend (value.key)
+						if fields.item.text /~ value then
+							fields.item.set_text (value)
+							updated_fields.extend (@ value.key)
 						end
 					else
-						fields.extend (create {NOTE_FIELD}.make (value.key, value.item))
+						fields.extend (create {NOTE_FIELD}.make (@ value.key, value))
 					end
 				end
 			end
@@ -85,11 +85,11 @@ feature -- Access
 			create Result.make (10)
 			Result.extend ("note")
 			across << initial_field_names.to_array, Author_fields, License_fields >> as group loop
-				extend_field_list (group.item, Result)
+				extend_field_list (group, Result)
 			end
 			across Result as line loop
-				if line.cursor_index > 1 and then not line.item.is_empty then
-					line.item.prepend_character ('%T')
+				if @ line.cursor_index > 1 and then not line.is_empty then
+					line.prepend_character ('%T')
 				end
 			end
 		end
@@ -130,7 +130,7 @@ feature {NONE} -- Implementation
 	extend_field_list (name_group: ARRAY [IMMUTABLE_STRING_8]; list: EL_ZSTRING_LIST)
 		do
 			across name_group as name loop
-				fields.find (name.item)
+				fields.find (name)
 				if fields.found then
 					list.append (fields.item.lines)
 				end
@@ -152,8 +152,8 @@ feature {NONE} -- Implementation
 	initial_field_names: ARRAYED_LIST [IMMUTABLE_STRING_8]
 		do
 			create Result.make (5)
-			across fields as list until list.item.name ~ Field.author loop
-				Result.extend (list.item.name)
+			across fields as f until f.name ~ Field.author loop
+				Result.extend (f.name)
 			end
 		end
 

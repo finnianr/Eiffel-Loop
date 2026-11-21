@@ -40,34 +40,31 @@ feature -- Access
 feature -- Element change
 
 	set_from_line (line: STRING)
-		local
-			nvp: ECF_NAME_VALUE_PAIR
 		do
 			if attached shared_name_value_list (line) as nvp_list then
-				across nvp_list as list loop
-					nvp := list.item
-					if nvp.name ~ Name.configuration_ns then
-						version.share (nvp.value)
+				across nvp_list as ecf_nvp loop
+					if ecf_nvp.name ~ Name.configuration_ns then
+						version.share (ecf_nvp.value)
 						super_8 (version).remove_double
-					elseif nvp.name ~ Name.name then
+					elseif ecf_nvp.name ~ Name.name then
 						if name_uuid_pair.name.count = 0 then
-							name_uuid_pair.name.share (nvp.value)
+							name_uuid_pair.name.share (ecf_nvp.value)
 						else
-							name_uuid_pair.name.insert_string (nvp.value, 1)
+							name_uuid_pair.name.insert_string (ecf_nvp.value, 1)
 						end
-					elseif nvp.name ~ Name.library_target then
-						library_target.put (Var.name, nvp.value)
+					elseif ecf_nvp.name ~ Name.library_target then
+						library_target.put (Var.name, ecf_nvp.value)
 						if name_uuid_pair.name.count = 0 then
 							name_uuid_pair.name.share (library_target.substituted)
 						else
 							library_target.substitute_to (name_uuid_pair.name)
 						end
-					elseif nvp.name ~ Name.uuid then
-						name_uuid_pair.value.share (nvp.value)
+					elseif ecf_nvp.name ~ Name.uuid then
+						name_uuid_pair.value.share (ecf_nvp.value)
 					end
 				end
 			end
-			if across data_list as str all str.item.count > 0 end
+			if across data_list as str all str.count > 0 end
 				and then attached Once_name_value_list as nvp_list
 			then
 				nvp_list.wipe_out
@@ -91,9 +88,9 @@ feature {NONE} -- Implementation
 			name_uuid_pair.wipe_out
 		end
 
-	set_variables (nvp: ECF_NAME_VALUE_PAIR)
+	set_variables (ecf_nvp: ECF_NAME_VALUE_PAIR)
 		do
-			Precursor (nvp)
+			Precursor (ecf_nvp)
 			template.put (Var.url, Eiffel_configuration + version)
 		end
 
