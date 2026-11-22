@@ -101,9 +101,8 @@ feature {NONE} -- Line states
 
 	find_last_frame (a_line: ZSTRING; version: INTEGER)
 		local
-			line: STRING; start_index, end_index: INTEGER
-			code, l_description: STRING
-			code_array: ARRAY [STRING]
+			line, code, l_description: STRING; code_array: ARRAY [STRING]
+			start_index, end_index: INTEGER
 		do
 			line := a_line
 			line.left_adjust

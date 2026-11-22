@@ -13,4 +13,6 @@ if os.name == "nt":
 else:
 	set_environ ('LD_LIBRARY_PATH', image_utils_path)
 
-os.environ ['GTK_THEME'] = 'Mint-X-Teal-Custom:light'
+os.environ ['GTK_THEME'] = 'Mint-X-Teal-Custom:dark'
+#os.environ ['GTK_THEME'] = 'Mint-X-Teal-Custom:light'
+

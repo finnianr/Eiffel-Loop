@@ -415,7 +415,7 @@ feature {NONE} -- Implementation
 		do
 			lio.put_line (name)
 			across string.split ('&') as part loop
-				lio.put_index_labeled_string (part, Void, part)
+				lio.put_index_labeled_string (@ part, Void, part)
 				lio.put_new_line
 			end
 			lio.put_new_line

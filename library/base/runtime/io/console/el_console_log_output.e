@@ -107,8 +107,8 @@ feature -- Output
 		require
 			is_indexable: is_indexable (indexable)
 		local
-			substitution_index, index, width: INTEGER;
-			leading, trailing: READABLE_STRING_GENERAL; math: EL_INTEGER_MATH
+			substitution_index, index, width: INTEGER; math: EL_INTEGER_MATH
+			leading, trailing: READABLE_STRING_GENERAL
 		do
 			if attached {INDEXABLE_ITERATION_CURSOR [ANY]} indexable as list then
 				index := list.cursor_index

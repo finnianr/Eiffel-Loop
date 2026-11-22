@@ -32,7 +32,7 @@ feature -- Basic operations
 				lio.put_path_field ("XML files", desktop)
 				lio.put_new_line
 				across File_system.files_with_extension (desktop, "xml", False) as path loop
-					lio.put_index_labeled_string (path, Void, path.to_string)
+					lio.put_index_labeled_string (@ path, Void, path.to_string)
 					lio.put_new_line
 				end
 				lio.put_new_line

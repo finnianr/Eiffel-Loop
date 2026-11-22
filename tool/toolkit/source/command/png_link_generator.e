@@ -57,23 +57,23 @@ feature -- Basic operations
 
 			OS.File_system.make_directory (output_dir)
 			create counter_table.make (size_table.count // 10)
-			across size_table as table loop
-				counter_table.put (@ table.key.parent)
+			across size_table as png_size loop
+				counter_table.put (@ png_size.key.parent)
 			end
 			lio.put_integer_field ("Creating links", size_table.count)
 			lio.put_new_line
-			across size_table as table loop
-				if counter_table.has_key (@ table.key.parent) and then counter_table.found_count.item <= 2 then
-					link_path := (output_dir #+ "other") + @ table.key.base
+			across size_table as png_size loop
+				if counter_table.has_key (@ png_size.key.parent) and then counter_table.found_count.item <= 2 then
+					link_path := (output_dir #+ "other") + @ png_size.key.base
 				else
-					link_path := output_dir + @ table.key
+					link_path := output_dir + @ png_size.key
 				end
-				size_string := Dimensions #$ [table.width, table.height]
-				lio.put_index_labeled_string (@ table, "%S. " + size_string, @ table.key.to_string)
+				size_string := Dimensions #$ [png_size.width, png_size.height]
+				lio.put_index_labeled_string (@ png_size, "%S. " + size_string, @ png_size.key.to_string)
 				lio.put_new_line
 				OS.File_system.make_directory (link_path.parent)
 				if not link_path.exists
-					and then attached Command.new_link_file (table.file_path, link_path) as cmd
+					and then attached Command.new_link_file (png_size.file_path, link_path) as cmd
 				then
 					cmd.execute
 				end

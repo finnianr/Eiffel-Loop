@@ -72,7 +72,7 @@ feature -- Basic operations
 			lio.put_new_line_x2
 			lio.put_line ("TIPS")
 			across Tip_list as tip loop
-				lio.put_index_labeled_string (tip, Void, tip)
+				lio.put_index_labeled_string (@ tip, Void, tip)
 				lio.put_new_line
 			end
 			create grep_options.make_empty

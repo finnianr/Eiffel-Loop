@@ -91,7 +91,7 @@ feature {NONE} -- Implementation
 			end
 			padding_format := char ('9') * integer.digit_count (path_list.count)
 			across path_list as path loop
-				lio.put_index_labeled_string (path, padding_format, path)
+				lio.put_index_labeled_string (@ path, padding_format, path)
 				lio.put_new_line
 			end
 			lio.put_new_line
